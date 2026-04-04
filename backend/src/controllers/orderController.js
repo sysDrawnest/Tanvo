@@ -14,17 +14,13 @@ export const createOrder = async (req, res) => {
     const {
       shippingAddress,
       paymentMethod,
-      items: reqItems, // Renamed to avoid confusion
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
-      discountPrice,
-      couponCode,
+      items: reqItems,
       notes,
       isGift,
       giftMessage
     } = req.body;
+
+    console.log(`Order placement started for user: ${req.user._id}`);
 
     // 1. Get items from either DB Cart or Request Body (Direct Purchase)
     let orderItemsData = [];
@@ -32,61 +28,82 @@ export const createOrder = async (req, res) => {
 
     if (dbCart && dbCart.items.length > 0) {
       orderItemsData = dbCart.items;
+      console.log('Using items from DB Cart');
     } else if (reqItems && reqItems.length > 0) {
-      // Direct Purchase / Buy Now Flow
       orderItemsData = reqItems;
+      console.log('Using items from Request Body (Direct Purchase)');
     } else {
+      console.log('Order failed: No items found in cart or request');
       return res.status(400).json({ message: 'Cart is empty' });
     }
 
-    // 2. Map and Verify Items (Stock + Structure)
+    // 2. Validate and Recalculate Prices Server-side
     const orderItems = [];
+    let itemsPrice = 0;
+
     for (const item of orderItemsData) {
-      // Support both populated DB items and raw request items
-      const productId = item.product._id || item.product;
+      const productId = item.product?._id || item.product;
       const product = await Product.findById(productId);
 
       if (!product) {
+        console.error(`Product not found: ${productId}`);
         return res.status(404).json({ message: `Product not found: ${productId}` });
       }
 
       if (product.stock < item.quantity) {
+        console.error(`Insufficient stock for ${product.name}`);
         return res.status(400).json({
           message: `Insufficient stock for ${product.name}. Available: ${product.stock}`
         });
       }
 
+      const itemPrice = product.price;
+      itemsPrice += itemPrice * item.quantity;
+
       orderItems.push({
         product: product._id,
         name: product.name,
         quantity: item.quantity,
-        price: product.price,
+        price: itemPrice,
         image: product.images[0]?.url || '',
         color: item.color,
         size: item.size
       });
     }
 
-    // 3. Create the Order
+    // Calculate tax and shipping server-side
+    const taxPrice = Math.round(itemsPrice * 0.05); // 5% GST
+    const shippingPrice = itemsPrice > 5000 ? 0 : 500;
+    const discountPrice = dbCart?.discountAmount || 0;
+    const totalPrice = itemsPrice + taxPrice + shippingPrice - discountPrice;
+
+    console.log(`Calculated Total: ${totalPrice} (Items: ${itemsPrice}, Tax: ${taxPrice}, Shipping: ${shippingPrice}, Discount: ${discountPrice})`);
+
+    // 3. Create the Order in DB
     const order = await Order.create({
       user: req.user._id,
       orderItems,
       shippingAddress: {
-        ...shippingAddress,
+        addressLine1: shippingAddress.addressLine1,
+        addressLine2: shippingAddress.addressLine2,
+        city: shippingAddress.city,
+        state: shippingAddress.state,
+        pincode: shippingAddress.pincode,
+        country: shippingAddress.country || 'India',
         phone: shippingAddress.phone || req.user.phone
       },
       paymentMethod: (paymentMethod || 'COD').toUpperCase(),
-      itemsPrice: orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
-      taxPrice: taxPrice || 0,
-      shippingPrice: shippingPrice || 0,
-      totalPrice: totalPrice, // Use total from frontend or recalculate
-      discountPrice: discountPrice || 0,
-      couponCode,
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+      discountPrice,
+      couponCode: dbCart?.couponCode,
       notes,
       isGift: isGift || false,
       giftMessage,
       orderStatus: 'Pending',
-      paymentStatus: (paymentMethod || '').toUpperCase() === 'COD' ? 'Pending' : 'Pending'
+      paymentStatus: 'Pending'
     });
 
     // 4. Atomic Updates (Stock and Cart)
@@ -103,23 +120,23 @@ export const createOrder = async (req, res) => {
       await dbCart.save();
     }
 
-    // 5. Send Immediate Response to User
+    // 5. Success Response
+    console.log(`Order created successfully: ${order._id}`);
     res.status(201).json(order);
 
-    // 6. Post-Response Tasks (Shiprocket & Email)
-    // Run these in the background to prevent timeout on the main request
+    // 6. Async Post-processing
     (async () => {
       try {
         const user = await User.findById(req.user._id);
 
-        // Order Email
+        // Email
         try {
           await sendOrderConfirmation(order, user);
         } catch (err) {
           console.error('Post-order email failed:', err);
         }
 
-        // Shiprocket Order
+        // Shiprocket
         try {
           const shiprocketResponse = await createShiprocketOrder(order, user);
           if (shiprocketResponse) {
@@ -132,14 +149,14 @@ export const createOrder = async (req, res) => {
           console.error('Post-order Shiprocket failed:', err);
         }
       } catch (err) {
-        console.error('Critical background order task failed:', err);
+        console.error('Background tasks critical failure:', err);
       }
     })();
 
   } catch (error) {
-    console.error('Create order error:', error);
+    console.error('CRITICAL ORDER FAILURE:', error);
     if (!res.headersSent) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Internal server error during order placement', error: error.message });
     }
   }
 };
