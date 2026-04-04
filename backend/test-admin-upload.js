@@ -15,7 +15,7 @@ const testAdminUpload = async () => {
         console.log('1️⃣ Logging in as admin...');
         console.log('   Using: admin@yobazar.com / Admin@123');
 
-        const loginRes = await axios.post('http://localhost:5000/api/auth/login', {
+        const loginRes = await axios.post('https://tanvo.onrender.com/api/auth/login', {
             email: 'admin@yobazar.com',  // Changed from tanvo to yobazar
             password: 'Admin@123'
         }, {
@@ -67,7 +67,7 @@ const testAdminUpload = async () => {
         // Step 4: Upload to admin endpoint
         console.log('4️⃣ Sending request to admin/products...');
         const uploadRes = await axios.post(
-            'http://localhost:5000/api/admin/products',
+            'https://tanvo.onrender.com/api/admin/products',
             form,
             {
                 headers: {
@@ -103,15 +103,15 @@ const testAdminUpload = async () => {
         } else if (error.request) {
             // The request was made but no response was received
             console.error('📡 No response received from server');
-            console.error('   Is your backend running on port 5000?');
+            console.error('   Is your backend running on tanvo.onrender.com?');
             console.error('   Request URL:', error.request._currentUrl || error.request.path || 'unknown');
         } else {
             // Something happened in setting up the request
             console.error('❌ Request setup error:', error.message);
         }
 
-        if (error.code === 'ECONNREFUSED') {
-            console.error('\n🚨 Make sure your backend server is running on port 5000!');
+        if (error.code === 'ECONNREFUSED' || error.response?.status === 404) {
+            console.error('\n🚨 Make sure your backend server is running on tanvo.onrender.com!');
             console.error('   Run: npm run dev in the backend folder');
         }
     }
