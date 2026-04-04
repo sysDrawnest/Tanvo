@@ -14,7 +14,7 @@ connectDB();
 const seedUsers = [
   {
     name: 'Admin User',
-    email: 'admin@yobazar.com',
+    email: 'admin@tanvo.com',
     password: 'Admin@123',
     role: 'admin',
     phone: '9876543210',

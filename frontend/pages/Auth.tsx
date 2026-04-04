@@ -134,7 +134,7 @@ const Auth: React.FC = () => {
 
         {/* Demo Note */}
         <div className="mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded text-[10px] text-emerald-700 font-medium">
-          <span className="font-bold">ADMIN LOGIN:</span> Use <strong>admin@yobazar.com</strong> / <strong>Admin@123</strong> to access the Admin Dashboard.
+          <span className="font-bold">ADMIN LOGIN:</span> Use <strong>admin@tanvo.com</strong> / <strong>Admin@123</strong> to access the Admin Dashboard.
         </div>
       </div>
     </div >

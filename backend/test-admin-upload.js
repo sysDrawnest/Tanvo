@@ -16,7 +16,7 @@ const testAdminUpload = async () => {
         console.log('   Using: admin@yobazar.com / Admin@123');
 
         const loginRes = await axios.post('https://tanvo.onrender.com/api/auth/login', {
-            email: 'admin@yobazar.com',  // Changed from tanvo to yobazar
+            email: 'admin@tanvo.com',  // Changed from tanvo to yobazar
             password: 'Admin@123'
         }, {
             timeout: 5000
