@@ -14,7 +14,7 @@ export const createOrder = async (req, res) => {
     const {
       shippingAddress,
       paymentMethod,
-      items,
+      items: reqItems, // Renamed to avoid confusion
       itemsPrice,
       taxPrice,
       shippingPrice,
@@ -26,53 +26,60 @@ export const createOrder = async (req, res) => {
       giftMessage
     } = req.body;
 
-    // Get user's cart
-    const cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
+    // 1. Get items from either DB Cart or Request Body (Direct Purchase)
+    let orderItemsData = [];
+    const dbCart = await Cart.findOne({ user: req.user._id }).populate('items.product');
 
-    if (!cart || cart.items.length === 0) {
+    if (dbCart && dbCart.items.length > 0) {
+      orderItemsData = dbCart.items;
+    } else if (reqItems && reqItems.length > 0) {
+      // Direct Purchase / Buy Now Flow
+      orderItemsData = reqItems;
+    } else {
       return res.status(400).json({ message: 'Cart is empty' });
     }
 
-    // Verify stock availability
-    for (const item of cart.items) {
-      const product = await Product.findById(item.product._id);
+    // 2. Map and Verify Items (Stock + Structure)
+    const orderItems = [];
+    for (const item of orderItemsData) {
+      // Support both populated DB items and raw request items
+      const productId = item.product._id || item.product;
+      const product = await Product.findById(productId);
+
+      if (!product) {
+        return res.status(404).json({ message: `Product not found: ${productId}` });
+      }
+
       if (product.stock < item.quantity) {
         return res.status(400).json({
           message: `Insufficient stock for ${product.name}. Available: ${product.stock}`
         });
       }
+
+      orderItems.push({
+        product: product._id,
+        name: product.name,
+        quantity: item.quantity,
+        price: product.price,
+        image: product.images[0]?.url || '',
+        color: item.color,
+        size: item.size
+      });
     }
 
-    // Create order items
-    const orderItems = cart.items.map(item => ({
-      product: item.product._id,
-      name: item.product.name,
-      quantity: item.quantity,
-      price: item.product.price,
-      image: item.product.images[0]?.url || '',
-      color: item.color,
-      size: item.size
-    }));
-
-    // Calculate prices
-    const calculatedItemsPrice = orderItems.reduce(
-      (acc, item) => acc + item.price * item.quantity,
-      0
-    );
-
-    // Create order
+    // 3. Create the Order
     const order = await Order.create({
       user: req.user._id,
       orderItems,
       shippingAddress: {
         ...shippingAddress,
-        phone: shippingAddress.phone || req.user.phone // Fallback to user phone if address phone is missing
+        phone: shippingAddress.phone || req.user.phone
       },
-      paymentMethod: (paymentMethod || 'COD').toUpperCase(), // Normalize to uppercase
-      itemsPrice: calculatedItemsPrice,
+      paymentMethod: (paymentMethod || 'COD').toUpperCase(),
+      itemsPrice: orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
       taxPrice: taxPrice || 0,
       shippingPrice: shippingPrice || 0,
-      totalPrice: calculatedItemsPrice + (taxPrice || 0) + (shippingPrice || 0),
+      totalPrice: totalPrice, // Use total from frontend or recalculate
       discountPrice: discountPrice || 0,
       couponCode,
       notes,
@@ -82,49 +89,58 @@ export const createOrder = async (req, res) => {
       paymentStatus: (paymentMethod || '').toUpperCase() === 'COD' ? 'Pending' : 'Pending'
     });
 
+    // 4. Atomic Updates (Stock and Cart)
     // Update product stock
-    for (const item of orderItems) {
-      await Product.findByIdAndUpdate(item.product, {
-        $inc: { stock: -item.quantity }
-      });
+    await Promise.all(orderItems.map(item =>
+      Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.quantity } })
+    ));
+
+    // Clear user's cart if it was used for this order
+    if (dbCart && dbCart.items.length > 0) {
+      dbCart.items = [];
+      dbCart.couponCode = null;
+      dbCart.discountAmount = 0;
+      await dbCart.save();
     }
 
-    // Clear user's cart
-    cart.items = [];
-    cart.couponCode = null;
-    cart.discountAmount = 0;
-    await cart.save();
-
-    // Send order confirmation email
-    try {
-      const user = await User.findById(req.user._id);
-      await sendOrderConfirmation(order, user);
-    } catch (err) {
-      console.error('Order email failed:', err);
-    }
-
-    // Create Shiprocket order
-    try {
-      const user = await User.findById(req.user._id);
-      const shiprocketResponse = await createShiprocketOrder(order, user);
-
-      if (shiprocketResponse) {
-        await Order.findByIdAndUpdate(order._id, {
-          shiprocketOrderId: shiprocketResponse.order_id,
-          shiprocketShipmentId: shiprocketResponse.shipment_id
-        });
-      }
-    } catch (err) {
-      console.error('Shiprocket order creation failed:', err);
-      // We don't fail the entire request if Shiprocket fails, 
-      // but we should probably log it or flag it for manual retry.
-    }
-
-
+    // 5. Send Immediate Response to User
     res.status(201).json(order);
+
+    // 6. Post-Response Tasks (Shiprocket & Email)
+    // Run these in the background to prevent timeout on the main request
+    (async () => {
+      try {
+        const user = await User.findById(req.user._id);
+
+        // Order Email
+        try {
+          await sendOrderConfirmation(order, user);
+        } catch (err) {
+          console.error('Post-order email failed:', err);
+        }
+
+        // Shiprocket Order
+        try {
+          const shiprocketResponse = await createShiprocketOrder(order, user);
+          if (shiprocketResponse) {
+            await Order.findByIdAndUpdate(order._id, {
+              shiprocketOrderId: shiprocketResponse.order_id,
+              shiprocketShipmentId: shiprocketResponse.shipment_id
+            });
+          }
+        } catch (err) {
+          console.error('Post-order Shiprocket failed:', err);
+        }
+      } catch (err) {
+        console.error('Critical background order task failed:', err);
+      }
+    })();
+
   } catch (error) {
     console.error('Create order error:', error);
-    res.status(500).json({ message: error.message });
+    if (!res.headersSent) {
+      res.status(500).json({ message: error.message });
+    }
   }
 };
 
