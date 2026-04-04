@@ -18,7 +18,8 @@
     "react-router-dom": "^7.13.0",
     "react-swipeable": "^7.0.2",
     "styled-components": "^6.3.11",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "axios": "^1.7.9"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
