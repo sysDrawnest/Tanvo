@@ -179,7 +179,7 @@ const AdminUsers: React.FC = () => {
   const getRoleBadgeColor = (role: string) => {
     return role === 'admin' 
       ? 'bg-purple-100 text-purple-800' 
-      : 'bg-gray-100 text-gray-800';
+      : 'bg-gray-100 text-[#0D0B0A]';
   };
 
   const getStatusBadge = (user: User) => {
@@ -193,7 +193,7 @@ const AdminUsers: React.FC = () => {
   if (loading && users.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -203,7 +203,7 @@ const AdminUsers: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-serif font-bold text-gray-900">Users</h1>
+          <h1 className="text-3xl font-display font-bold text-[#0D0B0A]">Users</h1>
           <p className="text-gray-500 mt-1">Total {totalUsers} registered users</p>
         </div>
         <button
@@ -225,7 +225,7 @@ const AdminUsers: React.FC = () => {
               placeholder="Search by name, email, phone..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
             />
           </div>
           <button
@@ -249,7 +249,7 @@ const AdminUsers: React.FC = () => {
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
             >
               <option value="">All Roles</option>
               <option value="user">Users</option>
@@ -259,7 +259,7 @@ const AdminUsers: React.FC = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
             >
               <option value="">All Status</option>
               <option value="active">Active</option>
@@ -274,7 +274,7 @@ const AdminUsers: React.FC = () => {
                 setPage(1);
                 fetchUsers();
               }}
-              className="px-4 py-2 text-[#C40C0C] hover:underline"
+              className="px-4 py-2 text-[#C9A84C] hover:underline"
             >
               Clear Filters
             </button>
@@ -302,11 +302,11 @@ const AdminUsers: React.FC = () => {
                 <tr key={user._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-[#C40C0C] to-[#FF6500] rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#C9A84C] to-[#E8C97A] rounded-full flex items-center justify-center text-white font-bold">
                         {user.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">{user.name}</p>
+                        <p className="font-medium text-[#0D0B0A]">{user.name}</p>
                         <p className="text-xs text-gray-500 mt-1">ID: {user._id.slice(-8)}</p>
                       </div>
                     </div>
@@ -405,17 +405,17 @@ const AdminUsers: React.FC = () => {
               <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 hover:border-[#C40C0C]"
+                className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 hover:border-[#C9A84C]"
               >
                 <ChevronLeft size={20} />
               </button>
-              <span className="px-4 py-2 bg-[#C40C0C] text-white rounded-lg">
+              <span className="px-4 py-2 bg-[#C9A84C] text-white rounded-lg">
                 {page}
               </span>
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 hover:border-[#C40C0C]"
+                className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 hover:border-[#C9A84C]"
               >
                 <ChevronRight size={20} />
               </button>
@@ -426,7 +426,7 @@ const AdminUsers: React.FC = () => {
         {users.length === 0 && (
           <div className="text-center py-20">
             <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No users found</h3>
+            <h3 className="text-lg font-medium text-[#0D0B0A] mb-2">No users found</h3>
             <p className="text-gray-500">Try adjusting your search or filter criteria</p>
           </div>
         )}
@@ -438,7 +438,7 @@ const AdminUsers: React.FC = () => {
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-100 flex justify-between items-start">
               <div>
-                <h2 className="text-2xl font-serif font-bold">User Details</h2>
+                <h2 className="text-2xl font-display font-bold">User Details</h2>
                 <p className="text-sm text-gray-500 mt-1">Detailed information about {selectedUser.name}</p>
               </div>
               <button
@@ -454,7 +454,7 @@ const AdminUsers: React.FC = () => {
             <div className="p-6 space-y-6">
               {/* User Info */}
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-[#C40C0C] to-[#FF6500] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                <div className="w-16 h-16 bg-gradient-to-br from-[#C9A84C] to-[#E8C97A] rounded-full flex items-center justify-center text-white text-2xl font-bold">
                   {selectedUser.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
@@ -494,7 +494,7 @@ const AdminUsers: React.FC = () => {
                         <div className="flex items-center gap-2 mb-2">
                           <span className="text-sm font-bold uppercase">{addr.type}</span>
                           {addr.isDefault && (
-                            <span className="text-xs bg-[#F6CE71] text-[#CC561E] px-2 py-0.5 rounded-full">Default</span>
+                            <span className="text-xs bg-[#C9A84C] text-[#E8C97A] px-2 py-0.5 rounded-full">Default</span>
                           )}
                         </div>
                         <p className="text-sm text-gray-600">{addr.city}, {addr.state}</p>
@@ -534,7 +534,7 @@ const AdminUsers: React.FC = () => {
       {updateLoading && (
         <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-4 flex items-center gap-3">
-            <div className="w-5 h-5 border-2 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-5 h-5 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
             <span>Processing...</span>
           </div>
         </div>

@@ -255,7 +255,7 @@ const EditProduct: React.FC = () => {
   if (fetchLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -272,7 +272,7 @@ const EditProduct: React.FC = () => {
             <ArrowLeft size={20} />
           </button>
           <div>
-            <h1 className="text-3xl font-serif font-bold text-gray-900">Edit Product</h1>
+            <h1 className="text-3xl font-display font-bold text-[#0D0B0A]">Edit Product</h1>
             <p className="text-gray-500 mt-1">Update product information</p>
           </div>
         </div>
@@ -301,7 +301,7 @@ const EditProduct: React.FC = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                 placeholder="e.g., Royal Maroon Sambalpuri Silk Saree"
               />
             </div>
@@ -315,7 +315,7 @@ const EditProduct: React.FC = () => {
                 value={formData.category}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -332,7 +332,7 @@ const EditProduct: React.FC = () => {
                 value={formData.subCategory}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               >
                 {subCategories[formData.category as keyof typeof subCategories]?.map(sub => (
                   <option key={sub} value={sub}>{sub}</option>
@@ -349,7 +349,7 @@ const EditProduct: React.FC = () => {
                 value={formData.weave}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               >
                 {weaves.map(weave => (
                   <option key={weave} value={weave}>{weave}</option>
@@ -366,7 +366,7 @@ const EditProduct: React.FC = () => {
                 value={formData.fabric}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               >
                 {fabrics.map(fabric => (
                   <option key={fabric} value={fabric}>{fabric}</option>
@@ -385,7 +385,7 @@ const EditProduct: React.FC = () => {
               value={formData.shortDescription}
               onChange={handleChange}
               maxLength={200}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               placeholder="Brief description (max 200 characters)"
             />
           </div>
@@ -400,7 +400,7 @@ const EditProduct: React.FC = () => {
               onChange={handleChange}
               required
               rows={5}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               placeholder="Detailed product description..."
             />
           </div>
@@ -422,7 +422,7 @@ const EditProduct: React.FC = () => {
                 onChange={handleChange}
                 required
                 min="0"
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
                 placeholder="e.g., 12500"
               />
             </div>
@@ -437,7 +437,7 @@ const EditProduct: React.FC = () => {
                 value={formData.originalPrice}
                 onChange={handleChange}
                 min="0"
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
                 placeholder="e.g., 15000"
               />
             </div>
@@ -453,7 +453,7 @@ const EditProduct: React.FC = () => {
                 onChange={handleChange}
                 required
                 min="0"
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
                 placeholder="e.g., 10"
               />
             </div>
@@ -477,7 +477,7 @@ const EditProduct: React.FC = () => {
                       className="w-full aspect-square object-cover rounded-lg"
                     />
                     {img.isPrimary && (
-                      <span className="absolute top-2 left-2 px-2 py-1 bg-[#C40C0C] text-white text-xs rounded-full">
+                      <span className="absolute top-2 left-2 px-2 py-1 bg-[#C9A84C] text-white text-xs rounded-full">
                         Primary
                       </span>
                     )}
@@ -570,7 +570,7 @@ const EditProduct: React.FC = () => {
                 value={formData.colors}
                 onChange={handleChange}
                 placeholder="Red, Blue, Green"
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               />
             </div>
 
@@ -584,7 +584,7 @@ const EditProduct: React.FC = () => {
                 value={formData.sizes}
                 onChange={handleChange}
                 placeholder="S, M, L, XL"
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               />
             </div>
 
@@ -597,7 +597,7 @@ const EditProduct: React.FC = () => {
                 name="length"
                 value={formData.length}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
                 placeholder="e.g., 6.3 meters"
               />
             </div>
@@ -612,7 +612,7 @@ const EditProduct: React.FC = () => {
                 value={formData.tags}
                 onChange={handleChange}
                 placeholder="wedding, festival, traditional"
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               />
             </div>
           </div>
@@ -624,7 +624,7 @@ const EditProduct: React.FC = () => {
                 name="blousePiece"
                 checked={formData.blousePiece}
                 onChange={handleChange}
-                className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
               />
               <span className="text-sm text-gray-700">Blouse piece included</span>
             </label>
@@ -635,7 +635,7 @@ const EditProduct: React.FC = () => {
                 name="isFeatured"
                 checked={formData.isFeatured}
                 onChange={handleChange}
-                className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
               />
               <span className="text-sm text-gray-700">Feature on homepage</span>
             </label>
@@ -646,7 +646,7 @@ const EditProduct: React.FC = () => {
                 name="isBestSeller"
                 checked={formData.isBestSeller}
                 onChange={handleChange}
-                className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
               />
               <span className="text-sm text-gray-700">Mark as Best Seller</span>
             </label>
@@ -657,7 +657,7 @@ const EditProduct: React.FC = () => {
                 name="isNewArrival"
                 checked={formData.isNewArrival}
                 onChange={handleChange}
-                className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
               />
               <span className="text-sm text-gray-700">Mark as New Arrival</span>
             </label>
@@ -672,7 +672,7 @@ const EditProduct: React.FC = () => {
               value={formData.careInstructions}
               onChange={handleChange}
               rows={3}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
             />
           </div>
         </div>
@@ -691,7 +691,7 @@ const EditProduct: React.FC = () => {
                 name="weaverName"
                 value={formData.weaverName}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
                 placeholder="e.g., Meher Weavers Cooperative"
               />
             </div>
@@ -705,7 +705,7 @@ const EditProduct: React.FC = () => {
                 name="weaverGeneration"
                 value={formData.weaverGeneration}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
                 placeholder="e.g., 4th Generation"
               />
             </div>
@@ -719,7 +719,7 @@ const EditProduct: React.FC = () => {
                 name="weaverLocation"
                 value={formData.weaverLocation}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
                 placeholder="e.g., Bargarh, Odisha"
               />
             </div>
@@ -734,7 +734,7 @@ const EditProduct: React.FC = () => {
               value={formData.weaverStory}
               onChange={handleChange}
               rows={3}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               placeholder="Tell the story of the weaver family..."
             />
           </div>
@@ -752,7 +752,7 @@ const EditProduct: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#C40C0C] to-[#FF6500] text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#C9A84C] to-[#E8C97A] text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
           >
             {loading ? (
               <>

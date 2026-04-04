@@ -146,7 +146,7 @@ const AdminOrders: React.FC = () => {
       Delivered: 'bg-green-100 text-green-800',
       Cancelled: 'bg-red-100 text-red-800'
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-gray-100 text-[#0D0B0A]';
   };
 
   const getPaymentStatusColor = (status: string) => {
@@ -156,7 +156,7 @@ const AdminOrders: React.FC = () => {
       Failed: 'bg-red-100 text-red-800',
       Refunded: 'bg-purple-100 text-purple-800'
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-gray-100 text-[#0D0B0A]';
   };
 
   return (
@@ -164,7 +164,7 @@ const AdminOrders: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-serif font-bold text-gray-900">Orders</h1>
+          <h1 className="text-3xl font-display font-bold text-[#0D0B0A]">Orders</h1>
           <p className="text-gray-500 mt-1">Total {totalOrders} orders</p>
         </div>
         <button
@@ -186,7 +186,7 @@ const AdminOrders: React.FC = () => {
               placeholder="Search by order ID, customer name, email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
             />
           </div>
           <button
@@ -210,7 +210,7 @@ const AdminOrders: React.FC = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
             >
               <option value="">All Statuses</option>
               <option value="Pending">Pending</option>
@@ -223,7 +223,7 @@ const AdminOrders: React.FC = () => {
             <select
               value={paymentFilter}
               onChange={(e) => setPaymentFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
             >
               <option value="">All Payments</option>
               <option value="Pending">Pending</option>
@@ -237,7 +237,7 @@ const AdminOrders: React.FC = () => {
               placeholder="From Date"
               value={dateRange.from}
               onChange={(e) => setDateRange({ ...dateRange, from: e.target.value })}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
             />
 
             <input
@@ -245,7 +245,7 @@ const AdminOrders: React.FC = () => {
               placeholder="To Date"
               value={dateRange.to}
               onChange={(e) => setDateRange({ ...dateRange, to: e.target.value })}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C]"
+              className="px-3 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
             />
 
             <button
@@ -257,7 +257,7 @@ const AdminOrders: React.FC = () => {
                 setPage(1);
                 fetchOrders();
               }}
-              className="col-span-full md:col-span-1 px-4 py-2 text-[#C40C0C] hover:underline"
+              className="col-span-full md:col-span-1 px-4 py-2 text-[#C9A84C] hover:underline"
             >
               Clear Filters
             </button>
@@ -269,7 +269,7 @@ const AdminOrders: React.FC = () => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         {loading ? (
           <div className="flex justify-center items-center py-20">
-            <div className="w-10 h-10 border-4 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-10 h-10 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (
           <>
@@ -291,13 +291,13 @@ const AdminOrders: React.FC = () => {
                   {orders.map((order) => (
                     <tr key={order._id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
-                        <p className="font-medium text-gray-900">#{order._id.slice(-8)}</p>
+                        <p className="font-medium text-[#0D0B0A]">#{order._id.slice(-8)}</p>
                         {order.trackingNumber && (
                           <p className="text-xs text-gray-500 mt-1">Track: {order.trackingNumber}</p>
                         )}
                       </td>
                       <td className="px-6 py-4">
-                        <p className="font-medium text-gray-900">{order.user?.name || 'Guest'}</p>
+                        <p className="font-medium text-[#0D0B0A]">{order.user?.name || 'Guest'}</p>
                         <p className="text-xs text-gray-500 mt-1">{order.user?.email}</p>
                       </td>
                       <td className="px-6 py-4">
@@ -318,7 +318,7 @@ const AdminOrders: React.FC = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <p className="font-bold text-gray-900">{formatCurrency(order.totalPrice)}</p>
+                        <p className="font-bold text-[#0D0B0A]">{formatCurrency(order.totalPrice)}</p>
                         <p className="text-xs text-gray-500 mt-1">{order.paymentMethod}</p>
                       </td>
                       <td className="px-6 py-4">
@@ -340,7 +340,7 @@ const AdminOrders: React.FC = () => {
                       <td className="px-6 py-4">
                         <Link
                           to={`/admin/orders/${order._id}`}
-                          className="flex items-center gap-1 text-[#C40C0C] hover:text-[#FF6500] transition-colors"
+                          className="flex items-center gap-1 text-[#C9A84C] hover:text-[#E8C97A] transition-colors"
                         >
                           <Eye size={18} />
                           <span className="text-sm">View</span>
@@ -362,17 +362,17 @@ const AdminOrders: React.FC = () => {
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 hover:border-[#C40C0C]"
+                    className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 hover:border-[#C9A84C]"
                   >
                     <ChevronLeft size={20} />
                   </button>
-                  <span className="px-4 py-2 bg-[#C40C0C] text-white rounded-lg">
+                  <span className="px-4 py-2 bg-[#C9A84C] text-white rounded-lg">
                     {page}
                   </span>
                   <button
                     onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 hover:border-[#C40C0C]"
+                    className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 hover:border-[#C9A84C]"
                   >
                     <ChevronRight size={20} />
                   </button>
@@ -383,7 +383,7 @@ const AdminOrders: React.FC = () => {
             {orders.length === 0 && (
               <div className="text-center py-20">
                 <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No orders found</h3>
+                <h3 className="text-lg font-medium text-[#0D0B0A] mb-2">No orders found</h3>
                 <p className="text-gray-500">Try adjusting your search or filter criteria</p>
               </div>
             )}

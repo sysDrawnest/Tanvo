@@ -1,7 +1,7 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import { sendEmail } from '../utils/sendEmail.js';
+import { sendEmail, sendWelcomeEmail } from '../utils/sendEmail.js';
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -38,14 +38,12 @@ export const registerUser = async (req, res) => {
       .digest('hex');
     await user.save();
 
-    // Send verification email
-    const verificationUrl = `${req.protocol}://${req.get('host')}/api/auth/verify-email/${verificationToken}`;
-    
-    await sendEmail({
-      email: user.email,
-      subject: 'Email Verification - Yobazar',
-      message: `Please verify your email by clicking: ${verificationUrl}`
-    });
+    // Send welcome email
+    try {
+      await sendWelcomeEmail(user);
+    } catch (err) {
+      console.error('Welcome email failed:', err);
+    }
 
     res.status(201).json({
       _id: user._id,
@@ -119,7 +117,7 @@ export const updateUserProfile = async (req, res) => {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       user.phone = req.body.phone || user.phone;
-      
+
       if (req.body.password) {
         user.password = req.body.password;
       }
@@ -151,7 +149,7 @@ export const addAddress = async (req, res) => {
 
     if (user) {
       const address = req.body;
-      
+
       // If this is the first address or set as default
       if (user.addresses.length === 0 || address.isDefault) {
         // Remove default from other addresses
@@ -261,7 +259,7 @@ export const forgotPassword = async (req, res) => {
 
     // Send email
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-    
+
     await sendEmail({
       email: user.email,
       subject: 'Password Reset - Yobazar',

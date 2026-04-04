@@ -88,7 +88,7 @@ const AdminReviews: React.FC = () => {
   if (loading && reviews.length === 0) {
     return (
       <div className="p-6 flex justify-center">
-        <div className="w-10 h-10 border-4 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-10 h-10 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -106,7 +106,7 @@ const AdminReviews: React.FC = () => {
               onClick={() => setFilter(status as any)}
               className={`px-4 py-2 rounded-lg text-sm font-medium capitalize ${
                 filter === status
-                  ? 'bg-[#C40C0C] text-white'
+                  ? 'bg-[#C9A84C] text-white'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -157,14 +157,14 @@ const AdminReviews: React.FC = () => {
                         />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-[#0D0B0A]">
                           {review.product?.name || 'Unknown Product'}
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{review.user?.name || 'Unknown User'}</div>
+                    <div className="text-sm text-[#0D0B0A]">{review.user?.name || 'Unknown User'}</div>
                     <div className="text-xs text-gray-500">{review.user?.email}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -174,7 +174,7 @@ const AdminReviews: React.FC = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900 max-w-xs truncate">
+                    <div className="text-sm text-[#0D0B0A] max-w-xs truncate">
                       {review.comment}
                     </div>
                     {review.title && (

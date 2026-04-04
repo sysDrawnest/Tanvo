@@ -37,11 +37,11 @@ const productSchema = new mongoose.Schema({
   },
   subCategory: {
     type: String,
-    enum: ['Sarees', 'Kurtis', 'Dhoti', 'Kurta', 'Silk', 'Cotton', 'Jewelry', 'Bags']
+    enum: ['Sarees', 'Kurtis', 'Dhoti', 'Kurta', 'Kurta Set', 'Salwar Kameez', "Men's Shirts", 'Dupatta', 'Stole', 'Silk', 'Cotton', 'Jewelry', 'Bags']
   },
   weave: {
     type: String,
-    enum: ['Sambalpuri', 'Bomkai', 'Ikat', 'Khandua', 'Pasapali', 'Sonepuri']
+    enum: ['Sambalpuri', 'Bomkai', 'Ikat', 'Khandua', 'Pasapali', 'Pasapalli', 'Sonepuri']
   },
   fabric: {
     type: String,
@@ -113,7 +113,7 @@ const productSchema = new mongoose.Schema({
 });
 
 // Create slug from name
-productSchema.pre('save', function(next) {
+productSchema.pre('save', function (next) {
   if (this.isModified('name')) {
     this.slug = this.name.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-');
   }
@@ -121,7 +121,7 @@ productSchema.pre('save', function(next) {
 });
 
 // Calculate discount percentage
-productSchema.virtual('discountPercentage').get(function() {
+productSchema.virtual('discountPercentage').get(function () {
   if (this.originalPrice && this.originalPrice > this.price) {
     return Math.round(((this.originalPrice - this.price) / this.originalPrice) * 100);
   }

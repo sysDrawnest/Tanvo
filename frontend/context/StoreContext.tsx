@@ -13,7 +13,7 @@ interface StoreContextType {
   error: string | null;
 
   // Auth
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string; user?: any }>;
   register: (userData: RegisterData) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   isAdmin: boolean;
@@ -91,7 +91,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       await fetchCart();
       await fetchWishlist();
 
-      return { success: true };
+      return { success: true, user: data };
     } catch (error: any) {
       const errorMsg = error.response?.data?.message || 'Login failed';
       setError(errorMsg);

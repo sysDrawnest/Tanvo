@@ -104,8 +104,8 @@ const AdminSettings: React.FC = () => {
 
   // Settings state
   const [general, setGeneral] = useState<GeneralSettings>({
-    storeName: 'Syssaree',
-    storeEmail: 'hello@syssaree.com',
+    storeName: 'Tanvo',
+    storeEmail: 'hello@tanvo.com',
     storePhone: '+91 98765 43210',
     storeAddress: 'Bhubaneswar, Odisha, India',
     currency: 'INR',
@@ -114,9 +114,9 @@ const AdminSettings: React.FC = () => {
   });
 
   const [appearance, setAppearance] = useState<AppearanceSettings>({
-    primaryColor: '#C40C0C',
-    secondaryColor: '#FF6500',
-    accentColor: '#F6CE71',
+    primaryColor: '#C9A84C',
+    secondaryColor: '#E8C97A',
+    accentColor: '#C9A84C',
     logo: null,
     favicon: null,
     customCSS: ''
@@ -128,8 +128,8 @@ const AdminSettings: React.FC = () => {
     smtpUser: '',
     smtpPassword: '',
     smtpSecure: true,
-    fromEmail: 'noreply@syssaree.com',
-    fromName: 'Syssaree',
+    fromEmail: 'noreply@tanvo.com',
+    fromName: 'Tanvo',
     orderConfirmationTemplate: 'default',
     passwordResetTemplate: 'default',
     welcomeEmailTemplate: 'default'
@@ -144,7 +144,7 @@ const AdminSettings: React.FC = () => {
     razorpayKeySecret: '',
     codEnabled: true,
     upiEnabled: true,
-    upiId: 'syssaree@okhdfcbank'
+    upiId: 'tanvo@okhdfcbank'
   });
 
   const [shipping, setShipping] = useState<ShippingSettings>({
@@ -173,12 +173,12 @@ const AdminSettings: React.FC = () => {
     newUserNotifications: true,
     reviewNotifications: true,
     marketingEmails: false,
-    adminEmails: ['admin@syssaree.com'],
+    adminEmails: ['admin@tanvo.com'],
     slackWebhook: ''
   });
 
   const [seo, setSeo] = useState<SEOSettings>({
-    metaTitle: 'Syssaree - Authentic Odisha Handlooms',
+    metaTitle: 'Tanvo - Authentic Odisha Handlooms',
     metaDescription: 'Discover authentic Odisha handlooms including Sambalpuri, Bomkai, and Ikat sarees directly from master weavers.',
     metaKeywords: 'handloom, saree, odisha, sambalpuri, ikat, bomkai',
     googleAnalyticsId: 'UA-XXXXX-Y',
@@ -315,7 +315,7 @@ const AdminSettings: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -325,7 +325,7 @@ const AdminSettings: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-serif font-bold text-gray-900">Settings</h1>
+          <h1 className="text-3xl font-display font-bold text-[#0D0B0A]">Settings</h1>
           <p className="text-gray-500 mt-1">Manage your store configuration and preferences</p>
         </div>
         <div className="flex gap-3">
@@ -339,7 +339,7 @@ const AdminSettings: React.FC = () => {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-[#C40C0C] to-[#FF6500] text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-[#C9A84C] to-[#E8C97A] text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
           >
             {saving ? (
               <>
@@ -380,7 +380,7 @@ const AdminSettings: React.FC = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left ${
                 activeTab === tab.id
-                  ? 'bg-[#C40C0C] text-white shadow-md'
+                  ? 'bg-[#C9A84C] text-white shadow-md'
                   : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
@@ -406,7 +406,7 @@ const AdminSettings: React.FC = () => {
                     type="text"
                     value={general.storeName}
                     onChange={(e) => setGeneral({ ...general, storeName: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -418,7 +418,7 @@ const AdminSettings: React.FC = () => {
                     type="email"
                     value={general.storeEmail}
                     onChange={(e) => setGeneral({ ...general, storeEmail: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -430,7 +430,7 @@ const AdminSettings: React.FC = () => {
                     type="tel"
                     value={general.storePhone}
                     onChange={(e) => setGeneral({ ...general, storePhone: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -442,7 +442,7 @@ const AdminSettings: React.FC = () => {
                     type="text"
                     value={general.storeAddress}
                     onChange={(e) => setGeneral({ ...general, storeAddress: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -453,7 +453,7 @@ const AdminSettings: React.FC = () => {
                   <select
                     value={general.currency}
                     onChange={(e) => setGeneral({ ...general, currency: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   >
                     <option value="INR">INR - Indian Rupee</option>
                     <option value="USD">USD - US Dollar</option>
@@ -469,7 +469,7 @@ const AdminSettings: React.FC = () => {
                   <select
                     value={general.timezone}
                     onChange={(e) => setGeneral({ ...general, timezone: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   >
                     <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
                     <option value="America/New_York">America/New York (EST)</option>
@@ -485,7 +485,7 @@ const AdminSettings: React.FC = () => {
                   <select
                     value={general.dateFormat}
                     onChange={(e) => setGeneral({ ...general, dateFormat: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   >
                     <option value="DD/MM/YYYY">DD/MM/YYYY</option>
                     <option value="MM/DD/YYYY">MM/DD/YYYY</option>
@@ -517,7 +517,7 @@ const AdminSettings: React.FC = () => {
                       type="text"
                       value={appearance.primaryColor}
                       onChange={(e) => setAppearance({ ...appearance, primaryColor: e.target.value })}
-                      className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                      className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     />
                   </div>
                 </div>
@@ -537,7 +537,7 @@ const AdminSettings: React.FC = () => {
                       type="text"
                       value={appearance.secondaryColor}
                       onChange={(e) => setAppearance({ ...appearance, secondaryColor: e.target.value })}
-                      className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                      className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     />
                   </div>
                 </div>
@@ -557,7 +557,7 @@ const AdminSettings: React.FC = () => {
                       type="text"
                       value={appearance.accentColor}
                       onChange={(e) => setAppearance({ ...appearance, accentColor: e.target.value })}
-                      className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                      className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     />
                   </div>
                 </div>
@@ -619,7 +619,7 @@ const AdminSettings: React.FC = () => {
                   value={appearance.customCSS}
                   onChange={(e) => setAppearance({ ...appearance, customCSS: e.target.value })}
                   rows={5}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20 font-mono text-sm"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20 font-mono text-sm"
                   placeholder="/* Add custom CSS here */"
                 />
               </div>
@@ -640,7 +640,7 @@ const AdminSettings: React.FC = () => {
                     type="text"
                     value={email.smtpHost}
                     onChange={(e) => setEmail({ ...email, smtpHost: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -652,7 +652,7 @@ const AdminSettings: React.FC = () => {
                     type="number"
                     value={email.smtpPort}
                     onChange={(e) => setEmail({ ...email, smtpPort: parseInt(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -664,7 +664,7 @@ const AdminSettings: React.FC = () => {
                     type="text"
                     value={email.smtpUser}
                     onChange={(e) => setEmail({ ...email, smtpUser: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -677,7 +677,7 @@ const AdminSettings: React.FC = () => {
                       type={showPassword.smtp ? 'text' : 'password'}
                       value={email.smtpPassword}
                       onChange={(e) => setEmail({ ...email, smtpPassword: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20 pr-10"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20 pr-10"
                     />
                     <button
                       type="button"
@@ -697,7 +697,7 @@ const AdminSettings: React.FC = () => {
                     type="email"
                     value={email.fromEmail}
                     onChange={(e) => setEmail({ ...email, fromEmail: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -709,7 +709,7 @@ const AdminSettings: React.FC = () => {
                     type="text"
                     value={email.fromName}
                     onChange={(e) => setEmail({ ...email, fromName: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
               </div>
@@ -720,7 +720,7 @@ const AdminSettings: React.FC = () => {
                   id="smtpSecure"
                   checked={email.smtpSecure}
                   onChange={(e) => setEmail({ ...email, smtpSecure: e.target.checked })}
-                  className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                  className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
                 />
                 <label htmlFor="smtpSecure" className="text-sm text-gray-700">
                   Use Secure Connection (TLS/SSL)
@@ -737,7 +737,7 @@ const AdminSettings: React.FC = () => {
                     <select
                       value={email.orderConfirmationTemplate}
                       onChange={(e) => setEmail({ ...email, orderConfirmationTemplate: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     >
                       <option value="default">Default Template</option>
                       <option value="minimal">Minimal</option>
@@ -752,7 +752,7 @@ const AdminSettings: React.FC = () => {
                     <select
                       value={email.passwordResetTemplate}
                       onChange={(e) => setEmail({ ...email, passwordResetTemplate: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     >
                       <option value="default">Default Template</option>
                       <option value="minimal">Minimal</option>
@@ -767,7 +767,7 @@ const AdminSettings: React.FC = () => {
                     <select
                       value={email.welcomeEmailTemplate}
                       onChange={(e) => setEmail({ ...email, welcomeEmailTemplate: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     >
                       <option value="default">Default Template</option>
                       <option value="minimal">Minimal</option>
@@ -788,7 +788,7 @@ const AdminSettings: React.FC = () => {
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <CreditCard className="w-5 h-5 text-[#C40C0C]" />
+                      <CreditCard className="w-5 h-5 text-[#C9A84C]" />
                       <h3 className="font-bold">Stripe</h3>
                     </div>
                     <label className="flex items-center gap-2">
@@ -796,7 +796,7 @@ const AdminSettings: React.FC = () => {
                         type="checkbox"
                         checked={payment.stripeEnabled}
                         onChange={(e) => setPayment({ ...payment, stripeEnabled: e.target.checked })}
-                        className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                        className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
                       />
                       <span className="text-sm">Enable</span>
                     </label>
@@ -812,7 +812,7 @@ const AdminSettings: React.FC = () => {
                           type="text"
                           value={payment.stripePublicKey}
                           onChange={(e) => setPayment({ ...payment, stripePublicKey: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                         />
                       </div>
                       <div>
@@ -824,7 +824,7 @@ const AdminSettings: React.FC = () => {
                             type={showPassword.stripe ? 'text' : 'password'}
                             value={payment.stripeSecretKey}
                             onChange={(e) => setPayment({ ...payment, stripeSecretKey: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20 pr-10"
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20 pr-10"
                           />
                           <button
                             type="button"
@@ -842,7 +842,7 @@ const AdminSettings: React.FC = () => {
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <CreditCard className="w-5 h-5 text-[#FF6500]" />
+                      <CreditCard className="w-5 h-5 text-[#E8C97A]" />
                       <h3 className="font-bold">Razorpay</h3>
                     </div>
                     <label className="flex items-center gap-2">
@@ -850,7 +850,7 @@ const AdminSettings: React.FC = () => {
                         type="checkbox"
                         checked={payment.razorpayEnabled}
                         onChange={(e) => setPayment({ ...payment, razorpayEnabled: e.target.checked })}
-                        className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                        className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
                       />
                       <span className="text-sm">Enable</span>
                     </label>
@@ -866,7 +866,7 @@ const AdminSettings: React.FC = () => {
                           type="text"
                           value={payment.razorpayKeyId}
                           onChange={(e) => setPayment({ ...payment, razorpayKeyId: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                         />
                       </div>
                       <div>
@@ -878,7 +878,7 @@ const AdminSettings: React.FC = () => {
                             type={showPassword.razorpay ? 'text' : 'password'}
                             value={payment.razorpayKeySecret}
                             onChange={(e) => setPayment({ ...payment, razorpayKeySecret: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20 pr-10"
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20 pr-10"
                           />
                           <button
                             type="button"
@@ -904,7 +904,7 @@ const AdminSettings: React.FC = () => {
                         type="checkbox"
                         checked={payment.codEnabled}
                         onChange={(e) => setPayment({ ...payment, codEnabled: e.target.checked })}
-                        className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                        className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
                       />
                       <span className="text-sm">Enable</span>
                     </label>
@@ -922,7 +922,7 @@ const AdminSettings: React.FC = () => {
                         type="checkbox"
                         checked={payment.upiEnabled}
                         onChange={(e) => setPayment({ ...payment, upiEnabled: e.target.checked })}
-                        className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                        className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
                       />
                       <span className="text-sm">Enable</span>
                     </label>
@@ -937,7 +937,7 @@ const AdminSettings: React.FC = () => {
                         type="text"
                         value={payment.upiId}
                         onChange={(e) => setPayment({ ...payment, upiId: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                         placeholder="merchant@bank"
                       />
                     </div>
@@ -961,7 +961,7 @@ const AdminSettings: React.FC = () => {
                     type="number"
                     value={shipping.freeShippingThreshold}
                     onChange={(e) => setShipping({ ...shipping, freeShippingThreshold: parseInt(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -973,7 +973,7 @@ const AdminSettings: React.FC = () => {
                     type="number"
                     value={shipping.domesticShippingRate}
                     onChange={(e) => setShipping({ ...shipping, domesticShippingRate: parseInt(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
 
@@ -985,7 +985,7 @@ const AdminSettings: React.FC = () => {
                     type="number"
                     value={shipping.internationalShippingRate}
                     onChange={(e) => setShipping({ ...shipping, internationalShippingRate: parseInt(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   />
                 </div>
               </div>
@@ -1010,7 +1010,7 @@ const AdminSettings: React.FC = () => {
                             newZones[index].countries = e.target.value.split(',').map(c => c.trim());
                             setShipping({ ...shipping, shippingZones: newZones });
                           }}
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                         />
                       </div>
 
@@ -1026,7 +1026,7 @@ const AdminSettings: React.FC = () => {
                             newZones[index].rate = parseInt(e.target.value);
                             setShipping({ ...shipping, shippingZones: newZones });
                           }}
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                         />
                       </div>
 
@@ -1042,7 +1042,7 @@ const AdminSettings: React.FC = () => {
                             newZones[index].estimatedDays = e.target.value;
                             setShipping({ ...shipping, shippingZones: newZones });
                           }}
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                           placeholder="e.g., 3-5 business days"
                         />
                       </div>
@@ -1092,7 +1092,7 @@ const AdminSettings: React.FC = () => {
                       onChange={(e) => setNotifications({ ...notifications, orderNotifications: e.target.checked })}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C40C0C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C40C0C]"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C9A84C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C9A84C]"></div>
                   </label>
                 </div>
 
@@ -1108,7 +1108,7 @@ const AdminSettings: React.FC = () => {
                       onChange={(e) => setNotifications({ ...notifications, stockAlerts: e.target.checked })}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C40C0C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C40C0C]"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C9A84C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C9A84C]"></div>
                   </label>
                 </div>
 
@@ -1124,7 +1124,7 @@ const AdminSettings: React.FC = () => {
                       onChange={(e) => setNotifications({ ...notifications, newUserNotifications: e.target.checked })}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C40C0C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C40C0C]"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C9A84C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C9A84C]"></div>
                   </label>
                 </div>
 
@@ -1140,7 +1140,7 @@ const AdminSettings: React.FC = () => {
                       onChange={(e) => setNotifications({ ...notifications, reviewNotifications: e.target.checked })}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C40C0C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C40C0C]"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C9A84C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C9A84C]"></div>
                   </label>
                 </div>
 
@@ -1156,7 +1156,7 @@ const AdminSettings: React.FC = () => {
                       onChange={(e) => setNotifications({ ...notifications, marketingEmails: e.target.checked })}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C40C0C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C40C0C]"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C9A84C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C9A84C]"></div>
                   </label>
                 </div>
               </div>
@@ -1169,7 +1169,7 @@ const AdminSettings: React.FC = () => {
                   type="text"
                   value={notifications.adminEmails.join(', ')}
                   onChange={(e) => setNotifications({ ...notifications, adminEmails: e.target.value.split(',').map(email => email.trim()) })}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   placeholder="admin@example.com, manager@example.com"
                 />
                 <p className="text-xs text-gray-500 mt-1">Separate multiple emails with commas</p>
@@ -1183,7 +1183,7 @@ const AdminSettings: React.FC = () => {
                   type="url"
                   value={notifications.slackWebhook}
                   onChange={(e) => setNotifications({ ...notifications, slackWebhook: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   placeholder="https://hooks.slack.com/services/..."
                 />
               </div>
@@ -1203,7 +1203,7 @@ const AdminSettings: React.FC = () => {
                   type="text"
                   value={seo.metaTitle}
                   onChange={(e) => setSeo({ ...seo, metaTitle: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                 />
                 <p className="text-xs text-gray-500 mt-1">Recommended length: 50-60 characters</p>
               </div>
@@ -1216,7 +1216,7 @@ const AdminSettings: React.FC = () => {
                   value={seo.metaDescription}
                   onChange={(e) => setSeo({ ...seo, metaDescription: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                 />
                 <p className="text-xs text-gray-500 mt-1">Recommended length: 150-160 characters</p>
               </div>
@@ -1229,7 +1229,7 @@ const AdminSettings: React.FC = () => {
                   type="text"
                   value={seo.metaKeywords}
                   onChange={(e) => setSeo({ ...seo, metaKeywords: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   placeholder="handloom, saree, odisha, sambalpuri"
                 />
                 <p className="text-xs text-gray-500 mt-1">Separate keywords with commas</p>
@@ -1244,7 +1244,7 @@ const AdminSettings: React.FC = () => {
                     type="text"
                     value={seo.googleAnalyticsId}
                     onChange={(e) => setSeo({ ...seo, googleAnalyticsId: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     placeholder="UA-XXXXX-Y"
                   />
                 </div>
@@ -1257,7 +1257,7 @@ const AdminSettings: React.FC = () => {
                     type="text"
                     value={seo.googleTagManagerId}
                     onChange={(e) => setSeo({ ...seo, googleTagManagerId: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     placeholder="GTM-XXXXXX"
                   />
                 </div>
@@ -1270,7 +1270,7 @@ const AdminSettings: React.FC = () => {
                     type="text"
                     value={seo.facebookPixelId}
                     onChange={(e) => setSeo({ ...seo, facebookPixelId: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     placeholder="123456789"
                   />
                 </div>
@@ -1284,7 +1284,7 @@ const AdminSettings: React.FC = () => {
                   value={seo.robotsTxt}
                   onChange={(e) => setSeo({ ...seo, robotsTxt: e.target.value })}
                   rows={5}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20 font-mono text-sm"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20 font-mono text-sm"
                 />
               </div>
             </div>
@@ -1308,7 +1308,7 @@ const AdminSettings: React.FC = () => {
                       onChange={(e) => setSecurity({ ...security, twoFactorAuth: e.target.checked })}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C40C0C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C40C0C]"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#C9A84C]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#C9A84C]"></div>
                   </label>
                 </div>
 
@@ -1321,7 +1321,7 @@ const AdminSettings: React.FC = () => {
                       type="number"
                       value={security.sessionTimeout}
                       onChange={(e) => setSecurity({ ...security, sessionTimeout: parseInt(e.target.value) })}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     />
                   </div>
 
@@ -1333,7 +1333,7 @@ const AdminSettings: React.FC = () => {
                       type="number"
                       value={security.maxLoginAttempts}
                       onChange={(e) => setSecurity({ ...security, maxLoginAttempts: parseInt(e.target.value) })}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     />
                   </div>
 
@@ -1345,7 +1345,7 @@ const AdminSettings: React.FC = () => {
                       type="number"
                       value={security.passwordMinLength}
                       onChange={(e) => setSecurity({ ...security, passwordMinLength: parseInt(e.target.value) })}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                     />
                   </div>
 
@@ -1355,7 +1355,7 @@ const AdminSettings: React.FC = () => {
                       id="requireStrongPassword"
                       checked={security.requireStrongPassword}
                       onChange={(e) => setSecurity({ ...security, requireStrongPassword: e.target.checked })}
-                      className="w-4 h-4 text-[#C40C0C] rounded focus:ring-[#C40C0C]"
+                      className="w-4 h-4 text-[#C9A84C] rounded focus:ring-[#C9A84C]"
                     />
                     <label htmlFor="requireStrongPassword" className="text-sm text-gray-700">
                       Require strong passwords (uppercase, lowercase, number, special character)
@@ -1371,7 +1371,7 @@ const AdminSettings: React.FC = () => {
                     value={security.ipWhitelist.join('\n')}
                     onChange={(e) => setSecurity({ ...security, ipWhitelist: e.target.value.split('\n').filter(ip => ip.trim()) })}
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20 font-mono text-sm"
+                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20 font-mono text-sm"
                     placeholder="192.168.1.1&#10;10.0.0.1&#10;203.0.113.0/24"
                   />
                   <p className="text-xs text-gray-500 mt-1">One IP address or CIDR range per line. Leave empty to allow all IPs.</p>

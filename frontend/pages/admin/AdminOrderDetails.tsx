@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { 
+import {
   ArrowLeft, Package, Truck, CheckCircle, Clock, XCircle,
   User, MapPin, Phone, Mail, Calendar, DollarSign,
   CreditCard, Printer, Download, Send, Edit, Save,
@@ -62,7 +62,12 @@ interface Order {
   deliveredAt?: string;
   cancelledAt?: string;
   trackingNumber?: string;
+  shiprocketOrderId?: string;
+  awbNumber?: string;
+  trackingStatus?: string;
+  trackingHistory?: any[];
   estimatedDelivery?: string;
+
   notes?: string;
   isGift?: boolean;
   giftMessage?: string;
@@ -96,7 +101,7 @@ const AdminOrderDetails: React.FC = () => {
       const { data } = await API.get(`/admin/orders/${id}`);
       setOrder(data.order);
       setTrackingNumber(data.order.trackingNumber || '');
-      setEstimatedDelivery(data.order.estimatedDelivery ? 
+      setEstimatedDelivery(data.order.estimatedDelivery ?
         new Date(data.order.estimatedDelivery).toISOString().split('T')[0] : '');
       setAdminNotes(data.order.notes || '');
     } catch (error) {
@@ -109,7 +114,7 @@ const AdminOrderDetails: React.FC = () => {
   const updateOrderStatus = async (status: string) => {
     try {
       setUpdating(true);
-      await API.put(`/admin/orders/${id}/status`, { 
+      await API.put(`/admin/orders/${id}/status`, {
         orderStatus: status,
         trackingNumber,
         estimatedDelivery: estimatedDelivery ? new Date(estimatedDelivery) : undefined
@@ -273,7 +278,7 @@ const AdminOrderDetails: React.FC = () => {
 
   const downloadInvoice = () => {
     if (!order) return;
-    
+
     const invoiceData = {
       orderId: order._id,
       date: order.createdAt,
@@ -299,7 +304,7 @@ const AdminOrderDetails: React.FC = () => {
   };
 
   const getStatusIcon = (status: string) => {
-    switch(status) {
+    switch (status) {
       case 'Delivered': return <CheckCircle className="w-5 h-5 text-green-600" />;
       case 'Shipped': return <Truck className="w-5 h-5 text-blue-600" />;
       case 'Processing': return <Package className="w-5 h-5 text-purple-600" />;
@@ -317,7 +322,7 @@ const AdminOrderDetails: React.FC = () => {
       Delivered: 'bg-green-100 text-green-800',
       Cancelled: 'bg-red-100 text-red-800'
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-gray-100 text-[#0D0B0A]';
   };
 
   const getPaymentStatusColor = (status: string) => {
@@ -327,7 +332,7 @@ const AdminOrderDetails: React.FC = () => {
       Failed: 'bg-red-100 text-red-800',
       Refunded: 'bg-purple-100 text-purple-800'
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-gray-100 text-[#0D0B0A]';
   };
 
   const formatCurrency = (amount: number) => {
@@ -351,7 +356,7 @@ const AdminOrderDetails: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -360,11 +365,11 @@ const AdminOrderDetails: React.FC = () => {
     return (
       <div className="p-6 text-center">
         <AlertCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Order Not Found</h2>
+        <h2 className="text-2xl font-bold text-[#0D0B0A] mb-2">Order Not Found</h2>
         <p className="text-gray-500 mb-6">The order you're looking for doesn't exist.</p>
         <button
           onClick={() => navigate('/admin/orders')}
-          className="px-6 py-2 bg-[#C40C0C] text-white rounded-lg hover:bg-[#FF6500] transition-colors"
+          className="px-6 py-2 bg-[#C9A84C] text-white rounded-lg hover:bg-[#E8C97A] transition-colors"
         >
           Back to Orders
         </button>
@@ -384,7 +389,7 @@ const AdminOrderDetails: React.FC = () => {
             <ArrowLeft size={20} />
           </button>
           <div>
-            <h1 className="text-3xl font-serif font-bold text-gray-900">
+            <h1 className="text-3xl font-display font-bold text-[#0D0B0A]">
               Order #{order._id.slice(-8)}
             </h1>
             <p className="text-gray-500 mt-1">Placed on {formatDate(order.createdAt)}</p>
@@ -433,12 +438,12 @@ const AdminOrderDetails: React.FC = () => {
               </div>
             </div>
           </div>
-          
+
           <select
             value={order.orderStatus}
             onChange={(e) => updateOrderStatus(e.target.value)}
             disabled={updating}
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
           >
             <option value="Pending">Pending</option>
             <option value="Processing">Processing</option>
@@ -460,12 +465,12 @@ const AdminOrderDetails: React.FC = () => {
               </span>
             </div>
           </div>
-          
+
           <select
             value={order.paymentStatus}
             onChange={(e) => updatePaymentStatus(e.target.value)}
             disabled={updating}
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
           >
             <option value="Pending">Pending</option>
             <option value="Paid">Paid</option>
@@ -481,26 +486,32 @@ const AdminOrderDetails: React.FC = () => {
             </div>
             <div>
               <p className="text-sm text-gray-500">Tracking Info</p>
-              {order.trackingNumber && (
-                <p className="text-sm font-medium mt-1">#{order.trackingNumber}</p>
+              {order.awbNumber || order.trackingNumber ? (
+                <p className="text-sm font-medium mt-1">#{order.awbNumber || order.trackingNumber}</p>
+              ) : (
+                <p className="text-xs text-gray-400 mt-1 italic">Not yet assigned</p>
               )}
+              {order.trackingStatus && (
+                <p className="text-xs font-bold text-blue-600 mt-1 uppercase tracking-wider">{order.trackingStatus}</p>
+              )}
+
             </div>
           </div>
-          
+
           <div className="space-y-3">
             <input
               type="text"
               placeholder="Tracking Number"
               value={trackingNumber}
               onChange={(e) => setTrackingNumber(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
             />
             <input
               type="date"
               placeholder="Estimated Delivery"
               value={estimatedDelivery}
               onChange={(e) => setEstimatedDelivery(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
             />
             <button
               onClick={updateTrackingInfo}
@@ -518,7 +529,7 @@ const AdminOrderDetails: React.FC = () => {
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <h2 className="text-xl font-bold mb-6">Order Items</h2>
-            
+
             <div className="space-y-4">
               {order.orderItems.map((item) => (
                 <div key={item._id} className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 rounded-lg">
@@ -527,15 +538,15 @@ const AdminOrderDetails: React.FC = () => {
                     alt={item.name}
                     className="w-24 h-24 object-cover rounded-lg"
                   />
-                  
+
                   <div className="flex-1">
-                    <Link 
+                    <Link
                       to={`/product/${item.product?._id}`}
-                      className="font-bold text-gray-900 hover:text-[#C40C0C] transition-colors"
+                      className="font-bold text-[#0D0B0A] hover:text-[#C9A84C] transition-colors"
                     >
                       {item.name}
                     </Link>
-                    
+
                     <div className="grid grid-cols-2 gap-4 mt-2 text-sm">
                       <div>
                         <p className="text-gray-500">Quantity</p>
@@ -559,7 +570,7 @@ const AdminOrderDetails: React.FC = () => {
                       )}
                       <div>
                         <p className="text-gray-500">Total</p>
-                        <p className="font-bold text-[#C40C0C]">
+                        <p className="font-bold text-[#C9A84C]">
                           {formatCurrency(item.price * item.quantity)}
                         </p>
                       </div>
@@ -577,12 +588,12 @@ const AdminOrderDetails: React.FC = () => {
                 onClick={() => window.open(`https://maps.google.com/?q=${encodeURIComponent(
                   `${order.shippingAddress.addressLine1} ${order.shippingAddress.city} ${order.shippingAddress.pincode}`
                 )}`)}
-                className="text-sm text-[#C40C0C] hover:underline"
+                className="text-sm text-[#C9A84C] hover:underline"
               >
                 View on Maps
               </button>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
@@ -598,11 +609,11 @@ const AdminOrderDetails: React.FC = () => {
                     <p className="text-gray-600">{order.shippingAddress.country}</p>
                   </div>
                 </div>
-                
+
                 {order.shippingAddress.phone && (
                   <div className="flex items-center gap-3">
                     <Phone className="w-5 h-5 text-gray-400" />
-                    <a href={`tel:${order.shippingAddress.phone}`} className="text-[#C40C0C] hover:underline">
+                    <a href={`tel:${order.shippingAddress.phone}`} className="text-[#C9A84C] hover:underline">
                       {order.shippingAddress.phone}
                     </a>
                   </div>
@@ -614,12 +625,12 @@ const AdminOrderDetails: React.FC = () => {
                   <User className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="font-medium">{order.user.name}</p>
-                    <a href={`mailto:${order.user.email}`} className="text-[#C40C0C] hover:underline text-sm">
+                    <a href={`mailto:${order.user.email}`} className="text-[#C9A84C] hover:underline text-sm">
                       {order.user.email}
                     </a>
                   </div>
                 </div>
-                
+
                 {order.isGift && order.giftMessage && (
                   <div className="p-3 bg-pink-50 rounded-lg">
                     <p className="text-sm font-medium text-pink-800 mb-1">🎁 Gift Message</p>
@@ -635,42 +646,42 @@ const AdminOrderDetails: React.FC = () => {
         <div className="space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <h2 className="text-xl font-bold mb-6">Order Summary</h2>
-            
+
             <div className="space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Subtotal</span>
                 <span className="font-medium">{formatCurrency(order.itemsPrice)}</span>
               </div>
-              
+
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Shipping</span>
                 <span className="font-medium">
                   {order.shippingPrice === 0 ? 'Free' : formatCurrency(order.shippingPrice)}
                 </span>
               </div>
-              
+
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Tax (GST)</span>
                 <span className="font-medium">{formatCurrency(order.taxPrice)}</span>
               </div>
-              
+
               {order.discountPrice && order.discountPrice > 0 && (
                 <div className="flex justify-between text-sm text-green-600">
                   <span>Discount</span>
                   <span>-{formatCurrency(order.discountPrice)}</span>
                 </div>
               )}
-              
+
               {order.couponCode && (
                 <div className="bg-green-50 p-2 rounded-lg text-sm text-green-700">
                   Coupon applied: <span className="font-bold">{order.couponCode}</span>
                 </div>
               )}
-              
+
               <div className="border-t border-gray-200 pt-3 mt-3">
                 <div className="flex justify-between">
                   <span className="font-bold">Total</span>
-                  <span className="font-bold text-xl text-[#C40C0C]">
+                  <span className="font-bold text-xl text-[#C9A84C]">
                     {formatCurrency(order.totalPrice)}
                   </span>
                 </div>
@@ -683,21 +694,21 @@ const AdminOrderDetails: React.FC = () => {
                   <span className="text-gray-600">Payment Method</span>
                   <span className="font-medium capitalize">{order.paymentMethod}</span>
                 </div>
-                
+
                 {order.paymentResult && (
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Transaction ID</span>
                     <span className="font-medium text-xs">{order.paymentResult.id}</span>
                   </div>
                 )}
-                
+
                 {order.deliveredAt && (
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Delivered On</span>
                     <span className="font-medium">{formatDate(order.deliveredAt)}</span>
                   </div>
                 )}
-                
+
                 {order.cancelledAt && (
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Cancelled On</span>
@@ -719,14 +730,14 @@ const AdminOrderDetails: React.FC = () => {
                 <Edit size={16} />
               </button>
             </div>
-            
+
             {showNotes ? (
               <div className="space-y-3">
                 <textarea
                   value={adminNotes}
                   onChange={(e) => setAdminNotes(e.target.value)}
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   placeholder="Add private notes about this order..."
                 />
                 <div className="flex gap-2">
@@ -758,7 +769,7 @@ const AdminOrderDetails: React.FC = () => {
           {/* Timeline */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <h3 className="font-bold mb-4">Order Timeline</h3>
-            
+
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -769,15 +780,13 @@ const AdminOrderDetails: React.FC = () => {
                   <p className="text-sm text-gray-500">{formatDate(order.createdAt)}</p>
                 </div>
               </div>
-              
+
               {order.orderStatus !== 'Pending' && (
                 <div className="flex items-start gap-3">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                    order.orderStatus === 'Processing' ? 'bg-blue-100' : 'bg-gray-100'
-                  }`}>
-                    <Package className={`w-3 h-3 ${
-                      order.orderStatus === 'Processing' ? 'text-blue-600' : 'text-gray-400'
-                    }`} />
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${order.orderStatus === 'Processing' ? 'bg-blue-100' : 'bg-gray-100'
+                    }`}>
+                    <Package className={`w-3 h-3 ${order.orderStatus === 'Processing' ? 'text-blue-600' : 'text-gray-400'
+                      }`} />
                   </div>
                   <div>
                     <p className="font-medium">Processing</p>
@@ -787,7 +796,7 @@ const AdminOrderDetails: React.FC = () => {
                   </div>
                 </div>
               )}
-              
+
               {order.orderStatus === 'Shipped' && (
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -804,7 +813,7 @@ const AdminOrderDetails: React.FC = () => {
                   </div>
                 </div>
               )}
-              
+
               {order.orderStatus === 'Delivered' && (
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -818,7 +827,7 @@ const AdminOrderDetails: React.FC = () => {
                   </div>
                 </div>
               )}
-              
+
               {order.orderStatus === 'Cancelled' && (
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -866,7 +875,7 @@ const AdminOrderDetails: React.FC = () => {
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
                   placeholder="e.g., Your order has been shipped"
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                 />
               </div>
 
@@ -878,7 +887,7 @@ const AdminOrderDetails: React.FC = () => {
                   value={emailMessage}
                   onChange={(e) => setEmailMessage(e.target.value)}
                   rows={6}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C40C0C] focus:ring-2 focus:ring-[#C40C0C]/20"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20"
                   placeholder="Write your message here..."
                 />
               </div>
@@ -894,7 +903,7 @@ const AdminOrderDetails: React.FC = () => {
               <button
                 onClick={sendEmailNotification}
                 disabled={updating || !emailSubject || !emailMessage}
-                className="flex-1 px-4 py-2 bg-[#C40C0C] text-white rounded-lg hover:bg-[#FF6500] transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2 bg-[#C9A84C] text-white rounded-lg hover:bg-[#E8C97A] transition-colors disabled:opacity-50"
               >
                 Send Email
               </button>
@@ -913,7 +922,7 @@ const AdminOrderDetails: React.FC = () => {
       {updating && (
         <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-4 flex items-center gap-3">
-            <div className="w-5 h-5 border-2 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-5 h-5 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
             <span>Updating...</span>
           </div>
         </div>

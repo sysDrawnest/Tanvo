@@ -32,19 +32,19 @@ export const getDashboardStats = async (req, res) => {
     ] = await Promise.all([
       // Total users
       User.countDocuments({ role: 'user' }),
-      
+
       // Total products
       Product.countDocuments(),
-      
+
       // Total orders
       Order.countDocuments(),
-      
+
       // Total revenue
       Order.aggregate([
         { $match: { paymentStatus: 'Paid' } },
         { $group: { _id: null, total: { $sum: '$totalPrice' } } }
       ]),
-      
+
       // Monthly stats
       Order.aggregate([
         {
@@ -62,20 +62,21 @@ export const getDashboardStats = async (req, res) => {
         },
         { $sort: { _id: 1 } }
       ]),
-      
+
       // Recent orders
       Order.find()
         .sort('-createdAt')
         .limit(5)
         .populate('user', 'name email')
-        .select('orderStatus totalPrice createdAt paymentStatus'),
-      
+        .select('orderStatus totalPrice createdAt paymentStatus shiprocketOrderId awbNumber trackingStatus'),
+
+
       // Low stock products
       Product.find({ stock: { $lt: 10 } })
         .select('name stock images price')
         .sort('stock')
         .limit(10),
-      
+
       // Top selling products
       Order.aggregate([
         { $unwind: '$orderItems' },
@@ -125,6 +126,8 @@ export const getDashboardStats = async (req, res) => {
           totalOrders,
           totalRevenue: totalRevenue[0]?.total || 0,
           pendingOrders: orderStatusDistribution.find(s => s._id === 'Pending')?.count || 0,
+          processingOrders: orderStatusDistribution.find(s => s._id === 'Processing')?.count || 0,
+          shippedOrders: orderStatusDistribution.find(s => s._id === 'Shipped')?.count || 0,
           deliveredOrders: orderStatusDistribution.find(s => s._id === 'Delivered')?.count || 0,
           cancelledOrders: orderStatusDistribution.find(s => s._id === 'Cancelled')?.count || 0
         },
@@ -138,9 +141,9 @@ export const getDashboardStats = async (req, res) => {
     });
   } catch (error) {
     console.error('Dashboard stats error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: error.message 
+      message: error.message
     });
   }
 };
@@ -186,14 +189,14 @@ export const createProduct = async (req, res) => {
       try {
         const uploadPromises = req.files.map(async (file, index) => {
           const result = await uploadToCloudinary(file.buffer, {
-            folder: 'syssaree/products',
+            folder: 'tanvo/products',
             allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
             transformation: [
               { width: 1000, height: 1000, crop: 'limit' },
               { quality: 'auto:best' }
             ]
           });
-          
+
           return {
             url: result.secure_url,
             publicId: result.public_id,
@@ -203,7 +206,7 @@ export const createProduct = async (req, res) => {
 
         const uploadedImages = await Promise.all(uploadPromises);
         images.push(...uploadedImages);
-        
+
       } catch (uploadError) {
         console.error('Error uploading to Cloudinary:', uploadError);
         return res.status(500).json({
@@ -284,49 +287,78 @@ export const updateProduct = async (req, res) => {
       });
     }
 
-    // Handle new image uploads
-    if (req.files && req.files.length > 0) {
+    // Handle image updates
+    let updatedImages = product.images.map(img => img.toObject());
+
+    // 1. Delete specific images if requested
+    if (req.body.deleteImages) {
       try {
-        // Delete old images from cloudinary
-        for (const image of product.images) {
-          if (image.publicId) {
+        const deleteImagesPublicIds = JSON.parse(req.body.deleteImages);
+        if (Array.isArray(deleteImagesPublicIds) && deleteImagesPublicIds.length > 0) {
+          for (const publicId of deleteImagesPublicIds) {
+            // Delete from Cloudinary
             try {
-              await cloudinary.uploader.destroy(image.publicId);
+              await cloudinary.uploader.destroy(publicId);
             } catch (err) {
-              console.error('Error deleting image from cloudinary:', err);
+              console.error(`Error deleting image ${publicId} from cloudinary:`, err);
             }
+            // Remove from current images list
+            updatedImages = updatedImages.filter(img => img.publicId !== publicId);
           }
         }
+      } catch (e) {
+        console.error('Error parsing deleteImages:', e);
+      }
+    }
 
-        // Upload new images
+    // 2. Update existing images metadata (like isPrimary)
+    if (req.body.existingImages) {
+      try {
+        const existingImagesData = JSON.parse(req.body.existingImages);
+        if (Array.isArray(existingImagesData)) {
+          updatedImages = updatedImages.map(img => {
+            const updatedMeta = existingImagesData.find(e => e.publicId === img.publicId);
+            return updatedMeta ? { ...img, ...updatedMeta } : img;
+          });
+        }
+      } catch (e) {
+        console.error('Error parsing existingImages:', e);
+      }
+    }
+
+    // 3. Handle new image uploads
+    if (req.files && req.files.length > 0) {
+      try {
         const uploadPromises = req.files.map(async (file, index) => {
           const result = await uploadToCloudinary(file.buffer, {
-            folder: 'syssaree/products',
+            folder: 'tanvo/products',
             allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
             transformation: [
               { width: 1000, height: 1000, crop: 'limit' },
               { quality: 'auto:best' }
             ]
           });
-          
+
           return {
             url: result.secure_url,
             publicId: result.public_id,
-            isPrimary: index === 0
+            isPrimary: updatedImages.length === 0 && index === 0 // Mark as primary if no existing images and first in new batch
           };
         });
 
         const uploadedImages = await Promise.all(uploadPromises);
-        req.body.images = uploadedImages;
-        
+        updatedImages.push(...uploadedImages);
       } catch (uploadError) {
         console.error('Error uploading to Cloudinary:', uploadError);
         return res.status(500).json({
           success: false,
-          message: 'Error uploading images to Cloudinary'
+          message: 'Error uploading new images to Cloudinary'
         });
       }
     }
+
+    // Set final images array back to req.body for findByIdAndUpdate
+    req.body.images = updatedImages;
 
     // Parse string fields that should be arrays
     if (req.body.colors && typeof req.body.colors === 'string') {
@@ -451,12 +483,12 @@ export const getAdminProducts = async (req, res) => {
 
     // Build query
     const query = {};
-    
+
     if (category) query.category = category;
     if (weave) query.weave = weave;
     if (fabric) query.fabric = fabric;
     if (lowStock === 'true') query.stock = { $lt: 10 };
-    
+
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
@@ -494,9 +526,9 @@ export const getAdminProducts = async (req, res) => {
     });
   } catch (error) {
     console.error('Get admin products error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: error.message 
+      message: error.message
     });
   }
 };
@@ -516,10 +548,10 @@ export const getAdminOrders = async (req, res) => {
 
     // Build query
     const query = {};
-    
+
     if (status) query.orderStatus = status;
     if (paymentStatus) query.paymentStatus = paymentStatus;
-    
+
     if (fromDate || toDate) {
       query.createdAt = {};
       if (fromDate) query.createdAt.$gte = new Date(fromDate);
@@ -550,9 +582,9 @@ export const getAdminOrders = async (req, res) => {
     });
   } catch (error) {
     console.error('Get admin orders error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: error.message 
+      message: error.message
     });
   }
 };
@@ -578,11 +610,11 @@ export const updateOrderStatus = async (req, res) => {
 
     // Update order
     order.orderStatus = orderStatus || order.orderStatus;
-    
+
     if (trackingNumber) {
       order.trackingNumber = trackingNumber;
     }
-    
+
     if (estimatedDelivery) {
       order.estimatedDelivery = new Date(estimatedDelivery);
     }
@@ -679,7 +711,7 @@ export const getAdminUsers = async (req, res) => {
     // Build query
     const query = {};
     if (role) query.role = role;
-    
+
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
@@ -899,13 +931,13 @@ export const updateReviewStatus = async (req, res) => {
 
     // Update product rating if review is approved
     if (status === 'approved' && review.status !== 'approved') {
-      const productReviews = await Review.find({ 
-        product: review.product, 
-        status: 'approved' 
+      const productReviews = await Review.find({
+        product: review.product,
+        status: 'approved'
       });
-      
+
       const avgRating = productReviews.reduce((acc, r) => acc + r.rating, 0) / productReviews.length;
-      
+
       await Product.findByIdAndUpdate(review.product, {
         ratings: avgRating,
         numReviews: productReviews.length
@@ -956,11 +988,11 @@ export const deleteReview = async (req, res) => {
     await review.deleteOne();
 
     // Update product rating
-    const productReviews = await Review.find({ 
-      product: review.product, 
-      status: 'approved' 
+    const productReviews = await Review.find({
+      product: review.product,
+      status: 'approved'
     });
-    
+
     if (productReviews.length > 0) {
       const avgRating = productReviews.reduce((acc, r) => acc + r.rating, 0) / productReviews.length;
       await Product.findByIdAndUpdate(review.product, {

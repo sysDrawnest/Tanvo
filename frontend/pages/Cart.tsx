@@ -19,7 +19,7 @@ const Cart: React.FC = () => {
     const price = item.product?.price || item.price || 0;
     return acc + (price * item.quantity);
   }, 0) || 0;
-  
+
   const shipping = subtotal > 5000 ? 0 : 500;
   const tax = Math.round(subtotal * 0.05); // 5% GST
   const total = subtotal + shipping + tax - discount;
@@ -106,7 +106,7 @@ const Cart: React.FC = () => {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-32 flex justify-center">
-        <div className="w-12 h-12 border-4 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -119,13 +119,13 @@ const Cart: React.FC = () => {
             <ShoppingBag size={64} strokeWidth={1} />
           </div>
         </div>
-        <h1 className="text-3xl font-serif font-bold text-slate-900 mb-4">Your basket is empty</h1>
+        <h1 className="text-3xl font-display font-bold text-[#0D0B0A] mb-4">Your basket is empty</h1>
         <p className="text-slate-500 mb-10 max-w-md mx-auto">
           Explore our collection of authentic Odisha handlooms and find something exquisite today.
         </p>
-        <Link 
-          to="/shop" 
-          className="inline-block bg-[#C40C0C] text-white px-12 py-4 font-bold uppercase tracking-widest hover:bg-[#FF6500] shadow-xl transition-all"
+        <Link
+          to="/shop"
+          className="inline-block bg-[#C9A84C] text-white px-12 py-4 font-bold uppercase tracking-widest hover:bg-[#E8C97A] shadow-xl transition-all"
         >
           Start Shopping
         </Link>
@@ -134,12 +134,12 @@ const Cart: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="max-w-7xl mx-auto px-4 pb-12">
       <div className="flex items-center justify-between mb-12">
-        <h1 className="text-3xl font-serif font-bold">Shopping Cart</h1>
-        <Link 
-          to="/shop" 
-          className="text-sm font-bold uppercase tracking-widest text-slate-500 hover:text-[#C40C0C] flex items-center gap-2"
+        <h1 className="text-3xl font-display font-bold">Shopping Cart</h1>
+        <Link
+          to="/shop"
+          className="text-sm font-bold uppercase tracking-widest text-slate-500 hover:text-[#C9A84C] flex items-center gap-2"
         >
           <ChevronLeft size={16} /> Continue Shopping
         </Link>
@@ -156,28 +156,28 @@ const Cart: React.FC = () => {
             const productFabric = getProductFabric(item);
             const productWeave = getProductWeave(item);
             const productStock = getProductStock(item);
-            
+
             return (
-              <div 
-                key={item._id} 
+              <div
+                key={item._id}
                 className="flex flex-col sm:flex-row gap-6 p-6 border border-slate-100 bg-white shadow-sm hover:shadow-md transition-all rounded-xl"
               >
                 <Link to={`/product/${productId}`} className="w-32 aspect-[4/5] bg-slate-100 overflow-hidden shrink-0 rounded-lg">
-                  <img 
-                    src={productImage} 
-                    alt={productName} 
+                  <img
+                    src={productImage}
+                    alt={productName}
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=No+Image';
                     }}
                   />
                 </Link>
-                
+
                 <div className="flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <h3 className="font-serif text-lg font-bold text-slate-900 leading-tight mb-1">
-                        <Link to={`/product/${productId}`} className="hover:text-[#C40C0C] transition-colors">
+                      <h3 className="font-display text-lg font-bold text-[#0D0B0A] leading-tight mb-1">
+                        <Link to={`/product/${productId}`} className="hover:text-[#C9A84C] transition-colors">
                           {productName}
                         </Link>
                       </h3>
@@ -185,11 +185,11 @@ const Cart: React.FC = () => {
                         {item.product?.category || 'Handloom'} • {productWeave}
                       </p>
                     </div>
-                    <p className="font-bold text-lg text-[#C40C0C]">
+                    <p className="font-bold text-lg text-[#C9A84C]">
                       ₹{(productPrice * item.quantity).toLocaleString()}
                     </p>
                   </div>
-                  
+
                   <div className="text-xs text-slate-500 space-y-1 mb-auto">
                     <p>Fabric: {productFabric}</p>
                     <p>Weave: {productWeave}</p>
@@ -201,10 +201,10 @@ const Cart: React.FC = () => {
                       </p>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center justify-between mt-6">
                     <div className="flex items-center border border-slate-200 rounded-lg">
-                      <button 
+                      <button
                         onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
                         className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-l-lg"
                         disabled={item.quantity <= 1}
@@ -214,7 +214,7 @@ const Cart: React.FC = () => {
                       <span className="px-4 text-sm font-bold min-w-[40px] text-center">
                         {item.quantity}
                       </span>
-                      <button 
+                      <button
                         onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
                         className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-r-lg"
                         disabled={item.quantity >= productStock}
@@ -222,8 +222,8 @@ const Cart: React.FC = () => {
                         <Plus size={14} />
                       </button>
                     </div>
-                    
-                    <button 
+
+                    <button
                       onClick={() => handleRemoveItem(item._id)}
                       className="text-slate-400 hover:text-red-600 flex items-center gap-1 text-xs font-bold uppercase transition-colors"
                     >
@@ -239,44 +239,44 @@ const Cart: React.FC = () => {
         {/* Order Summary */}
         <div className="space-y-6">
           <div className="bg-white border border-slate-100 p-8 shadow-sm rounded-xl sticky top-28">
-            <h2 className="text-xl font-serif font-bold mb-6 pb-4 border-b border-slate-100">
+            <h2 className="text-xl font-display font-bold mb-6 pb-4 border-b border-slate-100">
               Order Summary
             </h2>
-            
+
             <div className="space-y-4 mb-8">
               <div className="flex justify-between text-slate-600">
                 <span>Subtotal ({cart.totalItems || cart.items.length} items)</span>
                 <span className="font-bold">₹{subtotal.toLocaleString()}</span>
               </div>
-              
+
               <div className="flex justify-between text-slate-600">
                 <span>Shipping</span>
                 <span className={shipping === 0 ? 'text-green-600 font-bold' : ''}>
                   {shipping === 0 ? 'Free' : `₹${shipping.toLocaleString()}`}
                 </span>
               </div>
-              
+
               <div className="flex justify-between text-slate-600">
                 <span>Tax (GST 5%)</span>
                 <span>₹{tax.toLocaleString()}</span>
               </div>
-              
+
               {discount > 0 && (
                 <div className="flex justify-between text-green-600 font-bold">
                   <span>Discount</span>
                   <span>-₹{discount.toLocaleString()}</span>
                 </div>
               )}
-              
-              <div className="border-t border-slate-100 pt-4 flex justify-between text-xl font-bold text-slate-900">
+
+              <div className="border-t border-slate-100 pt-4 flex justify-between text-xl font-bold text-[#0D0B0A]">
                 <span>Total</span>
-                <span className="text-[#C40C0C]">₹{total.toLocaleString()}</span>
+                <span className="text-[#C9A84C]">₹{total.toLocaleString()}</span>
               </div>
             </div>
-            
+
             <button
               onClick={handleCheckout}
-              className="w-full bg-gradient-to-r from-[#C40C0C] to-[#FF6500] text-white py-5 font-bold uppercase tracking-widest hover:shadow-xl transition-all rounded-xl"
+              className="w-full bg-gradient-to-r from-[#C9A84C] to-[#E8C97A] text-white py-5 font-bold uppercase tracking-widest hover:shadow-xl transition-all rounded-xl"
             >
               Proceed to Checkout
             </button>
@@ -292,25 +292,25 @@ const Cart: React.FC = () => {
           </div>
 
           {/* Coupon Section */}
-          <div className="bg-[#F6CE71]/10 border border-[#F6CE71]/20 p-6 rounded-xl">
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-3">
+          <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/20 p-6 rounded-xl">
+            <h3 className="text-sm font-bold text-[#0D0B0A] uppercase tracking-widest mb-3">
               Apply Coupon
             </h3>
-            
+
             <div className="flex flex-col gap-3">
               <div className="flex gap-2">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                  placeholder="Enter code" 
-                  className="flex-1 px-4 py-3 text-sm border border-slate-200 rounded-xl outline-none focus:border-[#C40C0C] transition-all"
+                  placeholder="Enter code"
+                  className="flex-1 px-4 py-3 text-sm border border-slate-200 rounded-xl outline-none focus:border-[#C9A84C] transition-all"
                   disabled={applyingCoupon}
                 />
                 <button
                   onClick={handleApplyCoupon}
                   disabled={applyingCoupon}
-                  className="bg-slate-900 text-white px-6 py-3 text-xs font-bold uppercase rounded-xl hover:bg-[#C40C0C] transition-all disabled:opacity-50 min-w-[100px]"
+                  className="bg-[#0D0B0A] text-white px-6 py-3 text-xs font-bold uppercase rounded-xl hover:bg-[#C9A84C] transition-all disabled:opacity-50 min-w-[100px]"
                 >
                   {applyingCoupon ? (
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
@@ -319,22 +319,22 @@ const Cart: React.FC = () => {
                   )}
                 </button>
               </div>
-              
+
               {couponError && (
                 <div className="flex items-center gap-2 text-red-600 text-xs">
                   <AlertCircle size={14} />
                   <span>{couponError}</span>
                 </div>
               )}
-              
+
               {couponSuccess && (
                 <div className="text-green-600 text-xs font-bold">
                   {couponSuccess}
                 </div>
               )}
-              
+
               <p className="text-[10px] text-slate-500">
-                Try code <span className="font-bold text-[#C40C0C]">SYS10</span> for 10% off your first order.
+                Try code <span className="font-bold text-[#C9A84C]">SYS10</span> for 10% off your first order.
               </p>
             </div>
           </div>

@@ -4,10 +4,16 @@ import { HashRouter as Router, Routes, Route, useLocation } from "react-router-d
 // Context
 import { StoreProvider } from './context/StoreContext';
 
+// Styles
+import GlobalStyles from './components/GlobalStyles';
+
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import RegisterModal from './components/RegisterModal';
 import ProtectedRoute from './components/ProtectedRoute';
+import WelcomeScreen from './components/WelcomeScreen';
+
 
 // Pages
 import Home from './pages/Home';
@@ -26,6 +32,7 @@ import Orders from './pages/Orders';
 import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import FAQ from './pages/FAQ';
+import Journal from './pages/Journal';
 
 // Admin Pages (nested routes)
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -49,11 +56,14 @@ const ScrollToTop = () => {
 const App: React.FC = () => {
   return (
     <StoreProvider>
+      <GlobalStyles />
+      <WelcomeScreen />
       <Router>
         <ScrollToTop />
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--bg-main)' }}>
           <Navbar />
-          <main className="flex-grow">
+          <RegisterModal />
+          <main className="flex-grow pt-[116px] md:pt-[136px]">
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
@@ -64,47 +74,54 @@ const App: React.FC = () => {
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/story" element={<About />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/shipping" element={<Shipping />} />
               <Route path="/returns" element={<Returns />} />
-              
+              <Route path="/shipping" element={<Shipping />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/journal" element={<Journal />} />
+
               {/* Protected User Routes */}
               <Route path="/wishlist" element={
                 <ProtectedRoute>
                   <Wishlist />
                 </ProtectedRoute>
               } />
-              
+
               <Route path="/profile" element={
                 <ProtectedRoute>
                   <UserProfile />
                 </ProtectedRoute>
               } />
-              
+
               <Route path="/orders" element={
                 <ProtectedRoute>
                   <Orders />
                 </ProtectedRoute>
               } />
-              
+
               <Route path="/orders/:id" element={
                 <ProtectedRoute>
                   <OrderConfirmation />
                 </ProtectedRoute>
               } />
-              
+
+              <Route path="/order-confirmation/:id" element={
+                <ProtectedRoute>
+                  <OrderConfirmation />
+                </ProtectedRoute>
+              } />
+
               <Route path="/checkout" element={
                 <ProtectedRoute>
                   <Checkout />
                 </ProtectedRoute>
               } />
-              
+
               <Route path="/checkout/success" element={
                 <ProtectedRoute>
                   <OrderConfirmation />
                 </ProtectedRoute>
               } />
-              
+
               {/* Admin Routes - Nested */}
               <Route path="/admin" element={
                 <ProtectedRoute requireAdmin>
@@ -121,15 +138,15 @@ const App: React.FC = () => {
                 <Route path="reviews" element={<AdminReviews />} />
                 <Route path="settings" element={<AdminSettings />} />
               </Route>
-              
+
               {/* 404 Route */}
               <Route path="*" element={
-                <div className="min-h-screen bg-white pt-40 pb-24 flex items-center justify-center">
+                <div className="min-h-screen pt-40 pb-24 flex items-center justify-center font-sans-custom transition-all" style={{ background: 'var(--bg-main)' }}>
                   <div className="container-custom text-center">
-                    <h1 className="text-9xl font-serif font-bold text-[#C40C0C] mb-4">404</h1>
-                    <h2 className="text-4xl font-serif font-bold mb-6">Thread Lost in the Loom</h2>
-                    <p className="text-xl text-gray-600 mb-8">The page you're looking for has wandered off like a loose thread.</p>
-                    <a href="/" className="btn-primary">Return to Home</a>
+                    <h1 className="text-9xl mb-4 font-display" style={{ color: 'var(--text-primary)' }}>404</h1>
+                    <h2 className="text-4xl mb-6 font-display" style={{ color: 'var(--ink)' }}>Thread Lost in the Loom</h2>
+                    <p className="text-xl mb-8" style={{ color: 'var(--warm)' }}>The page you're looking for has wandered off like a loose thread.</p>
+                    <a href="/" className="btn-gold font-sans-custom">Return to Home</a>
                   </div>
                 </div>
               } />
@@ -137,6 +154,7 @@ const App: React.FC = () => {
           </main>
           {/* <AIAssistant /> */}
           <Footer />
+
         </div>
       </Router>
     </StoreProvider>

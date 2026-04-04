@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, MessageCircle, Clock, ShieldCheck, Send, User, MessageSquare, Instagram, Facebook, Youtube } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageCircle, Clock, ShieldCheck, Send, User, MessageSquare, Instagram, Facebook, Youtube, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -24,335 +24,359 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50/50 pt-32 pb-24 overflow-hidden">
+    <div className="min-h-screen bg-[#F8EDED] pt-24 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
+      {/* Textile overlay */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          opacity: 0.5,
+        }}
+      />
+
+      {/* Decorative thread lines */}
+      <div className="absolute top-40 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#B43F3F]/20 to-transparent"></div>
+      <div className="absolute bottom-40 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#FF8225]/20 to-transparent"></div>
+
       {/* Background decorative elements */}
-      <div className="absolute top-20 left-0 w-96 h-96 bg-gradient-to-br from-[#F6CE71]/5 to-[#C40C0C]/5 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-20 right-0 w-80 h-80 bg-gradient-to-tl from-[#FF6500]/5 to-[#CC561E]/5 rounded-full blur-3xl -z-10" />
-      
-      <div className="container-custom relative">
+      <div className="absolute top-20 left-0 w-96 h-96 bg-gradient-to-br from-[#B43F3F]/5 to-transparent rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-20 right-0 w-80 h-80 bg-gradient-to-tl from-[#FF8225]/5 to-transparent rounded-full blur-3xl -z-10" />
+
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
         {/* Hero Section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-5xl mx-auto text-center mb-20 space-y-6"
+          className="max-w-3xl mx-auto text-center mb-12 md:mb-16 space-y-4"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#F6CE71]/20 to-[#FF6500]/20 rounded-full border border-[#FF6500]/20">
-            <MessageCircle className="w-4 h-4 text-[#C40C0C]" />
-            <span className="text-[#C40C0C] font-black uppercase tracking-[0.3em] text-xs">Direct Support</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-full border border-[#FF8225]/20">
+            <MessageCircle className="w-4 h-4 text-[#FF8225]" />
+            <span className="text-[#FF8225] font-medium uppercase tracking-[0.2em] text-xs">Connect with Artisans</span>
           </div>
-          <h1 className="text-6xl md:text-8xl font-serif font-bold tracking-tight">
-            <span className="bg-gradient-to-r from-[#C40C0C] via-[#FF6500] to-[#CC561E] bg-clip-text text-transparent">
-              Weave Your Query
-            </span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium text-[#173B45]">
+            Weave Your{' '}
+            <span className="text-[#B43F3F]">Query</span>
           </h1>
-          <p className="text-xl text-gray-600 font-medium max-w-2xl mx-auto leading-relaxed">
-            Connect directly with master weavers and artisans. Every thread tells a story, let's weave yours together.
+          <p className="text-base md:text-lg text-[#173B45]/70 max-w-2xl mx-auto">
+            Connect directly with master weavers and heritage experts. Every thread tells a story—let's weave yours together.
           </p>
+          <div className="w-20 h-1 bg-gradient-to-r from-[#B43F3F] to-[#FF8225] mx-auto mt-4"></div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
           {/* Left Column - Contact Info */}
-          <div className="space-y-12">
+          <div className="space-y-6 md:space-y-8">
             {/* Contact Cards */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-8"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
             >
-              <div className="group bg-white p-8 rounded-3xl border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                <div className="w-16 h-16 bg-gradient-to-br from-[#C40C0C]/10 to-[#FF6500]/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Phone className="w-7 h-7 text-[#C40C0C]" />
+              <div className="group bg-white p-6 rounded-xl border border-[#B43F3F]/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="w-12 h-12 bg-[#F8EDED] rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Phone className="w-5 h-5 text-[#B43F3F]" />
                 </div>
-                <h3 className="text-2xl font-serif font-bold mb-3">Call Us</h3>
-                <p className="text-sm text-gray-500 font-medium mb-4">Direct line to our artisan support team</p>
-                <a 
-                  href="tel:8144622958" 
-                  className="inline-flex items-center gap-2 text-lg font-bold bg-gradient-to-r from-[#C40C0C] to-[#FF6500] bg-clip-text text-transparent group-hover:gap-3 transition-all duration-300"
+                <h3 className="text-lg font-display font-medium text-[#173B45] mb-2">Call Us</h3>
+                <p className="text-xs text-[#173B45]/60 mb-3">Direct line to artisan support</p>
+                <a
+                  href="tel:+918144622958"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-[#FF8225] hover:text-[#B43F3F] transition-colors"
                 >
                   +91 81446 22958
-                  <span className="text-[#FF6500]">↗</span>
+                  <ChevronRight size={14} />
                 </a>
               </div>
 
-              <div className="group bg-white p-8 rounded-3xl border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                <div className="w-16 h-16 bg-gradient-to-br from-[#F6CE71]/10 to-[#FF6500]/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Mail className="w-7 h-7 text-[#CC561E]" />
+              <div className="group bg-white p-6 rounded-xl border border-[#B43F3F]/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="w-12 h-12 bg-[#F8EDED] rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Mail className="w-5 h-5 text-[#FF8225]" />
                 </div>
-                <h3 className="text-2xl font-serif font-bold mb-3">Email Us</h3>
-                <p className="text-sm text-gray-500 font-medium mb-4">For custom orders & collaborations</p>
-                <a 
-                  href="mailto:legacy@meherweavers.in" 
-                  className="inline-flex items-center gap-2 text-lg font-bold bg-gradient-to-r from-[#CC561E] to-[#FF6500] bg-clip-text text-transparent group-hover:gap-3 transition-all duration-300"
+                <h3 className="text-lg font-display font-medium text-[#173B45] mb-2">Email Us</h3>
+                <p className="text-xs text-[#173B45]/60 mb-3">For custom orders & collaborations</p>
+                <a
+                  href="mailto:hello@tanvo.com"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-[#FF8225] hover:text-[#B43F3F] transition-colors"
                 >
-                  legacy@meherweavers.in
-                  <span className="text-[#FF6500]">↗</span>
+                  hello@tanvo.com
+                  <ChevronRight size={14} />
                 </a>
               </div>
             </motion.div>
 
             {/* Address Card */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-gradient-to-br from-white to-gray-50 p-10 rounded-[2.5rem] space-y-8 border border-gray-100 shadow-lg relative overflow-hidden"
+              className="bg-white p-6 md:p-8 rounded-xl md:rounded-2xl border border-[#B43F3F]/10 shadow-md relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#F6CE71]/10 to-transparent rounded-full -translate-y-20 translate-x-20" />
-              
-              <div className="flex items-start gap-6 relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-br from-[#FF6500]/10 to-[#C40C0C]/10 rounded-2xl flex items-center justify-center shrink-0">
-                  <MapPin className="w-7 h-7 text-[#C40C0C]" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#B43F3F]/5 to-transparent rounded-full -translate-y-16 translate-x-16" />
+
+              <div className="flex items-start gap-4 relative z-10">
+                <div className="w-12 h-12 bg-[#F8EDED] rounded-xl flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5 text-[#173B45]" />
                 </div>
                 <div>
-                  <h4 className="text-2xl font-serif font-bold mb-3 bg-gradient-to-r from-[#C40C0C] to-[#FF6500] bg-clip-text text-transparent">
-                    Artisan Hub
+                  <h4 className="text-lg font-display font-medium text-[#173B45] mb-2">
+                    Tanvo Hub
                   </h4>
-                  <p className="text-gray-700 font-medium leading-relaxed text-lg">
+                  <p className="text-sm text-[#173B45]/70 leading-relaxed">
                     Patia, Bhubaneswar<br />
                     Odisha, India - 751024
                   </p>
-                  <a 
-                    href="https://maps.google.com/?q=Patia+Bhubaneswar+Odisha" 
-                    target="_blank" 
+                  <p className="text-xs text-[#173B45]/50 mt-1 font-mono">
+                    20°16′N 85°50′E
+                  </p>
+                  <a
+                    href="https://www.google.com/maps?q=Patia+Bhubaneswar+Odisha+751024"
+                    target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 mt-4 text-sm font-bold text-[#FF6500] hover:text-[#C40C0C] transition-colors"
+                    className="inline-flex items-center gap-1 mt-3 text-xs font-medium text-[#FF8225] hover:text-[#B43F3F] transition-colors"
                   >
                     View on Google Maps
-                    <span className="text-lg">↗</span>
+                    <ChevronRight size={12} />
                   </a>
                 </div>
               </div>
 
-              <div className="pt-8 border-t border-gray-200 relative z-10">
+              <div className="mt-6 pt-6 border-t border-[#B43F3F]/10 relative z-10">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-[11px] font-black uppercase tracking-[0.3em] text-[#C40C0C] mb-1">Master Weaver</p>
-                    <p className="text-3xl font-serif font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                      Mr. SYS
+                    <p className="text-[10px] font-medium uppercase tracking-wider text-[#FF8225] mb-1">Master Weaver</p>
+                    <p className="text-xl font-display font-medium text-[#173B45]">
+                      The Tanvo Atelier
                     </p>
                   </div>
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#F6CE71] to-[#FF6500] rounded-2xl flex items-center justify-center text-white font-bold text-lg">
-                    ସ୍ୱାଗତ
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#B43F3F] to-[#FF8225] rounded-xl flex items-center justify-center text-[#F8EDED] font-medium text-sm">
+                    T
                   </div>
                 </div>
               </div>
             </motion.div>
 
             {/* Trust Badges */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-wrap gap-6"
+              className="flex flex-wrap gap-3"
             >
-              <div className="flex items-center gap-3 px-4 py-3 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center">
-                  <ShieldCheck className="w-5 h-5 text-green-600" />
+              <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-[#B43F3F]/10 shadow-sm">
+                <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                  <ShieldCheck className="w-4 h-4 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-xs font-black uppercase tracking-wider text-gray-900">GI Certified</p>
-                  <p className="text-[10px] text-gray-500">Authenticity Guaranteed</p>
+                  <p className="text-xs font-medium text-[#173B45]">GI Certified</p>
+                  <p className="text-[8px] text-[#173B45]/50">Authenticity Guaranteed</p>
                 </div>
               </div>
-              
-              <div className="flex items-center gap-3 px-4 py-3 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                <div className="w-10 h-10 bg-gradient-to-br from-[#F6CE71]/10 to-[#FF6500]/10 rounded-xl flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-[#CC561E]" />
+
+              <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-[#B43F3F]/10 shadow-sm">
+                <div className="w-8 h-8 bg-[#F8EDED] rounded-lg flex items-center justify-center">
+                  <Clock className="w-4 h-4 text-[#FF8225]" />
                 </div>
                 <div>
-                  <p className="text-xs font-black uppercase tracking-wider text-gray-900">24/7 Support</p>
-                  <p className="text-[10px] text-gray-500">Quick Response Time</p>
+                  <p className="text-xs font-medium text-[#173B45]">24/7 Support</p>
+                  <p className="text-[8px] text-[#173B45]/50">Quick Response Time</p>
                 </div>
               </div>
             </motion.div>
 
             {/* Social Media */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="pt-8 border-t border-gray-100"
+              className="pt-6 border-t border-[#B43F3F]/10"
             >
-              <p className="text-sm font-bold text-gray-700 mb-4">Follow Our Journey</p>
-              <div className="flex gap-4">
+              <p className="text-sm font-medium text-[#173B45] mb-3">Follow Our Journey</p>
+              <div className="flex gap-3">
                 {[
-                  { icon: Instagram, color: '#E1306C', label: 'Instagram' },
-                  { icon: Facebook, color: '#1877F2', label: 'Facebook' },
-                  { icon: Youtube, color: '#FF0000', label: 'YouTube' },
+                  { icon: Instagram, href: '#', label: 'Instagram', color: '#E1306C' },
+                  { icon: Facebook, href: '#', label: 'Facebook', color: '#1877F2' },
+                  { icon: Youtube, href: '#', label: 'YouTube', color: '#FF0000' },
                 ].map((social) => (
                   <a
                     key={social.label}
-                    href="#"
-                    className="group w-12 h-12 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                    href={social.href}
+                    className="group w-10 h-10 bg-white rounded-lg border border-[#B43F3F]/10 shadow-sm flex items-center justify-center hover:shadow-md transition-all duration-300 hover:-translate-y-1"
                     aria-label={social.label}
                   >
-                    <social.icon className="w-5 h-5 text-gray-600 group-hover:scale-110 transition-transform duration-300" />
+                    <social.icon className="w-4 h-4 text-[#173B45] group-hover:text-[#FF8225] transition-colors" />
                   </a>
                 ))}
               </div>
             </motion.div>
           </div>
 
-          {/* Right Column - Map & Form */}
-          <div className="space-y-12">
-            {/* Map Section */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-white rounded-[2.5rem] border border-gray-100 shadow-2xl overflow-hidden"
-            >
-              <div className="p-8 border-b border-gray-100">
-                <h3 className="text-2xl font-serif font-bold flex items-center gap-3">
-                  <MapPin className="w-6 h-6 text-[#C40C0C]" />
-                  <span className="bg-gradient-to-r from-[#C40C0C] to-[#FF6500] bg-clip-text text-transparent">
-                    Visit Our Workshop
-                  </span>
-                </h3>
+          {/* Right Column - Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="bg-white p-6 md:p-8 border border-[#B43F3F]/10 shadow-xl rounded-xl md:rounded-2xl relative overflow-hidden"
+          >
+            {/* Top gradient bar */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#B43F3F] via-[#FF8225] to-[#B43F3F]" />
+
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-[#F8EDED] rounded-lg flex items-center justify-center">
+                <MessageSquare className="w-5 h-5 text-[#B43F3F]" />
               </div>
-              
-              {/* Map Container */}
-              <div className="relative h-96 bg-gradient-to-br from-gray-100 to-gray-200">
-                {/* Map Placeholder with decorative pattern */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-64 h-64 bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl border-2 border-white overflow-hidden">
-                    {/* Decorative map pattern */}
-                    <div className="absolute inset-4 bg-gradient-to-br from-[#F6CE71]/20 to-[#FF6500]/20 rounded-2xl" />
-                    
-                    {/* Map markers */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                      <div className="relative">
-                        <div className="w-16 h-16 bg-gradient-to-br from-[#C40C0C] to-[#FF6500] rounded-full flex items-center justify-center animate-pulse-gentle">
-                          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                            <span className="text-2xl">📍</span>
-                          </div>
-                        </div>
-                        <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#F6CE71] rounded-full border-4 border-white" />
+              <h2 className="text-xl md:text-2xl font-display font-medium text-[#173B45]">
+                Send Your Message
+              </h2>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
+                  <User className="w-3 h-3" />
+                  Your Full Name
+                </label>
+                <input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  type="text"
+                  className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
+                  placeholder="e.g., Arjun Meher"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
+                  <Mail className="w-3 h-3" />
+                  Email Address
+                </label>
+                <input
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  type="email"
+                  className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
+                  placeholder="e.g., hello@example.com"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
+                  <MessageSquare className="w-3 h-3" />
+                  Your Message
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40 resize-none"
+                  placeholder="Share your thoughts, questions, or custom requirements..."
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="group w-full py-3 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-lg shadow-md hover:bg-[#FF8225] transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <span>Send Message</span>
+                <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <p className="text-xs text-center text-[#173B45]/40 pt-2">
+                We typically respond within 2 hours during business hours
+              </p>
+            </form>
+          </motion.div>
+        </div>
+
+        {/* Map Preview */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-8 bg-white rounded-xl border border-[#B43F3F]/10 overflow-hidden shadow-md"
+        >
+          <div className="p-4 border-b border-[#B43F3F]/10">
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-[#B43F3F]" />
+              <h3 className="text-sm font-medium text-[#173B45]">Visit Our Hub</h3>
+            </div>
+          </div>
+
+          <div className="relative h-64 bg-[#F8EDED]">
+            {/* Map placeholder with coordinates */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative w-48 h-48 bg-white rounded-lg shadow-lg border border-[#B43F3F]/10 overflow-hidden">
+                {/* Decorative grid pattern */}
+                <div className="absolute inset-0" style={{
+                  backgroundImage: 'linear-gradient(#B43F3F10 1px, transparent 1px), linear-gradient(90deg, #B43F3F10 1px, transparent 1px)',
+                  backgroundSize: '20px 20px'
+                }} />
+
+                {/* Location marker */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <div className="relative">
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#B43F3F] to-[#FF8225] rounded-full flex items-center justify-center animate-pulse">
+                      <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                        <MapPin className="w-3 h-3 text-[#B43F3F]" />
                       </div>
                     </div>
-                    
-                    {/* Roads */}
-                    <div className="absolute top-1/2 left-4 right-4 h-1 bg-gray-300 rounded-full" />
-                    <div className="absolute left-1/2 top-4 bottom-4 w-1 bg-gray-300 rounded-full transform -translate-x-1/2" />
-                    
-                    {/* Location text */}
-                    <div className="absolute bottom-6 left-0 right-0 text-center">
-                      <p className="text-sm font-bold text-gray-800">Patia, Bhubaneswar</p>
-                      <p className="text-xs text-gray-600">Odisha, India</p>
+                    <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                      <p className="text-xs font-medium text-[#173B45]">Tanvo Hub</p>
+                      <p className="text-[8px] text-[#173B45]/50">20°16′N 85°50′E</p>
                     </div>
                   </div>
                 </div>
-                
-                {/* Map controls */}
-                <div className="absolute bottom-6 right-6 flex gap-2">
-                  <button className="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow">
-                    <span className="text-xl">+</span>
-                  </button>
-                  <button className="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow">
-                    <span className="text-xl">−</span>
-                  </button>
+
+                {/* Compass */}
+                <div className="absolute bottom-2 right-2 text-[8px] text-[#173B45]/30 font-mono">
+                  N ↑
                 </div>
               </div>
-              
-              <div className="p-6 bg-gradient-to-r from-gray-50 to-white">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-gray-700">📍 Current Location</p>
-                    <p className="text-xs text-gray-500">Lat: 20.2961° N, Long: 85.8245° E</p>
-                  </div>
-                  <a 
-                    href="https://maps.google.com/?q=Patia+Bhubaneswar+Odisha"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 bg-gradient-to-r from-[#C40C0C] to-[#FF6500] text-white text-sm font-bold rounded-full hover:shadow-lg transition-all duration-300 hover:scale-105"
-                  >
-                    Open in Maps
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Contact Form */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-gradient-to-br from-white to-gray-50 p-10 border border-gray-100 shadow-2xl rounded-[2.5rem] relative overflow-hidden"
-            >
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#C40C0C] via-[#FF6500] to-[#F6CE71]" />
-              
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#F6CE71]/10 to-[#FF6500]/10 rounded-2xl flex items-center justify-center">
-                  <MessageSquare className="w-6 h-6 text-[#CC561E]" />
-                </div>
-                <h2 className="text-3xl font-serif font-bold bg-gradient-to-r from-[#C40C0C] to-[#FF6500] bg-clip-text text-transparent">
-                  Send Your Message
-                </h2>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-3">
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-700">
-                    <User className="w-3 h-3" />
-                    Your Full Name
-                  </label>
-                  <input
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    type="text"
-                    className="w-full bg-white border-2 border-gray-200 rounded-2xl py-4 px-6 outline-none focus:border-[#FF6500] focus:ring-2 focus:ring-[#FF6500]/20 transition-all font-medium placeholder-gray-400"
-                    placeholder="Ex. Arjun Meher"
-                  />
-                </div>
-
-                <div className="space-y-3">
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-700">
-                    <Mail className="w-3 h-3" />
-                    Email Address
-                  </label>
-                  <input
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    type="email"
-                    className="w-full bg-white border-2 border-gray-200 rounded-2xl py-4 px-6 outline-none focus:border-[#FF6500] focus:ring-2 focus:ring-[#FF6500]/20 transition-all font-medium placeholder-gray-400"
-                    placeholder="Ex. hello@artisan.com"
-                  />
-                </div>
-
-                <div className="space-y-3">
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-700">
-                    <MessageSquare className="w-3 h-3" />
-                    Your Message
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={4}
-                    className="w-full bg-white border-2 border-gray-200 rounded-2xl py-4 px-6 outline-none focus:border-[#FF6500] focus:ring-2 focus:ring-[#FF6500]/20 transition-all font-medium placeholder-gray-400 resize-none"
-                    placeholder="Share your thoughts, questions, or custom requirements..."
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="group w-full py-5 bg-gradient-to-r from-[#C40C0C] via-[#FF6500] to-[#CC561E] text-white text-sm font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] flex items-center justify-center gap-3"
-                >
-                  <span>Send Message</span>
-                  <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                <p className="text-xs text-center text-gray-500 pt-4">
-                  We typically respond within 2 hours during business hours
-                </p>
-              </form>
-            </motion.div>
+            </div>
           </div>
-        </div>
+
+          <div className="p-4 bg-[#F8EDED] border-t border-[#B43F3F]/10">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-[#173B45]">Patia, Bhubaneswar</p>
+                <p className="text-[10px] text-[#173B45]/50">Odisha, India - 751024</p>
+              </div>
+              <a
+                href="https://www.google.com/maps?q=Patia+Bhubaneswar+Odisha+751024"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-[#B43F3F] text-[#F8EDED] text-xs font-medium rounded-lg hover:bg-[#FF8225] transition-colors"
+              >
+                Open in Maps
+              </a>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* WhatsApp CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-8 text-center"
+        >
+          <Link
+            to="/whatsapp-order"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white rounded-lg font-medium text-sm hover:bg-[#128C7E] transition-colors"
+          >
+            <MessageCircle size={18} />
+            Chat on WhatsApp
+          </Link>
+          <p className="text-xs text-[#173B45]/40 mt-3">
+            Prefer email? <a href="mailto:hello@tanvo.com" className="text-[#FF8225] hover:text-[#B43F3F]">hello@tanvo.com</a>
+          </p>
+        </motion.div>
       </div>
     </div>
   );

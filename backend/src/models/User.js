@@ -47,10 +47,15 @@ const userSchema = new mongoose.Schema({
     addressLine2: String,
     city: { type: String, required: true },
     state: { type: String, required: true },
-    pincode: { 
-      type: String, 
+    pincode: {
+      type: String,
       required: true,
       match: [/^[1-9][0-9]{5}$/, 'Please provide a valid 6-digit pincode']
+    },
+    phone: {
+      type: String,
+      required: true,
+      match: [/^[0-9]{10}$/, 'Please provide a valid 10-digit phone number']
     },
     country: { type: String, default: 'India' },
     isDefault: { type: Boolean, default: false }
@@ -72,7 +77,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Encrypt password using bcrypt
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
   }
@@ -81,12 +86,12 @@ userSchema.pre('save', async function(next) {
 });
 
 // Match user entered password to hashed password in database
-userSchema.methods.matchPassword = async function(enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
 // Remove sensitive info when converting to JSON
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
   delete user.resetPasswordToken;

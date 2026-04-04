@@ -16,6 +16,8 @@ import orderRoutes from './routes/orderRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import webhookRoutes from './routes/webhookRoutes.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,6 +68,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/webhooks', webhookRoutes);
+
 
 // Health check
 app.get('/health', (req, res) => {
@@ -73,7 +77,7 @@ app.get('/health', (req, res) => {
     status: 'OK',
     timestamp: new Date(),
     database: 'connected',
-    service: 'Syssaree API'
+    service: 'Tanvo API'
   });
 });
 
@@ -96,7 +100,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`
   ╔════════════════════════════════════╗
-  ║     Syssaree Backend Server        ║
+  ║     Tanvo Backend Server        ║
   ╠════════════════════════════════════╣
   ║ Mode: ${process.env.NODE_ENV}                      ║
   ║ Port: ${PORT}                           ║

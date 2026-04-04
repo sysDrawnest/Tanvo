@@ -8,13 +8,19 @@ import {
   updateOrderToPaid,
   updateOrderStatus,
   cancelOrder,
-  getAllOrders
+  getAllOrders,
+  checkShippingServiceability
 } from '../controllers/orderController.js';
+
 
 const router = express.Router();
 
+// Public routes
+router.post('/check-serviceability', checkShippingServiceability);
+
 // Protected routes (user must be logged in)
 router.use(protect);
+
 
 // Create new order
 router.post('/', createOrder);
@@ -55,7 +61,7 @@ router.get('/admin/stats', admin, async (req, res) => {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     const todayOrders = await Order.countDocuments({
       createdAt: { $gte: today }
     });

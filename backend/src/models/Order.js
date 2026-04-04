@@ -35,7 +35,9 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: {
     type: String,
     required: true,
-    enum: ['COD', 'Card', 'UPI', 'NetBanking', 'Wallet']
+    enum: ['COD', 'CARD', 'UPI', 'NETBANKING', 'WALLET'],
+    uppercase: true,
+    trim: true
   },
   paymentResult: {
     id: String,
@@ -90,13 +92,18 @@ const orderSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  giftMessage: String
+  giftMessage: String,
+  shiprocketOrderId: String,
+  shiprocketShipmentId: String,
+  awbNumber: String,
+  trackingStatus: String,
+  trackingHistory: [Object]
 }, {
   timestamps: true
 });
 
 // Calculate totals before saving
-orderSchema.pre('save', function(next) {
+orderSchema.pre('save', function (next) {
   if (this.orderItems && this.orderItems.length > 0) {
     this.itemsPrice = this.orderItems.reduce(
       (acc, item) => acc + item.price * item.quantity,

@@ -42,9 +42,9 @@ export const formatPrice = (price: number): string => {
       Shipped: 'bg-purple-100 text-purple-800',
       Delivered: 'bg-green-100 text-green-800',
       Cancelled: 'bg-red-100 text-red-800',
-      Refunded: 'bg-gray-100 text-gray-800',
+      Refunded: 'bg-gray-100 text-[#0D0B0A]',
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-gray-100 text-[#0D0B0A]';
   };
   
   export const getPaymentStatusColor = (status: string): string => {
@@ -52,7 +52,7 @@ export const formatPrice = (price: number): string => {
       Pending: 'bg-yellow-100 text-yellow-800',
       Paid: 'bg-green-100 text-green-800',
       Failed: 'bg-red-100 text-red-800',
-      Refunded: 'bg-gray-100 text-gray-800',
+      Refunded: 'bg-gray-100 text-[#0D0B0A]',
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-gray-100 text-[#0D0B0A]';
   };

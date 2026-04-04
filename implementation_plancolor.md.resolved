@@ -1,0 +1,29 @@
+# Website Color Palette Overhaul
+
+The goal is to update the entire website's color palette to a new set of vibrant colors: Crimson (#C40C0C), Orange (#FF6500), Sienna (#CC561E), and Gold (#F6CE71).
+
+## Proposed Changes
+
+### [Component: Frontend Theme & Styles]
+
+#### [MODIFY] [GlobalStyles.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/components/GlobalStyles.tsx)
+- Update `:root` CSS variables with the new color palette.
+- Map old common variables like `--gold`, `--red`, and `--action-cta` to the new colors.
+- Ensure backgrounds and text variables complement the new palette.
+
+#### [MODIFY] [tailwind.config.js](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/tailwind.config.js)
+- Extend the theme with the new color names (crimson, orange, sienna, gold).
+
+### [Component: Frontend Components & Pages]
+
+#### [MODIFY] [Multiple Files](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/)
+- Perform a mass search and replace of legacy hex codes with the new palette colors.
+- Priority files: [Navbar.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/components/Navbar.tsx), [Footer.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/components/Footer.tsx), [Home.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/Home.tsx), and all components in `pages/sections/`.
+- Ensure gradients (e.g., in [HeroSection.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/sections/HeroSection.tsx)) use the new color combinations.
+
+## Verification Plan
+
+### Manual Verification
+- Review the website in the browser to ensure the new color palette is consistently applied.
+- Check accessibility (contrast) especially for text and CTA buttons.
+- Verify that no legacy colors (maroon, forest green, etc.) remain in the UI.

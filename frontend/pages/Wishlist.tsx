@@ -131,7 +131,7 @@ const Wishlist: React.FC = () => {
                 <Heart size={64} className="text-slate-200" strokeWidth={1} />
               </div>
             </div>
-            <h2 className="text-4xl font-serif font-bold mb-4">Login to view your wishlist</h2>
+            <h2 className="text-4xl font-display font-bold mb-4">Login to view your wishlist</h2>
             <p className="text-slate-500 max-w-sm mx-auto mb-10 font-medium">
               Please login to access your saved items and personalized collections.
             </p>
@@ -152,7 +152,7 @@ const Wishlist: React.FC = () => {
       <div className="min-h-screen bg-white pt-32 pb-24">
         <div className="container-custom">
           <div className="flex justify-center items-center py-32">
-            <div className="w-16 h-16 border-4 border-[#C40C0C] border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-16 h-16 border-4 border-[#C9A84C] border-t-transparent rounded-full animate-spin"></div>
           </div>
         </div>
       </div>
@@ -168,8 +168,8 @@ const Wishlist: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-4"
           >
-            <p className="text-[#C40C0C] font-black uppercase tracking-[0.3em] text-xs">Your Curated Collection</p>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tight">Wishlist</h1>
+            <p className="text-[#C9A84C] font-black uppercase tracking-[0.3em] text-xs">Your Curated Collection</p>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight">Wishlist</h1>
           </motion.div>
           
           <motion.div 
@@ -183,7 +183,7 @@ const Wishlist: React.FC = () => {
             {products.length > 0 && (
               <button
                 onClick={handleAddAllToCart}
-                className="px-6 py-3 bg-black text-white text-xs font-black uppercase tracking-widest hover:bg-[#C40C0C] transition-colors rounded-full"
+                className="px-6 py-3 bg-black text-white text-xs font-black uppercase tracking-widest hover:bg-[#C9A84C] transition-colors rounded-full"
               >
                 Add All to Cart
               </button>
@@ -217,7 +217,7 @@ const Wishlist: React.FC = () => {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                       {product.isBestSeller && (
-                        <span className="absolute top-3 left-3 px-2 py-1 bg-gradient-to-r from-[#C40C0C] to-[#FF6500] text-white text-[10px] font-bold rounded-full">
+                        <span className="absolute top-3 left-3 px-2 py-1 bg-gradient-to-r from-[#C9A84C] to-[#E8C97A] text-white text-[10px] font-bold rounded-full">
                           Best Seller
                         </span>
                       )}
@@ -228,12 +228,12 @@ const Wishlist: React.FC = () => {
                       )}
                     </div>
                     
-                    <h3 className="font-bold text-gray-900 mb-1 line-clamp-2 group-hover:text-[#C40C0C] transition-colors">
+                    <h3 className="font-bold text-[#0D0B0A] mb-1 line-clamp-2 group-hover:text-[#C9A84C] transition-colors">
                       {product.name}
                     </h3>
                     
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-sm font-bold text-gray-900">
+                      <span className="text-sm font-bold text-[#0D0B0A]">
                         {formatPrice(product.price)}
                       </span>
                       {product.originalPrice && (
@@ -250,7 +250,7 @@ const Wishlist: React.FC = () => {
                             key={i}
                             className={`w-3 h-3 ${
                               i < Math.floor(product.ratings)
-                                ? 'text-[#F6CE71]'
+                                ? 'text-[#C9A84C]'
                                 : 'text-gray-300'
                             }`}
                             fill="currentColor"
@@ -274,7 +274,7 @@ const Wishlist: React.FC = () => {
                     <button 
                       onClick={() => handleMoveToCart(product)}
                       disabled={movingToCart === product._id || product.stock <= 0}
-                      className="flex-1 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#C40C0C] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="flex-1 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#C9A84C] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {movingToCart === product._id ? (
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -309,11 +309,11 @@ const Wishlist: React.FC = () => {
                 <div className="p-12 bg-gray-50 rounded-full relative">
                   <Heart size={64} className="text-slate-200" strokeWidth={1} />
                   <div className="absolute inset-0 flex items-center justify-center animate-pulse">
-                    <Heart size={32} className="text-[#C40C0C]/20" strokeWidth={1} />
+                    <Heart size={32} className="text-[#C9A84C]/20" strokeWidth={1} />
                   </div>
                 </div>
               </div>
-              <h2 className="text-4xl font-serif font-bold mb-4">Your wishlist is empty</h2>
+              <h2 className="text-4xl font-display font-bold mb-4">Your wishlist is empty</h2>
               <p className="text-slate-500 max-w-sm mx-auto mb-10 font-medium">
                 Save your favorite handloom masterpieces to your wishlist and revisit them anytime.
               </p>
@@ -335,8 +335,8 @@ const Wishlist: React.FC = () => {
             viewport={{ once: true }}
             className="mt-32 p-12 bg-gray-50 rounded-[3rem] text-center"
           >
-            <p className="text-xs font-black uppercase tracking-[0.4em] text-[#C40C0C] mb-4">Pro Tip</p>
-            <h3 className="text-3xl font-serif font-bold mb-6 italic">"A handloom saree is an investment in art."</h3>
+            <p className="text-xs font-black uppercase tracking-[0.4em] text-[#C9A84C] mb-4">Pro Tip</p>
+            <h3 className="text-3xl font-display font-bold mb-6 italic">"A handloom saree is an investment in art."</h3>
             <p className="text-slate-500 max-w-xl mx-auto font-medium">
               Every item in your wishlist supports a master weaver's legacy. Consider completing your selection while these limited-edition weaves are still in stock.
             </p>
@@ -344,19 +344,19 @@ const Wishlist: React.FC = () => {
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-8 mt-12 max-w-2xl mx-auto">
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-[#0D0B0A]">
                   {products.reduce((acc, p) => acc + (p.stock > 0 ? 1 : 0), 0)}
                 </p>
                 <p className="text-xs text-gray-500 uppercase tracking-widest">In Stock</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-[#0D0B0A]">
                   {products.reduce((acc, p) => acc + p.price, 0).toLocaleString()}
                 </p>
                 <p className="text-xs text-gray-500 uppercase tracking-widest">Total Value</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-[#0D0B0A]">
                   {products.filter(p => p.isBestSeller).length}
                 </p>
                 <p className="text-xs text-gray-500 uppercase tracking-widest">Best Sellers</p>

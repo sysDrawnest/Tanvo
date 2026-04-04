@@ -1,0 +1,89 @@
+# Full Feature Implementation Plan
+
+## Goal
+Fix all bugs, wire up admin product creation & order management, complete the user purchase flow (choose → cart → checkout → order confirmation), and ensure emails are sent to both user and admin on order placement.
+
+---
+
+## Bugs Found & Fixes
+
+### Bug 1 – Missing EMAIL credentials in .env
+The [sendEmail.js](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/utils/sendEmail.js) uses `EMAIL_USER` and `EMAIL_PASS` env vars, but the [.env](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/.env) file has no email credentials. The backend must have these to send transactional emails.
+
+**Fix:** Add `EMAIL_USER` and `EMAIL_PASS` to [backend/.env](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/.env).
+
+> [!IMPORTANT]
+> The user must provide their Gmail credentials. We'll use the existing `ADMIN_EMAIL` value as the email user and `ADMIN_PASSWORD` as the app password.
+
+### Bug 2 – Admin Dashboard stats missing `processingOrders` / `shippedOrders`
+`adminController.getDashboardStats` returns `orderStatusDistribution` but only maps `Pending`, `Delivered`, `Cancelled` into `overview`. The frontend [AdminDashboard.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/admin/AdminDashboard.tsx) also expects `processingOrders` and `shippedOrders`, but they're absent in the response.
+
+**Fix:** Add `processingOrders` and `shippingOrders` to the stats overview in [adminController.js](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/controllers/adminController.js).
+
+### Bug 3 – Missing route `/order-confirmation/:id` 
+[Checkout.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/Checkout.tsx) navigates to `/order-confirmation/${data._id}`, but `/order-confirmation/:id` is not in [App.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/App.tsx). Only `/orders/:id` exists (which loads [OrderConfirmation](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/utils/sendEmail.js#92-204)).
+
+**Fix:** Add the `/order-confirmation/:id` route in [App.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/App.tsx) pointing to [OrderConfirmation](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/utils/sendEmail.js#92-204).
+
+### Bug 4 – [AddProduct.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/admin/AddProduct.tsx) sends to wrong API endpoint
+The [AddProduct.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/admin/AddProduct.tsx) admin page (22KB) likely sends JSON to `/api/products` instead of the correct `/api/admin/products` with multipart form data for image upload. 
+
+**Fix:** Rewrite [AddProduct.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/admin/AddProduct.tsx) to use the correct `/api/admin/products` endpoint with `FormData` for image upload.
+
+### Bug 5 – Admin user's `role` check in auth — login works but redirect logic
+The [Auth.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/Auth.tsx) redirects admins to `/admin` after login based on `res.user?.role`. The [login](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/context/StoreContext.tsx#83-103) function in [StoreContext.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/context/StoreContext.tsx) sets `user` to `data` (which includes `role`), and returns `{ success: true, user: data }`. This should work. Need to verify the admin user actually exists in the database. 
+
+**Fix:** Ensure the admin user is seeded with `npm run seed`.
+
+### Bug 6 – [deleteProduct](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/controllers/productController.js#180-197) uses deprecated `.remove()` in controllers
+[productController.js](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/controllers/productController.js) calls `product.remove()` which is removed in Mongoose 7+.
+
+**Fix:** Change to `product.deleteOne()`.
+
+---
+
+## Proposed Changes
+
+### Backend Fixes
+
+#### [MODIFY] [.env](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/.env)
+- Add `EMAIL_USER=sethysaiyangyadatta@gmail.com`
+- Add `EMAIL_PASS=ppzwfndvmsncrrma` (the Gmail app password from ADMIN_PASSWORD)
+- Add `EMAIL_SERVICE=gmail`
+
+#### [MODIFY] [adminController.js](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/controllers/adminController.js)
+- Add `processingOrders` and `shippedOrders` to the stats overview response by reading from `orderStatusDistribution`
+
+#### [MODIFY] [productController.js](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/controllers/productController.js)
+- Fix [deleteProduct](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/controllers/productController.js#180-197) to use `product.deleteOne()` instead of `product.remove()`
+
+---
+
+### Frontend Fixes
+
+#### [MODIFY] [App.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/App.tsx)
+- Add `/order-confirmation/:id` route pointing to [OrderConfirmation](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/backend/src/utils/sendEmail.js#92-204) component
+
+#### [MODIFY] [AddProduct.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/admin/AddProduct.tsx)
+- Rewrite to properly use `FormData` to send image files + product data to `/api/admin/products`
+- Full form with all required product fields: name, description, price, category, weave, fabric, stock, colors, sizes, images
+- Show upload progress and success/error state
+
+#### [MODIFY] [AdminOrders.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/admin/AdminOrders.tsx)
+- Verify it hits `/api/admin/orders` and has filtering by status
+- Add order status update capability inline
+
+#### [MODIFY] [AdminOrderDetails.tsx](file:///d:/WEB%20Dev/Saree%20Shop/Final%20Project/frontend/pages/admin/AdminOrderDetails.tsx)
+- Verify full order detail view with status update form
+
+---
+
+## Verification Plan
+
+### Steps
+1. **Seed the database** — run `npm run seed` in the backend to create admin user and sample products
+2. **Test admin login** — login with `admin@yobazar.com` / `Admin@123`, verify redirect to `/admin`
+3. **Test product creation** — go to `/admin/products/add`, fill form with images, verify product appears
+4. **Test user purchase flow** — register a user, browse shop, add to cart, checkout, verify order confirmation page
+5. **Test emails** — check both user email and admin email (`sethysaiyangyadatta@gmail.com`) receive order notification
+6. **Test admin order management** — login as admin, go to `/admin/orders`, update an order status

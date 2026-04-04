@@ -43,7 +43,7 @@ try {
   const uploadResult = await cloudinary.uploader.upload(
     'https://res.cloudinary.com/demo/image/upload/sample.jpg',
     {
-      folder: 'syssaree-test',
+      folder: 'tanvo-test',
       public_id: 'test-connection'
     }
   );
@@ -53,7 +53,7 @@ try {
   
   // Clean up
   console.log('\n🗑️ Cleaning up...');
-  await cloudinary.uploader.destroy('syssaree-test/test-connection');
+  await cloudinary.uploader.destroy('tanvo-test/test-connection');
   console.log('✅ Test cleanup successful');
   
 } catch (error) {

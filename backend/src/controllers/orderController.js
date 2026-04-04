@@ -2,6 +2,9 @@ import Order from '../models/Order.js';
 import Cart from '../models/Cart.js';
 import Product from '../models/Product.js';
 import User from '../models/User.js';
+import { sendOrderConfirmation } from '../utils/sendEmail.js';
+import { createShiprocketOrder } from '../services/shiprocket.js';
+
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -61,8 +64,11 @@ export const createOrder = async (req, res) => {
     const order = await Order.create({
       user: req.user._id,
       orderItems,
-      shippingAddress,
-      paymentMethod,
+      shippingAddress: {
+        ...shippingAddress,
+        phone: shippingAddress.phone || req.user.phone // Fallback to user phone if address phone is missing
+      },
+      paymentMethod: (paymentMethod || 'COD').toUpperCase(), // Normalize to uppercase
       itemsPrice: calculatedItemsPrice,
       taxPrice: taxPrice || 0,
       shippingPrice: shippingPrice || 0,
@@ -73,7 +79,7 @@ export const createOrder = async (req, res) => {
       isGift: isGift || false,
       giftMessage,
       orderStatus: 'Pending',
-      paymentStatus: paymentMethod === 'COD' ? 'Pending' : 'Pending'
+      paymentStatus: (paymentMethod || '').toUpperCase() === 'COD' ? 'Pending' : 'Pending'
     });
 
     // Update product stock
@@ -88,6 +94,32 @@ export const createOrder = async (req, res) => {
     cart.couponCode = null;
     cart.discountAmount = 0;
     await cart.save();
+
+    // Send order confirmation email
+    try {
+      const user = await User.findById(req.user._id);
+      await sendOrderConfirmation(order, user);
+    } catch (err) {
+      console.error('Order email failed:', err);
+    }
+
+    // Create Shiprocket order
+    try {
+      const user = await User.findById(req.user._id);
+      const shiprocketResponse = await createShiprocketOrder(order, user);
+
+      if (shiprocketResponse) {
+        await Order.findByIdAndUpdate(order._id, {
+          shiprocketOrderId: shiprocketResponse.order_id,
+          shiprocketShipmentId: shiprocketResponse.shipment_id
+        });
+      }
+    } catch (err) {
+      console.error('Shiprocket order creation failed:', err);
+      // We don't fail the entire request if Shiprocket fails, 
+      // but we should probably log it or flag it for manual retry.
+    }
+
 
     res.status(201).json(order);
   } catch (error) {
@@ -189,11 +221,11 @@ export const updateOrderStatus = async (req, res) => {
     }
 
     order.orderStatus = orderStatus || order.orderStatus;
-    
+
     if (trackingNumber) {
       order.trackingNumber = trackingNumber;
     }
-    
+
     if (estimatedDelivery) {
       order.estimatedDelivery = estimatedDelivery;
     }
@@ -294,6 +326,24 @@ export const getAllOrders = async (req, res) => {
     });
   } catch (error) {
     console.error('Get all orders error:', error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const checkShippingServiceability = async (req, res) => {
+  try {
+    const { pincode, weight } = req.body;
+
+    if (!pincode) {
+      return res.status(400).json({ message: 'Pincode is required' });
+    }
+
+    const { checkServiceability } = await import('../services/shiprocket.js');
+    const result = await checkServiceability(pincode, weight || 0.5);
+
+    res.json(result);
+  } catch (error) {
+    console.error('Serviceability check error:', error);
     res.status(500).json({ message: error.message });
   }
 };

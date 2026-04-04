@@ -615,44 +615,44 @@
 // ];
 // constants.tsx - Simplified version
 export const HERO_IMAGES = [
-  'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&q=80&w=2000',
-  'https://images.unsplash.com/photo-1610030469668-935142b9cdd0?auto=format&fit=crop&q=80&w=2000',
-  'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=2000',
-  'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&q=80&w=2000',
-  'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=2000'
+  '/images/hero section 1.webp',
+  '/images/hero section 2.webp',
+  '/images/hero section  3.webp',
+  '/images/hero section  4.webp',
+  '/images/hero section  5.webp'
 ];
 
 // Keep only static data that won't come from database
 export const STORIES = [
-  { 
+  {
     id: 1,
-    title: "A Piece of Heritage in Paris", 
-    img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200", 
-    name: "Claire Bonnet", 
+    title: "A Piece of Heritage in Paris",
+    img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200",
+    name: "Claire Bonnet",
     cat: "Silk Heritage",
     excerpt: "Wearing my Sambalpuri silk at a gala in Paris felt like carrying a piece of home. Everyone was mesmerized by the mathematical precision of the Ikat patterns."
   },
-  { 
+  {
     id: 2,
-    title: "Reviving Ikat for Modern Work", 
-    img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1200", 
-    name: "Anjali Patnaik", 
+    title: "Reviving Ikat for Modern Work",
+    img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1200",
+    name: "Anjali Patnaik",
     cat: "Ikat Cotton",
     excerpt: "I've transitioned my entire work wardrobe to handloom cotton. It's breathable, sustainable, and tells a story of an artisan's labor."
   },
-  { 
+  {
     id: 3,
-    title: "The Wedding Trousseau of Dreams", 
-    img: "https://images.unsplash.com/photo-1610030469668-935142b9cdd0?q=80&w=1200", 
-    name: "Sneha Mohanty", 
+    title: "The Wedding Trousseau of Dreams",
+    img: "https://images.unsplash.com/photo-1610030469668-935142b9cdd0?q=80&w=1200",
+    name: "Sneha Mohanty",
     cat: "Traditional Silk",
     excerpt: "Choosing Utkal Heritage for my wedding was the best decision. The Khandua silk saree was radiant and felt sacred."
   },
-  { 
+  {
     id: 4,
-    title: "Men's Style: The Handloom Shift", 
-    img: "https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?q=80&w=1200", 
-    name: "Rajesh Meher", 
+    title: "Men's Style: The Handloom Shift",
+    img: "https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?q=80&w=1200",
+    name: "Rajesh Meher",
     cat: "Menswear",
     excerpt: "Finally, a place that treats men's handloom with the same dignity as sarees. The fit and the weave quality are unmatched."
   }
