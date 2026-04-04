@@ -68,7 +68,7 @@ export const sendWelcomeEmail = async (user) => {
           <p>Welcome to the <strong>TANVO</strong> family. We're honored to have you join our community of handloom enthusiasts and heritage preservers.</p>
           <p>Your account is now active. You can start exploring our curated collection of GI-certified masterpieces - from the intricate weaves of Sambalpuri to the elegance of Bomkai and Ikat.</p>
           <div style="text-align: center;">
-            <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}" class="button">Explore Collection</a>
+            <a href="${process.env.FRONTEND_URL || 'https://tanvo-kappa.vercel.app'}" class="button">Explore Collection</a>
           </div>
           <p style="margin-top: 30px; border-top: 1px solid #eee; pt: 20px;">Use code <span class="gold">HERITAGE10</span> for 10% off your first treasure.</p>
           <p>With love,<br><strong>Satyasai Yangyadatta</strong><br>Founder, TANVO</p>

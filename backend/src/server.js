@@ -31,19 +31,38 @@ connectDB();
 const app = express();
 
 // CORS - must be first so preflight OPTIONS requests get headers
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? [process.env.FRONTEND_URL].filter(Boolean)
-  : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173'];
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://tanvo-kappa.vercel.app',
+  'https://tanvo-heritage.vercel.app', // backup Vercel URL if any
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:5173'
+].filter(Boolean).map(url => url.replace(/\/$/, "")); // Remove trailing slashes
 
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (e.g., server-to-server, Postman)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
+
+    const normalizedOrigin = origin.replace(/\/$/, "");
+    if (allowedOrigins.includes(normalizedOrigin)) {
+      return callback(null, true);
+    }
+
+    console.error(`CORS blocked for origin: ${origin}`);
     callback(new Error(`CORS policy: Origin ${origin} not allowed`));
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
+// ADD DEBUG HEADER middleware to all responses
+app.use((req, res, next) => {
+  res.header('X-Debug-Origin', req.headers.origin || 'none');
+  next();
+});
 
 // Security middleware
 app.use(helmet());
