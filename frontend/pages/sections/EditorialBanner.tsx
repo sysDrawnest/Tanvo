@@ -21,7 +21,7 @@ const EditorialBanner: React.FC = () => {
                     zIndex: 1,
                 }}
             >
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-weaving-loom-in-action-20092-large.mp4" type="video/mp4" />
+                <source src="/EditorialBanner.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
 
