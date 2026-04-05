@@ -684,23 +684,20 @@ const CategoryGrid: React.FC = () => {
         }
 
         /* ── MOBILE ── */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .cg2-grid {
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto;
-            gap: 3px;
+            gap: 4px;
           }
-          .cg2-card:nth-child(1) { aspect-ratio: 3/4; }
-          .cg2-card:nth-child(2) { aspect-ratio: 3/4; align-self: auto; }
-          .cg2-card:nth-child(3) { grid-column: 1/-1; grid-row: auto; aspect-ratio: 16/9; }
-          .cg2-card:nth-child(4) { aspect-ratio: 3/4; }
-          .cg2-card:nth-child(5) { aspect-ratio: 3/4; }
+          .cg2-card:nth-child(n) { aspect-ratio: 4/5; grid-column: auto; grid-row: auto; }
+          .cg2-card:nth-child(3) { grid-column: 1/-1; aspect-ratio: 16/9; }
           .cg2-card:nth-child(6) { display: block; grid-column: 1/-1; aspect-ratio: 16/9; }
           .cg2-strip { display: none; }
           .cg2-badge { display: none; }
         }
-        @media (max-width: 460px) {
-          .cg2-grid { grid-template-columns: 1fr; }
+
+        @media (max-width: 768px) {
+          .cg2-grid { grid-template-columns: 1fr; gap: 12px; }
           .cg2-card:nth-child(n) {
             aspect-ratio: 4/3 !important;
             grid-column: auto !important;
