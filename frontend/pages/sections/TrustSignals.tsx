@@ -78,7 +78,7 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
             style={{
                 position: 'relative',
                 overflow: 'hidden',
-                borderRadius: '24px',
+                borderRadius: '0px',
                 cursor: 'pointer',
                 height: '480px',
                 boxShadow: '0 20px 40px -12px rgba(0,0,0,0.3)',
@@ -185,8 +185,7 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
                             textTransform: 'uppercase',
                             marginBottom: 20,
                             width: 'fit-content',
-                            borderRadius: '40px',
-                            backdropFilter: 'blur(4px)',
+                            borderRadius: '0px',
                         }}
                     >
                         <span>✦</span>
@@ -258,7 +257,7 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
                         style={{
                             width: 52,
                             height: 52,
-                            borderRadius: '50%',
+                            borderRadius: '0px',
                             border: `1.5px solid ${item.color}`,
                             display: 'flex',
                             alignItems: 'center',
@@ -462,7 +461,7 @@ const TrustSignals: React.FC = () => {
                             <div style={{
                                 width: 36,
                                 height: 36,
-                                borderRadius: '50%',
+                                borderRadius: '0px',
                                 background: 'rgba(201, 168, 76, 0.1)',
                                 display: 'flex',
                                 alignItems: 'center',
