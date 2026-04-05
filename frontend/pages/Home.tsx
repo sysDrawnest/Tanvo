@@ -24,6 +24,7 @@ import RegisterModal from '../components/RegisterModal';
 import HandwovenHeritage from './sections/HandwovenHeritage';
 import LearningSection from './sections/LearningSection';
 import JournalHint from './sections/JournalHint';
+import LoomProcess from './sections/LoomProcess';
 
 const Home: React.FC = () => {
   const { products, fetchProducts, loading } = useStore();
@@ -112,6 +113,7 @@ const Home: React.FC = () => {
 
         <TrustSignals />
         <MasterWeaverSection />
+        <LoomProcess />
         <JournalHint />
         <LearningSection />
 
