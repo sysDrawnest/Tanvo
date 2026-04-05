@@ -9,7 +9,7 @@ const MasterWeaverSection: React.FC = () => {
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-            { threshold: 0.1 }
+            { threshold: 0.2 }
         );
         if (sectionRef.current) observer.observe(sectionRef.current);
         return () => observer.disconnect();
@@ -19,193 +19,223 @@ const MasterWeaverSection: React.FC = () => {
         <section
             ref={sectionRef}
             style={{
-                background: 'var(--ink)',
-                padding: 'clamp(80px,10vw,140px) clamp(20px,6vw,96px)',
+                background: '#0D0B0A', // Deeper black for luxury feel
+                padding: 'clamp(100px, 12vw, 180px) 0',
                 position: 'relative',
                 overflow: 'hidden',
+                color: '#F5F0E8',
             }}
         >
-            {/* Faint textile weave pattern on dark bg */}
+            {/* Artistic Background Label */}
             <div style={{
-                position: 'absolute', inset: 0,
-                backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 8h40v2H0V8zm0 16h40v2H0v-2zm0 8h40v2H0v-2z' fill='%23F9F5EE' fill-opacity='0.025' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+                position: 'absolute',
+                top: '10%',
+                left: '5%',
+                fontSize: 'clamp(80px, 15vw, 240px)',
+                fontWeight: 900,
+                color: 'rgba(245, 240, 232, 0.02)',
+                lineHeight: 0.8,
                 pointerEvents: 'none',
-            }} />
+                fontFamily: "'Cinzel', serif",
+                zIndex: 0,
+            }}>
+                LEGACY
+            </div>
 
-            <div style={{ maxWidth: 1400, margin: '0 auto', position: 'relative' }}>
+            <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 clamp(40px, 8vw, 100px)', position: 'relative', zIndex: 1 }}>
                 <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 'clamp(40px,6vw,100px)',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
                     alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '60px',
                 }}>
-                    {/* Text side */}
-                    <div
-                        style={{
-                            opacity: visible ? 1 : 0,
-                            transform: visible ? 'translateX(0)' : 'translateX(-32px)',
-                            transition: 'opacity 0.9s ease, transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94)',
-                        }}
-                    >
-                        <p style={{
-                            fontFamily: "'Cinzel', serif",
-                            fontSize: 9,
-                            fontWeight: 500,
-                            letterSpacing: '0.35em',
-                            textTransform: 'uppercase',
-                            color: 'var(--terra)',
-                            marginBottom: 24,
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 12,
-                        }}>
-                            <span style={{ display: 'inline-block', width: 28, height: 1, background: 'var(--terra)', flexShrink: 0 }} />
-                            Meet the Makers
-                        </p>
+                    {/* Text Container */}
+                    <div style={{
+                        flex: '1 1 480px',
+                        opacity: visible ? 1 : 0,
+                        transform: visible ? 'translateY(0)' : 'translateY(40px)',
+                        transition: 'opacity 1s ease, transform 1s cubic-bezier(0.2, 0, 0.2, 1)',
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32 }}>
+                            <span style={{ height: 1, width: 40, background: 'var(--gold)' }} />
+                            <p style={{
+                                fontFamily: "'Cinzel', serif",
+                                fontSize: 11,
+                                letterSpacing: '0.4em',
+                                color: 'var(--gold)',
+                                textTransform: 'uppercase',
+                                margin: 0,
+                            }}>
+                                Meet the Makers
+                            </p>
+                        </div>
 
                         <h2 style={{
                             fontFamily: "'Cormorant Garamond', serif",
-                            fontSize: 'clamp(40px,5vw,72px)',
+                            fontSize: 'clamp(48px, 6vw, 84px)',
                             fontWeight: 300,
-                            lineHeight: 0.95,
-                            letterSpacing: '-0.02em',
-                            color: 'var(--ivory)',
-                            marginBottom: 24,
+                            lineHeight: 0.9,
+                            letterSpacing: '-0.03em',
+                            marginBottom: 20,
                         }}>
                             Master Weavers<br />
-                            <em style={{ fontStyle: 'italic', color: 'var(--terra)' }}>Preserving</em><br />
+                            <span style={{ color: 'var(--gold)', fontStyle: 'italic', display: 'block', marginTop: 10 }}>Preserving</span>
                             Living Heritage
                         </h2>
 
                         <p style={{
                             fontFamily: "'Cormorant Garamond', serif",
-                            fontSize: 18,
+                            fontSize: 'clamp(20px, 2vw, 24px)',
                             fontStyle: 'italic',
-                            fontWeight: 400,
-                            color: 'rgba(249,245,238,0.45)',
-                            marginBottom: 32,
-                            lineHeight: 1.5,
+                            color: 'rgba(245, 240, 232, 0.6)',
+                            marginBottom: 48,
+                            lineHeight: 1.4,
                         }}>
                             "Every thread carries a story…"
                         </p>
 
-                        <div style={{ width: 40, height: 1, background: 'var(--terra)', marginBottom: 32, opacity: 0.6 }} />
-
-                        <p style={{
-                            fontFamily: "'Raleway', sans-serif",
-                            fontSize: 13,
-                            fontWeight: 300,
-                            color: 'rgba(249,245,238,0.5)',
-                            lineHeight: 1.9,
-                            marginBottom: 40,
-                            maxWidth: 440,
-                        }}>
-                            Each saree takes 15–20 days to complete. Our weavers spend months calculating dye ratios and loom setups before a single thread is laid — delivering mathematical perfection in silk and cotton.
-                        </p>
-
-                        <Link
-                            to="/about"
-                            style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: 10,
-                                padding: '14px 36px',
-                                border: '1px solid rgba(181,80,43,0.5)',
-                                fontFamily: "'Cinzel', serif",
-                                fontSize: 9,
-                                fontWeight: 500,
-                                letterSpacing: '0.28em',
-                                textTransform: 'uppercase',
-                                color: 'var(--terra)',
-                                textDecoration: 'none',
-                                position: 'relative',
-                                overflow: 'hidden',
-                                transition: 'color 0.4s ease, border-color 0.4s ease',
-                            }}
-                            onMouseEnter={e => {
-                                (e.currentTarget as HTMLAnchorElement).style.color = 'var(--ink)';
-                                (e.currentTarget as HTMLAnchorElement).style.background = 'var(--terra)';
-                                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--terra)';
-                            }}
-                            onMouseLeave={e => {
-                                (e.currentTarget as HTMLAnchorElement).style.color = 'var(--terra)';
-                                (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
-                                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(181,80,43,0.5)';
-                            }}
-                        >
-                            Meet the Artisans <ArrowUpRight size={13} />
-                        </Link>
-                    </div>
-
-                    {/* Image / video side */}
-                    <div
-                        style={{
-                            position: 'relative',
-                            aspectRatio: '4/3',
-                            overflow: 'hidden',
-                            opacity: visible ? 1 : 0,
-                            transform: visible ? 'translateX(0)' : 'translateX(32px)',
-                            transition: 'opacity 0.9s ease 0.15s, transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94) 0.15s',
-                        }}
-                    >
-                        <img
-                            src="/sambalpuri_ikat.png"
-                            alt="Weaving Legacy"
-                            style={{
-                                width: '100%', height: '100%',
-                                objectFit: 'cover',
-                                display: 'block',
-                                filter: 'brightness(0.7)',
-                                transition: 'transform 1.1s ease',
-                            }}
-                            onMouseEnter={e => ((e.currentTarget as HTMLImageElement).style.transform = 'scale(1.04)')}
-                            onMouseLeave={e => ((e.currentTarget as HTMLImageElement).style.transform = 'scale(1)')}
-                        />
-
-                        {/* Gradient overlay */}
-                        <div style={{
-                            position: 'absolute', inset: 0,
-                            background: 'linear-gradient(160deg,rgba(28,22,18,0.1) 0%,rgba(28,22,18,0.5) 100%)',
-                        }} />
-
-                        {/* Play button */}
-                        <div style={{
-                            position: 'absolute', inset: 0,
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        }}>
-                            <button style={{
-                                width: 72, height: 72,
-                                borderRadius: '50%',
-                                background: 'rgba(249,245,238,0.08)',
-                                backdropFilter: 'blur(8px)',
-                                border: '1px solid rgba(249,245,238,0.2)',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                cursor: 'pointer',
-                                transition: 'background 0.3s ease, transform 0.3s ease',
-                            }}
-                                onMouseEnter={e => {
-                                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(181,80,43,0.7)';
-                                    (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.1)';
-                                }}
-                                onMouseLeave={e => {
-                                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(249,245,238,0.08)';
-                                    (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-                                }}
-                            >
-                                <Play size={22} fill="var(--ivory)" style={{ color: 'var(--ivory)', marginLeft: 3 }} />
-                            </button>
+                        <div style={{ maxWidth: 460, marginBottom: 56 }}>
+                            <p style={{
+                                fontFamily: "'Raleway', sans-serif",
+                                fontSize: 'clamp(14px, 1.2vw, 15px)',
+                                color: 'rgba(245, 240, 232, 0.5)',
+                                lineHeight: 1.9,
+                                letterSpacing: '0.01em',
+                            }}>
+                                Each saree takes 15–20 days to complete. Our weavers spend months calculating dye ratios and loom setups before a single thread is laid — delivering mathematical perfection in silk and cotton.
+                            </p>
                         </div>
 
-                        {/* Corner accents */}
-                        <div style={{ position: 'absolute', top: 16, left: 16, width: 24, height: 24, borderTop: '1px solid rgba(181,80,43,0.6)', borderLeft: '1px solid rgba(181,80,43,0.6)' }} />
-                        <div style={{ position: 'absolute', bottom: 16, right: 16, width: 24, height: 24, borderBottom: '1px solid rgba(181,80,43,0.6)', borderRight: '1px solid rgba(181,80,43,0.6)' }} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
+                            <Link
+                                to="/about"
+                                className="btn-gold"
+                                style={{
+                                    padding: '16px 44px',
+                                    fontSize: 11,
+                                    letterSpacing: '0.2em',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 12,
+                                }}
+                            >
+                                Meet the Artisans <ArrowUpRight size={16} />
+                            </Link>
+
+                            <p style={{
+                                fontFamily: "'Cinzel', serif",
+                                fontSize: 10,
+                                letterSpacing: '0.3em',
+                                color: 'rgba(245, 240, 232, 0.4)',
+                                textTransform: 'uppercase',
+                                margin: 0,
+                                borderBottom: '1px solid rgba(245, 240, 232, 0.1)',
+                                paddingBottom: 4,
+                            }}>
+                                Weaving Legacy
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Image Composition */}
+                    <div style={{
+                        flex: '1 1 500px',
+                        position: 'relative',
+                        zIndex: 2,
+                        opacity: visible ? 1 : 0,
+                        transform: visible ? 'translateX(0)' : 'translateX(40px)',
+                        transition: 'opacity 1.2s ease 0.2s, transform 1.2s cubic-bezier(0.2, 0, 0.2, 1) 0.2s',
+                    }}>
+                        <div style={{
+                            position: 'relative',
+                            width: '90%',
+                            aspectRatio: '1/1.1',
+                            margin: '0 auto',
+                        }}>
+                            {/* Texture Box Behind Image */}
+                            <div style={{
+                                position: 'absolute',
+                                top: '-40px',
+                                right: '-40px',
+                                width: '60%',
+                                height: '60%',
+                                border: '1px solid rgba(201, 168, 76, 0.2)',
+                                zIndex: -1,
+                            }} />
+
+                            <img
+                                src="/sambalpuri_ikat.png"
+                                alt="Masterful Craftsmanship"
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                    boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
+                                    display: 'block',
+                                    filter: 'grayscale(20%) contrast(1.1)',
+                                }}
+                            />
+
+                            {/* Overlaid Play Interaction */}
+                            <div style={{
+                                position: 'absolute',
+                                bottom: '40px',
+                                left: '-30px',
+                                background: 'white',
+                                padding: '24px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 20,
+                                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                                cursor: 'pointer',
+                            }}>
+                                <div style={{
+                                    width: 50,
+                                    height: 50,
+                                    borderRadius: '50%',
+                                    background: 'var(--gold)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                }}>
+                                    <Play size={20} fill="white" style={{ marginLeft: 3 }} />
+                                </div>
+                                <p style={{
+                                    color: '#0D0B0A',
+                                    fontFamily: "'Cinzel', serif",
+                                    fontSize: 10,
+                                    letterSpacing: '0.2em',
+                                    fontWeight: 700,
+                                    textTransform: 'uppercase',
+                                    margin: 0,
+                                }}>View the Process</p>
+                            </div>
+                        </div>
+
+                        {/* Floating Text Detail */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '20%',
+                            right: '-20px',
+                            writingMode: 'vertical-rl',
+                            fontSize: 10,
+                            fontFamily: "'Cinzel', serif",
+                            letterSpacing: '0.5em',
+                            color: 'rgba(245, 240, 232, 0.2)',
+                            textTransform: 'uppercase',
+                        }}>
+                            HANDCRAFTED PERFECTION
+                        </div>
                     </div>
                 </div>
             </div>
 
             <style>{`
-                @media (max-width: 768px) {
-                    .mws-grid { grid-template-columns: 1fr !important; }
+                @media (max-width: 991px) {
+                    .redesign-grid { flex-direction: column !important; }
                 }
             `}</style>
         </section>
@@ -213,3 +243,4 @@ const MasterWeaverSection: React.FC = () => {
 };
 
 export default MasterWeaverSection;
+
