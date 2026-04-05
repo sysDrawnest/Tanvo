@@ -21,7 +21,7 @@ const EditorialBanner: React.FC = () => {
                     zIndex: 1,
                 }}
             >
-                <source src="/saree quality 2.mp4" type="video/mp4" />
+                <source src="/EditorialBanner.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
 
