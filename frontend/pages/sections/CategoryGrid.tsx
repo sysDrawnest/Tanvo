@@ -430,9 +430,13 @@ const CategoryGrid: React.FC = () => {
   }, []);
 
   // fancy = index 5, khandua = index 6
+  // we want mobile order: ..., Silk, Fancy, Cotton, Khandua
+  // gridCats indices: 0:Sam, 1:Bom, 2:Ikat, 3:Silk, 4:Fancy(index 5), 5:Cotton(index 4), 6:Khandua(index 6)
+  const gridCats = [
+    categories[0], categories[1], categories[2], categories[3],
+    categories[5], categories[4], categories[6]
+  ];
   const fancy = categories[5];
-  const khandua = categories[6];
-  const gridCats = [...categories.slice(0, 5), khandua]; // cards 1-6 in grid
 
   return (
     <>
@@ -607,13 +611,14 @@ const CategoryGrid: React.FC = () => {
           gap: 6px;
         }
 
-        /* desktop grid positions for gridCats (cards 1–5 = sarees, card 6 = khandua) */
+        /* desktop grid positions for gridCats (cards 1-7) */
         .cg-card-1 { grid-column: 1; grid-row: 1 / 3; }
         .cg-card-2 { grid-column: 2; grid-row: 1; }
         .cg-card-3 { grid-column: 3; grid-row: 1; }
         .cg-card-4 { grid-column: 2; grid-row: 2; }
-        .cg-card-5 { grid-column: 3; grid-row: 2; }
-        .cg-card-6 { grid-column: 1 / -1; grid-row: 3; height: 160px; }
+        .cg-card-5 { display: none; } /* Fancy - top banner on desktop */
+        .cg-card-6 { grid-column: 3; grid-row: 2; } /* Cotton */
+        .cg-card-7 { grid-column: 1 / -1; grid-row: 3; height: 160px; }
 
         /* shared card */
         .cg-card {
@@ -637,6 +642,7 @@ const CategoryGrid: React.FC = () => {
         .cg-card-4 { transition-delay: 0.22s; }
         .cg-card-5 { transition-delay: 0.28s; }
         .cg-card-6 { transition-delay: 0.34s; }
+        .cg-card-7 { transition-delay: 0.40s; }
 
         .cg-card:hover { box-shadow: 0 14px 44px rgba(28,22,18,0.14); z-index: 2; }
 
@@ -645,7 +651,7 @@ const CategoryGrid: React.FC = () => {
           .cg-card-2,
           .cg-card-3,
           .cg-card-4,
-          .cg-card-5 { aspect-ratio: 4/3; }
+          .cg-card-6 { aspect-ratio: 4/3; }
         }
 
         /* ── IMAGES ── */
@@ -779,58 +785,25 @@ const CategoryGrid: React.FC = () => {
           margin: 0;
         }
 
-        /* ── MOBILE FANCY CARD ── */
-        /* in mobile/tablet the fancy saree is a normal grid card
-           shown between cotton (card-5) and khandua (card-6).
-           We inject it as a separate element only visible on mobile. */
-        .cg-fancy-mob {
-          display: none; /* hidden on desktop */
-        }
-        @media (max-width: 1024px) {
-          .cg-fancy-mob {
-            display: block;
-            position: relative;
-            overflow: hidden;
-            background: #EDE3D0;
-            text-decoration: none;
-            aspect-ratio: 3/4;
-            opacity: 0;
-            transform: translateY(20px);
-            transition:
-              opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94) 0.30s,
-              transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94) 0.30s,
-              box-shadow 0.35s ease;
-          }
-          .cg-fancy-mob.vis { opacity: 1; transform: translateY(0); }
-          .cg-fancy-mob:hover { box-shadow: 0 14px 44px rgba(28,22,18,0.14); }
-        }
-
         /* ─────────────────────────────────────────
            TABLET  (769px – 1024px)
         ───────────────────────────────────────── */
         @media (max-width: 1024px) and (min-width: 769px) {
           .cg-grid {
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: none;
             gap: 5px;
           }
-          .cg-card-1,
-          .cg-card-2,
-          .cg-card-3,
-          .cg-card-4,
-          .cg-card-5 {
+          .cg-card-1, .cg-card-2, .cg-card-3, .cg-card-4, .cg-card-5, .cg-card-6 {
             grid-column: auto;
             grid-row: auto;
+            display: block;
             aspect-ratio: 4/5;
           }
-          .cg-card-6 {
+          .cg-card-7 {
             grid-column: 1 / -1;
-            grid-row: auto;
             height: 140px;
           }
           .cg-badge { display: none; }
-          /* fancy mob card is 4/5 on tablet */
-          .cg-fancy-mob { aspect-ratio: 4/5; }
         }
 
         /* ─────────────────────────────────────────
@@ -840,21 +813,16 @@ const CategoryGrid: React.FC = () => {
           .cg-section { padding: 48px 16px; }
           .cg-grid {
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: none;
             gap: 4px;
           }
-          .cg-card-1,
-          .cg-card-2,
-          .cg-card-3,
-          .cg-card-4,
-          .cg-card-5 {
+          .cg-card-1, .cg-card-2, .cg-card-3, .cg-card-4, .cg-card-5, .cg-card-6 {
             grid-column: auto;
             grid-row: auto;
+            display: block;
             aspect-ratio: 3/4;
           }
-          .cg-card-6 {
+          .cg-card-7 {
             grid-column: 1 / -1;
-            grid-row: auto;
             height: 130px;
           }
           .cg-badge { display: none; }
@@ -862,13 +830,8 @@ const CategoryGrid: React.FC = () => {
         }
 
         @media (max-width: 400px) {
-          .cg-card-1,
-          .cg-card-2,
-          .cg-card-3,
-          .cg-card-4,
-          .cg-card-5,
-          .cg-fancy-mob { aspect-ratio: 3/4; }
-          .cg-card-6 { height: 110px; }
+          .cg-card-1, .cg-card-2, .cg-card-3, .cg-card-4, .cg-card-5, .cg-card-6 { aspect-ratio: 3/4; }
+          .cg-card-7 { height: 110px; }
         }
       `}</style>
 
@@ -934,26 +897,6 @@ const CategoryGrid: React.FC = () => {
               </div>
             </Link>
           ))}
-
-          {/* ── FANCY CARD — mobile/tablet only, between Cotton and Khandua ── */}
-          <Link
-            to={`/shop?weave=${fancy.slug}`}
-            className={`cg-fancy-mob${visible ? ' vis' : ''}`}
-          >
-            <img
-              className="cg-img-mob"
-              src={fancy.mobileImage}
-              alt={fancy.label}
-              loading="lazy"
-            />
-            <div className="cg-veil" />
-            <div className="cg-line" />
-            <div className="cg-txt">
-              <span className="cg-num">{fancy.num}</span>
-              <h3 className="cg-name">{fancy.label}</h3>
-              <p className="cg-sub">{fancy.sub}</p>
-            </div>
-          </Link>
         </div>
       </section>
     </>
