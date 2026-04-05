@@ -165,54 +165,23 @@ const MasterWeaverSection: React.FC = () => {
                                 zIndex: -1,
                             }} />
 
-                            <img
-                                src="/sambalpuri_ikat.png"
-                                alt="Masterful Craftsmanship"
+                            <video
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
                                 style={{
                                     width: '100%',
                                     height: '100%',
                                     objectFit: 'cover',
                                     boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
                                     display: 'block',
-                                    filter: 'grayscale(20%) contrast(1.1)',
+                                    filter: 'grayscale(10%) contrast(1.1)',
                                 }}
-                            />
-
-                            {/* Overlaid Play Interaction */}
-                            <div style={{
-                                position: 'absolute',
-                                bottom: '40px',
-                                left: '-30px',
-                                background: 'white',
-                                padding: '24px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 20,
-                                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                                cursor: 'pointer',
-                            }}>
-                                <div style={{
-                                    width: 50,
-                                    height: 50,
-                                    borderRadius: '50%',
-                                    background: 'var(--gold)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'white',
-                                }}>
-                                    <Play size={20} fill="white" style={{ marginLeft: 3 }} />
-                                </div>
-                                <p style={{
-                                    color: '#0D0B0A',
-                                    fontFamily: "'Cinzel', serif",
-                                    fontSize: 10,
-                                    letterSpacing: '0.2em',
-                                    fontWeight: 700,
-                                    textTransform: 'uppercase',
-                                    margin: 0,
-                                }}>View the Process</p>
-                            </div>
+                            >
+                                <source src="/saree quality 2.mp4" type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
                         </div>
 
                         {/* Floating Text Detail */}
