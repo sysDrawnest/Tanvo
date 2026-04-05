@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Shield, Truck, Lock, CreditCard, MapPin, Phone, Mail, AlertCircle, CheckCircle, ShoppingBag, ChevronRight, Package, Gift } from 'lucide-react';
+import { Shield, Truck, Lock, CreditCard, MapPin, Phone, Mail, AlertCircle, CheckCircle, ShoppingBag, ChevronRight, Package, Gift, Home, Building2, Plus, ArrowLeft } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 import API from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -308,146 +308,242 @@ const Checkout: React.FC = () => {
               </h2>
 
               {addresses.length > 0 && !showAddressForm ? (
-                <div className="space-y-3">
-                  {addresses.map((addr) => (
-                    <label
-                      key={addr._id}
-                      className={`block p-3 md:p-4 border rounded-lg cursor-pointer transition-all ${selectedAddress?._id === addr._id
-                        ? 'border-[#FF8225] bg-[#FF8225]/5'
-                        : 'border-[#B43F3F]/10 hover:border-[#FF8225]/30'
-                        }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <input
-                          type="radio"
-                          name="address"
-                          checked={selectedAddress?._id === addr._id}
-                          onChange={() => setSelectedAddress(addr)}
-                          className="mt-1 accent-[#FF8225]"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-sm font-medium text-[#173B45] capitalize">{addr.type}</span>
-                            {addr.isDefault && (
-                              <span className="text-[10px] bg-[#FF8225] text-[#F8EDED] px-2 py-0.5 rounded-full">
-                                Default
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-xs text-[#173B45]/70">{addr.addressLine1}</p>
-                          {addr.addressLine2 && <p className="text-xs text-[#173B45]/70">{addr.addressLine2}</p>}
-                          <p className="text-xs text-[#173B45]/70">{addr.city}, {addr.state} - {addr.pincode}</p>
-                          <p className="text-xs text-[#173B45]/50 mt-1">Phone: {addr.phone}</p>
-                        </div>
-                      </div>
-                    </label>
-                  ))}
-
-                  <button
-                    onClick={() => setShowAddressForm(true)}
-                    className="text-[#FF8225] text-sm font-medium hover:text-[#B43F3F] transition-colors flex items-center gap-1"
-                  >
-                    <span>+ Add New Address</span>
-                    <ChevronRight size={14} />
-                  </button>
-                </div>
-              ) : (
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <select
-                      value={newAddress.type}
-                      onChange={(e) => setNewAddress({ ...newAddress, type: e.target.value as any })}
-                      className="p-3 border border-[#B43F3F]/10 rounded-lg focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm"
-                    >
-                      <option value="home">Home</option>
-                      <option value="work">Work</option>
-                      <option value="other">Other</option>
-                    </select>
+                    {addresses.map((addr) => (
+                      <label
+                        key={addr._id}
+                        className={`relative block p-4 md:p-5 border-2 rounded-xl cursor-pointer transition-all ${selectedAddress?._id === addr._id
+                          ? 'border-[#B43F3F] bg-[#B43F3F]/5 ring-1 ring-[#B43F3F]/30'
+                          : 'border-[#B43F3F]/5 hover:border-[#B43F3F]/20 bg-white shadow-sm'
+                          }`}
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${selectedAddress?._id === addr._id
+                            ? 'border-[#B43F3F] bg-[#B43F3F]'
+                            : 'border-[#B43F3F]/20'
+                            }`}>
+                            {selectedAddress?._id === addr._id && (
+                              <div className="w-2.5 h-2.5 rounded-full bg-white" />
+                            )}
+                          </div>
+                          <input
+                            type="radio"
+                            className="absolute opacity-0"
+                            checked={selectedAddress?._id === addr._id}
+                            onChange={() => setSelectedAddress(addr)}
+                          />
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#F8EDED] rounded-lg border border-[#B43F3F]/10">
+                                {addr.type === 'home' && <Home size={12} className="text-[#B43F3F]" />}
+                                {addr.type === 'work' && <Building2 size={12} className="text-[#B43F3F]" />}
+                                {addr.type === 'other' && <MapPin size={12} className="text-[#B43F3F]" />}
+                                <span className="text-[10px] font-bold text-[#173B45] uppercase tracking-wider">{addr.type}</span>
+                              </div>
+                              {addr.isDefault && (
+                                <span className="text-[10px] font-bold text-green-600 uppercase tracking-widest bg-green-50 px-2 py-1 rounded-md border border-green-100 italic">
+                                  Default
+                                </span>
+                              )}
+                            </div>
+                            <div className="space-y-0.5 mb-3">
+                              <p className="text-sm font-medium text-[#173B45] line-clamp-1">{addr.addressLine1}</p>
+                              {addr.addressLine2 && <p className="text-xs text-[#173B45]/60 line-clamp-1">{addr.addressLine2}</p>}
+                              <p className="text-xs text-[#173B45]/60">{addr.city}, {addr.state} - {addr.pincode}</p>
+                            </div>
+                            <div className="flex items-center gap-1.5 py-1.5 px-3 bg-[#F8EDED]/40 rounded-lg border border-[#B43F3F]/5 w-fit">
+                              <Phone size={12} className="text-[#B43F3F]/60" />
+                              <span className="text-xs font-medium text-[#173B45]/80 font-mono">{addr.phone}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </label>
+                    ))}
 
-                    <input
-                      type="text"
-                      placeholder="Phone Number *"
-                      value={newAddress.phone}
-                      onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
-                      className={`p-3 border rounded-lg focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm ${errors.phone ? 'border-red-500' : 'border-[#B43F3F]/10'
-                        }`}
-                    />
-                    {errors.phone && <p className="text-red-500 text-xs col-span-2">{errors.phone}</p>}
-
-                    <input
-                      type="text"
-                      placeholder="Address Line 1 *"
-                      value={newAddress.addressLine1}
-                      onChange={(e) => setNewAddress({ ...newAddress, addressLine1: e.target.value })}
-                      className={`md:col-span-2 p-3 border rounded-lg focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm ${errors.addressLine1 ? 'border-red-500' : 'border-[#B43F3F]/10'
-                        }`}
-                    />
-                    {errors.addressLine1 && <p className="text-red-500 text-xs col-span-2">{errors.addressLine1}</p>}
-
-                    <input
-                      type="text"
-                      placeholder="Address Line 2 (Optional)"
-                      value={newAddress.addressLine2}
-                      onChange={(e) => setNewAddress({ ...newAddress, addressLine2: e.target.value })}
-                      className="md:col-span-2 p-3 border border-[#B43F3F]/10 rounded-lg focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm"
-                    />
-
-                    <input
-                      type="text"
-                      placeholder="City *"
-                      value={newAddress.city}
-                      onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                      className={`p-3 border rounded-lg focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm ${errors.city ? 'border-red-500' : 'border-[#B43F3F]/10'
-                        }`}
-                    />
-                    {errors.city && <p className="text-red-500 text-xs">{errors.city}</p>}
-
-                    <select
-                      value={newAddress.state}
-                      onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                      className="p-3 border border-[#B43F3F]/10 rounded-lg focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm"
-                    >
-                      <option value="Odisha">Odisha</option>
-                      <option value="Andhra Pradesh">Andhra Pradesh</option>
-                      <option value="Telangana">Telangana</option>
-                      <option value="West Bengal">West Bengal</option>
-                      <option value="Other">Other</option>
-                    </select>
-
-                    <input
-                      type="text"
-                      placeholder="Pincode *"
-                      value={newAddress.pincode}
-                      onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
-                      className={`p-3 border rounded-lg focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm ${errors.pincode ? 'border-red-500' : 'border-[#B43F3F]/10'
-                        }`}
-                      maxLength={6}
-                    />
-                    {errors.pincode && <p className="text-red-500 text-xs">{errors.pincode}</p>}
-
-                    <label className="flex items-center gap-2 col-span-2">
-                      <input
-                        type="checkbox"
-                        checked={newAddress.isDefault}
-                        onChange={(e) => setNewAddress({ ...newAddress, isDefault: e.target.checked })}
-                        className="accent-[#FF8225]"
-                      />
-                      <span className="text-xs text-[#173B45]/70">Set as default address</span>
-                    </label>
-                  </div>
-
-                  <div className="flex gap-3 pt-2">
                     <button
-                      onClick={handleAddAddress}
-                      disabled={loading}
-                      className="px-5 py-2.5 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-lg hover:bg-[#FF8225] transition-all disabled:opacity-50 text-sm"
+                      onClick={() => setShowAddressForm(true)}
+                      className="group relative flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#B43F3F]/20 rounded-xl hover:border-[#B43F3F]/40 hover:bg-[#B43F3F]/5 transition-all h-full min-h-[160px]"
                     >
-                      {loading ? 'Saving...' : 'Save Address'}
+                      <div className="w-10 h-10 rounded-full bg-[#F8EDED] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                        <Plus className="w-5 h-5 text-[#B43F3F]" />
+                      </div>
+                      <span className="text-sm font-medium text-[#173B45]">Add New Address</span>
                     </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-8 py-2">
+                  <div className="border-b border-[#B43F3F]/10 pb-4 mb-2 flex items-center justify-between">
+                    <p className="text-xs font-bold text-[#173B45]/40 uppercase tracking-widest">New Address Details</p>
                     {addresses.length > 0 && (
                       <button
                         onClick={() => setShowAddressForm(false)}
-                        className="px-5 py-2.5 border border-[#B43F3F]/10 text-[#173B45] font-medium rounded-lg hover:bg-[#F8EDED] transition-all text-sm"
+                        className="text-xs flex items-center gap-1.5 text-[#B43F3F] font-bold hover:underline"
+                      >
+                        <ArrowLeft size={14} /> Back to addresses
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Section 1: Address Categorization */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="p-1.5 bg-[#B43F3F]/10 rounded-lg text-[#B43F3F]">
+                        <Package size={16} />
+                      </div>
+                      <h3 className="text-sm font-bold text-[#173B45] uppercase tracking-wide">1. Tag this address</h3>
+                    </div>
+                    <div className="grid grid-cols-3 gap-3">
+                      {(['home', 'work', 'other'] as const).map((t) => (
+                        <button
+                          key={t}
+                          onClick={() => setNewAddress({ ...newAddress, type: t })}
+                          className={`flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${newAddress.type === t
+                            ? 'border-[#B43F3F] bg-[#B43F3F]/5 ring-1 ring-[#B43F3F]/30 shadow-md'
+                            : 'border-gray-100 bg-white hover:border-[#B43F3F]/20'
+                            }`}
+                        >
+                          <div className={`p-2 rounded-lg ${newAddress.type === t ? 'bg-[#B43F3F] text-white' : 'bg-gray-50 text-gray-400'}`}>
+                            {t === 'home' && <Home size={18} />}
+                            {t === 'work' && <Building2 size={18} />}
+                            {t === 'other' && <MapPin size={18} />}
+                          </div>
+                          <span className={`text-[10px] font-bold uppercase tracking-wider ${newAddress.type === t ? 'text-[#173B45]' : 'text-gray-400'}`}>
+                            {t}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Section 2: Contact Info */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="p-1.5 bg-[#B43F3F]/10 rounded-lg text-[#B43F3F]">
+                        <Phone size={16} />
+                      </div>
+                      <h3 className="text-sm font-bold text-[#173B45] uppercase tracking-wide">2. Contact Details</h3>
+                    </div>
+                    <div className="relative group">
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#B43F3F] transition-colors">
+                        <Phone size={16} />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Mobile Number *"
+                        value={newAddress.phone}
+                        onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
+                        className={`w-full pl-11 pr-4 py-3.5 bg-gray-50/50 border-2 rounded-xl focus:border-[#B43F3F] focus:ring-4 focus:ring-[#B43F3F]/5 outline-none transition-all text-sm font-medium ${errors.phone ? 'border-red-500' : 'border-gray-100'}`}
+                      />
+                      {errors.phone && <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-bold mt-1.5 ml-1 uppercase">{errors.phone}</motion.p>}
+                    </div>
+                  </div>
+
+                  {/* Section 3: Delivery Address */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="p-1.5 bg-[#B43F3F]/10 rounded-lg text-[#B43F3F]">
+                        <MapPin size={16} />
+                      </div>
+                      <h3 className="text-sm font-bold text-[#173B45] uppercase tracking-wide">3. Delivery Information</h3>
+                    </div>
+
+                    <div className="space-y-4">
+                      {/* Line 1 */}
+                      <div>
+                        <input
+                          type="text"
+                          placeholder="House No., Building Name, Street * "
+                          value={newAddress.addressLine1}
+                          onChange={(e) => setNewAddress({ ...newAddress, addressLine1: e.target.value })}
+                          className={`w-full px-4 py-3.5 bg-gray-50/50 border-2 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-medium ${errors.addressLine1 ? 'border-red-500' : 'border-gray-100'}`}
+                        />
+                        {errors.addressLine1 && <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-bold mt-1.5 ml-1 uppercase">{errors.addressLine1}</motion.p>}
+                      </div>
+
+                      {/* Line 2 */}
+                      <input
+                        type="text"
+                        placeholder="Area, Colony, Landmark (Optional)"
+                        value={newAddress.addressLine2}
+                        onChange={(e) => setNewAddress({ ...newAddress, addressLine2: e.target.value })}
+                        className="w-full px-4 py-3.5 bg-gray-50/50 border-2 border-gray-100 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-medium"
+                      />
+
+                      {/* Grid for City, State, Pin */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="City *"
+                            value={newAddress.city}
+                            onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
+                            className={`w-full px-4 py-3.5 bg-gray-50/50 border-2 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-medium ${errors.city ? 'border-red-500' : 'border-gray-100'}`}
+                          />
+                          {errors.city && <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-bold mt-1.5 ml-1 uppercase">{errors.city}</motion.p>}
+                        </div>
+
+                        <select
+                          value={newAddress.state}
+                          onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
+                          className="w-full px-4 py-3.5 bg-gray-50/50 border-2 border-gray-100 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-bold text-[#173B45]"
+                        >
+                          <option value="Odisha">Odisha</option>
+                          <option value="Andhra Pradesh">Andhra Pradesh</option>
+                          <option value="Telangana">Telangana</option>
+                          <option value="West Bengal">West Bengal</option>
+                          <option value="Delhi">Delhi</option>
+                          <option value="Karnataka">Karnataka</option>
+                          <option value="Maharashtra">Maharashtra</option>
+                          <option value="Tamil Nadu">Tamil Nadu</option>
+                          <option value="Kerala">Kerala</option>
+                        </select>
+
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="Pincode *"
+                            value={newAddress.pincode}
+                            onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
+                            className={`w-full px-4 py-3.5 bg-gray-50/50 border-2 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-mono tracking-widest font-bold ${errors.pincode ? 'border-red-500' : 'border-gray-100'}`}
+                            maxLength={6}
+                          />
+                          {errors.pincode && <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-bold mt-1.5 ml-1 uppercase">{errors.pincode}</motion.p>}
+                        </div>
+
+                        <label className="flex items-center gap-3 p-3.5 bg-white border-2 border-gray-100 rounded-xl cursor-pointer hover:border-[#B43F3F]/10 transition-colors self-start">
+                          <input
+                            type="checkbox"
+                            checked={newAddress.isDefault}
+                            onChange={(e) => setNewAddress({ ...newAddress, isDefault: e.target.checked })}
+                            className="w-5 h-5 rounded-md border-gray-300 text-[#B43F3F] focus:ring-[#B43F3F]"
+                          />
+                          <span className="text-xs font-bold text-[#173B45]/60 uppercase tracking-wider">Set as default</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Form Actions */}
+                  <div className="flex gap-4 pt-4 border-t border-gray-100">
+                    <button
+                      onClick={handleAddAddress}
+                      disabled={loading}
+                      className="flex-1 py-4 bg-[#173B45] text-white font-bold rounded-xl hover:bg-[#B43F3F] transition-all shadow-lg shadow-[#173B45]/10 active:scale-[0.98] disabled:opacity-50 text-sm uppercase tracking-widest"
+                    >
+                      {loading ? (
+                        <div className="flex items-center justify-center gap-2">
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <span>Processing...</span>
+                        </div>
+                      ) : 'Securely Save Address'}
+                    </button>
+
+                    {addresses.length > 0 && (
+                      <button
+                        onClick={() => setShowAddressForm(false)}
+                        className="px-6 py-4 border-2 border-gray-100 text-[#173B45]/60 font-bold rounded-xl hover:bg-gray-50 transition-all text-sm uppercase tracking-widest"
                       >
                         Cancel
                       </button>
