@@ -271,7 +271,7 @@ const NavStyles = () => (
 );
 
 const Navbar: React.FC = () => {
-  const { cart, wishlist, user, logout, isAdmin } = useStore();
+  const { cart, wishlist, user, logout, isAdmin, cartCount, wishlistCount } = useStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [expandedMobileLink, setExpandedMobileLink] = useState<string | null>(null);
@@ -281,8 +281,6 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const cartCount = cart?.items?.reduce((a: number, i: any) => a + i.quantity, 0) || 0;
-  const wishlistCount = wishlist?.length || 0;
 
   /* Scroll detection */
   useEffect(() => {

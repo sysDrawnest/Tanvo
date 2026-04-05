@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // Correctly importing useNavigate and useLocation hooks from react-router-dom
 import { useNavigate, useLocation } from "react-router-dom";
 import { useStore } from '../context/StoreContext';
-import { Mail, Lock, User as UserIcon, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User as UserIcon, ArrowRight, CheckCircle } from 'lucide-react';
 
 const Auth: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -10,13 +10,16 @@ const Auth: React.FC = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [authError, setAuthError] = useState('');
-  const { login, register } = useStore();
+  const [merging, setMerging] = useState(false);
+  const { login, register, mergeGuestData, guestCart, guestWishlist } = useStore();
   const navigate = useNavigate();
   const location = useLocation();
 
   // Get redirect path from query string
   const queryParams = new URLSearchParams(location.search);
   const redirectPath = queryParams.get('redirect') || '/';
+
+  const hasGuestData = guestCart.length > 0 || guestWishlist.length > 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +28,13 @@ const Auth: React.FC = () => {
     if (isLogin) {
       const res = await login(email, password);
       if (res.success) {
+        // Merge guest cart/wishlist into account
+        if (hasGuestData) {
+          setMerging(true);
+          await mergeGuestData();
+          setMerging(false);
+        }
+
         // Redirect admin users to the admin dashboard
         if (res.user?.role === 'admin') {
           navigate('/admin');
@@ -38,6 +48,12 @@ const Auth: React.FC = () => {
       // @ts-ignore
       const res = await register({ name, email, password });
       if (res.success) {
+        // Merge guest cart/wishlist into new account
+        if (hasGuestData) {
+          setMerging(true);
+          await mergeGuestData();
+          setMerging(false);
+        }
         navigate(redirectPath);
       } else {
         setAuthError(res.error || 'Registration failed.');
@@ -45,10 +61,32 @@ const Auth: React.FC = () => {
     }
   };
 
+  if (merging) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-20 flex justify-center items-center min-h-[70vh]">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-[#B43F3F] border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+          <h2 className="text-2xl font-display font-medium text-[#173B45] mb-2">Saving Your Items</h2>
+          <p className="text-[#173B45]/60">Syncing your cart and wishlist to your account...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-20 flex justify-center items-center min-h-[70vh]">
       <div className="w-full max-w-md bg-white p-10 shadow-2xl border border-slate-100 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1" style={{ background: 'var(--action-cta)' }}></div>
+
+        {/* Guest data notice */}
+        {hasGuestData && (
+          <div className="mb-6 flex items-start gap-3 p-4 bg-[#B43F3F]/5 border border-[#B43F3F]/20 rounded-lg">
+            <CheckCircle size={18} className="text-[#B43F3F] shrink-0 mt-0.5" />
+            <p className="text-sm text-[#173B45]">
+              You have <strong>{guestCart.length > 0 ? `${guestCart.length} item${guestCart.length > 1 ? 's' : ''} in cart` : ''}{guestCart.length > 0 && guestWishlist.length > 0 ? ' and ' : ''}{guestWishlist.length > 0 ? `${guestWishlist.length} item${guestWishlist.length > 1 ? 's' : ''} in wishlist` : ''}</strong> saved locally. Sign in to save them permanently! ❤️
+            </p>
+          </div>
+        )}
 
         <div className="text-center mb-10">
           <h1 className="text-3xl font-display font-bold text-[#0D0B0A] mb-2">
@@ -142,7 +180,7 @@ const Auth: React.FC = () => {
           <span className="font-bold">ADMIN LOGIN:</span> Use <strong>admin@tanvo.com</strong> / <strong>Admin@123</strong> to access the Admin Dashboard.
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

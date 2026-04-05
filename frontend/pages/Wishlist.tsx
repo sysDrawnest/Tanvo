@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { Heart, ShoppingBag, Trash2, ArrowRight, ShoppingCart } from 'lucide-react';
+import { Heart, ShoppingBag, Trash2, ArrowRight, ShoppingCart, LogIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '../context/StoreContext';
 import API from '../services/api';
@@ -21,30 +21,31 @@ interface WishlistProduct {
 }
 
 const Wishlist: React.FC = () => {
-  const { wishlist, toggleWishlist, addToCart, isAuthenticated } = useStore();
+  const { wishlist, guestWishlist, toggleWishlist, addToCart, isAuthenticated } = useStore();
   const [products, setProducts] = useState<WishlistProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [movingToCart, setMovingToCart] = useState<string | null>(null);
 
+  // Active wishlist IDs (from account or guest)
+  const activeWishlistIds = isAuthenticated ? wishlist : guestWishlist;
+
   // Fetch wishlist products
   useEffect(() => {
-    if (isAuthenticated && wishlist.length > 0) {
-      fetchWishlistProducts();
+    if (activeWishlistIds.length > 0) {
+      fetchWishlistProducts(activeWishlistIds);
     } else {
       setProducts([]);
       setLoading(false);
     }
-  }, [wishlist, isAuthenticated]);
+  }, [wishlist, guestWishlist, isAuthenticated]);
 
-  const fetchWishlistProducts = async () => {
+  const fetchWishlistProducts = async (ids: string[]) => {
     try {
       setLoading(true);
-      // Fetch all products in wishlist
-      const productPromises = wishlist.map(id => 
-        API.get(`/products/${id}`).then(res => res.data)
+      const productPromises = ids.map(id =>
+        API.get(`/products/${id}`).then(res => res.data).catch(() => null)
       );
-      
-      const results = await Promise.all(productPromises);
+      const results = (await Promise.all(productPromises)).filter(Boolean);
       setProducts(results);
     } catch (error) {
       console.error('Error fetching wishlist products:', error);
@@ -70,7 +71,7 @@ const Wishlist: React.FC = () => {
       await addToCart(product._id, 1);
       // Optionally remove from wishlist after adding to cart
       // await handleRemoveFromWishlist(product._id);
-      
+
       // Show success message
       const toast = document.createElement('div');
       toast.className = 'fixed top-24 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slideIn';
@@ -86,7 +87,7 @@ const Wishlist: React.FC = () => {
 
   const handleAddAllToCart = async () => {
     const inStockProducts = products.filter(p => p.stock > 0);
-    
+
     if (inStockProducts.length === 0) {
       alert('No items in stock to add to cart');
       return;
@@ -96,7 +97,7 @@ const Wishlist: React.FC = () => {
       for (const product of inStockProducts) {
         await addToCart(product._id, 1);
       }
-      
+
       // Show success message
       const toast = document.createElement('div');
       toast.className = 'fixed top-24 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slideIn';
@@ -117,35 +118,7 @@ const Wishlist: React.FC = () => {
     }).format(price);
   };
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-white pt-32 pb-24">
-        <div className="container-custom">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="py-32 text-center"
-          >
-            <div className="mb-10 flex justify-center">
-              <div className="p-12 bg-gray-50 rounded-full relative">
-                <Heart size={64} className="text-slate-200" strokeWidth={1} />
-              </div>
-            </div>
-            <h2 className="text-4xl font-display font-bold mb-4">Login to view your wishlist</h2>
-            <p className="text-slate-500 max-w-sm mx-auto mb-10 font-medium">
-              Please login to access your saved items and personalized collections.
-            </p>
-            <Link 
-              to="/auth" 
-              className="btn-primary !px-12 !py-5 shadow-2xl inline-flex items-center gap-3"
-            >
-              Login Now <ArrowRight size={16} />
-            </Link>
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
+  // (Guest users now see their wishlist — no redirect needed)
 
   if (loading) {
     return (
@@ -162,8 +135,32 @@ const Wishlist: React.FC = () => {
   return (
     <div className="min-h-screen bg-white pt-32 pb-24">
       <div className="container-custom">
+
+        {/* Guest save banner */}
+        {!isAuthenticated && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gradient-to-r from-[#B43F3F]/5 to-[#FF8225]/5 border border-[#B43F3F]/20 rounded-xl"
+          >
+            <div className="flex items-center gap-3">
+              <Heart className="w-5 h-5 text-[#B43F3F] shrink-0" />
+              <p className="text-sm text-[#173B45] font-medium">
+                Save your wishlist permanently ❤️ — Login to never lose your saved items
+              </p>
+            </div>
+            <Link
+              to="/auth?redirect=/wishlist"
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-lg hover:bg-[#FF8225] transition-all whitespace-nowrap shrink-0"
+            >
+              <LogIn size={16} />
+              Login to Save
+            </Link>
+          </motion.div>
+        )}
+
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="space-y-4"
@@ -171,8 +168,8 @@ const Wishlist: React.FC = () => {
             <p className="text-[#C9A84C] font-black uppercase tracking-[0.3em] text-xs">Your Curated Collection</p>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight">Wishlist</h1>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center gap-4"
@@ -193,7 +190,7 @@ const Wishlist: React.FC = () => {
 
         <AnimatePresence mode="wait">
           {products.length > 0 ? (
-            <motion.div 
+            <motion.div
               key="list"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -201,7 +198,7 @@ const Wishlist: React.FC = () => {
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16"
             >
               {products.map((product) => (
-                <motion.div 
+                <motion.div
                   key={product._id}
                   layout
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -211,8 +208,8 @@ const Wishlist: React.FC = () => {
                 >
                   <Link to={`/product/${product._id}`} className="block">
                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                      <img 
-                        src={product.images[0]?.url} 
+                      <img
+                        src={product.images[0]?.url}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
@@ -227,11 +224,11 @@ const Wishlist: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    
+
                     <h3 className="font-bold text-[#0D0B0A] mb-1 line-clamp-2 group-hover:text-[#C9A84C] transition-colors">
                       {product.name}
                     </h3>
-                    
+
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-sm font-bold text-[#0D0B0A]">
                         {formatPrice(product.price)}
@@ -248,11 +245,10 @@ const Wishlist: React.FC = () => {
                         {[...Array(5)].map((_, i) => (
                           <svg
                             key={i}
-                            className={`w-3 h-3 ${
-                              i < Math.floor(product.ratings)
+                            className={`w-3 h-3 ${i < Math.floor(product.ratings)
                                 ? 'text-[#C9A84C]'
                                 : 'text-gray-300'
-                            }`}
+                              }`}
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -271,7 +267,7 @@ const Wishlist: React.FC = () => {
                   </Link>
 
                   <div className="flex items-center gap-2">
-                    <button 
+                    <button
                       onClick={() => handleMoveToCart(product)}
                       disabled={movingToCart === product._id || product.stock <= 0}
                       className="flex-1 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#C9A84C] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -285,8 +281,8 @@ const Wishlist: React.FC = () => {
                         </>
                       )}
                     </button>
-                    
-                    <button 
+
+                    <button
                       onClick={() => handleRemoveFromWishlist(product._id)}
                       className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
                       title="Remove from Wishlist"
@@ -298,7 +294,7 @@ const Wishlist: React.FC = () => {
               ))}
             </motion.div>
           ) : (
-            <motion.div 
+            <motion.div
               key="empty"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -317,8 +313,8 @@ const Wishlist: React.FC = () => {
               <p className="text-slate-500 max-w-sm mx-auto mb-10 font-medium">
                 Save your favorite handloom masterpieces to your wishlist and revisit them anytime.
               </p>
-              <Link 
-                to="/shop" 
+              <Link
+                to="/shop"
                 className="btn-primary !px-12 !py-5 shadow-2xl inline-flex items-center gap-3"
               >
                 Explore Collections <ArrowRight size={16} />
@@ -329,7 +325,7 @@ const Wishlist: React.FC = () => {
 
         {/* Style Tip */}
         {products.length > 0 && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -340,7 +336,7 @@ const Wishlist: React.FC = () => {
             <p className="text-slate-500 max-w-xl mx-auto font-medium">
               Every item in your wishlist supports a master weaver's legacy. Consider completing your selection while these limited-edition weaves are still in stock.
             </p>
-            
+
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-8 mt-12 max-w-2xl mx-auto">
               <div>

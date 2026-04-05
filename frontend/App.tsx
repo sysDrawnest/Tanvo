@@ -80,11 +80,7 @@ const App: React.FC = () => {
               <Route path="/journal" element={<Journal />} />
 
               {/* Protected User Routes */}
-              <Route path="/wishlist" element={
-                <ProtectedRoute>
-                  <Wishlist />
-                </ProtectedRoute>
-              } />
+              <Route path="/wishlist" element={<Wishlist />} />
 
               <Route path="/profile" element={
                 <ProtectedRoute>

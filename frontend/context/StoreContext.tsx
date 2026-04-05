@@ -3,6 +3,23 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import API from '../services/api';
 import { User, Product, Cart, CartItem, LoginCredentials, RegisterData } from '../types';
 
+// ── Guest Types ──────────────────────────────────────────────
+interface GuestCartItem {
+  productId: string;
+  quantity: number;
+  color?: string;
+  size?: string;
+  // Snapshot of product info for display (fetched and stored locally)
+  name?: string;
+  price?: number;
+  image?: string;
+  category?: string;
+  weave?: string;
+  fabric?: string;
+  stock?: number;
+}
+
+// ── Context Type ────────────────────────────────────────────
 interface StoreContextType {
   // State
   user: User | null;
@@ -12,10 +29,16 @@ interface StoreContextType {
   loading: boolean;
   error: string | null;
 
+  // Guest State
+  guestCart: GuestCartItem[];
+  guestWishlist: string[];
+  isGuest: boolean;
+
   // Auth
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string; user?: any }>;
   register: (userData: RegisterData) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
+  mergeGuestData: () => Promise<void>;
   isAdmin: boolean;
   isAuthenticated: boolean;
 
@@ -25,6 +48,8 @@ interface StoreContextType {
   updateCartQuantity: (itemId: string, quantity: number) => Promise<void>;
   removeFromCart: (itemId: string) => Promise<void>;
   clearCart: () => Promise<void>;
+  removeGuestCartItem: (productId: string) => void;
+  updateGuestCartQuantity: (productId: string, quantity: number) => void;
   cartCount: number;
 
   // Wishlist
@@ -37,6 +62,9 @@ interface StoreContextType {
   fetchProducts: (filters?: any) => Promise<void>;
   fetchProductById: (id: string) => Promise<Product | null>;
 }
+
+const GUEST_CART_KEY = 'tanvo_guest_cart';
+const GUEST_WISHLIST_KEY = 'tanvo_guest_wishlist';
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
@@ -55,6 +83,29 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(!!localStorage.getItem('token'));
   const [error, setError] = useState<string | null>(null);
+
+  // Guest state — persisted in localStorage
+  const [guestCart, setGuestCart] = useState<GuestCartItem[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem(GUEST_CART_KEY) || '[]');
+    } catch { return []; }
+  });
+  const [guestWishlist, setGuestWishlist] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem(GUEST_WISHLIST_KEY) || '[]');
+    } catch { return []; }
+  });
+
+  const isGuest = !user;
+
+  // Persist guest data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(GUEST_CART_KEY, JSON.stringify(guestCart));
+  }, [guestCart]);
+
+  useEffect(() => {
+    localStorage.setItem(GUEST_WISHLIST_KEY, JSON.stringify(guestWishlist));
+  }, [guestWishlist]);
 
   // Check if user is logged in on mount
   useEffect(() => {
@@ -125,6 +176,50 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setUser(null);
     setCart(null);
     setWishlist([]);
+    // Keep guest data intact on logout so previous session isn't lost
+  };
+
+  // ==================== MERGE GUEST DATA ====================
+  const mergeGuestData = async () => {
+    // Merge guest cart items
+    const savedGuestCart: GuestCartItem[] = JSON.parse(localStorage.getItem(GUEST_CART_KEY) || '[]');
+    const savedGuestWishlist: string[] = JSON.parse(localStorage.getItem(GUEST_WISHLIST_KEY) || '[]');
+
+    // Add each guest cart item to the server cart
+    for (const item of savedGuestCart) {
+      try {
+        await API.post('/cart/add', {
+          productId: item.productId,
+          quantity: item.quantity,
+          color: item.color,
+          size: item.size,
+        });
+      } catch (err) {
+        console.error('Failed to merge cart item:', item.productId, err);
+      }
+    }
+
+    // Merge guest wishlist
+    for (const productId of savedGuestWishlist) {
+      try {
+        // Only add if not already in the user's wishlist
+        if (!wishlist.includes(productId)) {
+          await API.post('/users/wishlist/toggle', { productId });
+        }
+      } catch (err) {
+        console.error('Failed to merge wishlist item:', productId, err);
+      }
+    }
+
+    // Clear guest data after merging
+    localStorage.removeItem(GUEST_CART_KEY);
+    localStorage.removeItem(GUEST_WISHLIST_KEY);
+    setGuestCart([]);
+    setGuestWishlist([]);
+
+    // Refresh from server
+    await fetchCart();
+    await fetchWishlist();
   };
 
   const isAdmin = user?.role === 'admin';
@@ -144,20 +239,62 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const addToCart = async (productId: string, quantity = 1, color?: string, size?: string) => {
+    if (!isAuthenticated) {
+      // GUEST MODE: Add to localStorage cart
+      setGuestCart(prev => {
+        const existing = prev.find(i => i.productId === productId && i.color === color && i.size === size);
+        if (existing) {
+          return prev.map(i =>
+            i.productId === productId && i.color === color && i.size === size
+              ? { ...i, quantity: i.quantity + quantity }
+              : i
+          );
+        }
+        // Fetch product info asynchronously and update the item with a snapshot
+        API.get(`/products/${productId}`).then(({ data }) => {
+          setGuestCart(g =>
+            g.map(i =>
+              i.productId === productId && i.color === color && i.size === size
+                ? {
+                  ...i,
+                  name: data.name,
+                  price: data.price,
+                  image: data.images?.[0]?.url,
+                  category: data.category,
+                  weave: data.weave,
+                  fabric: data.fabric,
+                  stock: data.stock,
+                }
+                : i
+            )
+          );
+        }).catch(() => { });
+        return [...prev, { productId, quantity, color, size }];
+      });
+      return;
+    }
+
+    // LOGGED IN: Call API
     try {
       setLoading(true);
-      const { data } = await API.post('/cart/add', {
-        productId,
-        quantity,
-        color,
-        size
-      });
+      const { data } = await API.post('/cart/add', { productId, quantity, color, size });
       setCart(data.cart);
     } catch (error: any) {
       setError(error.response?.data?.message || 'Failed to add to cart');
     } finally {
       setLoading(false);
     }
+  };
+
+  const removeGuestCartItem = (productId: string) => {
+    setGuestCart(prev => prev.filter(i => i.productId !== productId));
+  };
+
+  const updateGuestCartQuantity = (productId: string, quantity: number) => {
+    if (quantity < 1) return;
+    setGuestCart(prev =>
+      prev.map(i => i.productId === productId ? { ...i, quantity } : i)
+    );
   };
 
   const updateCartQuantity = async (itemId: string, quantity: number) => {
@@ -196,7 +333,9 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const cartCount = cart?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+  const cartCount = isAuthenticated
+    ? (cart?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0)
+    : guestCart.reduce((acc, item) => acc + item.quantity, 0);
 
   // ==================== WISHLIST ====================
   const fetchWishlist = async () => {
@@ -206,12 +345,9 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       const { data } = await API.get('/users/wishlist');
 
-      // Handle different response structures
       if (Array.isArray(data)) {
-        // If data is an array of products
         setWishlist(data.map((item: any) => item._id || item.id));
       } else if (data.wishlist && Array.isArray(data.wishlist)) {
-        // If data has wishlist property
         setWishlist(data.wishlist.map((item: any) => item._id || item.id));
       } else {
         setWishlist([]);
@@ -223,19 +359,26 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const toggleWishlist = async (productId: string) => {
+    if (!isAuthenticated) {
+      // GUEST MODE: Toggle in localStorage
+      setGuestWishlist(prev =>
+        prev.includes(productId)
+          ? prev.filter(id => id !== productId)
+          : [...prev, productId]
+      );
+      return;
+    }
+
+    // LOGGED IN: Call API
     try {
       setLoading(true);
       const { data } = await API.post('/users/wishlist/toggle', { productId });
 
-      // Handle different response structures
       if (Array.isArray(data)) {
-        // If response is array of products
         setWishlist(data.map((item: any) => item._id || item.id));
       } else if (data.wishlist && Array.isArray(data.wishlist)) {
-        // If response has wishlist property
         setWishlist(data.wishlist.map((item: any) => item._id || item.id));
       } else if (data.isInWishlist !== undefined) {
-        // If response just tells us the new state
         setWishlist(prev =>
           data.isInWishlist
             ? [...prev, productId]
@@ -249,8 +392,14 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const isInWishlist = (productId: string) => wishlist.includes(productId);
-  const wishlistCount = wishlist.length;
+  const isInWishlist = (productId: string) => {
+    if (isAuthenticated) return wishlist.includes(productId);
+    return guestWishlist.includes(productId);
+  };
+
+  const wishlistCount = isAuthenticated
+    ? wishlist.length
+    : guestWishlist.length;
 
   // ==================== PRODUCTS ====================
   const fetchProducts = async (filters = {}) => {
@@ -282,37 +431,21 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const value = {
     // State
-    user,
-    cart,
-    wishlist,
-    products,
-    loading,
-    error,
+    user, cart, wishlist, products, loading, error,
+    guestCart, guestWishlist, isGuest,
 
     // Auth
-    login,
-    register,
-    logout,
-    isAdmin,
-    isAuthenticated,
+    login, register, logout, mergeGuestData, isAdmin, isAuthenticated,
 
     // Cart
-    fetchCart,
-    addToCart,
-    updateCartQuantity,
-    removeFromCart,
-    clearCart,
-    cartCount,
+    fetchCart, addToCart, updateCartQuantity, removeFromCart, clearCart,
+    removeGuestCartItem, updateGuestCartQuantity, cartCount,
 
     // Wishlist
-    fetchWishlist,
-    toggleWishlist,
-    isInWishlist,
-    wishlistCount,
+    fetchWishlist, toggleWishlist, isInWishlist, wishlistCount,
 
     // Products
-    fetchProducts,
-    fetchProductById,
+    fetchProducts, fetchProductById,
   };
 
   return (
