@@ -359,30 +359,72 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 
 const categories = [
-    { label: 'Sambalpuri', sub: 'GI Tagged', slug: 'Sambalpuri', num: '01', image: '/Sambalpuri saree.png' },
-    { label: 'Bomkai', sub: 'Temple Weave', slug: 'Bomkai', num: '02', image: '/Bomkai saree.png' },
-    { label: 'Ikat', sub: 'Tie & Dye', slug: 'Ikat', num: '03', image: '/Ikat saree.png' },
-    { label: 'Silk', sub: 'Pure Mulberry', slug: 'Silk', num: '04', image: '/silk saree.png' },
-    { label: 'Cotton', sub: 'Handspun', slug: 'Cotton', num: '05', image: '/cotton saree.png' },
-    { label: 'Khandua', sub: 'Sacred Weave', slug: 'Khandua', num: '06', image: '/Khandua saree.png' },
+  {
+    label: 'Sambalpuri',
+    sub: 'GI Tagged',
+    slug: 'Sambalpuri',
+    num: '01',
+    image: '/Sambalpuri saree.png',
+    mobileImage: '/Sambalpuri saree.png'
+  },
+  {
+    label: 'Bomkai',
+    sub: 'Temple Weave',
+    slug: 'Bomkai',
+    num: '02',
+    image: '/Bomkai saree.png',
+    mobileImage: '/Bomkai saree.png'
+  },
+  {
+    label: 'Ikat',
+    sub: 'Tie & Dye',
+    slug: 'Ikat',
+    num: '03',
+    image: '/Ikat saree.png',
+    mobileImage: '/Ikat saree.png'
+  },
+  {
+    label: 'Silk',
+    sub: 'Pure Mulberry',
+    slug: 'Silk',
+    num: '04',
+    image: '/silk saree.png',
+    mobileImage: '/silk saree.png'
+  },
+  {
+    label: 'Cotton',
+    sub: 'Handspun',
+    slug: 'Cotton',
+    num: '05',
+    image: '/cotton saree.png',
+    mobileImage: '/cotton saree.png'
+  },
+  {
+    label: 'Khandua',
+    sub: 'Sacred Weave',
+    slug: 'Khandua',
+    num: '06',
+    image: '/Khandua saree.png',
+    mobileImage: '/Khandua saree.png'
+  },
 ];
 
 const CategoryGrid: React.FC = () => {
-    const [visible, setVisible] = useState(false);
-    const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-    useEffect(() => {
-        const io = new IntersectionObserver(
-            ([e]) => { if (e.isIntersecting) setVisible(true); },
-            { threshold: 0.08 }
-        );
-        if (sectionRef.current) io.observe(sectionRef.current);
-        return () => io.disconnect();
-    }, []);
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      { threshold: 0.08 }
+    );
+    if (sectionRef.current) io.observe(sectionRef.current);
+    return () => io.disconnect();
+  }, []);
 
-    return (
-        <>
-            <style>{`
+  return (
+    <>
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap');
 
         /* ── SECTION ── */
@@ -519,7 +561,21 @@ const CategoryGrid: React.FC = () => {
           transition: transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.5s ease;
           transform: scale(1.05);
         }
-        .cg2-card:hover .cg2-img { transform: scale(1.0); opacity: 0.94; }
+        .cg2-card:hover .cg2-img, 
+        .cg2-card:hover .cg2-img img { transform: scale(1.0); opacity: 0.94; }
+
+        .cg2-img-strip {
+             width: 100%; height: 100%;
+             display: block;
+        }
+        .cg2-img-strip img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.78;
+            transition: transform 0.85s ease, opacity 0.5s ease;
+            transform: scale(1.04);
+        }
+        .cg2-strip:hover .cg2-img-strip img { opacity: 0.9; transform: scale(1.0); }
 
         /* Gradient — warm, not cold */
         .cg2-veil {
@@ -615,14 +671,6 @@ const CategoryGrid: React.FC = () => {
           transition: opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s, box-shadow 0.4s ease;
         }
         .cg2-strip.vis { opacity: 1; transform: translateY(0); }
-        .cg2-strip img {
-          width: 100%; height: 100%;
-          object-fit: cover;
-          opacity: 0.78;
-          transition: transform 0.85s ease, opacity 0.5s ease;
-          transform: scale(1.04);
-        }
-        .cg2-strip:hover img { opacity: 0.9; transform: scale(1.0); }
         .cg2-strip:hover { box-shadow: 0 8px 36px rgba(28,22,18,0.13); }
         .cg2-strip .cg2-veil {
           background: linear-gradient(to right, rgba(28,22,18,0.65) 0%, rgba(28,22,18,0.08) 60%);
@@ -661,58 +709,67 @@ const CategoryGrid: React.FC = () => {
         }
       `}</style>
 
-            <section className="cg2-section" ref={sectionRef}>
-                <div className="cg2-header">
-                    <div>
-                        <p className="cg2-eyebrow">Explore By Weave</p>
-                        <h2 className="cg2-title">Six Ancient<br /><em>Traditions</em></h2>
-                    </div>
-                    <Link to="/shop" className="cg2-cta">
-                        <span>View All Collections <ArrowUpRight size={13} /></span>
-                    </Link>
-                </div>
+      <section className="cg2-section" ref={sectionRef}>
+        <div className="cg2-header">
+          <div>
+            <p className="cg2-eyebrow">Explore By Weave</p>
+            <h2 className="cg2-title">Six Ancient<br /><em>Traditions</em></h2>
+          </div>
+          <Link to="/shop" className="cg2-cta">
+            <span>View All Collections <ArrowUpRight size={13} /></span>
+          </Link>
+        </div>
 
-                <div className="cg2-grid">
-                    {categories.slice(0, 5).map((cat, i) => (
-                        <Link key={i} to={`/shop?weave=${cat.slug}`} className={`cg2-card${visible ? ' vis' : ''}`}>
-                            <img className="cg2-img" src={cat.image} alt={cat.label} />
-                            <div className="cg2-veil" />
-                            <div className="cg2-line" />
-                            <div className="cg2-badge"><ArrowUpRight size={14} /></div>
-                            <div className="cg2-txt">
-                                <span className="cg2-num">{cat.num}</span>
-                                <h3 className="cg2-name">{cat.label}</h3>
-                                <p className="cg2-sub">{cat.sub}</p>
-                            </div>
-                        </Link>
-                    ))}
-                    {/* 6th — mobile only */}
-                    <Link to={`/shop?weave=${categories[5].slug}`} className={`cg2-card${visible ? ' vis' : ''}`}>
-                        <img className="cg2-img" src={categories[5].image} alt={categories[5].label} />
-                        <div className="cg2-veil" />
-                        <div className="cg2-line" />
-                        <div className="cg2-txt">
-                            <span className="cg2-num">{categories[5].num}</span>
-                            <h3 className="cg2-name">{categories[5].label}</h3>
-                            <p className="cg2-sub">{categories[5].sub}</p>
-                        </div>
-                    </Link>
-                </div>
+        <div className="cg2-grid">
+          {categories.slice(0, 5).map((cat, i) => (
+            <Link key={i} to={`/shop?weave=${cat.slug}`} className={`cg2-card${visible ? ' vis' : ''}`}>
+              <picture className="cg2-img">
+                <source media="(max-width: 768px)" srcSet={cat.mobileImage} />
+                <img src={cat.image} alt={cat.label} />
+              </picture>
+              <div className="cg2-veil" />
+              <div className="cg2-line" />
+              <div className="cg2-badge"><ArrowUpRight size={14} /></div>
+              <div className="cg2-txt">
+                <span className="cg2-num">{cat.num}</span>
+                <h3 className="cg2-name">{cat.label}</h3>
+                <p className="cg2-sub">{cat.sub}</p>
+              </div>
+            </Link>
+          ))}
+          {/* 6th — mobile only */}
+          <Link to={`/shop?weave=${categories[5].slug}`} className={`cg2-card${visible ? ' vis' : ''}`}>
+            <picture className="cg2-img">
+              <source media="(max-width: 768px)" srcSet={categories[5].mobileImage} />
+              <img src={categories[5].image} alt={categories[5].label} />
+            </picture>
+            <div className="cg2-veil" />
+            <div className="cg2-line" />
+            <div className="cg2-txt">
+              <span className="cg2-num">{categories[5].num}</span>
+              <h3 className="cg2-name">{categories[5].label}</h3>
+              <p className="cg2-sub">{categories[5].sub}</p>
+            </div>
+          </Link>
+        </div>
 
-                {/* 6th — desktop strip */}
-                <Link to={`/shop?weave=${categories[5].slug}`} className={`cg2-strip${visible ? ' vis' : ''}`}>
-                    <img src={categories[5].image} alt={categories[5].label} />
-                    <div className="cg2-veil" />
-                    <div className="cg2-line" />
-                    <div className="cg2-strip-inner">
-                        <span className="cg2-num">{categories[5].num}</span>
-                        <h3 className="cg2-name">{categories[5].label}</h3>
-                        <p className="cg2-sub">{categories[5].sub}</p>
-                    </div>
-                </Link>
-            </section>
-        </>
-    );
+        {/* 6th — desktop strip */}
+        <Link to={`/shop?weave=${categories[5].slug}`} className={`cg2-strip${visible ? ' vis' : ''}`}>
+          <picture className="cg2-img-strip">
+            <source media="(max-width: 768px)" srcSet={categories[5].mobileImage} />
+            <img src={categories[5].image} alt={categories[5].label} />
+          </picture>
+          <div className="cg2-veil" />
+          <div className="cg2-line" />
+          <div className="cg2-strip-inner">
+            <span className="cg2-num">{categories[5].num}</span>
+            <h3 className="cg2-name">{categories[5].label}</h3>
+            <p className="cg2-sub">{categories[5].sub}</p>
+          </div>
+        </Link>
+      </section>
+    </>
+  );
 };
 
 export default CategoryGrid;
