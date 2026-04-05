@@ -102,6 +102,7 @@ const ProductDetail: React.FC = () => {
   const [loadingReviews, setLoadingReviews] = useState(false);
   const [reviewPage, setReviewPage] = useState(1);
   const [hasMoreReviews, setHasMoreReviews] = useState(true);
+  const [showAuthMessage, setShowAuthMessage] = useState(false);
 
   const isWishlisted = product ? wishlist.includes(product._id) : false;
 
@@ -175,6 +176,11 @@ const ProductDetail: React.FC = () => {
 
   const handleBuyNow = () => {
     if (!product) return;
+
+    if (!isAuthenticated) {
+      setShowAuthMessage(true);
+      return;
+    }
 
     // Add to cart and go to checkout
     addToCart(product._id, quantity, selectedColor || undefined, selectedSize || undefined);
@@ -397,6 +403,51 @@ const ProductDetail: React.FC = () => {
               </div>
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Auth Message Modal */}
+      <AnimatePresence>
+        {showAuthMessage && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-[#173B45]/60 backdrop-blur-sm"
+              onClick={() => setShowAuthMessage(false)}
+            />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative bg-[#F8EDED] max-w-md w-full p-8 rounded-2xl shadow-2xl border border-[#B43F3F]/10 text-center"
+            >
+              <div className="w-16 h-16 bg-[#B43F3F]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Lock className="text-[#B43F3F] w-8 h-8" />
+              </div>
+              <h2 className="text-2xl font-display font-medium text-[#173B45] mb-4">
+                Login Required
+              </h2>
+              <p className="text-[#173B45]/70 mb-8">
+                To purchase this handwoven masterpiece, please sign in or create an account.
+              </p>
+              <div className="flex flex-col gap-3">
+                <Link
+                  to={`/auth?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`}
+                  className="w-full py-4 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-all shadow-lg shadow-[#B43F3F]/20"
+                >
+                  Sign In / Register
+                </Link>
+                <button
+                  onClick={() => setShowAuthMessage(false)}
+                  className="w-full py-4 text-[#173B45]/60 font-medium hover:text-[#173B45] transition-colors"
+                >
+                  Continue Browsing
+                </button>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 

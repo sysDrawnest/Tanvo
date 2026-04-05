@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// Correctly importing useNavigate hook from react-router-dom
-import { useNavigate } from "react-router-dom";
+// Correctly importing useNavigate and useLocation hooks from react-router-dom
+import { useNavigate, useLocation } from "react-router-dom";
 import { useStore } from '../context/StoreContext';
 import { Mail, Lock, User as UserIcon, ArrowRight } from 'lucide-react';
 
@@ -12,6 +12,11 @@ const Auth: React.FC = () => {
   const [authError, setAuthError] = useState('');
   const { login, register } = useStore();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get redirect path from query string
+  const queryParams = new URLSearchParams(location.search);
+  const redirectPath = queryParams.get('redirect') || '/';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +29,7 @@ const Auth: React.FC = () => {
         if (res.user?.role === 'admin') {
           navigate('/admin');
         } else {
-          navigate('/');
+          navigate(redirectPath);
         }
       } else {
         setAuthError(res.error || 'Login failed. Please check your credentials.');
@@ -33,7 +38,7 @@ const Auth: React.FC = () => {
       // @ts-ignore
       const res = await register({ name, email, password });
       if (res.success) {
-        navigate('/');
+        navigate(redirectPath);
       } else {
         setAuthError(res.error || 'Registration failed.');
       }
