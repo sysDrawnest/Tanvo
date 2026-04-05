@@ -365,7 +365,7 @@ const categories = [
     slug: 'Sambalpuri',
     num: '01',
     image: '/Sambalpuri saree.png',
-    mobileImage: '/Sambalpuri saree.png'
+    mobileImage: '/Sambalpuri-mobile.png'
   },
   {
     label: 'Bomkai',
@@ -373,7 +373,7 @@ const categories = [
     slug: 'Bomkai',
     num: '02',
     image: '/Bomkai saree.png',
-    mobileImage: '/Bomkai saree.png'
+    mobileImage: '/Bomkai-mobile.png'
   },
   {
     label: 'Ikat',
@@ -381,7 +381,7 @@ const categories = [
     slug: 'Ikat',
     num: '03',
     image: '/Ikat saree.png',
-    mobileImage: '/Ikat saree.png'
+    mobileImage: '/Ikat-mobile.png'
   },
   {
     label: 'Silk',
@@ -389,7 +389,7 @@ const categories = [
     slug: 'Silk',
     num: '04',
     image: '/silk saree.png',
-    mobileImage: '/silk saree.png'
+    mobileImage: '/silk-mobile.png'
   },
   {
     label: 'Cotton',
@@ -397,7 +397,7 @@ const categories = [
     slug: 'Cotton',
     num: '05',
     image: '/cotton saree.png',
-    mobileImage: '/cotton saree.png'
+    mobileImage: '/cotton-mobile.png'
   },
   {
     label: 'Khandua',
@@ -405,7 +405,7 @@ const categories = [
     slug: 'Khandua',
     num: '06',
     image: '/Khandua saree.png',
-    mobileImage: '/Khandua saree.png'
+    mobileImage: '/Khandua-mobile.png'
   },
 ];
 
