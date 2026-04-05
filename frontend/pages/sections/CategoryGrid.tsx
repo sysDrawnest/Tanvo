@@ -353,7 +353,6 @@
 // };
 
 // export default CategoryGrid;
-
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
@@ -400,10 +399,18 @@ const categories = [
     mobileImage: '/cotton-mobile.png'
   },
   {
+    label: 'Fancy',
+    sub: 'For Modern Girls',
+    slug: 'Fancy',
+    num: '06',
+    image: '/Fancy saree.png',
+    mobileImage: '/Fancy-mobile.png'
+  },
+  {
     label: 'Khandua',
     sub: 'Sacred Weave',
     slug: 'Khandua',
-    num: '06',
+    num: '07',
     image: '/Khandua saree.png',
     mobileImage: '/Khandua-mobile.png'
   },
@@ -421,6 +428,11 @@ const CategoryGrid: React.FC = () => {
     if (sectionRef.current) io.observe(sectionRef.current);
     return () => io.disconnect();
   }, []);
+
+  // fancy = index 5, khandua = index 6
+  const fancy = categories[5];
+  const khandua = categories[6];
+  const gridCats = [...categories.slice(0, 5), khandua]; // cards 1-6 in grid
 
   return (
     <>
@@ -505,11 +517,88 @@ const CategoryGrid: React.FC = () => {
         .cg-cta span { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; }
 
         /* ─────────────────────────────────────────
-           DESKTOP GRID  (≥ 1025px)
-           Layout:
-             [ hero tall ] [ col2 top ] [ col3 top  ]
-             [ hero tall ] [ col2 bot ] [ col3 bot  ]
-             [      banner — full width             ]
+           FANCY TOP BANNER (desktop only)
+           Shown ABOVE the main grid
+        ───────────────────────────────────────── */
+        .cg-fancy-banner {
+          display: block;
+          position: relative;
+          overflow: hidden;
+          background: #EDE3D0;
+          text-decoration: none;
+          height: 200px;
+          margin-bottom: 6px;
+          opacity: 0;
+          transform: translateY(16px);
+          transition:
+            opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94) 0s,
+            transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94) 0s,
+            box-shadow 0.35s ease;
+        }
+        .cg-fancy-banner.vis { opacity: 1; transform: translateY(0); }
+        .cg-fancy-banner:hover { box-shadow: 0 14px 44px rgba(28,22,18,0.14); z-index: 2; }
+
+        /* fancy badge — top-right, always visible on banner */
+        .cg-fancy-badge {
+          position: absolute;
+          top: 18px; right: 18px;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 9px;
+          font-weight: 500;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #B5502B;
+          border: 1px solid #B5502B;
+          padding: 5px 12px;
+          background: rgba(249,245,238,0.12);
+          backdrop-filter: blur(4px);
+          opacity: 0;
+          transform: translateY(-6px);
+          transition: opacity 0.35s ease 0.08s, transform 0.35s ease 0.08s;
+        }
+        .cg-fancy-banner:hover .cg-fancy-badge {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* fancy banner text — right-aligned for modern feel */
+        .cg-fancy-txt {
+          position: absolute;
+          bottom: 0; right: 0;
+          padding: clamp(18px, 3vw, 34px);
+          text-align: right;
+          transform: translateY(4px);
+          transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .cg-fancy-banner:hover .cg-fancy-txt { transform: translateY(0); }
+
+        /* fancy banner veil — reversed gradient (left transparent, right dark) */
+        .cg-fancy-veil {
+          position: absolute; inset: 0;
+          background: linear-gradient(
+            to left,
+            rgba(28,22,18,0.72) 0%,
+            rgba(28,22,18,0.08) 55%
+          );
+          transition: background 0.4s ease;
+        }
+        .cg-fancy-banner:hover .cg-fancy-veil {
+          background: linear-gradient(
+            to left,
+            rgba(28,22,18,0.86) 0%,
+            rgba(28,22,18,0.16) 55%
+          );
+        }
+
+        /* hide fancy banner on mobile/tablet — it lives in the grid there */
+        @media (max-width: 1024px) {
+          .cg-fancy-banner { display: none; }
+        }
+
+        /* ─────────────────────────────────────────
+           MAIN GRID
+           Desktop: 3-col  [ hero ] [ 2×2 ] + bottom banner
+           Mobile card order: 1-5 (grid), then fancy card, then khandua banner
         ───────────────────────────────────────── */
         .cg-grid {
           display: grid;
@@ -518,17 +607,15 @@ const CategoryGrid: React.FC = () => {
           gap: 6px;
         }
 
-        /* card 1 — hero, spans 2 rows */
+        /* desktop grid positions for gridCats (cards 1–5 = sarees, card 6 = khandua) */
         .cg-card-1 { grid-column: 1; grid-row: 1 / 3; }
-        /* cards 2–5 fill the 2×2 right block */
         .cg-card-2 { grid-column: 2; grid-row: 1; }
         .cg-card-3 { grid-column: 3; grid-row: 1; }
         .cg-card-4 { grid-column: 2; grid-row: 2; }
         .cg-card-5 { grid-column: 3; grid-row: 2; }
-        /* card 6 — wide banner */
         .cg-card-6 { grid-column: 1 / -1; grid-row: 3; height: 160px; }
 
-        /* shared card base */
+        /* shared card */
         .cg-card {
           display: block;
           position: relative;
@@ -553,9 +640,8 @@ const CategoryGrid: React.FC = () => {
 
         .cg-card:hover { box-shadow: 0 14px 44px rgba(28,22,18,0.14); z-index: 2; }
 
-        /* aspect ratios for desktop */
         @media (min-width: 1025px) {
-          .cg-card-1 { aspect-ratio: unset; } /* height comes from grid rows */
+          .cg-card-1 { aspect-ratio: unset; }
           .cg-card-2,
           .cg-card-3,
           .cg-card-4,
@@ -563,13 +649,6 @@ const CategoryGrid: React.FC = () => {
         }
 
         /* ── IMAGES ── */
-        /* 
-          The trick: we use two <img> tags per card.
-          .cg-img-desk  — shown on desktop, hidden on mobile
-          .cg-img-mob   — shown on mobile, hidden on desktop
-          This is more reliable than <picture> + srcSet which can be
-          overridden by browser caching or DPR decisions.
-        */
         .cg-img-desk,
         .cg-img-mob {
           position: absolute;
@@ -580,18 +659,17 @@ const CategoryGrid: React.FC = () => {
           transform: scale(1.05);
           opacity: 0.82;
         }
-        /* desktop: show desk image, hide mobile image */
         @media (min-width: 769px) {
           .cg-img-desk { display: block; }
           .cg-img-mob  { display: none; }
         }
-        /* mobile: show mobile image, hide desktop image */
         @media (max-width: 768px) {
           .cg-img-desk { display: none; }
           .cg-img-mob  { display: block; }
         }
         .cg-card:hover .cg-img-desk,
-        .cg-card:hover .cg-img-mob {
+        .cg-card:hover .cg-img-mob,
+        .cg-fancy-banner:hover .cg-img-desk {
           transform: scale(1.0);
           opacity: 0.92;
         }
@@ -606,7 +684,6 @@ const CategoryGrid: React.FC = () => {
           );
           transition: background 0.4s ease;
         }
-        /* banner card gets a side-gradient */
         .cg-card-6 .cg-veil {
           background: linear-gradient(
             to right,
@@ -629,7 +706,7 @@ const CategoryGrid: React.FC = () => {
           );
         }
 
-        /* terracotta top-border reveal */
+        /* terracotta line */
         .cg-line {
           position: absolute;
           top: 0; left: 0; right: 0;
@@ -639,7 +716,8 @@ const CategoryGrid: React.FC = () => {
           transform-origin: left;
           transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        .cg-card:hover .cg-line { transform: scaleX(1); }
+        .cg-card:hover .cg-line,
+        .cg-fancy-banner:hover .cg-line { transform: scaleX(1); }
 
         /* arrow badge */
         .cg-badge {
@@ -665,7 +743,6 @@ const CategoryGrid: React.FC = () => {
           transform: translateY(4px);
           transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        /* banner text sits on the left, vertically centred */
         .cg-card-6 .cg-txt {
           top: 0;
           display: flex;
@@ -702,9 +779,34 @@ const CategoryGrid: React.FC = () => {
           margin: 0;
         }
 
+        /* ── MOBILE FANCY CARD ── */
+        /* in mobile/tablet the fancy saree is a normal grid card
+           shown between cotton (card-5) and khandua (card-6).
+           We inject it as a separate element only visible on mobile. */
+        .cg-fancy-mob {
+          display: none; /* hidden on desktop */
+        }
+        @media (max-width: 1024px) {
+          .cg-fancy-mob {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            background: #EDE3D0;
+            text-decoration: none;
+            aspect-ratio: 3/4;
+            opacity: 0;
+            transform: translateY(20px);
+            transition:
+              opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94) 0.30s,
+              transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94) 0.30s,
+              box-shadow 0.35s ease;
+          }
+          .cg-fancy-mob.vis { opacity: 1; transform: translateY(0); }
+          .cg-fancy-mob:hover { box-shadow: 0 14px 44px rgba(28,22,18,0.14); }
+        }
+
         /* ─────────────────────────────────────────
-           TABLET  (768px – 1024px)
-           2-column, each card equal
+           TABLET  (769px – 1024px)
         ───────────────────────────────────────── */
         @media (max-width: 1024px) and (min-width: 769px) {
           .cg-grid {
@@ -721,23 +823,21 @@ const CategoryGrid: React.FC = () => {
             grid-row: auto;
             aspect-ratio: 4/5;
           }
-          /* card 6 banner spans full width */
           .cg-card-6 {
             grid-column: 1 / -1;
             grid-row: auto;
             height: 140px;
           }
           .cg-badge { display: none; }
+          /* fancy mob card is 4/5 on tablet */
+          .cg-fancy-mob { aspect-ratio: 4/5; }
         }
 
         /* ─────────────────────────────────────────
            MOBILE  (≤ 768px)
-           2-column grid, card 6 full-width at bottom
         ───────────────────────────────────────── */
         @media (max-width: 768px) {
-          .cg-section {
-            padding: 48px 16px;
-          }
+          .cg-section { padding: 48px 16px; }
           .cg-grid {
             grid-template-columns: 1fr 1fr;
             grid-template-rows: none;
@@ -766,7 +866,8 @@ const CategoryGrid: React.FC = () => {
           .cg-card-2,
           .cg-card-3,
           .cg-card-4,
-          .cg-card-5 { aspect-ratio: 3/4; }
+          .cg-card-5,
+          .cg-fancy-mob { aspect-ratio: 3/4; }
           .cg-card-6 { height: 110px; }
         }
       `}</style>
@@ -775,39 +876,57 @@ const CategoryGrid: React.FC = () => {
         <div className="cg-header">
           <div>
             <p className="cg-eyebrow">Explore By Weave</p>
-            <h2 className="cg-title">Six Ancient<br /><em>Traditions</em></h2>
+            <h2 className="cg-title">Seven Ancient<br /><em>Traditions</em></h2>
           </div>
           <Link to="/shop" className="cg-cta">
             <span>View All Collections <ArrowUpRight size={13} /></span>
           </Link>
         </div>
 
+        {/* ── FANCY BANNER — desktop only, sits above the grid ── */}
+        <Link
+          to={`/shop?weave=${fancy.slug}`}
+          className={`cg-fancy-banner${visible ? ' vis' : ''}`}
+        >
+          <img
+            className="cg-img-desk"
+            src={fancy.image}
+            alt={fancy.label}
+            loading="eager"
+          />
+          <div className="cg-fancy-veil" />
+          <div className="cg-line" />
+          <div className="cg-fancy-badge">New Arrivals</div>
+          <div className="cg-fancy-txt">
+            <span className="cg-num">{fancy.num}</span>
+            <h3 className="cg-name">{fancy.label}</h3>
+            <p className="cg-sub">{fancy.sub}</p>
+          </div>
+        </Link>
+
+        {/* ── MAIN GRID — cards 1–5 + khandua banner ── */}
         <div className="cg-grid">
-          {categories.map((cat, i) => (
+          {gridCats.map((cat, i) => (
             <Link
-              key={i}
+              key={cat.slug}
               to={`/shop?weave=${cat.slug}`}
               className={`cg-card cg-card-${i + 1}${visible ? ' vis' : ''}`}
             >
-              {/* Desktop image — hidden on mobile via CSS */}
               <img
                 className="cg-img-desk"
                 src={cat.image}
                 alt={cat.label}
                 loading={i === 0 ? 'eager' : 'lazy'}
               />
-              {/* Mobile image — hidden on desktop via CSS */}
               <img
                 className="cg-img-mob"
                 src={cat.mobileImage}
                 alt={cat.label}
                 loading="lazy"
               />
-
               <div className="cg-veil" />
               <div className="cg-line" />
               <div className="cg-badge"><ArrowUpRight size={13} /></div>
-
               <div className="cg-txt">
                 <span className="cg-num">{cat.num}</span>
                 <h3 className="cg-name">{cat.label}</h3>
@@ -815,6 +934,26 @@ const CategoryGrid: React.FC = () => {
               </div>
             </Link>
           ))}
+
+          {/* ── FANCY CARD — mobile/tablet only, between Cotton and Khandua ── */}
+          <Link
+            to={`/shop?weave=${fancy.slug}`}
+            className={`cg-fancy-mob${visible ? ' vis' : ''}`}
+          >
+            <img
+              className="cg-img-mob"
+              src={fancy.mobileImage}
+              alt={fancy.label}
+              loading="lazy"
+            />
+            <div className="cg-veil" />
+            <div className="cg-line" />
+            <div className="cg-txt">
+              <span className="cg-num">{fancy.num}</span>
+              <h3 className="cg-name">{fancy.label}</h3>
+              <p className="cg-sub">{fancy.sub}</p>
+            </div>
+          </Link>
         </div>
       </section>
     </>
