@@ -428,35 +428,23 @@ const CategoryGrid: React.FC = () => {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap');
 
         /* ── SECTION ── */
-        .cg2-section {
+        .cg-section {
           padding: clamp(64px, 9vw, 120px) clamp(20px, 6vw, 88px);
           background: #F9F5EE;
           position: relative;
           overflow: hidden;
         }
-        /* Warm radial glow, top-right */
-        .cg2-section::after {
-          content: '';
-          position: absolute;
-          top: -80px; right: -80px;
-          width: 480px; height: 480px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(181,80,43,0.06) 0%, transparent 70%);
-          pointer-events: none;
-        }
 
         /* ── HEADER ── */
-        .cg2-header {
+        .cg-header {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
           margin-bottom: clamp(36px, 5vw, 60px);
           flex-wrap: wrap;
           gap: 20px;
-          position: relative;
-          z-index: 1;
         }
-        .cg2-eyebrow {
+        .cg-eyebrow {
           display: flex;
           align-items: center;
           gap: 10px;
@@ -468,13 +456,13 @@ const CategoryGrid: React.FC = () => {
           color: #B5502B;
           margin-bottom: 14px;
         }
-        .cg2-eyebrow::before {
+        .cg-eyebrow::before {
           content: '';
           width: 24px; height: 1px;
           background: #B5502B;
           display: block;
         }
-        .cg2-title {
+        .cg-title {
           font-family: 'Playfair Display', Georgia, serif;
           font-size: clamp(40px, 5.5vw, 72px);
           font-weight: 400;
@@ -482,11 +470,11 @@ const CategoryGrid: React.FC = () => {
           line-height: 0.94;
           letter-spacing: -0.02em;
         }
-        .cg2-title em {
+        .cg-title em {
           font-style: italic;
           color: #B5502B;
         }
-        .cg2-cta {
+        .cg-cta {
           display: inline-flex;
           align-items: center;
           gap: 8px;
@@ -500,10 +488,11 @@ const CategoryGrid: React.FC = () => {
           border: 1px solid #1C1612;
           position: relative;
           overflow: hidden;
-          transition: color 0.35s ease, border-color 0.35s ease;
+          transition: color 0.35s ease;
           white-space: nowrap;
+          text-decoration: none;
         }
-        .cg2-cta::before {
+        .cg-cta::before {
           content: '';
           position: absolute; inset: 0;
           background: #1C1612;
@@ -511,92 +500,137 @@ const CategoryGrid: React.FC = () => {
           transform-origin: left;
           transition: transform 0.4s cubic-bezier(0.76,0,0.24,1);
         }
-        .cg2-cta:hover::before { transform: scaleX(1); }
-        .cg2-cta:hover { color: #F9F5EE; }
-        .cg2-cta span { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; }
+        .cg-cta:hover::before { transform: scaleX(1); }
+        .cg-cta:hover { color: #F9F5EE; }
+        .cg-cta span { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; }
 
-        /* ── GRID ── */
-        .cg2-grid {
+        /* ─────────────────────────────────────────
+           DESKTOP GRID  (≥ 1025px)
+           Layout:
+             [ hero tall ] [ col2 top ] [ col3 top  ]
+             [ hero tall ] [ col2 bot ] [ col3 bot  ]
+             [      banner — full width             ]
+        ───────────────────────────────────────── */
+        .cg-grid {
           display: grid;
-          grid-template-columns: 1.15fr 0.85fr 1fr;
-          grid-template-rows: auto auto;
-          gap: 4px;
-          position: relative;
-          z-index: 1;
+          grid-template-columns: 1.2fr 0.9fr 0.9fr;
+          grid-template-rows: 1fr 1fr auto;
+          gap: 6px;
         }
 
-        /* ── CARD ── */
-        .cg2-card {
+        /* card 1 — hero, spans 2 rows */
+        .cg-card-1 { grid-column: 1; grid-row: 1 / 3; }
+        /* cards 2–5 fill the 2×2 right block */
+        .cg-card-2 { grid-column: 2; grid-row: 1; }
+        .cg-card-3 { grid-column: 3; grid-row: 1; }
+        .cg-card-4 { grid-column: 2; grid-row: 2; }
+        .cg-card-5 { grid-column: 3; grid-row: 2; }
+        /* card 6 — wide banner */
+        .cg-card-6 { grid-column: 1 / -1; grid-row: 3; height: 160px; }
+
+        /* shared card base */
+        .cg-card {
           display: block;
           position: relative;
           overflow: hidden;
           background: #EDE3D0;
           text-decoration: none;
           opacity: 0;
-          transform: translateY(24px);
+          transform: translateY(20px);
           transition:
-            opacity 0.72s cubic-bezier(0.25,0.46,0.45,0.94),
-            transform 0.72s cubic-bezier(0.25,0.46,0.45,0.94),
-            box-shadow 0.4s ease;
+            opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+            transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+            box-shadow 0.35s ease;
         }
-        .cg2-card.vis { opacity: 1; transform: translateY(0); }
-        .cg2-card:nth-child(1) { transition-delay: 0.04s; aspect-ratio: 3/4; }
-        .cg2-card:nth-child(2) { transition-delay: 0.13s; aspect-ratio: 4/5; align-self: end; }
-        .cg2-card:nth-child(3) { transition-delay: 0.08s; grid-row: 1/3; }
-        .cg2-card:nth-child(4) { transition-delay: 0.20s; aspect-ratio: 4/3; }
-        .cg2-card:nth-child(5) { transition-delay: 0.26s; aspect-ratio: 4/3; }
-        .cg2-card:nth-child(6) { display: none; }
+        .cg-card.vis { opacity: 1; transform: translateY(0); }
 
-        .cg2-card:hover {
-          box-shadow: 0 16px 48px rgba(28,22,18,0.13);
-          z-index: 2;
+        .cg-card-1 { transition-delay: 0.04s; }
+        .cg-card-2 { transition-delay: 0.10s; }
+        .cg-card-3 { transition-delay: 0.16s; }
+        .cg-card-4 { transition-delay: 0.22s; }
+        .cg-card-5 { transition-delay: 0.28s; }
+        .cg-card-6 { transition-delay: 0.34s; }
+
+        .cg-card:hover { box-shadow: 0 14px 44px rgba(28,22,18,0.14); z-index: 2; }
+
+        /* aspect ratios for desktop */
+        @media (min-width: 1025px) {
+          .cg-card-1 { aspect-ratio: unset; } /* height comes from grid rows */
+          .cg-card-2,
+          .cg-card-3,
+          .cg-card-4,
+          .cg-card-5 { aspect-ratio: 4/3; }
         }
 
-        /* Image */
-        .cg2-img {
+        /* ── IMAGES ── */
+        /* 
+          The trick: we use two <img> tags per card.
+          .cg-img-desk  — shown on desktop, hidden on mobile
+          .cg-img-mob   — shown on mobile, hidden on desktop
+          This is more reliable than <picture> + srcSet which can be
+          overridden by browser caching or DPR decisions.
+        */
+        .cg-img-desk,
+        .cg-img-mob {
+          position: absolute;
+          inset: 0;
           width: 100%; height: 100%;
           object-fit: cover;
-          display: block;
-          opacity: 0.86;
           transition: transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.5s ease;
           transform: scale(1.05);
+          opacity: 0.82;
         }
-        .cg2-card:hover .cg2-img, 
-        .cg2-card:hover .cg2-img img { transform: scale(1.0); opacity: 0.94; }
+        /* desktop: show desk image, hide mobile image */
+        @media (min-width: 769px) {
+          .cg-img-desk { display: block; }
+          .cg-img-mob  { display: none; }
+        }
+        /* mobile: show mobile image, hide desktop image */
+        @media (max-width: 768px) {
+          .cg-img-desk { display: none; }
+          .cg-img-mob  { display: block; }
+        }
+        .cg-card:hover .cg-img-desk,
+        .cg-card:hover .cg-img-mob {
+          transform: scale(1.0);
+          opacity: 0.92;
+        }
 
-        .cg2-img-strip {
-             width: 100%; height: 100%;
-             display: block;
-        }
-        .cg2-img-strip img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0.78;
-            transition: transform 0.85s ease, opacity 0.5s ease;
-            transform: scale(1.04);
-        }
-        .cg2-strip:hover .cg2-img-strip img { opacity: 0.9; transform: scale(1.0); }
-
-        /* Gradient — warm, not cold */
-        .cg2-veil {
+        /* ── OVERLAY ── */
+        .cg-veil {
           position: absolute; inset: 0;
           background: linear-gradient(
-            165deg,
-            rgba(249,245,238,0) 45%,
-            rgba(28,22,18,0.62) 100%
+            160deg,
+            rgba(249,245,238,0) 40%,
+            rgba(28,22,18,0.65) 100%
           );
-          transition: background 0.45s ease;
+          transition: background 0.4s ease;
         }
-        .cg2-card:hover .cg2-veil {
+        /* banner card gets a side-gradient */
+        .cg-card-6 .cg-veil {
           background: linear-gradient(
-            165deg,
-            rgba(249,245,238,0) 35%,
-            rgba(28,22,18,0.76) 100%
+            to right,
+            rgba(28,22,18,0.70) 0%,
+            rgba(28,22,18,0.10) 55%
+          );
+        }
+        .cg-card:hover .cg-veil {
+          background: linear-gradient(
+            160deg,
+            rgba(249,245,238,0) 28%,
+            rgba(28,22,18,0.80) 100%
+          );
+        }
+        .cg-card-6:hover .cg-veil {
+          background: linear-gradient(
+            to right,
+            rgba(28,22,18,0.82) 0%,
+            rgba(28,22,18,0.18) 55%
           );
         }
 
-        /* Terracotta top-border reveal */
-        .cg2-line {
+        /* terracotta top-border reveal */
+        .cg-line {
           position: absolute;
           top: 0; left: 0; right: 0;
           height: 2px;
@@ -605,13 +639,13 @@ const CategoryGrid: React.FC = () => {
           transform-origin: left;
           transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        .cg2-card:hover .cg2-line { transform: scaleX(1); }
+        .cg-card:hover .cg-line { transform: scaleX(1); }
 
-        /* Arrow badge */
-        .cg2-badge {
+        /* arrow badge */
+        .cg-badge {
           position: absolute;
           top: 14px; right: 14px;
-          width: 34px; height: 34px;
+          width: 32px; height: 32px;
           background: #F9F5EE;
           display: flex;
           align-items: center;
@@ -619,21 +653,31 @@ const CategoryGrid: React.FC = () => {
           color: #1C1612;
           opacity: 0;
           transform: translateY(-8px) scale(0.85);
-          transition: opacity 0.35s ease 0.05s, transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s;
+          transition: opacity 0.3s ease 0.05s, transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s;
         }
-        .cg2-card:hover .cg2-badge { opacity: 1; transform: translateY(0) scale(1); }
+        .cg-card:hover .cg-badge { opacity: 1; transform: translateY(0) scale(1); }
 
-        /* Text */
-        .cg2-txt {
+        /* ── TEXT ── */
+        .cg-txt {
           position: absolute;
           bottom: 0; left: 0; right: 0;
           padding: clamp(14px, 2vw, 22px);
-          transform: translateY(5px);
-          transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+          transform: translateY(4px);
+          transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        .cg2-card:hover .cg2-txt { transform: translateY(0); }
+        /* banner text sits on the left, vertically centred */
+        .cg-card-6 .cg-txt {
+          top: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: clamp(16px, 3vw, 32px);
+          transform: none;
+        }
+        .cg-card:hover .cg-txt { transform: translateY(0); }
+        .cg-card-6:hover .cg-txt { transform: none; }
 
-        .cg2-num {
+        .cg-num {
           display: block;
           font-family: 'DM Sans', sans-serif;
           font-size: 9px;
@@ -641,130 +685,137 @@ const CategoryGrid: React.FC = () => {
           color: #B5502B;
           margin-bottom: 5px;
         }
-        .cg2-name {
+        .cg-name {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(20px, 2.4vw, 30px);
+          font-size: clamp(18px, 2.2vw, 28px);
           font-weight: 400;
           color: #F9F5EE;
           line-height: 1.05;
-          margin-bottom: 4px;
+          margin: 0 0 4px;
         }
-        .cg2-sub {
+        .cg-sub {
           font-family: 'DM Sans', sans-serif;
           font-size: 8px;
           letter-spacing: 0.2em;
           text-transform: uppercase;
           color: rgba(249,245,238,0.5);
+          margin: 0;
         }
 
-        /* ── STRIP (6th, desktop) ── */
-        .cg2-strip {
-          margin-top: 4px;
-          position: relative;
-          overflow: hidden;
-          height: 150px;
-          background: #EDE3D0;
-          display: block;
-          text-decoration: none;
-          opacity: 0;
-          transform: translateY(16px);
-          transition: opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s, box-shadow 0.4s ease;
-        }
-        .cg2-strip.vis { opacity: 1; transform: translateY(0); }
-        .cg2-strip:hover { box-shadow: 0 8px 36px rgba(28,22,18,0.13); }
-        .cg2-strip .cg2-veil {
-          background: linear-gradient(to right, rgba(28,22,18,0.65) 0%, rgba(28,22,18,0.08) 60%);
-        }
-        .cg2-strip .cg2-line { transition: transform 0.5s ease; }
-        .cg2-strip:hover .cg2-line { transform: scaleX(1); }
-        .cg2-strip-inner {
-          position: absolute;
-          left: 22px; top: 50%;
-          transform: translateY(-50%);
-        }
-
-        /* ── MOBILE ── */
-        @media (max-width: 1024px) {
-          .cg2-grid {
+        /* ─────────────────────────────────────────
+           TABLET  (768px – 1024px)
+           2-column, each card equal
+        ───────────────────────────────────────── */
+        @media (max-width: 1024px) and (min-width: 769px) {
+          .cg-grid {
             grid-template-columns: 1fr 1fr;
+            grid-template-rows: none;
+            gap: 5px;
+          }
+          .cg-card-1,
+          .cg-card-2,
+          .cg-card-3,
+          .cg-card-4,
+          .cg-card-5 {
+            grid-column: auto;
+            grid-row: auto;
+            aspect-ratio: 4/5;
+          }
+          /* card 6 banner spans full width */
+          .cg-card-6 {
+            grid-column: 1 / -1;
+            grid-row: auto;
+            height: 140px;
+          }
+          .cg-badge { display: none; }
+        }
+
+        /* ─────────────────────────────────────────
+           MOBILE  (≤ 768px)
+           2-column grid, card 6 full-width at bottom
+        ───────────────────────────────────────── */
+        @media (max-width: 768px) {
+          .cg-section {
+            padding: 48px 16px;
+          }
+          .cg-grid {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: none;
             gap: 4px;
           }
-          .cg2-card:nth-child(n) { aspect-ratio: 4/5; grid-column: auto; grid-row: auto; }
-          .cg2-card:nth-child(3) { grid-column: 1/-1; aspect-ratio: 16/9; }
-          .cg2-card:nth-child(6) { display: block; grid-column: 1/-1; aspect-ratio: 16/9; }
-          .cg2-strip { display: none; }
-          .cg2-badge { display: none; }
+          .cg-card-1,
+          .cg-card-2,
+          .cg-card-3,
+          .cg-card-4,
+          .cg-card-5 {
+            grid-column: auto;
+            grid-row: auto;
+            aspect-ratio: 3/4;
+          }
+          .cg-card-6 {
+            grid-column: 1 / -1;
+            grid-row: auto;
+            height: 130px;
+          }
+          .cg-badge { display: none; }
+          .cg-name { font-size: 18px; }
         }
 
-        @media (max-width: 600px) {
-          .cg2-grid { grid-template-columns: 1fr 1fr; gap: 4px; }
-          .cg2-card:nth-child(n) {
-            aspect-ratio: 4/5 !important;
-            grid-column: auto !important;
-            grid-row: auto !important;
-          }
-           .cg2-card:nth-child(3), .cg2-card:nth-child(6) { grid-column: 1/-1 !important; aspect-ratio: 16/9 !important; }
+        @media (max-width: 400px) {
+          .cg-card-1,
+          .cg-card-2,
+          .cg-card-3,
+          .cg-card-4,
+          .cg-card-5 { aspect-ratio: 3/4; }
+          .cg-card-6 { height: 110px; }
         }
       `}</style>
 
-      <section className="cg2-section" ref={sectionRef}>
-        <div className="cg2-header">
+      <section className="cg-section" ref={sectionRef}>
+        <div className="cg-header">
           <div>
-            <p className="cg2-eyebrow">Explore By Weave</p>
-            <h2 className="cg2-title">Six Ancient<br /><em>Traditions</em></h2>
+            <p className="cg-eyebrow">Explore By Weave</p>
+            <h2 className="cg-title">Six Ancient<br /><em>Traditions</em></h2>
           </div>
-          <Link to="/shop" className="cg2-cta">
+          <Link to="/shop" className="cg-cta">
             <span>View All Collections <ArrowUpRight size={13} /></span>
           </Link>
         </div>
 
-        <div className="cg2-grid">
-          {categories.slice(0, 5).map((cat, i) => (
-            <Link key={i} to={`/shop?weave=${cat.slug}`} className={`cg2-card${visible ? ' vis' : ''}`}>
-              <picture className="cg2-img">
-                <source media="(max-width: 768px)" srcSet={cat.mobileImage} />
-                <img src={cat.image} alt={cat.label} />
-              </picture>
-              <div className="cg2-veil" />
-              <div className="cg2-line" />
-              <div className="cg2-badge"><ArrowUpRight size={14} /></div>
-              <div className="cg2-txt">
-                <span className="cg2-num">{cat.num}</span>
-                <h3 className="cg2-name">{cat.label}</h3>
-                <p className="cg2-sub">{cat.sub}</p>
+        <div className="cg-grid">
+          {categories.map((cat, i) => (
+            <Link
+              key={i}
+              to={`/shop?weave=${cat.slug}`}
+              className={`cg-card cg-card-${i + 1}${visible ? ' vis' : ''}`}
+            >
+              {/* Desktop image — hidden on mobile via CSS */}
+              <img
+                className="cg-img-desk"
+                src={cat.image}
+                alt={cat.label}
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+              {/* Mobile image — hidden on desktop via CSS */}
+              <img
+                className="cg-img-mob"
+                src={cat.mobileImage}
+                alt={cat.label}
+                loading="lazy"
+              />
+
+              <div className="cg-veil" />
+              <div className="cg-line" />
+              <div className="cg-badge"><ArrowUpRight size={13} /></div>
+
+              <div className="cg-txt">
+                <span className="cg-num">{cat.num}</span>
+                <h3 className="cg-name">{cat.label}</h3>
+                <p className="cg-sub">{cat.sub}</p>
               </div>
             </Link>
           ))}
-          {/* 6th — mobile only */}
-          <Link to={`/shop?weave=${categories[5].slug}`} className={`cg2-card${visible ? ' vis' : ''}`}>
-            <picture className="cg2-img">
-              <source media="(max-width: 768px)" srcSet={categories[5].mobileImage} />
-              <img src={categories[5].image} alt={categories[5].label} />
-            </picture>
-            <div className="cg2-veil" />
-            <div className="cg2-line" />
-            <div className="cg2-txt">
-              <span className="cg2-num">{categories[5].num}</span>
-              <h3 className="cg2-name">{categories[5].label}</h3>
-              <p className="cg2-sub">{categories[5].sub}</p>
-            </div>
-          </Link>
         </div>
-
-        {/* 6th — desktop strip */}
-        <Link to={`/shop?weave=${categories[5].slug}`} className={`cg2-strip${visible ? ' vis' : ''}`}>
-          <picture className="cg2-img-strip">
-            <source media="(max-width: 768px)" srcSet={categories[5].mobileImage} />
-            <img src={categories[5].image} alt={categories[5].label} />
-          </picture>
-          <div className="cg2-veil" />
-          <div className="cg2-line" />
-          <div className="cg2-strip-inner">
-            <span className="cg2-num">{categories[5].num}</span>
-            <h3 className="cg2-name">{categories[5].label}</h3>
-            <p className="cg2-sub">{categories[5].sub}</p>
-          </div>
-        </Link>
       </section>
     </>
   );
