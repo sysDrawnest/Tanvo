@@ -696,13 +696,14 @@ const CategoryGrid: React.FC = () => {
           .cg2-badge { display: none; }
         }
 
-        @media (max-width: 768px) {
-          .cg2-grid { grid-template-columns: 1fr; gap: 12px; }
+        @media (max-width: 600px) {
+          .cg2-grid { grid-template-columns: 1fr 1fr; gap: 4px; }
           .cg2-card:nth-child(n) {
-            aspect-ratio: 4/3 !important;
+            aspect-ratio: 4/5 !important;
             grid-column: auto !important;
             grid-row: auto !important;
           }
+           .cg2-card:nth-child(3), .cg2-card:nth-child(6) { grid-column: 1/-1 !important; aspect-ratio: 16/9 !important; }
         }
       `}</style>
 
