@@ -38,7 +38,7 @@ const About: React.FC = () => {
 
           {/* Right Image Column (Top on mobile) */}
           <div className="lg:w-1/2 w-full aspect-[4/3] lg:aspect-auto flex justify-center items-center relative rounded-xl overflow-hidden lg:p-0">
-            <div className="w-full h-full bg-black lg:bg-transparent flex justify-center items-center">
+            <div className="w-full h-full lg:bg-transparent flex justify-center items-center">
               <img
                 src="/about.png"
                 alt="Illustrations of women in traditional Odisha sarees"
