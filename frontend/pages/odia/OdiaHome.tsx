@@ -223,7 +223,10 @@ const OdiaHome: React.FC = () => {
                         ))
                     ) : (
                         // Placeholder product if none found
-                        <div className="group bg-white rounded-2xl overflow-hidden shadow-soft border border-[#f0e2d6] transition-all hover:shadow-card-hover cursor-pointer">
+                        <div
+                            className="group bg-white rounded-2xl overflow-hidden shadow-soft border border-[#f0e2d6] transition-all hover:shadow-card-hover cursor-pointer"
+                            onClick={() => navigate('/odia/shop')}
+                        >
                             <div className="aspect-[4/5] overflow-hidden relative">
                                 <img className="w-full h-full object-cover group-hover:scale-105 transition duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDYgtP225Hq52kCLY8nUZnvCkCToMrO5E2l4LGOXNkjVzSl1mGnUuCNFGFnQVjUmW7HLGrtmCshnYtIjJH8yTmwHLSfXUBsOrTWvXI9HdoPOCRgNsKGSksRMmOxAE2NXZcVBRSLUrNp3C5Fl9gact5lX9NWPipSg4QUAAOhzTtr_bh-oQhdp75Nca87dOORLd3_o1pTCFyVQhZKvU4lQv86VcYa-ns3bpvVP4u0qotRxtdYuJaJrj8Tyk2hXPd-aMzNG6V8fop2w" />
                                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded-full text-xs font-bold text-secondary">ନୂଆ</div>

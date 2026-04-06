@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import OdiaLayout from '../../components/OdiaLayout';
 import { useStore } from '../../context/StoreContext';
 
 const OdiaShop: React.FC = () => {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const { products } = useStore();
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+    useEffect(() => {
+        const catParam = searchParams.get('category');
+        if (catParam) {
+            setSelectedCategory(catParam);
+        }
+    }, [searchParams]);
 
     const categories = ['ସମ୍ବଲପୁରୀ', 'ବୋମକାଇ', 'ଖଣ୍ଡୁଆ', 'ପସପାଳି', 'କୋଟପାଡ଼', 'ସିଲ୍କ'];
 
