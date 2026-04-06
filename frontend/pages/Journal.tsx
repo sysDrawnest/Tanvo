@@ -2,6 +2,8 @@ import React from 'react';
 import WeaveAnatomy from './sections/WeaveAnatomy';
 import BrandStory from './sections/BrandStory';
 import StoriesSection from './sections/StoriesSection';
+import FabricShowcase from './sections/FabricShowcase';
+import ZariDetail from './sections/ZariDetail';
 
 const Journal: React.FC = () => {
     return (
@@ -16,7 +18,9 @@ const Journal: React.FC = () => {
 
             <main>
                 <BrandStory />
+                <FabricShowcase />
                 <WeaveAnatomy />
+                <ZariDetail />
                 <StoriesSection />
 
                 <section className="py-24 px-6 bg-white">
