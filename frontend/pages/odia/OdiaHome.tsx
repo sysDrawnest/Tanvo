@@ -9,7 +9,7 @@ const OdiaHome: React.FC = () => {
     const PHONE = '9100000000';
 
     // Featured products (take 3 newest/best)
-    const featuredProducts = products.slice(0, 3);
+    const featuredProducts = products.length > 0 ? products.slice(0, 3) : [];
 
     const categories = [
         {
@@ -196,8 +196,12 @@ const OdiaHome: React.FC = () => {
                                 onClick={() => navigate(`/odia/product/${product._id}`)}
                             >
                                 <div className="aspect-[4/5] overflow-hidden relative">
-                                    <img className="w-full h-full object-cover group-hover:scale-105 transition duration-500" src={product.image[0]} alt={product.name} />
-                                    {product.isNew && (
+                                    <img
+                                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                        src={product.images && product.images[0] ? product.images[0].url : ''}
+                                        alt={product.name}
+                                    />
+                                    {product.isNewArrival && (
                                         <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded-full text-xs font-bold text-secondary">ନୂଆ</div>
                                     )}
                                 </div>
@@ -227,7 +231,7 @@ const OdiaHome: React.FC = () => {
                             <div className="p-5 text-left">
                                 <h4 className="text-xl font-bold mb-1">ସମ୍ବଲପୁରୀ ଶାଢ଼ୀ</h4>
                                 <p className="text-primary text-2xl font-black mb-4">₹୪,୫୦୦</p>
-                                <button className="w-full bg-[#f0e3d4] text-on-surface hover:bg-primary hover:text-white py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 btn-tap"><span class="material-symbols-outlined">add_shopping_cart</span> ବ୍ୟାଗରେ ଯୋଡନ୍ତୁ</button>
+                                <button className="w-full bg-[#f0e3d4] text-on-surface hover:bg-primary hover:text-white py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 btn-tap"><span className="material-symbols-outlined">add_shopping_cart</span> ବ୍ୟାଗରେ ଯୋଡନ୍ତୁ</button>
                             </div>
                         </div>
                     )}

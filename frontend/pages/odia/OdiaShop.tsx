@@ -24,8 +24,8 @@ const OdiaShop: React.FC = () => {
                     <button
                         onClick={() => setSelectedCategory(null)}
                         className={`px-6 py-2.5 rounded-full whitespace-nowrap font-bold transition-all btn-tap ${selectedCategory === null
-                                ? 'bg-primary text-white shadow-md'
-                                : 'bg-white text-[#2d2a24] border border-[#f0e2d6] shadow-soft'
+                            ? 'bg-primary text-white shadow-md'
+                            : 'bg-white text-[#2d2a24] border border-[#f0e2d6] shadow-soft'
                             }`}
                     >
                         ସବୁ ଦେଖନ୍ତୁ
@@ -35,8 +35,8 @@ const OdiaShop: React.FC = () => {
                             key={cat}
                             onClick={() => setSelectedCategory(cat)}
                             className={`px-6 py-2.5 rounded-full whitespace-nowrap font-bold transition-all btn-tap ${selectedCategory === cat
-                                    ? 'bg-primary text-white shadow-md'
-                                    : 'bg-white text-[#2d2a24] border border-[#f0e2d6] shadow-soft'
+                                ? 'bg-primary text-white shadow-md'
+                                : 'bg-white text-[#2d2a24] border border-[#f0e2d6] shadow-soft'
                                 }`}
                         >
                             {cat}
@@ -55,10 +55,10 @@ const OdiaShop: React.FC = () => {
                             <div className="aspect-[4/5] overflow-hidden relative">
                                 <img
                                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                                    src={product.image[0]}
+                                    src={product.images && product.images[0] ? product.images[0].url : ''}
                                     alt={product.name}
                                 />
-                                {product.isNew && (
+                                {product.isNewArrival && (
                                     <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded-full text-xs font-bold text-secondary">
                                         ନୂଆ
                                     </div>
@@ -68,8 +68,8 @@ const OdiaShop: React.FC = () => {
                                 <h4 className="text-xl font-bold mb-1">{product.name}</h4>
                                 <div className="flex items-center gap-2 mb-4">
                                     <span className="text-primary text-2xl font-black">₹{product.price}</span>
-                                    {product.oldPrice && (
-                                        <span className="text-[#6b6259] line-through text-sm">₹{product.oldPrice}</span>
+                                    {product.originalPrice && (
+                                        <span className="text-[#6b6259] line-through text-sm">₹{product.originalPrice}</span>
                                     )}
                                 </div>
                                 <button

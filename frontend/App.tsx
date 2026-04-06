@@ -15,6 +15,7 @@ import RegisterModal from './components/RegisterModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import WelcomeScreen from './components/WelcomeScreen';
 import LanguageToggle from './components/LanguageToggle';
+import LanguageSelectorPopup from './components/LanguageSelectorPopup';
 
 // Odia Pages
 import OdiaHome from './pages/odia/OdiaHome';
@@ -63,6 +64,7 @@ const AppContent: React.FC = () => {
   return (
     <>
       <LanguageToggle />
+      <LanguageSelectorPopup />
       <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--bg-main)' }}>
         {!isOdiaRoute && <Navbar />}
         <RegisterModal />

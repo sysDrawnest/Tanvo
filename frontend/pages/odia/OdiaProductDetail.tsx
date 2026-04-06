@@ -16,7 +16,7 @@ const OdiaProductDetail: React.FC = () => {
         const found = products.find(p => p._id === id);
         if (found) {
             setProduct(found);
-            setMainImage(found.image[0]);
+            setMainImage(found.images && found.images[0] ? found.images[0].url : '');
         }
     }, [id, products]);
 
@@ -39,16 +39,16 @@ const OdiaProductDetail: React.FC = () => {
                     <div className="rounded-3xl overflow-hidden shadow-soft bg-white aspect-[4/5] mb-4">
                         <img src={mainImage} alt={product.name} className="w-full h-full object-cover" />
                     </div>
-                    {product.image.length > 1 && (
+                    {product.images && product.images.length > 1 && (
                         <div className="flex gap-3 overflow-x-auto no-scrollbar py-2">
-                            {product.image.map((img: string, idx: number) => (
+                            {product.images.map((imgObj: any, idx: number) => (
                                 <button
                                     key={idx}
-                                    onClick={() => setMainImage(img)}
-                                    className={`w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all ${mainImage === img ? 'border-primary shadow-glow' : 'border-transparent opacity-70'
+                                    onClick={() => setMainImage(imgObj.url)}
+                                    className={`w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all ${mainImage === imgObj.url ? 'border-primary shadow-glow' : 'border-transparent opacity-70'
                                         }`}
                                 >
-                                    <img src={img} alt="" className="w-full h-full object-cover" />
+                                    <img src={imgObj.url} alt="" className="w-full h-full object-cover" />
                                 </button>
                             ))}
                         </div>
@@ -66,8 +66,8 @@ const OdiaProductDetail: React.FC = () => {
                         </h2>
                         <div className="flex items-center gap-3">
                             <span className="text-primary text-3xl font-black">₹{product.price}</span>
-                            {product.oldPrice && (
-                                <span className="text-[#6b6259] line-through text-lg opacity-60">₹{product.oldPrice}</span>
+                            {product.originalPrice && (
+                                <span className="text-[#6b6259] line-through text-lg opacity-60">₹{product.originalPrice}</span>
                             )}
                         </div>
                     </div>
