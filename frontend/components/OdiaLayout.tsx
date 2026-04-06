@@ -15,8 +15,8 @@ const OdiaLayout: React.FC<OdiaLayoutProps> = ({ children }) => {
             {/* Top App Bar (refined) */}
             <header className="sticky top-[30px] z-50 bg-white/95 backdrop-blur-md border-b border-[#f0e2d6] shadow-sm">
                 <div className="flex justify-between items-center w-full px-5 py-3 max-w-screen-xl mx-auto">
-                    <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/odia')}>
-                        <span className="material-symbols-outlined text-primary text-3xl hover:scale-105 transition">menu</span>
+                    <div className="flex items-center gap-3">
+                        <span className="material-symbols-outlined text-primary text-3xl cursor-pointer hover:scale-105 transition">menu</span>
                         <h1 className="font-noto text-2xl tracking-tight font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                             ଓଡ଼ିଆ ହସ୍ତତନ୍ତ
                         </h1>
@@ -24,7 +24,7 @@ const OdiaLayout: React.FC<OdiaLayoutProps> = ({ children }) => {
                     <div className="flex items-center gap-3">
                         <span
                             className="material-symbols-outlined text-primary text-3xl cursor-pointer hover:scale-105 transition"
-                            onClick={() => navigate('/odia/cart')}
+                            onClick={() => navigate('/cart')}
                         >
                             shopping_cart
                         </span>
