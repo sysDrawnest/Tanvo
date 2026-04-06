@@ -84,16 +84,66 @@ const WeaveAnatomy: React.FC = () => {
                             }}
                         />
 
-                        <img
-                            alt="Sambalpuri Ikat Detail"
-                            src="/Ikat Detail.png"
+                        {/* Annotation: Pallu */}
+                        <div
                             style={{
-                                width: '100%',
-                                height: 'auto',
-                                display: 'block',
-                                boxShadow: '0 24px 64px rgba(28,22,18,0.1)',
+                                position: 'absolute', top: '22%', left: '28%',
+                                width: 14, height: 14, borderRadius: '50%',
+                                background: 'var(--terra)',
+                                cursor: 'pointer',
+                                zIndex: 4,
                             }}
-                        />
+                            className="hotspot-pulse group"
+                        >
+                            <div style={{
+                                position: 'absolute', left: 24, top: -8,
+                                width: 180,
+                                background: 'var(--ivory)',
+                                padding: '12px 14px',
+                                boxShadow: '0 8px 32px rgba(28,22,18,0.12)',
+                                borderLeft: '2px solid var(--terra)',
+                                opacity: 0,
+                                transition: 'opacity 0.3s ease',
+                                pointerEvents: 'none',
+                                zIndex: 20,
+                            }}
+                                className="pallu-tip"
+                            >
+                                <p style={{ fontFamily: "'Cinzel',serif", fontSize: 8, letterSpacing: '0.2em', color: 'var(--terra)', marginBottom: 4 }}>THE PALLU</p>
+                                <p style={{ fontFamily: "'Raleway',sans-serif", fontSize: 11, fontWeight: 300, color: 'var(--ink-muted)', lineHeight: 1.6 }}>The decorative end-piece featuring intricate floral & shell motifs.</p>
+                            </div>
+                        </div>
+
+                        {/* Annotation: Ikat */}
+                        <div
+                            style={{
+                                position: 'absolute', bottom: '38%', right: '12%',
+                                width: 14, height: 14, borderRadius: '50%',
+                                background: 'var(--terra)',
+                                cursor: 'pointer',
+                                zIndex: 4,
+                            }}
+                            className="hotspot-pulse group"
+                        >
+                            <div style={{
+                                position: 'absolute', right: 24, top: -8,
+                                width: 180,
+                                background: 'var(--ivory)',
+                                padding: '12px 14px',
+                                boxShadow: '0 8px 32px rgba(28,22,18,0.12)',
+                                borderRight: '2px solid var(--terra)',
+                                textAlign: 'right',
+                                opacity: 0,
+                                transition: 'opacity 0.3s ease',
+                                pointerEvents: 'none',
+                                zIndex: 20,
+                            }}
+                                className="ikat-tip"
+                            >
+                                <p style={{ fontFamily: "'Cinzel',serif", fontSize: 8, letterSpacing: '0.2em', color: 'var(--terra)', marginBottom: 4 }}>IKAT PATTERN</p>
+                                <p style={{ fontFamily: "'Raleway',sans-serif", fontSize: 11, fontWeight: 300, color: 'var(--ink-muted)', lineHeight: 1.6 }}>Double-ikat where both warp and weft are resist-dyed simultaneously.</p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Detail cards */}
@@ -144,6 +194,22 @@ const WeaveAnatomy: React.FC = () => {
             </div>
 
             <style>{`
+                .hotspot-pulse:hover .pallu-tip,
+                .hotspot-pulse:hover .ikat-tip { opacity: 1 !important; }
+
+                @keyframes waHotspot {
+                    0%,100% { opacity: 0.5; transform: scale(1); }
+                    50% { opacity: 0; transform: scale(1.8); }
+                }
+                .hotspot-pulse::before {
+                    content: '';
+                    position: absolute;
+                    inset: -6px;
+                    border-radius: 50%;
+                    border: 1px solid var(--terra);
+                    animation: waHotspot 2s ease infinite;
+                }
+
                 @media (max-width: 768px) {
                     .wa-grid { grid-template-columns: 1fr !important; }
                 }

@@ -22,7 +22,7 @@ const FabricShowcase: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
                     viewport={{ once: true }}
-                    className="font-serif text-4xl md:text-6xl text-[#1a120b] tracking-tight mb-8"
+                    className="font-serif text-5xl md:text-7xl text-[#1a120b] tracking-tight mb-8"
                 >
                     The Art of the Weave
                 </motion.h1>
