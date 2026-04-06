@@ -21,6 +21,10 @@ import LanguageSelectorPopup from './components/LanguageSelectorPopup';
 import OdiaHome from './pages/odia/OdiaHome';
 import OdiaShop from './pages/odia/OdiaShop';
 import OdiaProductDetail from './pages/odia/OdiaProductDetail';
+import OdiaCart from './pages/odia/OdiaCart';
+import OdiaCheckout from './pages/odia/OdiaCheckout';
+import OdiaProfile from './pages/odia/OdiaProfile';
+import OdiaOrderConfirmation from './pages/odia/OdiaOrderConfirmation';
 
 
 // Pages
@@ -74,6 +78,22 @@ const AppContent: React.FC = () => {
             <Route path="/odia" element={<OdiaHome />} />
             <Route path="/odia/shop" element={<OdiaShop />} />
             <Route path="/odia/product/:id" element={<OdiaProductDetail />} />
+            <Route path="/odia/cart" element={<OdiaCart />} />
+            <Route path="/odia/checkout" element={
+              <ProtectedRoute>
+                <OdiaCheckout />
+              </ProtectedRoute>
+            } />
+            <Route path="/odia/profile" element={
+              <ProtectedRoute>
+                <OdiaProfile />
+              </ProtectedRoute>
+            } />
+            <Route path="/odia/order-confirmation/:id" element={
+              <ProtectedRoute>
+                <OdiaOrderConfirmation />
+              </ProtectedRoute>
+            } />
 
             {/* English Premium Routes */}
             <Route path="/" element={<Home />} />

@@ -90,7 +90,7 @@ const OdiaProductDetail: React.FC = () => {
                         <button
                             onClick={() => {
                                 addToCart(product._id);
-                                navigate('/cart');
+                                navigate('/odia/cart');
                             }}
                             className="w-full bg-primary text-white py-4 rounded-2xl font-bold text-lg shadow-lg flex items-center justify-center gap-3 transition-all btn-tap hover:shadow-xl"
                         >

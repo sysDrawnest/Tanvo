@@ -9,7 +9,8 @@ const OdiaNavbar: React.FC = () => {
     const navItems = [
         { label: 'ମୁଖ୍ୟ', icon: 'home', path: '/odia' },
         { label: 'ଶାଢ଼ି', icon: 'shopping_bag', path: '/odia/shop' },
-        { label: 'ଯୋଗାଯୋଗ', icon: 'call', path: '/contact' }, // Or keep internal if preferred
+        { label: 'ବ୍ୟାଗ୍', icon: 'shopping_basket', path: '/odia/cart' },
+        { label: 'ମୋର', icon: 'person', path: '/odia/profile' },
     ];
 
     return (
@@ -21,8 +22,8 @@ const OdiaNavbar: React.FC = () => {
                         key={item.label}
                         onClick={() => navigate(item.path)}
                         className={`flex flex-col items-center justify-center px-5 py-1 transition-all rounded-2xl ${isActive
-                                ? 'nav-active'
-                                : 'text-[#2d2a24] hover:bg-[#f0e3d4]'
+                            ? 'nav-active'
+                            : 'text-[#2d2a24] hover:bg-[#f0e3d4]'
                             }`}
                     >
                         <span
