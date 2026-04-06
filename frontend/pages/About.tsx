@@ -34,9 +34,9 @@ const About: React.FC = () => {
     <div className="min-h-screen bg-[#FDF4F0] overflow-hidden">
       {/* Hero Section */}
       <section className="relative overflow-hidden flex flex-col items-center">
-        <div className="max-w-screen-2xl w-full flex flex-col lg:flex-row items-center justify-between px-10 py-10 lg:py-16 gap-8 lg:gap-12">
+        <div className="max-w-screen-2xl w-full flex flex-col lg:flex-row-reverse items-center justify-between px-10 py-10 lg:py-16 gap-8 lg:gap-12">
 
-          {/* Left Image Column */}
+          {/* Right Image Column (Top on mobile) */}
           <div className="lg:w-1/2 w-full aspect-[4/3] lg:aspect-auto flex justify-center items-center relative rounded-xl overflow-hidden lg:p-0">
             <div className="w-full h-full bg-black lg:bg-transparent flex justify-center items-center">
               <img
@@ -52,9 +52,9 @@ const About: React.FC = () => {
             <div className="absolute top-1/2 left-10 text-xl text-gray-300 transform -rotate-12">⊕</div>
           </div>
 
-          {/* Right Content Column */}
-          <div className="lg:w-1/2 flex flex-col items-start space-y-10 px-4 md:px-0">
-            <div className="space-y-4">
+          {/* Left Content Column (Bottom on mobile) */}
+          <div className="lg:w-1/2 flex flex-col items-center lg:items-start space-y-10 text-center lg:text-left">
+            <div className="space-y-4 w-full">
               <h1 className="font-serif text-6xl md:text-8xl text-gray-900 leading-tight">Bridging</h1>
               <h1 className="text-5xl md:text-7xl italic font-normal text-[#B2473A] leading-tight font-serif">Tradition & Trend</h1>
             </div>
@@ -65,16 +65,16 @@ const About: React.FC = () => {
               Your trusted platform for authentic, handcrafted heritage, direct from the loom to your wardrobe.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4 w-full lg:w-auto">
               <Link
                 to="/shop"
-                className="bg-[#B2473A] text-white px-10 py-3 rounded-sm font-semibold text-base flex items-center gap-3 transition hover:bg-red-800 shadow-lg shadow-red-900/20"
+                className="bg-[#B2473A] text-white px-10 py-3 rounded-sm font-semibold text-base flex items-center gap-3 transition hover:bg-red-800 shadow-lg shadow-red-900/20 w-full sm:w-auto justify-center"
               >
                 Explore Collection <span className="text-lg">&rarr;</span>
               </Link>
               <Link
                 to="/weavers"
-                className="bg-transparent text-gray-800 px-10 py-3 rounded-sm font-medium text-base border border-gray-300 transition hover:bg-white/50"
+                className="bg-transparent text-gray-800 px-10 py-3 rounded-sm font-medium text-base border border-gray-300 transition hover:bg-white/50 w-full sm:w-auto justify-center"
               >
                 Meet Our Artisans
               </Link>
