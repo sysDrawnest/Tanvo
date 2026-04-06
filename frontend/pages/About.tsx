@@ -31,73 +31,72 @@ const About: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#FDF2F2] overflow-hidden">
+    <div className="min-h-screen bg-[#FDF4F0] overflow-hidden">
       {/* Hero Section */}
-      <section className="container mx-auto px-6 pt-20 md:pt-32 pb-20 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
+      <section className="relative overflow-hidden flex flex-col items-center">
+        <div className="max-w-screen-2xl w-full flex flex-col lg:flex-row items-center justify-between px-10 py-20 lg:py-28 gap-16">
 
           {/* Left Image Column */}
-          <div className="lg:col-span-6 relative flex justify-start order-1">
-            {/* Decorative floral elements */}
-            <div className="absolute top-10 left-0 opacity-10 rotate-12">
-              <Sparkles size={120} strokeWidth={0.5} className="text-[#B43F3F]" />
-            </div>
-
-            <div className="relative w-full max-w-[650px]">
+          <div className="lg:w-1/2 w-full aspect-[4/3] lg:aspect-auto flex justify-center items-center relative rounded-xl overflow-hidden lg:p-0 order-2 lg:order-1">
+            <div className="w-full h-full bg-black lg:bg-transparent flex justify-center items-center">
               <img
                 src="/about.png"
                 alt="Illustrations of women in traditional Odisha sarees"
-                className="w-full h-auto object-contain mix-blend-multiply transition-transform duration-1000"
-                style={{ filter: 'contrast(1.05) saturate(1.1)' }}
+                className="max-w-full max-h-full object-contain mix-blend-multiply opacity-90 lg:max-h-none lg:opacity-100 transition-transform duration-1000"
               />
             </div>
+
+            {/* Decorative plus elements */}
+            <div className="absolute top-10 right-10 text-xl text-gray-300 transform rotate-12">⊕</div>
+            <div className="absolute bottom-10 left-1/4 text-xl text-gray-300">⊕</div>
+            <div className="absolute top-1/2 left-10 text-xl text-gray-300 transform -rotate-12">⊕</div>
           </div>
 
           {/* Right Content Column */}
-          <div className="lg:col-span-6 flex flex-col items-start px-0 md:px-6 order-2">
-            <h1 className="font-serif leading-[1.1] tracking-tight mb-8">
-              <span className="block text-6xl md:text-8xl text-[#173B45] font-light">Bridging</span>
-              <span className="block text-5xl md:text-7xl text-[#B43F3F] italic font-medium mt-2">Tradition & Trend</span>
-            </h1>
+          <div className="lg:w-1/2 flex flex-col items-start space-y-12 order-1 lg:order-2 px-4 md:px-0">
+            <div className="space-y-4">
+              <h1 className="font-serif text-6xl md:text-8xl text-gray-900 leading-tight">Bridging</h1>
+              <h1 className="text-5xl md:text-7xl italic font-normal text-[#B2473A] leading-tight font-serif">Tradition & Trend</h1>
+            </div>
 
-            <p className="text-stone-500 font-sans text-lg leading-relaxed max-w-xl mb-10">
+            <p className="text-lg text-gray-700 max-w-2xl leading-relaxed font-sans">
               We don't just sell sarees — we connect you with the 700-year-old legacy of
-              <span className="text-[#B43F3F] font-semibold"> Odisha's master artisans</span>.
+              <span className="text-[#B2473A] font-medium"> Odisha's master artisans</span>.
               Your trusted platform for authentic, handcrafted heritage, direct from the loom to your wardrobe.
             </p>
 
-            <div className="flex flex-wrap gap-5 items-center mb-16">
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
               <Link
                 to="/shop"
-                className="group px-10 py-4 bg-[#B43F3F] text-white rounded-md font-sans text-sm font-semibold hover:bg-[#173B45] transition-all duration-500 flex items-center gap-3 shadow-[0_10px_30px_-10px_rgba(180,63,63,0.4)]"
+                className="bg-[#B2473A] text-white px-10 py-3 rounded-sm font-semibold text-base flex items-center gap-3 transition hover:bg-red-800 shadow-lg shadow-red-900/20"
               >
-                Explore Collection
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Explore Collection <span className="text-lg">&rarr;</span>
               </Link>
               <Link
                 to="/weavers"
-                className="px-10 py-4 border border-stone-300 text-stone-600 rounded-md font-sans text-sm font-semibold hover:border-[#173B45] hover:text-[#173B45] transition-all duration-500 bg-white/50"
+                className="bg-transparent text-gray-800 px-10 py-3 rounded-sm font-medium text-base border border-gray-300 transition hover:bg-white/50"
               >
                 Meet Our Artisans
               </Link>
             </div>
-
-            {/* Stats Row */}
-            <div className="flex flex-wrap gap-8 md:gap-16 w-full">
-              {[
-                { label: 'Artisan Families', value: '200+' },
-                { label: 'Weaving Clusters', value: '28' },
-                { label: 'Years of Legacy', value: '700+' },
-                { label: 'Happy Clients', value: '15K+' }
-              ].map((stat, i) => (
-                <div key={i} className="flex flex-col">
-                  <span className="text-3xl font-serif text-[#173B45] leading-none mb-2">{stat.value}</span>
-                  <span className="text-[10px] uppercase tracking-[0.15em] text-stone-400 font-bold whitespace-nowrap">{stat.label}</span>
-                </div>
-              ))}
-            </div>
           </div>
+        </div>
 
+        {/* Stats Row - Full Width Bar */}
+        <div className="w-full bg-[#FDF4F0] border-t border-gray-100 px-10 py-10">
+          <div className="max-w-7xl mx-auto flex flex-wrap justify-between gap-12 text-center lg:text-left">
+            {[
+              { label: 'Artisan Families', value: '200+' },
+              { label: 'Weaving Clusters', value: '28' },
+              { label: 'Years of Legacy', value: '700+' },
+              { label: 'Happy Clients', value: '15K+' }
+            ].map((stat, i) => (
+              <div key={i} className="flex-1 min-w-[150px] space-y-1">
+                <p className="text-3xl font-medium text-gray-950 font-sans">{stat.value}</p>
+                <p className="text-sm font-semibold text-gray-500 uppercase tracking-widest leading-none">{stat.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
