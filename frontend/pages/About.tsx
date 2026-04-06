@@ -34,10 +34,10 @@ const About: React.FC = () => {
     <div className="min-h-screen bg-[#FDF4F0] overflow-hidden">
       {/* Hero Section */}
       <section className="relative overflow-hidden flex flex-col items-center">
-        <div className="max-w-screen-2xl w-full flex flex-col lg:flex-row items-center justify-between px-10 py-20 lg:py-28 gap-16">
+        <div className="max-w-screen-2xl w-full flex flex-col lg:flex-row items-center justify-between px-10 py-10 lg:py-16 gap-8 lg:gap-12">
 
           {/* Left Image Column */}
-          <div className="lg:w-1/2 w-full aspect-[4/3] lg:aspect-auto flex justify-center items-center relative rounded-xl overflow-hidden lg:p-0 order-2 lg:order-1">
+          <div className="lg:w-1/2 w-full aspect-[4/3] lg:aspect-auto flex justify-center items-center relative rounded-xl overflow-hidden lg:p-0">
             <div className="w-full h-full bg-black lg:bg-transparent flex justify-center items-center">
               <img
                 src="/about.png"
@@ -53,7 +53,7 @@ const About: React.FC = () => {
           </div>
 
           {/* Right Content Column */}
-          <div className="lg:w-1/2 flex flex-col items-start space-y-12 order-1 lg:order-2 px-4 md:px-0">
+          <div className="lg:w-1/2 flex flex-col items-start space-y-10 px-4 md:px-0">
             <div className="space-y-4">
               <h1 className="font-serif text-6xl md:text-8xl text-gray-900 leading-tight">Bridging</h1>
               <h1 className="text-5xl md:text-7xl italic font-normal text-[#B2473A] leading-tight font-serif">Tradition & Trend</h1>
