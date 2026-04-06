@@ -56,7 +56,7 @@ const OdiaProductDetail: React.FC = () => {
                 </div>
 
                 {/* Details Section */}
-                <div className="bg-white rounded-3xl p-7 shadow-soft border border-[#f0e2d6] text-left">
+                <div className="bg-white rounded-3xl p-7 shadow-soft border border-[#f0e2d6] text-left mb-10">
                     <div className="mb-6">
                         <span className="bg-secondary/10 text-secondary-dark px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 inline-block italic">
                             Handmade Heritage
@@ -72,15 +72,15 @@ const OdiaProductDetail: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="space-y-6 mb-10">
+                    <div className="space-y-6 mb-10 text-left">
                         <div>
                             <h3 className="font-bold text-sm uppercase tracking-widest text-[#6b6259] mb-2">ଶ୍ରେଣୀ</h3>
-                            <p className="text-lg font-medium">{product.category.join(' • ')}</p>
+                            <p className="text-lg font-medium">{product.category && product.category.length > 0 ? product.category.join(' • ') : 'ହସ୍ତତନ୍ତ'}</p>
                         </div>
                         <div>
                             <h3 className="font-bold text-sm uppercase tracking-widest text-[#6b6259] mb-2">ବିବରଣୀ</h3>
                             <p className="text-[#4a4238] leading-relaxed italic">
-                                {product.description || "ଓଡ଼ିଶାର ବୁଣାକାରଙ୍କ ଦ୍ୱାରା ପ୍ରସ୍ତୁତ ଅସଲି ହସ୍ତତନ୍ତ ଶାଢ଼ୀ।"}
+                                {product.description || "ଓଡ଼ିଶାର ବୁଣାକାରଙ୍କ ଦ୍ୱାରା ପ୍ରସ୍ତୁତ ଅସଲି ହସ୍ତତନ୍ତ ଶାଢ଼ୀ। ଏହାର କଳା ଓ କାରିଗରୀ ଅନନ୍ୟ ଏବଂ ଓଡ଼ିଆ ପରମ୍ପରାର ପ୍ରତିକ।"}
                             </p>
                         </div>
                     </div>
@@ -106,16 +106,55 @@ const OdiaProductDetail: React.FC = () => {
                             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>chat</span>
                             ହ୍ୱାଟ୍ସଆପ୍ ଅର୍ଡର
                         </a>
-
-                        <a
-                            href={`tel:+${PHONE}`}
-                            className="w-full border-2 border-secondary text-secondary-dark py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all btn-tap hover:bg-secondary/5 no-underline"
-                        >
-                            <span className="material-symbols-outlined">call</span>
-                            ବୁଣାକାରଙ୍କ ସହ କଥା ହୁଅନ୍ତୁ
-                        </a>
                     </div>
                 </div>
+
+                {/* Related Products Section */}
+                <section className="mb-12">
+                    <h3 className="font-noto text-2xl font-bold mb-6 text-left">ଆପଣଙ୍କୁ ଏହା ବି ପସନ୍ଦ ଆସିପାରେ</h3>
+                    <div className="flex gap-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4">
+                        {products
+                            .filter(p => {
+                                if (p._id === id) return false;
+                                const pCats = Array.isArray(p.category) ? p.category : [];
+                                const currentCats = Array.isArray(product.category) ? product.category : [];
+                                return pCats.some(c => currentCats.includes(c));
+                            })
+                            .slice(0, 4)
+                            .map((related) => (
+                                <div
+                                    key={related._id}
+                                    onClick={() => navigate(`/odia/product/${related._id}`)}
+                                    className="w-64 flex-shrink-0 bg-white rounded-2xl overflow-hidden shadow-soft border border-[#f0e2d6] text-left cursor-pointer"
+                                >
+                                    <div className="aspect-[4/5] overflow-hidden">
+                                        <img src={related.images?.[0]?.url || ''} alt={related.name} className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="p-4">
+                                        <h4 className="font-bold text-base truncate">{related.name}</h4>
+                                        <p className="text-primary font-black mt-1">₹{related.price}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        {/* Fallback if no specific related products found through categories */}
+                        {products.filter(p => p._id !== id && Array.isArray(p.category) && Array.isArray(product.category) && p.category.some(c => product.category.includes(c))).length === 0 &&
+                            products.filter(p => p._id !== id).slice(0, 4).map((related) => (
+                                <div
+                                    key={related._id}
+                                    onClick={() => navigate(`/odia/product/${related._id}`)}
+                                    className="w-64 flex-shrink-0 bg-white rounded-2xl overflow-hidden shadow-soft border border-[#f0e2d6] text-left cursor-pointer"
+                                >
+                                    <div className="aspect-[4/5] overflow-hidden">
+                                        <img src={related.images?.[0]?.url || ''} alt={related.name} className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="p-4">
+                                        <h4 className="font-bold text-base truncate">{related.name}</h4>
+                                        <p className="text-primary font-black mt-1">₹{related.price}</p>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+                </section>
 
                 {/* Trust Badges */}
                 <div className="mt-10 grid grid-cols-2 gap-4">
