@@ -36,8 +36,25 @@ const About: React.FC = () => {
       <section className="container mx-auto px-6 pt-20 md:pt-32 pb-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
 
-          {/* Left Content Column */}
-          <div className="lg:col-span-7 flex flex-col items-start">
+          {/* Left Image Column */}
+          <div className="lg:col-span-6 relative flex justify-start order-1">
+            {/* Decorative floral elements */}
+            <div className="absolute top-10 left-0 opacity-10 rotate-12">
+              <Sparkles size={120} strokeWidth={0.5} className="text-[#B43F3F]" />
+            </div>
+
+            <div className="relative w-full max-w-[650px]">
+              <img
+                src="/about.png"
+                alt="Illustrations of women in traditional Odisha sarees"
+                className="w-full h-auto object-contain mix-blend-multiply transition-transform duration-1000"
+                style={{ filter: 'contrast(1.05) saturate(1.1)' }}
+              />
+            </div>
+          </div>
+
+          {/* Right Content Column */}
+          <div className="lg:col-span-6 flex flex-col items-start px-0 md:px-6 order-2">
             <h1 className="font-serif leading-[1.1] tracking-tight mb-8">
               <span className="block text-6xl md:text-8xl text-[#173B45] font-light">Bridging</span>
               <span className="block text-5xl md:text-7xl text-[#B43F3F] italic font-medium mt-2">Tradition & Trend</span>
@@ -78,23 +95,6 @@ const About: React.FC = () => {
                   <span className="text-[10px] uppercase tracking-[0.15em] text-stone-400 font-bold whitespace-nowrap">{stat.label}</span>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Right Image Column */}
-          <div className="lg:col-span-5 relative flex justify-center">
-            {/* Decorative floral elements */}
-            <div className="absolute top-10 right-0 opacity-10 rotate-12">
-              <Sparkles size={100} strokeWidth={0.5} className="text-[#B43F3F]" />
-            </div>
-
-            <div className="relative w-full max-w-[500px]">
-              <img
-                src="/about.png"
-                alt="Illustrations of women in traditional Odisha sarees"
-                className="w-full h-auto object-contain mix-blend-multiply transition-transform duration-1000"
-                style={{ filter: 'contrast(1.05) saturate(1.1)' }}
-              />
             </div>
           </div>
 
