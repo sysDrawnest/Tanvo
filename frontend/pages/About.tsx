@@ -31,7 +31,7 @@ const About: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8EDED] pb-16 md:pb-24 relative overflow-hidden">
+    <div className="min-h-screen bg-[#FDF2F2] pb-16 md:pb-24 relative overflow-hidden">
       {/* Textile overlay */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -42,91 +42,81 @@ const About: React.FC = () => {
       />
 
       {/* Decorative thread lines */}
-      <div className="absolute top-40 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#B43F3F]/20 to-transparent"></div>
-      <div className="absolute bottom-40 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#FF8225]/20 to-transparent"></div>
-
-      {/* Background decorative elements */}
-      <div className="absolute -top-20 -left-20 w-64 h-64 bg-gradient-to-br from-[#B43F3F]/5 to-transparent rounded-full blur-3xl" />
-      <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-gradient-to-tl from-[#FF8225]/5 to-transparent rounded-full blur-3xl" />
+      <div className="absolute top-40 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#B43F3F]/10 to-transparent"></div>
+      <div className="absolute bottom-40 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#FF8225]/10 to-transparent"></div>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 pt-24 md:pt-32 mb-24 md:mb-40 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
-          {/* Left Column: Content */}
-          <div className="lg:col-span-7 space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-full border border-[#FF8225]/20 mb-2">
-              <Gem className="w-4 h-4 text-[#FF8225]" />
-              <span className="text-[#FF8225] font-medium uppercase tracking-[0.2em] text-xs">700 Years of Heritage</span>
-            </div>
-
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-medium tracking-tight leading-[1.1] text-[#173B45]">
-              Bridging<br />
-              <span className="text-[#B43F3F] italic">Tradition & Trend</span>
+      <section className="container mx-auto px-6 pt-24 md:pt-32 mb-32 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
+          {/* Content Column */}
+          <div className="md:col-span-7 flex flex-col items-start">
+            <h1 className="font-serif leading-[1.05] tracking-tight mb-8">
+              <span className="block text-5xl md:text-7xl lg:text-8xl text-[#173B45] font-light">Bridging</span>
+              <span className="block text-4xl md:text-6xl lg:text-7xl text-[#B43F3F] italic font-medium mt-2">Tradition & Trend</span>
             </h1>
 
-            <p className="text-base md:text-lg text-[#173B45]/70 leading-relaxed max-w-2xl">
+            <p className="text-stone-500 font-sans text-sm md:text-base leading-relaxed max-w-xl mb-10">
               We don't just sell sarees — we connect you with the 700-year-old legacy of
-              <span className="font-medium text-[#B43F3F]"> Odisha's master artisans</span>.
+              <span className="text-[#B43F3F] font-medium"> Odisha's master artisans</span>.
               Your trusted platform for authentic, handcrafted heritage, direct from the loom to your wardrobe.
             </p>
 
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-wrap gap-5 items-center">
               <Link
                 to="/shop"
-                className="group px-8 py-4 bg-[#B43F3F] text-[#F8EDED] rounded-lg font-medium hover:bg-[#FF8225] transition-all duration-300 flex items-center gap-2 shadow-lg shadow-[#B43F3F]/20"
+                className="group px-8 py-4 bg-[#B43F3F] text-white rounded-sm font-sans uppercase tracking-[0.2em] text-[10px] font-bold hover:bg-[#173B45] transition-all duration-500 flex items-center gap-3 shadow-xl shadow-red-900/10"
               >
                 Explore Collection
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/weavers"
-                className="px-8 py-4 border-2 border-[#173B45]/10 text-[#173B45] rounded-lg font-medium hover:bg-[#173B45] hover:text-[#F8EDED] transition-all duration-300"
+                className="px-8 py-4 border border-stone-300 text-stone-600 rounded-sm font-sans uppercase tracking-[0.2em] text-[10px] font-bold hover:border-[#173B45] hover:text-[#173B45] transition-all duration-500"
               >
                 Meet Our Artisans
               </Link>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-[#173B45]/5">
+            {/* Stats Row - Desktop Bottom */}
+            <div className="hidden md:flex flex-wrap gap-12 mt-16 pt-12 border-t border-[#B43F3F]/10 w-full">
               {[
-                { label: 'Artisan Families', value: '200+', icon: Users },
-                { label: 'Weaving Clusters', value: '28', icon: MapPin },
-                { label: 'Years of Legacy', value: '700+', icon: Clock },
-                { label: 'Happy Clients', value: '15K+', icon: Heart }
-              ].map((stat, index) => (
-                <div key={index} className="space-y-1">
-                  <div className="text-2xl md:text-3xl font-display font-medium text-[#173B45]">{stat.value}</div>
-                  <div className="text-[10px] text-[#173B45]/60 uppercase tracking-widest font-bold">{stat.label}</div>
+                { label: 'Artisan Families', value: '200+' },
+                { label: 'Weaving Clusters', value: '28' },
+                { label: 'Years of Legacy', value: '700+' },
+                { label: 'Happy Clients', value: '15K+' }
+              ].map((stat, i) => (
+                <div key={i} className="flex flex-col">
+                  <span className="text-2xl font-serif text-[#173B45] leading-none mb-1">{stat.value}</span>
+                  <span className="text-[9px] uppercase tracking-[0.15em] text-stone-400 font-bold whitespace-nowrap">{stat.label}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Right Column: Visual */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative group">
-              {/* Decorative Background Blob */}
-              <div className="absolute -inset-10 bg-[#FF8225]/5 rounded-full blur-3xl group-hover:bg-[#FF8225]/10 transition-colors duration-700"></div>
-
+          {/* Image Column */}
+          <div className="md:col-span-5 relative">
+            <div className="relative aspect-[4/5] md:aspect-[3/4]">
               <img
                 src="/about.png"
-                alt="Representative Heritage of Odisha"
-                className="relative w-full h-auto drop-shadow-2xl hover:scale-[1.02] transition-transform duration-700"
+                alt="Two women in traditional Odisha sarees"
+                className="w-full h-full object-contain mix-blend-multiply"
               />
-
-              {/* Floating Badge */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-[#B43F3F]/5 hidden md:block">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#F8EDED] rounded-full flex items-center justify-center">
-                    <Award className="w-5 h-5 text-[#B43F3F]" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] uppercase tracking-widest text-stone-400 font-bold">Authenticated</p>
-                    <p className="text-sm font-medium text-[#173B45]">Handloom Heritage</p>
-                  </div>
-                </div>
-              </div>
             </div>
+          </div>
+
+          {/* Stats Bar - Mobile Only */}
+          <div className="md:hidden grid grid-cols-2 gap-8 mt-12 w-full pt-10 border-t border-[#B43F3F]/10">
+            {[
+              { label: 'Artisan Families', value: '200+' },
+              { label: 'Weaving Clusters', value: '28' },
+              { label: 'Years of Legacy', value: '700+' },
+              { label: 'Happy Clients', value: '15K+' }
+            ].map((stat, i) => (
+              <div key={i} className="flex flex-col text-center">
+                <span className="text-2xl font-serif text-[#173B45] leading-none mb-1">{stat.value}</span>
+                <span className="text-[8px] uppercase tracking-widest text-stone-400 font-bold">{stat.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
