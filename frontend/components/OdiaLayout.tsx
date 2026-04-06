@@ -22,16 +22,24 @@ const OdiaLayout: React.FC<OdiaLayoutProps> = ({ children }) => {
                 zIndex: 100,
                 boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
             }}>
-                <img src="/logo.png" alt="Tanvo" style={{ height: 36 }} onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                }} />
-                <span style={{
-                    fontFamily: "'Noto Sans Odia', sans-serif",
-                    fontSize: 20,
-                    fontWeight: 700,
-                    color: '#1a120b',
-                    letterSpacing: '-0.01em',
-                }}>TANVO</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                    <span style={{
+                        fontFamily: '"Playfair Display", serif',
+                        fontSize: 20,
+                        fontWeight: 700,
+                        color: '#B43F3F',
+                        letterSpacing: '0.1em',
+                        lineHeight: 1,
+                    }}>TANVO</span>
+                    <span style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: 6,
+                        letterSpacing: '0.3em',
+                        color: 'rgba(23, 59, 69, 0.6)',
+                        textTransform: 'uppercase',
+                        marginTop: 2,
+                    }}>Artisanal Heritage</span>
+                </div>
                 <a
                     href="tel:+918658000000"
                     style={{
