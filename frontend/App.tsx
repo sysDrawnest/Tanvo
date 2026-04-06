@@ -3,7 +3,6 @@ import { HashRouter as Router, Routes, Route, useLocation } from "react-router-d
 
 // Context
 import { StoreProvider } from './context/StoreContext';
-import { LanguageProvider } from './context/LanguageContext';
 
 // Styles
 import GlobalStyles from './components/GlobalStyles';
@@ -14,17 +13,6 @@ import Footer from './components/Footer';
 import RegisterModal from './components/RegisterModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import WelcomeScreen from './components/WelcomeScreen';
-import LanguageToggle from './components/LanguageToggle';
-import LanguageSelectorPopup from './components/LanguageSelectorPopup';
-
-// Odia Pages
-import OdiaHome from './pages/odia/OdiaHome';
-import OdiaShop from './pages/odia/OdiaShop';
-import OdiaProductDetail from './pages/odia/OdiaProductDetail';
-import OdiaCart from './pages/odia/OdiaCart';
-import OdiaCheckout from './pages/odia/OdiaCheckout';
-import OdiaProfile from './pages/odia/OdiaProfile';
-import OdiaOrderConfirmation from './pages/odia/OdiaOrderConfirmation';
 
 
 // Pages
@@ -57,148 +45,116 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminReviews from './pages/admin/AdminReviews';
 import AdminSettings from './pages/admin/AdminSettings';
 
-const AppContent: React.FC = () => {
+const ScrollToTop = () => {
   const { pathname } = useLocation();
-  const isOdiaRoute = pathname.startsWith('/odia');
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
-  return (
-    <>
-      <LanguageToggle />
-      <LanguageSelectorPopup />
-      <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--bg-main)' }}>
-        {!isOdiaRoute && <Navbar />}
-        <RegisterModal />
-        <main className={`flex-grow ${isOdiaRoute ? 'pt-0' : 'pt-[146px] md:pt-[166px]'}`}>
-          <Routes>
-            {/* Odia / Simple Mode Routes */}
-            <Route path="/odia" element={<OdiaHome />} />
-            <Route path="/odia/shop" element={<OdiaShop />} />
-            <Route path="/odia/product/:id" element={<OdiaProductDetail />} />
-            <Route path="/odia/cart" element={<OdiaCart />} />
-            <Route path="/odia/checkout" element={
-              <ProtectedRoute>
-                <OdiaCheckout />
-              </ProtectedRoute>
-            } />
-            <Route path="/odia/profile" element={
-              <ProtectedRoute>
-                <OdiaProfile />
-              </ProtectedRoute>
-            } />
-            <Route path="/odia/order-confirmation/:id" element={
-              <ProtectedRoute>
-                <OdiaOrderConfirmation />
-              </ProtectedRoute>
-            } />
-
-            {/* English Premium Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/story" element={<About />} />
-            <Route path="/returns" element={<Returns />} />
-            <Route path="/shipping" element={<Shipping />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/journal" element={<Journal />} />
-
-            {/* Protected User Routes */}
-            <Route path="/wishlist" element={<Wishlist />} />
-
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <UserProfile />
-              </ProtectedRoute>
-            } />
-
-            <Route path="/orders" element={
-              <ProtectedRoute>
-                <Orders />
-              </ProtectedRoute>
-            } />
-
-            <Route path="/orders/:id" element={
-              <ProtectedRoute>
-                <OrderConfirmation />
-              </ProtectedRoute>
-            } />
-
-            <Route path="/order-confirmation/:id" element={
-              <ProtectedRoute>
-                <OrderConfirmation />
-              </ProtectedRoute>
-            } />
-
-            <Route path="/checkout" element={
-              <ProtectedRoute>
-                <Checkout />
-              </ProtectedRoute>
-            } />
-
-            <Route path="/checkout/success" element={
-              <ProtectedRoute>
-                <OrderConfirmation />
-              </ProtectedRoute>
-            } />
-
-            {/* Admin Routes - Nested */}
-            <Route path="/admin" element={
-              <ProtectedRoute requireAdmin>
-                <Admin />
-              </ProtectedRoute>
-            }>
-              <Route index element={<AdminDashboard />} />
-              <Route path="products" element={<AdminProducts />} />
-              <Route path="products/add" element={<AddProduct />} />
-              <Route path="products/edit/:id" element={<EditProduct />} />
-              <Route path="orders" element={<AdminOrders />} />
-              <Route path="orders/:id" element={<AdminOrderDetails />} />
-              <Route path="users" element={<AdminUsers />} />
-              <Route path="reviews" element={<AdminReviews />} />
-              <Route path="settings" element={<AdminSettings />} />
-            </Route>
-
-            {/* 404 Route */}
-            <Route path="*" element={
-              <div className="min-h-screen pt-40 pb-24 flex items-center justify-center font-sans-custom transition-all" style={{ background: 'var(--bg-main)' }}>
-                <div className="container-custom text-center">
-                  <h1 className="text-9xl mb-4 font-display" style={{ color: 'var(--text-primary)' }}>404</h1>
-                  <h2 className="text-4xl mb-6 font-display" style={{ color: 'var(--ink)' }}>Thread Lost in the Loom</h2>
-                  <p className="text-xl mb-8" style={{ color: 'var(--warm)' }}>The page you're looking for has wandered off like a loose thread.</p>
-                  <a href="/" className="btn-gold font-sans-custom">Return to Home</a>
-                </div>
-              </div>
-            } />
-          </Routes>
-        </main>
-        {/* <AIAssistant /> */}
-        {!isOdiaRoute && <Footer />}
-
-      </div>
-    </>
-  );
+  return null;
 };
 
 const App: React.FC = () => {
   return (
-    <LanguageProvider>
-      <StoreProvider>
-        <GlobalStyles />
-        <WelcomeScreen />
-        <Router>
-          <AppContent />
-        </Router>
-      </StoreProvider>
-    </LanguageProvider>
+    <StoreProvider>
+      <GlobalStyles />
+      <WelcomeScreen />
+      <Router>
+        <ScrollToTop />
+        <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--bg-main)' }}>
+          <Navbar />
+          <RegisterModal />
+          <main className="flex-grow pt-[116px] md:pt-[136px]">
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/story" element={<About />} />
+              <Route path="/returns" element={<Returns />} />
+              <Route path="/shipping" element={<Shipping />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/journal" element={<Journal />} />
+
+              {/* Protected User Routes */}
+              <Route path="/wishlist" element={<Wishlist />} />
+
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/orders" element={
+                <ProtectedRoute>
+                  <Orders />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/orders/:id" element={
+                <ProtectedRoute>
+                  <OrderConfirmation />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/order-confirmation/:id" element={
+                <ProtectedRoute>
+                  <OrderConfirmation />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/checkout" element={
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/checkout/success" element={
+                <ProtectedRoute>
+                  <OrderConfirmation />
+                </ProtectedRoute>
+              } />
+
+              {/* Admin Routes - Nested */}
+              <Route path="/admin" element={
+                <ProtectedRoute requireAdmin>
+                  <Admin />
+                </ProtectedRoute>
+              }>
+                <Route index element={<AdminDashboard />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="products/add" element={<AddProduct />} />
+                <Route path="products/edit/:id" element={<EditProduct />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="orders/:id" element={<AdminOrderDetails />} />
+                <Route path="users" element={<AdminUsers />} />
+                <Route path="reviews" element={<AdminReviews />} />
+                <Route path="settings" element={<AdminSettings />} />
+              </Route>
+
+              {/* 404 Route */}
+              <Route path="*" element={
+                <div className="min-h-screen pt-40 pb-24 flex items-center justify-center font-sans-custom transition-all" style={{ background: 'var(--bg-main)' }}>
+                  <div className="container-custom text-center">
+                    <h1 className="text-9xl mb-4 font-display" style={{ color: 'var(--text-primary)' }}>404</h1>
+                    <h2 className="text-4xl mb-6 font-display" style={{ color: 'var(--ink)' }}>Thread Lost in the Loom</h2>
+                    <p className="text-xl mb-8" style={{ color: 'var(--warm)' }}>The page you're looking for has wandered off like a loose thread.</p>
+                    <a href="/" className="btn-gold font-sans-custom">Return to Home</a>
+                  </div>
+                </div>
+              } />
+            </Routes>
+          </main>
+          {/* <AIAssistant /> */}
+          <Footer />
+
+        </div>
+      </Router>
+    </StoreProvider>
   );
 };
-
 
 export default App;

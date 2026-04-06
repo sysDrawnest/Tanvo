@@ -50,62 +50,83 @@ const About: React.FC = () => {
       <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-gradient-to-tl from-[#FF8225]/5 to-transparent rounded-full blur-3xl" />
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 pt-16 md:pt-0 mb-24 md:mb-32 relative z-10">
-        <div className="max-w-5xl mx-auto relative">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-full border border-[#FF8225]/20 mb-6">
-            <Gem className="w-4 h-4 text-[#FF8225]" />
-            <span className="text-[#FF8225] font-medium uppercase tracking-[0.2em] text-xs">700 Years of Heritage</span>
-          </div>
+      <section className="container mx-auto px-4 pt-24 md:pt-32 mb-24 md:mb-40 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
+          {/* Left Column: Content */}
+          <div className="lg:col-span-7 space-y-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-full border border-[#FF8225]/20 mb-2">
+              <Gem className="w-4 h-4 text-[#FF8225]" />
+              <span className="text-[#FF8225] font-medium uppercase tracking-[0.2em] text-xs">700 Years of Heritage</span>
+            </div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-medium tracking-tight leading-[1.1] mb-8">
-            <span className="text-[#173B45]">Bridging</span>
-            <br />
-            <span className="relative">
-              <span className="text-[#B43F3F]">Tradition & Trend</span>
-              <svg className="absolute -bottom-4 left-0 w-full" viewBox="0 0 300 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 4C50 2 150 1 298 1" stroke="#FF8225" strokeWidth="2" strokeLinecap="round" strokeDasharray="4 4" />
-              </svg>
-            </span>
-          </h1>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-medium tracking-tight leading-[1.1] text-[#173B45]">
+              Bridging<br />
+              <span className="text-[#B43F3F] italic">Tradition & Trend</span>
+            </h1>
 
-          <p className="text-base md:text-lg text-[#173B45]/70 leading-relaxed max-w-3xl mb-8">
-            We don't just sell sarees — we connect you with the 700-year-old legacy of
-            <span className="font-medium text-[#B43F3F]"> Odisha's master artisans</span>.
-            Your trusted platform for authentic, handcrafted heritage, direct from the loom to your wardrobe.
-          </p>
+            <p className="text-base md:text-lg text-[#173B45]/70 leading-relaxed max-w-2xl">
+              We don't just sell sarees — we connect you with the 700-year-old legacy of
+              <span className="font-medium text-[#B43F3F]"> Odisha's master artisans</span>.
+              Your trusted platform for authentic, handcrafted heritage, direct from the loom to your wardrobe.
+            </p>
 
-          <div className="flex flex-wrap gap-4 items-center">
-            <Link
-              to="/shop"
-              className="group px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-lg font-medium hover:bg-[#FF8225] transition-all duration-300 flex items-center gap-2"
-            >
-              Explore Collection
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              to="/weavers"
-              className="px-6 py-3 border-2 border-[#B43F3F] text-[#B43F3F] rounded-lg font-medium hover:bg-[#B43F3F] hover:text-[#F8EDED] transition-all duration-300"
-            >
-              Meet Our Artisans
-            </Link>
-          </div>
+            <div className="flex flex-wrap gap-4 items-center">
+              <Link
+                to="/shop"
+                className="group px-8 py-4 bg-[#B43F3F] text-[#F8EDED] rounded-lg font-medium hover:bg-[#FF8225] transition-all duration-300 flex items-center gap-2 shadow-lg shadow-[#B43F3F]/20"
+              >
+                Explore Collection
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                to="/weavers"
+                className="px-8 py-4 border-2 border-[#173B45]/10 text-[#173B45] rounded-lg font-medium hover:bg-[#173B45] hover:text-[#F8EDED] transition-all duration-300"
+              >
+                Meet Our Artisans
+              </Link>
+            </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-            {[
-              { label: 'Artisan Families', value: '200+', icon: Users },
-              { label: 'Weaving Clusters', value: '28', icon: MapPin },
-              { label: 'Years of Legacy', value: '700+', icon: Clock },
-              { label: 'Happy Clients', value: '15K+', icon: Heart }
-            ].map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className="w-10 h-10 mx-auto mb-2 bg-[#F8EDED] rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-[#B43F3F]/10">
-                  <stat.icon className="w-4 h-4 text-[#B43F3F]" />
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-[#173B45]/5">
+              {[
+                { label: 'Artisan Families', value: '200+', icon: Users },
+                { label: 'Weaving Clusters', value: '28', icon: MapPin },
+                { label: 'Years of Legacy', value: '700+', icon: Clock },
+                { label: 'Happy Clients', value: '15K+', icon: Heart }
+              ].map((stat, index) => (
+                <div key={index} className="space-y-1">
+                  <div className="text-2xl md:text-3xl font-display font-medium text-[#173B45]">{stat.value}</div>
+                  <div className="text-[10px] text-[#173B45]/60 uppercase tracking-widest font-bold">{stat.label}</div>
                 </div>
-                <div className="text-xl md:text-2xl font-medium text-[#173B45]">{stat.value}</div>
-                <div className="text-xs text-[#173B45]/60 uppercase tracking-wider">{stat.label}</div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Column: Visual */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative group">
+              {/* Decorative Background Blob */}
+              <div className="absolute -inset-10 bg-[#FF8225]/5 rounded-full blur-3xl group-hover:bg-[#FF8225]/10 transition-colors duration-700"></div>
+
+              <img
+                src="/about.png"
+                alt="Representative Heritage of Odisha"
+                className="relative w-full h-auto drop-shadow-2xl hover:scale-[1.02] transition-transform duration-700"
+              />
+
+              {/* Floating Badge */}
+              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-[#B43F3F]/5 hidden md:block">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[#F8EDED] rounded-full flex items-center justify-center">
+                    <Award className="w-5 h-5 text-[#B43F3F]" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest text-stone-400 font-bold">Authenticated</p>
+                    <p className="text-sm font-medium text-[#173B45]">Handloom Heritage</p>
+                  </div>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>

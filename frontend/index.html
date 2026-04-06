@@ -7,51 +7,10 @@
   <title>Odisha Handloom | Sambalpuri Heritage</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=Raleway:wght@200;300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Noto+Sans+Odia:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=Raleway:wght@200;300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;600&family=Inter:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap"
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
     rel="stylesheet" />
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            primary: '#9f2e30',
-            'primary-dark': '#7a2223',
-            secondary: '#c47d2e',
-            'secondary-dark': '#a1611f',
-            'surface-container': '#fefaf5',
-            'surface-card': '#ffffff',
-            'surface-soft': '#f9f2ea',
-            'on-surface': '#2d2a24',
-            'on-surface-muted': '#6b6259',
-            'accent-warm': '#f0e3d4',
-            border: '#f0e2d6',
-            'saree-gold': '#d9a13b',
-            'saree-rust': '#b6452c',
-          },
-          fontFamily: {
-            'noto': ['Noto Serif', 'serif'],
-            'inter': ['Inter', 'sans-serif'],
-          },
-          borderRadius: {
-            '2xl': '1.25rem',
-            '3xl': '1.75rem',
-          },
-          boxShadow: {
-            'soft': '0 12px 28px -8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.02)',
-            'glow': '0 0 0 3px rgba(159, 46, 48, 0.2)',
-            'card-hover': '0 24px 40px -12px rgba(0, 0, 0, 0.12)',
-          },
-          backgroundImage: {
-            'saree-texture': "url('data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"%23d9a13b\" stroke-width=\"0.3\" stroke-opacity=\"0.12\"%3E%3Cpath d=\"M4 4 L20 4 M4 8 L20 8 M4 12 L20 12 M4 16 L20 16 M4 20 L20 20\" /%3E%3Cpath d=\"M2 2 L22 22 M22 2 L2 22\" stroke-width=\"0.2\" /%3E%3C/svg%3E')",
-            'ikat-pattern': "url('data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 60 60\" fill=\"none\"%3E%3Cpath d=\"M12 12 L18 12 L18 18 L12 18 Z\" fill=\"%23c47d2e\" fill-opacity=\"0.05\"/%3E%3Cpath d=\"M30 30 L36 30 L36 36 L30 36 Z\" fill=\"%239f2e30\" fill-opacity=\"0.04\"/%3E%3Cpath d=\"M48 48 L54 48 L54 54 L48 54 Z\" fill=\"%23d9a13b\" fill-opacity=\"0.05\"/%3E%3C/svg%3E')",
-          },
-        },
-      },
-    }
-  </script>
 
   <style type="text/tailwindcss">
     @tailwind base;
@@ -239,39 +198,6 @@
         .no-scrollbar {
           -ms-overflow-style: none;
           scrollbar-width: none;
-        }
-
-        /* User's custom styles for Odia Mode */
-        .font-noto {
-          font-family: 'Noto Serif', serif;
-        }
-        .material-symbols-outlined {
-          font-variation-settings: 'FILL' 0, 'wght' 450, 'GRAD' 0, 'opsz' 24;
-        }
-        /* micro-interactions */
-        .card-hover {
-          transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
-        }
-        .card-hover:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 24px 32px -16px rgba(0, 0, 0, 0.12);
-        }
-        .btn-tap:active {
-          transform: scale(0.97);
-        }
-        .nav-active {
-          background: #9f2e30;
-          color: white;
-          box-shadow: 0 8px 20px rgba(159,46,48,0.25);
-        }
-        .nav-active .material-symbols-outlined {
-          font-variation-settings: 'FILL' 1;
-        }
-        .category-card {
-          transition: all 0.2s ease;
-        }
-        .category-card:active {
-          transform: scale(0.98);
         }
       }
     </style>
