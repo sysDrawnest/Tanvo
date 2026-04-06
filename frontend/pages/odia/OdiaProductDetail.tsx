@@ -1,202 +1,132 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useStore } from '../../context/StoreContext';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import OdiaLayout from '../../components/OdiaLayout';
-
-const PHONE = '918658000000';
+import { useStore } from '../../context/StoreContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const OdiaProductDetail: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams();
     const navigate = useNavigate();
-    const { fetchProductById, addToCart } = useStore();
+    const { products, addToCart } = useStore();
     const [product, setProduct] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
-    const [added, setAdded] = useState(false);
-    const [activeImage, setActiveImage] = useState(0);
+    const [mainImage, setMainImage] = useState('');
+    const PHONE = '9100000000';
 
     useEffect(() => {
-        if (id) {
-            setLoading(true);
-            fetchProductById(id).then((p) => {
-                setProduct(p);
-                setLoading(false);
-            });
+        const found = products.find(p => p._id === id);
+        if (found) {
+            setProduct(found);
+            setMainImage(found.image[0]);
         }
-    }, [id]);
+    }, [id, products]);
 
-    const handleAddToCart = async () => {
-        if (!product) return;
-        await addToCart(product._id, 1);
-        setAdded(true);
-        setTimeout(() => setAdded(false), 2000);
-    };
-
-    const whatsappMsg = encodeURIComponent(
-        `ନମସ୍କାର! ମୁଁ ${product?.name || 'ଏହି ଶାଢ଼ି'} ଅର୍ଡ଼ର କରିବାକୁ ଚାହୁଁଛି। ଦୟାକରି ବିବରଣ ଦିଅନ୍ତୁ।`
+    if (!product) return (
+        <OdiaLayout>
+            <div className="pt-20 text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                <p>ଶାଢ଼ୀ ଖୋଜା ଚାଲିଛି...</p>
+            </div>
+        </OdiaLayout>
     );
 
-    if (loading) {
-        return (
-            <OdiaLayout>
-                <div style={{ textAlign: 'center', padding: '80px 20px', fontFamily: "'Noto Sans Odia', sans-serif", fontSize: 18, color: '#888' }}>
-                    ଶାଢ଼ି ଲୋଡ଼ ହେଉଛି...
-                </div>
-            </OdiaLayout>
-        );
-    }
-
-    if (!product) {
-        return (
-            <OdiaLayout>
-                <div style={{ textAlign: 'center', padding: '80px 20px', fontFamily: "'Noto Sans Odia', sans-serif", fontSize: 16, color: '#888' }}>
-                    ଶାଢ଼ି ମିଳିଲା ନାହିଁ।
-                    <button onClick={() => navigate('/odia/shop')} style={{ display: 'block', margin: '16px auto', background: '#1a120b', color: '#fff', border: 'none', borderRadius: 8, padding: '12px 24px', fontFamily: "'Noto Sans Odia', sans-serif", fontSize: 14, cursor: 'pointer' }}>
-                        ← ଫେରନ୍ତୁ
-                    </button>
-                </div>
-            </OdiaLayout>
-        );
-    }
-
-    const images = product.images || [];
+    const whatsappMsg = encodeURIComponent(`Namaste, I want to order: ${product.name} (Code: ${product._id}). Price: ₹${product.price}`);
 
     return (
         <OdiaLayout>
-            {/* Back button */}
-            <button
-                onClick={() => navigate(-1)}
-                style={{
-                    background: 'none', border: 'none', padding: '12px 16px',
-                    fontFamily: "'Noto Sans Odia', sans-serif", fontSize: 14,
-                    color: '#666', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
-                }}
-            >
-                ← ଫେରନ୍ତୁ
-            </button>
-
-            {/* Product Image */}
-            <div style={{ position: 'relative', background: '#f7f3ee' }}>
-                <img
-                    src={images[activeImage]?.url || '/placeholder.jpg'}
-                    alt={product.name}
-                    style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', display: 'block' }}
-                />
-                {images.length > 1 && (
-                    <div style={{ position: 'absolute', bottom: 10, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 6 }}>
-                        {images.map((_: any, i: number) => (
-                            <button key={i} onClick={() => setActiveImage(i)} style={{ width: 8, height: 8, borderRadius: '50%', border: 'none', background: i === activeImage ? '#C9A84C' : 'rgba(255,255,255,0.7)', cursor: 'pointer', padding: 0 }} />
-                        ))}
+            <div className="pt-6 pb-12">
+                {/* Images Section */}
+                <div className="mb-8">
+                    <div className="rounded-3xl overflow-hidden shadow-soft bg-white aspect-[4/5] mb-4">
+                        <img src={mainImage} alt={product.name} className="w-full h-full object-cover" />
                     </div>
-                )}
-            </div>
-
-            {/* Product Info */}
-            <div style={{ padding: '20px 16px' }}>
-                <h1 style={{ fontFamily: "'Noto Sans Odia', sans-serif", fontSize: 20, fontWeight: 700, color: '#1a120b', marginBottom: 6, lineHeight: 1.3 }}>
-                    {product.name}
-                </h1>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 14 }}>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 700, color: '#C9A84C' }}>
-                        ₹{product.price?.toLocaleString('en-IN')}
-                    </span>
-                    {product.originalPrice > product.price && (
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: '#aaa', textDecoration: 'line-through' }}>
-                            ₹{product.originalPrice?.toLocaleString('en-IN')}
-                        </span>
+                    {product.image.length > 1 && (
+                        <div className="flex gap-3 overflow-x-auto no-scrollbar py-2">
+                            {product.image.map((img: string, idx: number) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setMainImage(img)}
+                                    className={`w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all ${mainImage === img ? 'border-primary shadow-glow' : 'border-transparent opacity-70'
+                                        }`}
+                                >
+                                    <img src={img} alt="" className="w-full h-full object-cover" />
+                                </button>
+                            ))}
+                        </div>
                     )}
                 </div>
 
-                {product.fabric && (
-                    <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-                        <span style={{ background: '#f0ebe3', borderRadius: 6, padding: '5px 12px', fontFamily: "'Noto Sans Odia', sans-serif", fontSize: 12, color: '#6b5e4e' }}>
-                            🧵 {product.fabric}
+                {/* Details Section */}
+                <div className="bg-white rounded-3xl p-7 shadow-soft border border-[#f0e2d6] text-left">
+                    <div className="mb-6">
+                        <span className="bg-secondary/10 text-secondary-dark px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 inline-block italic">
+                            Handmade Heritage
                         </span>
-                        {product.weave && (
-                            <span style={{ background: '#f0ebe3', borderRadius: 6, padding: '5px 12px', fontFamily: "'Noto Sans Odia', sans-serif", fontSize: 12, color: '#6b5e4e' }}>
-                                ✨ {product.weave}
-                            </span>
-                        )}
+                        <h2 className="font-noto text-3xl font-bold text-[#2d2a24] leading-tight mb-2">
+                            {product.name}
+                        </h2>
+                        <div className="flex items-center gap-3">
+                            <span className="text-primary text-3xl font-black">₹{product.price}</span>
+                            {product.oldPrice && (
+                                <span className="text-[#6b6259] line-through text-lg opacity-60">₹{product.oldPrice}</span>
+                            )}
+                        </div>
                     </div>
-                )}
 
-                {product.description && (
-                    <p style={{ fontFamily: "'Noto Sans Odia', sans-serif", fontSize: 14, color: '#6b5e4e', lineHeight: 1.7, marginBottom: 20 }}>
-                        {product.description?.length > 150 ? product.description.slice(0, 150) + '...' : product.description}
-                    </p>
-                )}
+                    <div className="space-y-6 mb-10">
+                        <div>
+                            <h3 className="font-bold text-sm uppercase tracking-widest text-[#6b6259] mb-2">ଶ୍ରେଣୀ</h3>
+                            <p className="text-lg font-medium">{product.category.join(' • ')}</p>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-sm uppercase tracking-widest text-[#6b6259] mb-2">ବିବରଣୀ</h3>
+                            <p className="text-[#4a4238] leading-relaxed italic">
+                                {product.description || "ଓଡ଼ିଶାର ବୁଣାକାରଙ୍କ ଦ୍ୱାରା ପ୍ରସ୍ତୁତ ଅସଲି ହସ୍ତତନ୍ତ ଶାଢ଼ୀ।"}
+                            </p>
+                        </div>
+                    </div>
 
-                {/* CTA Buttons */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                    <button
-                        onClick={handleAddToCart}
-                        style={{
-                            width: '100%',
-                            background: added ? '#4CAF50' : '#1a120b',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: 12,
-                            padding: '16px 0',
-                            fontSize: 17,
-                            fontFamily: "'Noto Sans Odia', sans-serif",
-                            fontWeight: 700,
-                            cursor: 'pointer',
-                            transition: 'background 0.3s ease',
-                        }}
-                    >
-                        {added ? '✓ ଯୋଡ଼ା ହୋଇଗଲା!' : '🛒 ଗାଡ଼ିରେ ପକାନ୍ତୁ'}
-                    </button>
-                    <a
-                        href={`https://wa.me/${PHONE}?text=${whatsappMsg}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                            display: 'block',
-                            width: '100%',
-                            background: '#25D366',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: 12,
-                            padding: '16px 0',
-                            fontSize: 17,
-                            fontFamily: "'Noto Sans Odia', sans-serif",
-                            fontWeight: 700,
-                            textDecoration: 'none',
-                            textAlign: 'center',
-                            boxSizing: 'border-box',
-                        }}
-                    >
-                        💬 WhatsApp ଅର୍ଡ଼ର
-                    </a>
-                    <a
-                        href={`tel:+${PHONE}`}
-                        style={{
-                            display: 'block',
-                            width: '100%',
-                            background: '#fff',
-                            color: '#1a120b',
-                            border: '2px solid #e0dbd2',
-                            borderRadius: 12,
-                            padding: '15px 0',
-                            fontSize: 17,
-                            fontFamily: "'Noto Sans Odia', sans-serif",
-                            fontWeight: 700,
-                            textDecoration: 'none',
-                            textAlign: 'center',
-                            boxSizing: 'border-box',
-                        }}
-                    >
-                        📞 ଫୋନ୍ ରେ ଅର୍ଡ଼ର
-                    </a>
+                    {/* Action Buttons */}
+                    <div className="space-y-4">
+                        <button
+                            onClick={() => {
+                                addToCart(product._id);
+                                navigate('/cart');
+                            }}
+                            className="w-full bg-primary text-white py-4 rounded-2xl font-bold text-lg shadow-lg flex items-center justify-center gap-3 transition-all btn-tap hover:shadow-xl"
+                        >
+                            <span className="material-symbols-outlined">shopping_cart</span> ବ୍ୟାଗରେ ଯୋଡନ୍ତୁ
+                        </button>
+
+                        <a
+                            href={`https://wa.me/${PHONE}?text=${whatsappMsg}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full bg-[#25D366] text-white py-4 rounded-2xl font-bold text-lg shadow-lg flex items-center justify-center gap-3 transition-all btn-tap hover:shadow-xl no-underline"
+                        >
+                            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>chat</span>
+                            ହ୍ୱାଟ୍ସଆପ୍ ଅର୍ଡର
+                        </a>
+
+                        <a
+                            href={`tel:+${PHONE}`}
+                            className="w-full border-2 border-secondary text-secondary-dark py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all btn-tap hover:bg-secondary/5 no-underline"
+                        >
+                            <span className="material-symbols-outlined">call</span>
+                            ବୁଣାକାରଙ୍କ ସହ କଥା ହୁଅନ୍ତୁ
+                        </a>
+                    </div>
                 </div>
 
                 {/* Trust Badges */}
-                <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, textAlign: 'center' }}>
-                    {[{ icon: '🚚', label: 'ଦ୍ରୁତ ଡ଼େଲିଭରି' }, { icon: '↩️', label: 'ସହଜ ଫେରତ' }, { icon: '✅', label: 'ଅସଲ ଶାଢ଼ି' }].map(b => (
-                        <div key={b.label} style={{ background: '#f7f3ee', borderRadius: 10, padding: '12px 4px' }}>
-                            <div style={{ fontSize: 20, marginBottom: 4 }}>{b.icon}</div>
-                            <p style={{ fontFamily: "'Noto Sans Odia', sans-serif", fontSize: 10, color: '#6b5e4e', lineHeight: 1.3 }}>{b.label}</p>
-                        </div>
-                    ))}
+                <div className="mt-10 grid grid-cols-2 gap-4">
+                    <div className="bg-[#f3ebe2] p-4 rounded-2xl flex flex-col items-center text-center">
+                        <span className="material-symbols-outlined text-secondary text-3xl mb-2">verified</span>
+                        <span className="text-xs font-bold text-on-surface">୧୦୦% ଅସଲି</span>
+                    </div>
+                    <div className="bg-[#f3ebe2] p-4 rounded-2xl flex flex-col items-center text-center">
+                        <span className="material-symbols-outlined text-secondary text-3xl mb-2">local_shipping</span>
+                        <span className="text-xs font-bold text-on-surface">ମାଗଣା ସିପିଂ</span>
+                    </div>
                 </div>
             </div>
         </OdiaLayout>

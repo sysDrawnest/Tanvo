@@ -1,69 +1,59 @@
 import React from 'react';
 import OdiaNavbar from './OdiaNavbar';
-import LanguageToggle from './LanguageToggle';
+import { useNavigate } from 'react-router-dom';
 
 interface OdiaLayoutProps {
     children: React.ReactNode;
 }
 
 const OdiaLayout: React.FC<OdiaLayoutProps> = ({ children }) => {
+    const navigate = useNavigate();
+    const PHONE = '9100000000'; // Placeholder from user design
+
     return (
-        <div style={{ background: '#fdf8f2', minHeight: '100vh', paddingTop: 30 }}>
-            {/* Odia-mode top header */}
-            <header style={{
-                background: '#fff',
-                borderBottom: '1px solid #e5e0d8',
-                padding: '10px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                position: 'sticky',
-                top: 30,
-                zIndex: 100,
-                boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-            }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                    <span style={{
-                        fontFamily: '"Playfair Display", serif',
-                        fontSize: 20,
-                        fontWeight: 700,
-                        color: '#B43F3F',
-                        letterSpacing: '0.1em',
-                        lineHeight: 1,
-                    }}>TANVO</span>
-                    <span style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: 6,
-                        letterSpacing: '0.3em',
-                        color: 'rgba(23, 59, 69, 0.6)',
-                        textTransform: 'uppercase',
-                        marginTop: 2,
-                    }}>Artisanal Heritage</span>
+        <div className="bg-[#fefaf5] text-[#2d2a24] font-inter antialiased min-h-screen">
+            {/* Top App Bar (refined) */}
+            <header className="sticky top-[30px] z-50 bg-white/95 backdrop-blur-md border-b border-[#f0e2d6] shadow-sm">
+                <div className="flex justify-between items-center w-full px-5 py-3 max-w-screen-xl mx-auto">
+                    <div className="flex items-center gap-3">
+                        <span className="material-symbols-outlined text-primary text-3xl cursor-pointer hover:scale-105 transition">menu</span>
+                        <h1 className="font-noto text-2xl tracking-tight font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            ଓଡ଼ିଆ ହସ୍ତତନ୍ତ
+                        </h1>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <span
+                            className="material-symbols-outlined text-primary text-3xl cursor-pointer hover:scale-105 transition"
+                            onClick={() => navigate('/cart')}
+                        >
+                            shopping_cart
+                        </span>
+                    </div>
                 </div>
-                <a
-                    href="tel:+918658000000"
-                    style={{
-                        background: '#25D366',
-                        color: '#fff',
-                        borderRadius: 20,
-                        padding: '6px 14px',
-                        fontSize: 12,
-                        fontFamily: "'Noto Sans Odia', sans-serif",
-                        fontWeight: 700,
-                        textDecoration: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 4,
-                    }}
-                >
-                    📞 ଡ଼ାକ
-                </a>
             </header>
 
-            {/* Page Content */}
-            <main style={{ paddingBottom: 80 }}>
+            <main className="max-w-screen-xl mx-auto px-4 pb-28">
                 {children}
             </main>
+
+            {/* Sticky Order Help Bar */}
+            <div className="fixed bottom-20 left-0 right-0 z-40 flex justify-center px-4 pointer-events-none">
+                <div className="bg-white/95 backdrop-blur-lg rounded-full shadow-xl border border-[#f0e2d6] py-2 px-4 flex gap-4 pointer-events-auto items-center">
+                    <a
+                        href={`tel:+${PHONE}`}
+                        className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-primary-dark transition btn-tap no-underline"
+                    >
+                        <span className="material-symbols-outlined text-base">call</span> କଲ୍
+                    </a>
+                    <a
+                        href={`https://wa.me/${PHONE}`}
+                        className="flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-[#128C7E] transition btn-tap no-underline"
+                    >
+                        <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>chat</span> ୱ୍ହାଟ୍ସଆପ୍
+                    </a>
+                    <span className="text-[#2d2a24] lg:flex hidden items-center text-xs font-medium">ସହଯୋଗ ଦରକାର?</span>
+                </div>
+            </div>
 
             {/* Bottom Nav */}
             <OdiaNavbar />

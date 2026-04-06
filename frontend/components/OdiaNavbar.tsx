@@ -6,56 +6,34 @@ const OdiaNavbar: React.FC = () => {
     const location = useLocation();
     const path = location.pathname;
 
-    const PHONE = '918658000000'; // Replace with real number
-    const WHATSAPP_MSG = encodeURIComponent('ନମସ୍କାର! ମୁଁ ଏକ ଶାଢ଼ି ଅର୍ଡ଼ର କରିବାକୁ ଚାହୁଁଛି।');
-
-    const tabs = [
-        { label: 'ଘର', icon: '🏠', path: '/odia' },
-        { label: 'ଶାଢ଼ି', icon: '🛍️', path: '/odia/shop' },
-        { label: 'ଡ଼ାକ', icon: '📞', action: () => window.open(`tel:+${PHONE}`) },
-        { label: 'WhatsApp', icon: '💬', action: () => window.open(`https://wa.me/${PHONE}?text=${WHATSAPP_MSG}`, '_blank') },
+    const navItems = [
+        { label: 'ମୁଖ୍ୟ', icon: 'home', path: '/odia' },
+        { label: 'ଶାଢ଼ି', icon: 'shopping_bag', path: '/odia/shop' },
+        { label: 'ଯୋଗାଯୋଗ', icon: 'call', path: '/contact' }, // Or keep internal if preferred
     ];
 
     return (
-        <nav style={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 999,
-            background: '#fff',
-            borderTop: '1px solid #e5e0d8',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            boxShadow: '0 -4px 24px rgba(0,0,0,0.1)',
-        }}>
-            {tabs.map((tab) => {
-                const isActive = tab.path && path === tab.path;
+        <nav className="fixed bottom-0 left-0 w-full flex justify-around items-center px-3 pb-5 pt-2 bg-white/90 backdrop-blur-xl border-t border-[#f0e2d6] shadow-[0_-8px_30px_rgba(0,0,0,0.04)] z-50 rounded-t-3xl">
+            {navItems.map((item) => {
+                const isActive = path === item.path;
                 return (
                     <button
-                        key={tab.label}
-                        onClick={() => tab.action ? tab.action() : navigate(tab.path!)}
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '10px 4px',
-                            border: 'none',
-                            background: isActive ? '#fff5e6' : '#fff',
-                            cursor: 'pointer',
-                            borderTop: isActive ? '3px solid #C9A84C' : '3px solid transparent',
-                            transition: 'all 0.2s ease',
-                            gap: 2,
-                        }}
+                        key={item.label}
+                        onClick={() => navigate(item.path)}
+                        className={`flex flex-col items-center justify-center px-5 py-1 transition-all rounded-2xl ${isActive
+                                ? 'nav-active'
+                                : 'text-[#2d2a24] hover:bg-[#f0e3d4]'
+                            }`}
                     >
-                        <span style={{ fontSize: 22 }}>{tab.icon}</span>
-                        <span style={{
-                            fontFamily: "'Noto Sans Odia', sans-serif",
-                            fontSize: 11,
-                            fontWeight: isActive ? 700 : 400,
-                            color: isActive ? '#C9A84C' : '#6b5e4e',
-                        }}>{tab.label}</span>
+                        <span
+                            className="material-symbols-outlined"
+                            style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
+                        >
+                            {item.icon}
+                        </span>
+                        <span className={`font-inter text-[11px] ${isActive ? 'font-semibold tracking-wide' : 'font-medium'}`}>
+                            {item.label}
+                        </span>
                     </button>
                 );
             })}
