@@ -44,6 +44,7 @@ import AdminOrderDetails from './pages/admin/AdminOrderDetails';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminReviews from './pages/admin/AdminReviews';
 import AdminSettings from './pages/admin/AdminSettings';
+import Billing from './pages/admin/Billing';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -132,6 +133,7 @@ const App: React.FC = () => {
                 <Route path="orders/:id" element={<AdminOrderDetails />} />
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="reviews" element={<AdminReviews />} />
+                <Route path="billing" element={<Billing />} />
                 <Route path="settings" element={<AdminSettings />} />
               </Route>
 

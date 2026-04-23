@@ -10,7 +10,8 @@ import {
   ChevronRight,
   Menu,
   X,
-  Home
+  Home,
+  Receipt
 } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 import { Navigate, Link, Outlet, useLocation } from "react-router-dom";
@@ -30,6 +31,7 @@ const Admin: React.FC = () => {
     { label: 'Orders', icon: <ShoppingBag size={20} />, path: '/admin/orders' },
     { label: 'Customers', icon: <Users size={20} />, path: '/admin/users' },
     { label: 'Reviews', icon: <Star size={20} />, path: '/admin/reviews' },
+    { label: 'Billing', icon: <Receipt size={20} />, path: '/admin/billing' },
     { label: 'Settings', icon: <Settings size={20} />, path: '/admin/settings' },
   ];
 
@@ -78,8 +80,8 @@ const Admin: React.FC = () => {
               key={item.path}
               to={item.path}
               className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all group ${isActive(item.path)
-                  ? 'bg-[#B43F3F] text-[#F8EDED] shadow-md shadow-[#B43F3F]/20'
-                  : 'text-[#173B45]/70 hover:bg-[#F8EDED] hover:text-[#B43F3F]'
+                ? 'bg-[#B43F3F] text-[#F8EDED] shadow-md shadow-[#B43F3F]/20'
+                : 'text-[#173B45]/70 hover:bg-[#F8EDED] hover:text-[#B43F3F]'
                 }`}
             >
               <div className="flex items-center gap-3">
@@ -182,8 +184,8 @@ const Admin: React.FC = () => {
                       to={item.path}
                       onClick={() => setMobileMenuOpen(false)}
                       className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive(item.path)
-                          ? 'bg-[#B43F3F] text-[#F8EDED]'
-                          : 'text-[#173B45]/70 hover:bg-[#F8EDED] hover:text-[#B43F3F]'
+                        ? 'bg-[#B43F3F] text-[#F8EDED]'
+                        : 'text-[#173B45]/70 hover:bg-[#F8EDED] hover:text-[#B43F3F]'
                         }`}
                     >
                       {item.icon}
@@ -226,8 +228,8 @@ const Admin: React.FC = () => {
             key={item.path}
             to={item.path}
             className={`flex flex-col items-center px-3 py-2 rounded-lg transition-all ${isActive(item.path)
-                ? 'text-[#B43F3F]'
-                : 'text-[#173B45]/50 hover:text-[#FF8225]'
+              ? 'text-[#B43F3F]'
+              : 'text-[#173B45]/50 hover:text-[#FF8225]'
               }`}
           >
             {item.icon}
