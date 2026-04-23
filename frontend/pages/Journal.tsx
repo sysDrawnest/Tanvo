@@ -203,9 +203,13 @@ const StoriesSection: React.FC = () => {
 
     return (
         <section className="py-24 px-4 md:px-[5%]" style={{ background: '#fdfcf9' }}>
-            <div style={{ textAlign: 'center', marginBottom: 48 }}>
-                <p className="section-label" style={{ marginBottom: 12 }}>Customer Chronicles</p>
-                <h2 className="font-serif" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', fontWeight: 300, color: '#1a120b', lineHeight: 1.1 }}>The Real Stories<br /><em style={{ color: '#C9A84C' }}>Behind Our Brand</em></h2>
+            <div style={{ textAlign: 'center', marginBottom: 64 }}>
+                <p className="section-label" style={{ marginBottom: 16, color: '#C9A84C', letterSpacing: '0.3em', textTransform: 'uppercase', fontSize: '11px', fontWeight: 600 }}>Authentic Connections</p>
+                <h2 className="font-serif" style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 400, color: '#1a120b', lineHeight: 1.1, marginBottom: 24 }}>
+                    Real Stories. Real People.<br />
+                    <span style={{ color: '#C9A84C', fontStyle: 'italic' }}>Real Handloom.</span>
+                </h2>
+                <div style={{ width: 60, height: 2, background: '#C9A84C', margin: '0 auto', opacity: 0.3 }}></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 max-w-7xl mx-auto">
                 {STORIES.map((story, idx) => (

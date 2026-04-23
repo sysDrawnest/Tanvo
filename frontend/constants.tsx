@@ -626,35 +626,35 @@ export const HERO_IMAGES = [
 export const STORIES = [
   {
     id: 1,
-    title: "A Piece of Heritage in Paris",
-    img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200",
-    name: "Claire Bonnet",
-    cat: "Silk Heritage",
-    excerpt: "Wearing my Sambalpuri silk at a gala in Paris felt like carrying a piece of home. Everyone was mesmerized by the mathematical precision of the Ikat patterns."
+    title: "A Saree That Travelled Beyond Borders",
+    img: "/Odisha to World Story.jpeg",
+    name: "Madhumita Dash",
+    cat: "From Odisha to the World",
+    excerpt: "I wore my Sambalpuri saree to a cultural event in Europe. People didn’t just compliment it — they asked about the story behind it. That’s when I realized, this is not just clothing, it’s identity."
   },
   {
     id: 2,
-    title: "Reviving Ikat for Modern Work",
-    img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1200",
+    title: "Workwear, But With Meaning",
+    img: "/Woman wearing saree in office.jpeg",
     name: "Anjali Patnaik",
-    cat: "Ikat Cotton",
-    excerpt: "I've transitioned my entire work wardrobe to handloom cotton. It's breathable, sustainable, and tells a story of an artisan's labor."
+    cat: "Everyday Handloom",
+    excerpt: "I stopped buying synthetic office wear because handloom cotton feels like skin. It breathes. And at Tanvo, nothing feels mass-produced. There’s a thumbprint of a human in every thread."
   },
   {
     id: 3,
-    title: "The Wedding Trousseau of Dreams",
-    img: "https://images.unsplash.com/photo-1610030469668-935142b9cdd0?q=80&w=1200",
+    title: "More Than a Wedding Outfit",
+    img: "/Indian bride wearing silk saree.jpeg",
     name: "Sneha Mohanty",
-    cat: "Traditional Silk",
-    excerpt: "Choosing Utkal Heritage for my wedding was the best decision. The Khandua silk saree was radiant and felt sacred."
+    cat: "The Sacred Thread",
+    excerpt: "My Khandua silk from Tanvo wasn’t just a wedding saree. It felt like wearing a prayer. The weave is so dense and the motifs so meaningful — it’s an heirloom I’ll pass down to my daughter."
   },
   {
     id: 4,
-    title: "Men's Style: The Handloom Shift",
-    img: "https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?q=80&w=1200",
+    title: "Breaking Stereotypes in Handloom",
+    img: "/Man wearing handloom kurta.jpeg",
     name: "Rajesh Meher",
-    cat: "Menswear",
-    excerpt: "Finally, a place that treats men's handloom with the same dignity as sarees. The fit and the weave quality are unmatched."
+    cat: "For the Modern Man",
+    excerpt: "I used to think handloom was 'traditional' and 'stiff.' Tanvo’s menswear changed that. Their Ikat shirts are sharp, premium, and fit perfectly into my modern lifestyle while keeping me rooted."
   }
 ];
 
