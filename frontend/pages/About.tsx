@@ -374,35 +374,108 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* Existing Footer Call to Action */}
+      {/* Beautiful Footer Call to Action */}
       <section className="container mx-auto px-4 mt-12 md:mt-16">
-        <div className="bg-gradient-to-r from-[#173B45] to-[#0f2a33] rounded-xl md:rounded-2xl p-8 md:p-12 text-center text-[#F8EDED] relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-[#B43F3F]/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#FF8225]/20 rounded-full blur-2xl -ml-16 -mb-16"></div>
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#173B45] via-[#1a4a55] to-[#0f2a33] p-8 md:p-12 lg:p-16 shadow-2xl">
 
-          <h2 className="text-2xl md:text-3xl font-display font-medium mb-3 relative z-10">
-            Join the <span className="text-[#FF8225]">Heritage</span> Movement
-          </h2>
-          <p className="text-sm text-[#F8EDED]/70 mb-6 max-w-lg mx-auto relative z-10">
-            Be part of our journey to preserve Odisha's rich handloom tradition.
-            Every purchase directly supports an artisan family.
-          </p>
-          <div className="flex flex-wrap gap-3 justify-center relative z-10">
-            <Link
-              to="/shop"
-              className="px-5 py-2.5 bg-[#FF8225] text-[#F8EDED] rounded-lg font-medium text-sm hover:bg-[#B43F3F] transition-all duration-300"
-            >
-              Shop Now
-            </Link>
-            <Link
-              to="/contact"
-              className="px-5 py-2.5 border border-[#F8EDED]/20 text-[#F8EDED] rounded-lg font-medium text-sm hover:bg-[#F8EDED]/10 transition-all duration-300"
-            >
-              Partner With Us
-            </Link>
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-0 -left-24 w-72 h-72 bg-[#FF8225] rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+            <div className="absolute top-0 -right-24 w-72 h-72 bg-[#B43F3F] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+            <div className="absolute -bottom-32 left-20 w-72 h-72 bg-[#FF8225] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+          </div>
+
+          {/* Decorative Pattern */}
+          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M30 0L60 30L30 60L0 30L30 0z" fill="%23FF8225"/%3E%3C/svg%3E")', backgroundSize: '30px 30px' }}></div>
+
+          <div className="relative z-10 text-center">
+            {/* Small Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full mb-6 border border-white/20">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF8225] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF8225]"></span>
+              </span>
+              <span className="text-xs font-medium uppercase tracking-wider text-[#F8EDED]">Support Artisans</span>
+            </div>
+
+            {/* Main Title */}
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 text-[#F8EDED]">
+              Join the{' '}
+              <span className="relative inline-block">
+                <span className="relative z-10 bg-gradient-to-r from-[#FF8225] to-[#B43F3F] bg-clip-text text-transparent">
+                  Heritage
+                </span>
+                <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 8C40 4 80 2 200 2" stroke="url(#gradient)" strokeWidth="2" strokeLinecap="round" strokeDasharray="4 4" />
+                  <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#FF8225" />
+                      <stop offset="100%" stopColor="#B43F3F" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+              {' '}Movement
+            </h2>
+
+            {/* Description */}
+            <p className="text-base md:text-lg text-[#F8EDED]/80 max-w-2xl mx-auto leading-relaxed">
+              Be part of our journey to preserve Odisha's rich handloom tradition.
+              <span className="block text-sm mt-1 text-[#FF8225]/80">Every purchase directly supports an artisan family.</span>
+            </p>
+
+            {/* Stats Row */}
+            <div className="flex flex-wrap justify-center gap-6 md:gap-12 mt-8 mb-8">
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#FF8225]">200+</div>
+                <div className="text-xs text-[#F8EDED]/60 uppercase tracking-wider">Artisan Families</div>
+              </div>
+              <div className="w-px h-10 bg-white/20 hidden md:block"></div>
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#FF8225]">28</div>
+                <div className="text-xs text-[#F8EDED]/60 uppercase tracking-wider">Weaving Clusters</div>
+              </div>
+              <div className="w-px h-10 bg-white/20 hidden md:block"></div>
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#FF8225]">700+</div>
+                <div className="text-xs text-[#F8EDED]/60 uppercase tracking-wider">Years of Legacy</div>
+              </div>
+              <div className="w-px h-10 bg-white/20 hidden md:block"></div>
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#FF8225]">15K+</div>
+                <div className="text-xs text-[#F8EDED]/60 uppercase tracking-wider">Happy Clients</div>
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link
+                to="/shop"
+                className="group relative px-6 py-3 bg-gradient-to-r from-[#FF8225] to-[#B43F3F] text-white rounded-xl font-semibold text-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Shop Now
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#B43F3F] to-[#FF8225] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </Link>
+
+              <Link
+                to="/contact"
+                className="group px-6 py-3 border-2 border-white/30 text-[#F8EDED] rounded-xl font-semibold text-sm hover:border-[#FF8225] hover:text-[#FF8225] transition-all duration-300 hover:shadow-lg"
+              >
+                Partner With Us
+              </Link>
+            </div>
+
+            {/* Bottom Decorative Line */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-[#FF8225] to-transparent"></div>
           </div>
         </div>
       </section>
+
     </div>
   );
 };
