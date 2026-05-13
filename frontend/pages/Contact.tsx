@@ -244,67 +244,123 @@ const Contact: React.FC = () => {
               </h2>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
-                  <User className="w-3 h-3" />
-                  Your Full Name
-                </label>
-                <input
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  type="text"
-                  className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
-                  placeholder="e.g., Arjun Meher"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
-                  <Mail className="w-3 h-3" />
-                  Email Address
-                </label>
-                <input
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  type="email"
-                  className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
-                  placeholder="e.g., hello@example.com"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
-                  <MessageSquare className="w-3 h-3" />
-                  Your Message
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40 resize-none"
-                  placeholder="Share your thoughts, questions, or custom requirements..."
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="group w-full py-3 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-lg shadow-md hover:bg-[#FF8225] transition-all duration-300 flex items-center justify-center gap-2"
+            {isSuccess ? (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-12"
               >
-                <span>Send Message</span>
-                <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-display text-[#173B45] mb-2">Message Sent!</h3>
+                <p className="text-[#173B45]/70 mb-8">Thank you for reaching out. Our team will get back to you within 2 hours.</p>
+                <button 
+                  onClick={() => setIsSuccess(false)}
+                  className="px-8 py-3 bg-[#B43F3F] text-white rounded-lg hover:bg-[#FF8225] transition-colors"
+                >
+                  Send Another Message
+                </button>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
+                      <User className="w-3 h-3" />
+                      Your Full Name
+                    </label>
+                    <input
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      type="text"
+                      className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
+                      placeholder="e.g., Arjun Meher"
+                      required
+                    />
+                  </div>
 
-              <p className="text-xs text-center text-[#173B45]/40 pt-2">
-                We typically respond within 2 hours during business hours
-              </p>
-            </form>
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
+                      <Mail className="w-3 h-3" />
+                      Email Address
+                    </label>
+                    <input
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      type="email"
+                      className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
+                      placeholder="e.g., hello@example.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
+                    <Info className="w-3 h-3" />
+                    Support Category
+                  </label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm appearance-none"
+                    required
+                  >
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Technical Issue">Technical Issue</option>
+                    <option value="Billing">Billing</option>
+                    <option value="Product Question">Product Question</option>
+                    <option value="Partnership">Partnership</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-xs font-medium text-[#173B45]/70 uppercase tracking-wider">
+                    <MessageSquare className="w-3 h-3" />
+                    Your Message
+                  </label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={4}
+                    className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40 resize-none"
+                    placeholder="Share your thoughts, questions, or custom requirements..."
+                    required
+                  />
+                </div>
+
+                {error && (
+                  <p className="text-red-500 text-xs flex items-center gap-1">
+                    <Info className="w-3 h-3" />
+                    {error}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="group w-full py-3 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-lg shadow-md hover:bg-[#FF8225] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      <span>Send Message</span>
+                      <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </button>
+
+                <p className="text-xs text-center text-[#173B45]/40 pt-2">
+                  We typically respond within 2 hours during business hours
+                </p>
+              </form>
+            )}
           </motion.div>
         </div>
 
