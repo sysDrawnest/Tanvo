@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, useLocation } from "react-router-d
 
 // Context
 import { StoreProvider } from './context/StoreContext';
+import { AuthProvider } from './context/AuthContext';
 
 // Styles
 import GlobalStyles from './components/GlobalStyles';
@@ -56,8 +57,9 @@ const ScrollToTop = () => {
 
 const App: React.FC = () => {
   return (
-    <StoreProvider>
-      <GlobalStyles />
+    <AuthProvider>
+      <StoreProvider>
+        <GlobalStyles />
       <WelcomeScreen />
       <Router>
         <ScrollToTop />
@@ -156,6 +158,7 @@ const App: React.FC = () => {
         </div>
       </Router>
     </StoreProvider>
+    </AuthProvider>
   );
 };
 
