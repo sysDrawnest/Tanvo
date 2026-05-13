@@ -269,10 +269,13 @@ const Footer: React.FC = () => {
             }}>Our Policies</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <Link to="/terms" className="footer-link">Terms of Service</Link>
-              <Link to="/shipping" className="footer-link">Shipping Policy</Link>
-              <Link to="/refund" className="footer-link">Refund Policy</Link>
               <Link to="/privacy" className="footer-link">Privacy Policy</Link>
-              <Link to="/contact" className="footer-link">Contact Us</Link>
+              <Link to="/cookies" className="footer-link">Cookie Policy</Link>
+              <div className="divider" style={{ height: '1px', background: 'rgba(249,245,238,0.05)', margin: '4px 0' }} />
+              <Link to="/shipping" className="footer-link">Shipping Policy</Link>
+              <Link to="/returns" className="footer-link">Returns & Refunds</Link>
+              <Link to="/contact" className="footer-link">Support Hub</Link>
+              <Link to="/report-bug" className="footer-link" style={{ color: 'var(--terra)', fontWeight: 500 }}>Report a Problem</Link>
             </div>
           </div>
 

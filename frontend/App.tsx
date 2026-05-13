@@ -47,6 +47,19 @@ import AdminReviews from './pages/admin/AdminReviews';
 import AdminSettings from './pages/admin/AdminSettings';
 import Billing from './pages/admin/Billing';
 
+// Auth & Security Pages
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
+import VerifyEmail from './pages/auth/VerifyEmail';
+
+// Legal Pages
+import PrivacyPolicy from './pages/legal/PrivacyPolicy';
+import TermsOfService from './pages/legal/TermsOfService';
+import CookiePolicy from './pages/legal/CookiePolicy';
+
+// Support Pages
+import ReportBug from './pages/ReportBug';
+
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -81,6 +94,17 @@ const App: React.FC = () => {
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/journal" element={<Journal />} />
+              <Route path="/report-bug" element={<ReportBug />} />
+
+              {/* Auth Specialized Routes */}
+              <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+              <Route path="/auth/reset-password" element={<ResetPassword />} />
+              <Route path="/auth/verify-email" element={<VerifyEmail />} />
+
+              {/* Legal Routes */}
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/cookies" element={<CookiePolicy />} />
 
               {/* Protected User Routes */}
               <Route path="/wishlist" element={<Wishlist />} />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // Correctly importing useNavigate and useLocation hooks from react-router-dom
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useStore } from '../context/StoreContext';
 import { Mail, Lock, User as UserIcon, ArrowRight, CheckCircle } from 'lucide-react';
 
@@ -139,7 +139,7 @@ const Auth: React.FC = () => {
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <label className="text-xs font-bold uppercase tracking-widest text-slate-600 block">Password</label>
-              {isLogin && <button type="button" className="text-[10px] text-[var(--action-cta)] font-bold uppercase">Forgot?</button>}
+              {isLogin && <Link to="/auth/forgot-password" size={18} className="text-[10px] text-[var(--action-cta)] font-bold uppercase hover:underline">Forgot?</Link>}
             </div>
             <div className="relative">
               <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />

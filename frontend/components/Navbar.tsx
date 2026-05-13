@@ -353,6 +353,7 @@ const Navbar: React.FC = () => {
     { to: '/shop?sort=newest', label: 'New Arrivals' },
     { to: '/shop?sort=popular', label: 'Best Sellers' },
     { to: '/about', label: 'About' },
+    { to: '/contact', label: 'Support' },
     { to: '/journal', label: 'Craft Chronicles' },
   ];
 
