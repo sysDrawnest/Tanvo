@@ -202,8 +202,58 @@ export const sendOrderConfirmation = async (order, user) => {
   });
 };
 
+/**
+ * Send Email Verification
+ */
+export const sendVerificationEmail = async (user, token) => {
+  const verifyUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email?token=${token}`;
+  const html = `
+    <div style="font-family: sans-serif; padding: 20px;">
+      <h2>Verify Your Email</h2>
+      <p>Namaste ${user.name},</p>
+      <p>Thank you for registering. Please verify your email address by clicking the link below:</p>
+      <a href="${verifyUrl}" style="padding: 10px 20px; background-color: #1a362d; color: white; text-decoration: none; border-radius: 5px;">Verify Email</a>
+    </div>
+  `;
+  return sendEmail({ email: user.email, subject: 'Verify your email address', html });
+};
+
+/**
+ * Send Password Reset Email
+ */
+export const sendPasswordResetEmail = async (user, token) => {
+  const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${token}`;
+  const html = `
+    <div style="font-family: sans-serif; padding: 20px;">
+      <h2>Password Reset Request</h2>
+      <p>Namaste ${user.name},</p>
+      <p>You are receiving this email because you (or someone else) have requested the reset of a password. Please make a put request to:</p>
+      <a href="${resetUrl}" style="padding: 10px 20px; background-color: #1a362d; color: white; text-decoration: none; border-radius: 5px;">Reset Password</a>
+    </div>
+  `;
+  return sendEmail({ email: user.email, subject: 'Password Reset Request', html });
+};
+
+/**
+ * Send Support Ticket Confirmation
+ */
+export const sendSupportTicketConfirmation = async (ticket) => {
+  const html = `
+    <div style="font-family: sans-serif; padding: 20px;">
+      <h2>Support Ticket Received</h2>
+      <p>Namaste ${ticket.name},</p>
+      <p>We have received your support request regarding <strong>${ticket.category}</strong>.</p>
+      <p>Our team will get back to you shortly.</p>
+    </div>
+  `;
+  return sendEmail({ email: ticket.email, subject: 'Support Ticket Received', html });
+};
+
 export default {
   sendEmail,
   sendWelcomeEmail,
-  sendOrderConfirmation
+  sendOrderConfirmation,
+  sendVerificationEmail,
+  sendPasswordResetEmail,
+  sendSupportTicketConfirmation
 };

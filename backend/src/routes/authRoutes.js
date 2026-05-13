@@ -10,7 +10,9 @@ import {
   updateAddress,
   deleteAddress,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  verifyEmail,
+  googleAuth
 } from '../controllers/authController.js';
 
 const router = express.Router();
@@ -37,6 +39,8 @@ router.post(
 
 router.post('/forgot-password', forgotPassword);
 router.put('/reset-password/:resetToken', resetPassword);
+router.post('/verify-email', verifyEmail);
+router.post('/google', googleAuth);
 
 // Protected routes
 router.get('/profile', protect, getUserProfile);

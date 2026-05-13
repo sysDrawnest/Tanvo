@@ -1,7 +1,7 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import { sendEmail, sendWelcomeEmail } from '../utils/sendEmail.js';
+import { sendEmail, sendWelcomeEmail, sendVerificationEmail, sendPasswordResetEmail } from '../utils/sendEmail.js';
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -38,11 +38,11 @@ export const registerUser = async (req, res) => {
       .digest('hex');
     await user.save();
 
-    // Send welcome email
+    // Send verification email instead of welcome email directly
     try {
-      await sendWelcomeEmail(user);
+      await sendVerificationEmail(user, verificationToken);
     } catch (err) {
-      console.error('Welcome email failed:', err);
+      console.error('Verification email failed:', err);
     }
 
     res.status(201).json({
@@ -257,14 +257,7 @@ export const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    // Send email
-    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-
-    await sendEmail({
-      email: user.email,
-      subject: 'Password Reset - Yobazar',
-      message: `You are receiving this email because you requested a password reset. Please click: ${resetUrl}`
-    });
+    await sendPasswordResetEmail(user, resetToken);
 
     res.json({ message: 'Email sent' });
   } catch (error) {
@@ -297,6 +290,74 @@ export const resetPassword = async (req, res) => {
     await user.save();
 
     res.json({ message: 'Password reset successful' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Verify email
+// @route   POST /api/auth/verify-email
+// @access  Public
+export const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const emailVerificationToken = crypto
+      .createHash('sha256')
+      .update(token)
+      .digest('hex');
+
+    const user = await User.findOne({ emailVerificationToken });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+
+    user.emailVerified = true;
+    user.emailVerificationToken = undefined;
+    await user.save();
+
+    // Now send the welcome email
+    await sendWelcomeEmail(user);
+
+    res.json({ message: 'Email verified successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Google OAuth Callback Placeholder
+// @route   POST /api/auth/google
+// @access  Public
+export const googleAuth = async (req, res) => {
+  // This is a placeholder for Google OAuth.
+  // In a real scenario, you'd verify the Google token using google-auth-library.
+  try {
+    const { googleToken, email, name, googleId } = req.body;
+    
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = await User.create({
+        name,
+        email,
+        googleId,
+        emailVerified: true, // Google emails are already verified
+        password: crypto.randomBytes(20).toString('hex') // random password
+      });
+      await sendWelcomeEmail(user);
+    } else {
+      user.googleId = googleId;
+      user.lastLogin = Date.now();
+      await user.save();
+    }
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user._id)
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

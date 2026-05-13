@@ -71,6 +71,11 @@ const userSchema = new mongoose.Schema({
     default: false
   },
   emailVerificationToken: String,
+  googleId: {
+    type: String,
+    sparse: true,
+    unique: true
+  },
   lastLogin: Date
 }, {
   timestamps: true

@@ -17,6 +17,7 @@ import cartRoutes from './routes/cartRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import webhookRoutes from './routes/webhookRoutes.js';
+import supportRoutes from './routes/supportRoutes.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -95,6 +96,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/webhooks', webhookRoutes);
+app.use('/api/support', supportRoutes);
 
 
 // Health check
