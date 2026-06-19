@@ -160,6 +160,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       localStorage.setItem('token', data.token);
       setUser(data);
+      await fetchCart();
+      await fetchWishlist();
 
       return { success: true };
     } catch (error: any) {

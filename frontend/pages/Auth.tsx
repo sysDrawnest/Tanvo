@@ -11,6 +11,7 @@ const Auth: React.FC = () => {
   const [name, setName] = useState('');
   const [authError, setAuthError] = useState('');
   const [merging, setMerging] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const { login, register, mergeGuestData, guestCart, guestWishlist } = useStore();
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,41 +24,49 @@ const Auth: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     setAuthError('');
 
-    if (isLogin) {
-      const res = await login(email, password);
-      if (res.success) {
-        // Merge guest cart/wishlist into account
-        if (hasGuestData) {
-          setMerging(true);
-          await mergeGuestData();
-          setMerging(false);
-        }
+    try {
+      if (isLogin) {
+        const res = await login(email, password);
+        if (res.success) {
+          // Merge guest cart/wishlist into account
+          if (hasGuestData) {
+            setMerging(true);
+            await mergeGuestData();
+            setMerging(false);
+          }
 
-        // Redirect admin users to the admin dashboard
-        if (res.user?.role === 'admin') {
-          navigate('/admin');
+          // Redirect admin users to the admin dashboard
+          if (res.user?.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate(redirectPath);
+          }
         } else {
+          setAuthError(res.error || 'Login failed. Please check your credentials.');
+        }
+      } else {
+        // @ts-ignore
+        const res = await register({ name, email, password });
+        if (res.success) {
+          // Merge guest cart/wishlist into new account
+          if (hasGuestData) {
+            setMerging(true);
+            await mergeGuestData();
+            setMerging(false);
+          }
           navigate(redirectPath);
+        } else {
+          setAuthError(res.error || 'Registration failed.');
         }
-      } else {
-        setAuthError(res.error || 'Login failed. Please check your credentials.');
       }
-    } else {
-      // @ts-ignore
-      const res = await register({ name, email, password });
-      if (res.success) {
-        // Merge guest cart/wishlist into new account
-        if (hasGuestData) {
-          setMerging(true);
-          await mergeGuestData();
-          setMerging(false);
-        }
-        navigate(redirectPath);
-      } else {
-        setAuthError(res.error || 'Registration failed.');
-      }
+    } catch (err: any) {
+      setAuthError(err.message || 'An unexpected error occurred.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -156,10 +165,17 @@ const Auth: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full text-white py-4 font-bold uppercase tracking-[0.2em] shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-3"
+            disabled={submitting}
+            className="w-full text-white py-4 font-bold uppercase tracking-[0.2em] shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ background: 'var(--action-cta)', color: 'var(--action-text)' }}
           >
-            {isLogin ? 'Sign In' : 'Create Account'} <ArrowRight size={18} />
+            {submitting ? (
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              <>
+                {isLogin ? 'Sign In' : 'Create Account'} <ArrowRight size={18} />
+              </>
+            )}
           </button>
         </form>
 

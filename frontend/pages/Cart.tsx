@@ -28,6 +28,8 @@ const Cart: React.FC = () => {
     }, 0) || 0)
     : guestCart.reduce((acc, item) => acc + ((item.price || 0) * item.quantity), 0);
 
+  const totalItemCount = items.reduce((acc, item) => acc + item.quantity, 0);
+
   const shipping = subtotal > 5000 ? 0 : (subtotal > 0 ? 500 : 0);
   const tax = Math.round(subtotal * 0.05);
   const total = subtotal + shipping + tax - discount;
@@ -310,7 +312,7 @@ const Cart: React.FC = () => {
 
             <div className="space-y-4 mb-8">
               <div className="flex justify-between text-slate-600">
-                <span>Subtotal ({items.length} item{items.length !== 1 ? 's' : ''})</span>
+                <span>Subtotal ({totalItemCount} item{totalItemCount !== 1 ? 's' : ''})</span>
                 <span className="font-bold">₹{subtotal.toLocaleString()}</span>
               </div>
 
