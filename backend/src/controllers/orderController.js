@@ -17,7 +17,8 @@ export const createOrder = async (req, res) => {
       items: reqItems,
       notes,
       isGift,
-      giftMessage
+      giftMessage,
+      codOption // 'ADVANCE' or 'FULL_COD'
     } = req.body;
 
     console.log(`Order placement started for user: ${req.user._id}`);
@@ -77,7 +78,33 @@ export const createOrder = async (req, res) => {
     const discountPrice = dbCart?.discountAmount || 0;
     const totalPrice = itemsPrice + taxPrice + shippingPrice - discountPrice;
 
-    console.log(`Calculated Total: ${totalPrice} (Items: ${itemsPrice}, Tax: ${taxPrice}, Shipping: ${shippingPrice}, Discount: ${discountPrice})`);
+    // COD Risk management calculations
+    const isCOD = (paymentMethod || 'COD').toUpperCase() === 'COD';
+    let codAdvancePaid = 0;
+    let codFee = 0;
+    let finalTotalPrice = totalPrice;
+
+    if (isCOD) {
+      if (totalPrice > 5000) {
+        if (codOption === 'ADVANCE') {
+          codAdvancePaid = Math.round(totalPrice * 0.1);
+        } else {
+          codFee = 250;
+          finalTotalPrice = totalPrice + codFee;
+        }
+      }
+    }
+    const codRemainingAmount = isCOD ? (finalTotalPrice - codAdvancePaid) : 0;
+
+    console.log(`Calculated Total: ${finalTotalPrice} (Items: ${itemsPrice}, Tax: ${taxPrice}, Shipping: ${shippingPrice}, Discount: ${discountPrice}, CODFee: ${codFee}, CODAdvance: ${codAdvancePaid})`);
+
+    // Determine initial order status
+    let initialOrderStatus = 'Created';
+    if (!isCOD) {
+      initialOrderStatus = 'Payment Pending';
+    } else if (codAdvancePaid > 0) {
+      initialOrderStatus = 'Payment Pending';
+    }
 
     // 3. Create the Order in DB
     const order = await Order.create({
@@ -93,16 +120,20 @@ export const createOrder = async (req, res) => {
         phone: shippingAddress.phone || req.user.phone
       },
       paymentMethod: (paymentMethod || 'COD').toUpperCase(),
+      isCOD,
+      codAdvancePaid,
+      codRemainingAmount,
+      codFee,
       itemsPrice,
       taxPrice,
       shippingPrice,
-      totalPrice,
+      totalPrice: finalTotalPrice,
       discountPrice,
       couponCode: dbCart?.couponCode,
       notes,
       isGift: isGift || false,
       giftMessage,
-      orderStatus: 'Pending',
+      orderStatus: initialOrderStatus,
       paymentStatus: 'Pending'
     });
 

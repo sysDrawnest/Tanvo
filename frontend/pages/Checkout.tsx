@@ -54,6 +54,7 @@ interface OrderData {
   notes?: string;
   isGift?: boolean;
   giftMessage?: string;
+  codOption?: string;
 }
 
 const Checkout: React.FC = () => {
@@ -66,7 +67,8 @@ const Checkout: React.FC = () => {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [paymentMethod, setPaymentMethod] = useState('online');
+  const [codOption, setCodOption] = useState<'ADVANCE' | 'FULL_COD'>('ADVANCE');
   const [orderNotes, setOrderNotes] = useState('');
   const [isGift, setIsGift] = useState(false);
   const [giftMessage, setGiftMessage] = useState('');
@@ -104,6 +106,16 @@ const Checkout: React.FC = () => {
   const tax = Math.round(subtotal * 0.05);
   const discount = typedCart?.discountAmount || 0;
   const total = subtotal + shipping + tax - discount;
+
+  const isCODMode = paymentMethod === 'cod';
+  const needsCODRules = isCODMode && total > 5000;
+
+  const codFeeAmount = needsCODRules && codOption === 'FULL_COD' ? 250 : 0;
+  const finalOrderTotal = total + codFeeAmount;
+  const advancePaymentAmount = needsCODRules && codOption === 'ADVANCE'
+    ? Math.round(total * 0.1)
+    : (paymentMethod === 'online' ? finalOrderTotal : 0);
+  const remainingPaymentAmount = finalOrderTotal - advancePaymentAmount;
 
   // Helper function to get product image URL
   const getProductImageUrl = (item: CartItem): string => {
@@ -183,6 +195,16 @@ const Checkout: React.FC = () => {
     }
   };
 
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const handlePlaceOrder = async () => {
     if (!selectedAddress) {
       alert('Please select a shipping address');
@@ -193,22 +215,94 @@ const Checkout: React.FC = () => {
 
     const orderData: OrderData = {
       shippingAddress: selectedAddress,
-      paymentMethod,
+      paymentMethod: paymentMethod === 'cod' ? 'COD' : 'ONLINE',
       items: typedCart?.items || [],
       itemsPrice: subtotal,
       taxPrice: tax,
       shippingPrice: shipping,
-      totalPrice: total,
+      totalPrice: finalOrderTotal,
       discountPrice: discount,
       couponCode: typedCart?.couponCode,
       notes: orderNotes,
       isGift,
-      giftMessage: isGift ? giftMessage : undefined
+      giftMessage: isGift ? giftMessage : undefined,
+      codOption: needsCODRules ? codOption : undefined
     };
 
     try {
       const { data } = await API.post('/orders', orderData);
-      navigate(`/order-confirmation/${data._id}`);
+      const isOnlinePayRequired = paymentMethod === 'online' || (needsCODRules && codOption === 'ADVANCE');
+
+      if (!isOnlinePayRequired) {
+        // Direct COD (no online payment needed)
+        navigate(`/order-confirmation/${data._id}`);
+      } else {
+        // Requires Razorpay payment (full amount or 10% advance)
+        const isLoaded = await loadRazorpay();
+        if (!isLoaded) {
+          alert('Razorpay SDK failed to load. Please check your internet connection.');
+          setPlacingOrder(false);
+          return;
+        }
+
+        // Initialize Razorpay Order on server
+        const paymentRes = await API.post('/payments/create', {
+          amount: advancePaymentAmount,
+          orderId: data._id
+        });
+
+        if (paymentRes.data.success) {
+          const { keyId, razorpayOrder } = paymentRes.data;
+
+          const options = {
+            key: keyId,
+            amount: razorpayOrder.amount,
+            currency: razorpayOrder.currency,
+            name: 'TANVO',
+            description: paymentMethod === 'cod' ? '10% COD Advance Payment' : 'Order Payment',
+            order_id: razorpayOrder.id,
+            handler: async (response: any) => {
+              try {
+                setPlacingOrder(true);
+                const verifyRes = await API.post('/payments/verify', {
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature
+                });
+                if (verifyRes.data.success) {
+                  navigate(`/order-confirmation/${data._id}`);
+                } else {
+                  alert('Payment verification failed.');
+                }
+              } catch (err) {
+                console.error('Verification failed', err);
+                alert('Payment verification failed. Please contact customer support.');
+              } finally {
+                setPlacingOrder(false);
+              }
+            },
+            prefill: {
+              name: user?.name,
+              email: user?.email,
+              contact: selectedAddress.phone || user?.phone
+            },
+            theme: {
+              color: '#B43F3F'
+            },
+            modal: {
+              ondismiss: () => {
+                alert('Payment session closed. You can complete the payment in your profile settings.');
+                navigate('/profile');
+              }
+            }
+          };
+
+          const rzp = new (window as any).Razorpay(options);
+          rzp.open();
+        } else {
+          alert('Failed to initiate secure payment gateway.');
+        }
+      }
     } catch (error: any) {
       console.error('Error placing order:', error);
       alert(error.response?.data?.message || 'Failed to place order. Please try again.');
@@ -567,16 +661,14 @@ const Checkout: React.FC = () => {
 
               <div className="space-y-3">
                 {[
-                  { id: 'cod', label: 'Cash on Delivery', description: 'Pay when you receive your order' },
-                  { id: 'card', label: 'Credit/Debit Card', description: 'Visa, MasterCard, RuPay, Amex' },
-                  { id: 'upi', label: 'UPI', description: 'Google Pay, PhonePe, Paytm' },
-                  { id: 'netbanking', label: 'Net Banking', description: 'All major banks' }
+                  { id: 'online', label: 'Online Payment', description: 'Credit/Debit Card, UPI, Netbanking (Secure via Razorpay)' },
+                  { id: 'cod', label: 'Cash on Delivery (COD)', description: 'Pay at your doorstep' }
                 ].map((method) => (
                   <label
                     key={method.id}
-                    className={`flex items-center gap-4 p-3 border rounded-lg cursor-pointer transition-all ${paymentMethod === method.id
-                      ? 'border-[#FF8225] bg-[#FF8225]/5'
-                      : 'border-[#B43F3F]/10 hover:border-[#FF8225]/30'
+                    className={`flex items-center gap-4 p-4 border rounded-xl cursor-pointer transition-all ${paymentMethod === method.id
+                      ? 'border-[#B43F3F] bg-[#B43F3F]/5'
+                      : 'border-[#B43F3F]/10 hover:border-[#B43F3F]/30'
                       }`}
                   >
                     <input
@@ -584,16 +676,73 @@ const Checkout: React.FC = () => {
                       name="payment"
                       value={method.id}
                       checked={paymentMethod === method.id}
-                      onChange={() => setPaymentMethod(method.id)}
-                      className="accent-[#FF8225]"
+                      onChange={() => {
+                        setPaymentMethod(method.id);
+                        if (method.id === 'cod') {
+                          setCodOption('ADVANCE');
+                        }
+                      }}
+                      className="accent-[#B43F3F]"
                     />
                     <div>
-                      <span className="text-sm font-medium text-[#173B45] block">{method.label}</span>
+                      <span className="text-sm font-bold text-[#173B45] block">{method.label}</span>
                       <span className="text-xs text-[#173B45]/60">{method.description}</span>
                     </div>
                   </label>
                 ))}
               </div>
+
+              {/* COD Option Selection for High-Value Orders */}
+              {needsCODRules && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  className="mt-6 p-4 bg-orange-50 border-2 border-orange-200 rounded-xl space-y-4"
+                >
+                  <h3 className="text-xs font-bold text-orange-800 uppercase tracking-wider">
+                    High-Value COD Verification (Orders above ₹5,000)
+                  </h3>
+                  <p className="text-xs text-orange-700 leading-relaxed">
+                    To support our weavers and verify high-value orders, please select one of the options below:
+                  </p>
+
+                  <div className="space-y-3">
+                    <label className={`flex items-start gap-3 p-3 bg-white border-2 rounded-lg cursor-pointer transition-all ${codOption === 'ADVANCE' ? 'border-[#B43F3F]' : 'border-gray-100 hover:border-orange-300'}`}>
+                      <input
+                        type="radio"
+                        name="codOption"
+                        value="ADVANCE"
+                        checked={codOption === 'ADVANCE'}
+                        onChange={() => setCodOption('ADVANCE')}
+                        className="accent-[#B43F3F] mt-0.5"
+                      />
+                      <div>
+                        <span className="text-xs font-bold text-[#173B45] block">Option A: Pay 10% Advance Online (Waive COD Fee)</span>
+                        <span className="text-[11px] text-[#173B45]/70 block mt-0.5">
+                          Pay ₹{Math.round(total * 0.1).toLocaleString()} online now. The remaining ₹{Math.round(total * 0.9).toLocaleString()} is payable in cash upon delivery. COD handling fee is waived (₹0).
+                        </span>
+                      </div>
+                    </label>
+
+                    <label className={`flex items-start gap-3 p-3 bg-white border-2 rounded-lg cursor-pointer transition-all ${codOption === 'FULL_COD' ? 'border-[#B43F3F]' : 'border-gray-100 hover:border-orange-300'}`}>
+                      <input
+                        type="radio"
+                        name="codOption"
+                        value="FULL_COD"
+                        checked={codOption === 'FULL_COD'}
+                        onChange={() => setCodOption('FULL_COD')}
+                        className="accent-[#B43F3F] mt-0.5"
+                      />
+                      <div>
+                        <span className="text-xs font-bold text-[#173B45] block">Option B: 100% Cash on Delivery (+₹250 Handling Fee)</span>
+                        <span className="text-[11px] text-[#173B45]/70 block mt-0.5">
+                          Pay ₹0 now. Pay full total + ₹250 handling fee (Total ₹{(total + 250).toLocaleString()}) in cash upon delivery.
+                        </span>
+                      </div>
+                    </label>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
 
             {/* Step 3: Additional Options */}
@@ -679,12 +828,46 @@ const Checkout: React.FC = () => {
                   </div>
                 )}
 
+                {codFeeAmount > 0 && (
+                  <div className="flex justify-between text-sm text-orange-600 font-medium">
+                    <span>COD Handling Fee (Option B)</span>
+                    <span>+₹{codFeeAmount.toLocaleString()}</span>
+                  </div>
+                )}
+
                 <div className="border-t border-[#B43F3F]/10 pt-3 mt-3">
                   <div className="flex justify-between text-base">
-                    <span className="font-medium text-[#173B45]">Total</span>
-                    <span className="font-medium text-[#B43F3F]">₹{total.toLocaleString()}</span>
+                    <span className="font-bold text-[#173B45]">Total Price</span>
+                    <span className="font-bold text-[#B43F3F]">₹{finalOrderTotal.toLocaleString()}</span>
                   </div>
                 </div>
+
+                {/* Secure partial COD payment summary details */}
+                {needsCODRules && codOption === 'ADVANCE' && (
+                  <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-xl space-y-1.5 text-xs text-green-800">
+                    <div className="flex justify-between font-bold">
+                      <span>Pay Online Now (10% Advance):</span>
+                      <span>₹{advancePaymentAmount.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-[11px] text-green-700">
+                      <span>Balance on Delivery (Cash/UPI):</span>
+                      <span>₹{remainingPaymentAmount.toLocaleString()}</span>
+                    </div>
+                  </div>
+                )}
+
+                {needsCODRules && codOption === 'FULL_COD' && (
+                  <div className="mt-3 p-3 bg-orange-50 border border-orange-200 rounded-xl space-y-1.5 text-xs text-orange-800">
+                    <div className="flex justify-between font-bold">
+                      <span>Pay Online Now:</span>
+                      <span>₹0</span>
+                    </div>
+                    <div className="flex justify-between text-[11px] text-orange-700">
+                      <span>Pay on Delivery (includes fee):</span>
+                      <span>₹{remainingPaymentAmount.toLocaleString()}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Order Items Preview */}
@@ -712,7 +895,7 @@ const Checkout: React.FC = () => {
               <button
                 onClick={handlePlaceOrder}
                 disabled={placingOrder || !selectedAddress}
-                className="w-full py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-lg hover:bg-[#FF8225] transition-all duration-300 mb-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3.5 bg-[#B43F3F] text-[#F8EDED] font-bold rounded-xl hover:bg-[#FF8225] transition-all duration-300 mb-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-[#B43F3F]/20 uppercase tracking-widest text-xs"
               >
                 {placingOrder ? (
                   <div className="flex items-center justify-center gap-2">
@@ -720,7 +903,7 @@ const Checkout: React.FC = () => {
                     Placing Order...
                   </div>
                 ) : (
-                  'Place Order'
+                  paymentMethod === 'online' || (needsCODRules && codOption === 'ADVANCE') ? 'Pay & Place Order' : 'Place Order (COD)'
                 )}
               </button>
 

@@ -13,6 +13,8 @@ import { useStore } from '../context/StoreContext';
 import API from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSwipeable } from 'react-swipeable';
+import { Helmet } from 'react-helmet-async';
+import { ProductHeritageAccordion } from '../components/ProductHeritageAccordion';
 
 interface Product {
   _id: string;
@@ -103,6 +105,41 @@ const ProductDetail: React.FC = () => {
   const [reviewPage, setReviewPage] = useState(1);
   const [hasMoreReviews, setHasMoreReviews] = useState(true);
   const [showAuthMessage, setShowAuthMessage] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [newRating, setNewRating] = useState(5);
+  const [newTitle, setNewTitle] = useState('');
+  const [newComment, setNewComment] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+  const [reviewError, setReviewError] = useState('');
+  const [reviewSuccess, setReviewSuccess] = useState(false);
+
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newComment.trim().length < 5) {
+      setReviewError('Review comment must be at least 5 characters long');
+      return;
+    }
+    try {
+      setSubmittingReview(true);
+      setReviewError('');
+      await API.post(`/products/${id}/reviews`, {
+        rating: newRating,
+        title: newTitle,
+        comment: newComment
+      });
+      setReviewSuccess(true);
+      setNewRating(5);
+      setNewTitle('');
+      setNewComment('');
+      setShowReviewForm(false);
+      fetchReviews(1);
+    } catch (error: any) {
+      console.error('Error submitting review:', error);
+      setReviewError(error.response?.data?.message || 'Failed to submit review. You may have already reviewed this product.');
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
 
   const isWishlisted = product ? wishlist.includes(product._id) : false;
 
@@ -323,7 +360,39 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8EDED]">
+    <>
+      <Helmet>
+        <title>{`${product.name} - Odisha Handloom Heritage | TANVO`}</title>
+        <meta name="description" content={product.shortDescription || product.description.slice(0, 160)} />
+        <meta property="og:title" content={`${product.name} | TANVO`} />
+        <meta property="og:description" content={product.shortDescription || product.description.slice(0, 160)} />
+        <meta property="og:image" content={product.images[0]?.url} />
+        <meta property="og:type" content="product" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": product.name,
+            "image": product.images.map(img => img.url),
+            "description": product.description,
+            "sku": product._id,
+            "brand": {
+              "@type": "Brand",
+              "name": "TANVO"
+            },
+            "offers": {
+              "@type": "Offer",
+              "url": window.location.href,
+              "priceCurrency": "INR",
+              "price": product.price,
+              "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+              "itemCondition": "https://schema.org/NewCondition"
+            }
+          })}
+        </script>
+      </Helmet>
+
+      <div className="min-h-screen bg-[#F8EDED]">
       {/* Textile overlay */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -700,6 +769,37 @@ const ProductDetail: React.FC = () => {
               )}
             </div>
 
+            {/* TANVO Authenticity Promise */}
+            <div className="p-4 sm:p-5 rounded-2xl border border-[#B43F3F]/10 bg-white/60 backdrop-blur-sm shadow-sm space-y-4">
+              <div className="flex items-center gap-2 border-b border-[#B43F3F]/10 pb-2">
+                <Award className="w-5 h-5 text-[#B43F3F]" />
+                <h3 className="font-display font-medium text-base text-[#173B45]">
+                  TANVO Authenticity Promise
+                </h3>
+              </div>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#B43F3F]"></div>
+                  <span>Handloom Certified</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#FF8225]"></div>
+                  <span>Artisan Verified</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#173B45]"></div>
+                  <span>Fabric: {product.fabric}</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#B43F3F]"></div>
+                  <span>Weave: {product.weave}</span>
+                </div>
+              </div>
+              <p className="text-xs text-[#173B45]/70 italic leading-relaxed pt-1">
+                "We guarantee this saree is a genuine hand-spun, hand-woven Indian masterpiece. We work directly with artisan families, paying fair wages and ensuring their ancestral craft lives on."
+              </p>
+            </div>
+
             {/* Stock Status */}
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${product.stock > 5 ? 'bg-green-500' : 'bg-[#FF8225]'
@@ -804,6 +904,41 @@ const ProductDetail: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* Weaver Story Card */}
+            {product.weaverInfo && (
+              <motion.div
+                whileHover={{ scale: 1.01 }}
+                className="p-5 rounded-2xl border border-[#B43F3F]/10 bg-gradient-to-r from-[#B43F3F]/5 to-transparent space-y-3"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-[#173B45] text-[#F8EDED] rounded-full flex items-center justify-center font-display font-medium text-lg shadow-inner">
+                      {product.weaverInfo.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h4 className="font-display font-medium text-base text-[#173B45]">
+                        {product.weaverInfo.name}
+                      </h4>
+                      <p className="text-xs text-[#173B45]/60">
+                        {product.weaverInfo.location} • {product.weaverInfo.generation} Weaver
+                      </p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-1 text-[10px] font-semibold tracking-wider uppercase rounded-full bg-[#FF8225]/15 text-[#FF8225]">
+                    Heritage Master
+                  </span>
+                </div>
+                <p className="text-xs text-[#173B45]/80 leading-relaxed">
+                  {product.weaverInfo.story || `This saree was hand-guided on a traditional pit loom by ${product.weaverInfo.name}, preserving the heritage weave legacy of ${product.weaverInfo.location}.`}
+                </p>
+                <div className="pt-1 flex justify-end">
+                  <Link to={`/weavers/${encodeURIComponent(product.weaverInfo.name)}`} className="text-xs font-semibold text-[#B43F3F] hover:text-[#FF8225] transition-colors">
+                    Meet the Weaver →
+                  </Link>
+                </div>
+              </motion.div>
+            )}
 
             {/* Quantity & Add to Cart */}
             <div className="space-y-4">
@@ -944,31 +1079,6 @@ const ProductDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* Seller Info */}
-            {product.weaverInfo && (
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="flex items-center justify-between p-4 sm:p-6 rounded-xl border border-[#B43F3F]/10 bg-gradient-to-r from-[#B43F3F]/5 to-transparent"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#173B45] rounded-full flex items-center justify-center text-[#F8EDED] font-medium">
-                    {product.weaverInfo.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-medium text-sm sm:text-base text-[#173B45]">
-                      {product.weaverInfo.name}
-                    </p>
-                    <p className="text-xs text-[#173B45]/60">
-                      {product.weaverInfo.generation} • {product.weaverInfo.location}
-                    </p>
-                  </div>
-                </div>
-                <Link to={`/weavers/${product.weaverInfo.name}`} className="text-xs sm:text-sm text-[#B43F3F] hover:text-[#FF8225] transition-colors">
-                  View Profile →
-                </Link>
-              </motion.div>
-            )}
-
             {/* Need Help */}
             <div className="grid grid-cols-2 gap-3">
               <motion.button
@@ -988,6 +1098,9 @@ const ProductDetail: React.FC = () => {
                 <span className="text-xs sm:text-sm font-medium">7-Day Returns</span>
               </motion.button>
             </div>
+
+            {/* Heritage Details Accordion */}
+            <ProductHeritageAccordion product={product} />
           </motion.div>
         </div>
 
@@ -1203,9 +1316,10 @@ const ProductDetail: React.FC = () => {
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
+                          onClick={() => setShowReviewForm(!showReviewForm)}
                           className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-xl hover:bg-[#FF8225] transition-all whitespace-nowrap"
                         >
-                          Write a Review
+                          {showReviewForm ? 'Cancel Review' : 'Write a Review'}
                         </motion.button>
                       ) : (
                         <Link
@@ -1216,6 +1330,99 @@ const ProductDetail: React.FC = () => {
                         </Link>
                       )}
                     </div>
+
+                    <AnimatePresence>
+                      {showReviewForm && (
+                        <motion.form
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          onSubmit={handleReviewSubmit}
+                          className="bg-[#F8EDED]/30 p-6 rounded-2xl border border-[#B43F3F]/10 space-y-4"
+                        >
+                          <h4 className="font-display font-medium text-lg text-[#173B45]">
+                            Share Your Experience
+                          </h4>
+                          {reviewError && (
+                            <div className="p-3 bg-red-50 text-red-600 rounded-xl text-sm">
+                              {reviewError}
+                            </div>
+                          )}
+                          {reviewSuccess && (
+                            <div className="p-3 bg-green-50 text-green-600 rounded-xl text-sm">
+                              Thank you! Your review has been submitted and is pending verification.
+                            </div>
+                          )}
+                          
+                          <div className="space-y-2">
+                            <label className="text-sm font-medium text-[#173B45] block">
+                              Rating
+                            </label>
+                            <div className="flex gap-1">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                  type="button"
+                                  key={star}
+                                  onClick={() => setNewRating(star)}
+                                  className="text-[#FF8225]"
+                                >
+                                  <Star
+                                    size={24}
+                                    fill={star <= newRating ? '#FF8225' : 'none'}
+                                  />
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <label htmlFor="review-title" className="text-sm font-medium text-[#173B45] block">
+                              Review Title
+                            </label>
+                            <input
+                              id="review-title"
+                              type="text"
+                              value={newTitle}
+                              onChange={(e) => setNewTitle(e.target.value)}
+                              placeholder="Summarize your experience"
+                              className="w-full px-4 py-2 border border-[#173B45]/20 rounded-xl bg-white text-[#173B45]"
+                            />
+                          </div>
+
+                          <div className="space-y-2">
+                            <label htmlFor="review-comment" className="text-sm font-medium text-[#173B45] block">
+                              Review Content *
+                            </label>
+                            <textarea
+                              id="review-comment"
+                              rows={4}
+                              value={newComment}
+                              onChange={(e) => setNewComment(e.target.value)}
+                              placeholder="What did you love? How was the texture, fabric, and drape?"
+                              required
+                              className="w-full px-4 py-2 border border-[#173B45]/20 rounded-xl bg-white text-[#173B45]"
+                            />
+                          </div>
+
+                          <div className="flex gap-3">
+                            <button
+                              type="submit"
+                              disabled={submittingReview}
+                              className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-colors disabled:opacity-50"
+                            >
+                              {submittingReview ? 'Submitting...' : 'Submit Review'}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setShowReviewForm(false)}
+                              className="px-6 py-3 border border-[#173B45]/20 text-[#173B45] font-medium rounded-xl hover:bg-white hover:text-[#B43F3F] transition-all"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </motion.form>
+                      )}
+                    </AnimatePresence>
 
                     {/* Customer Reviews */}
                     {loadingReviews ? (
@@ -1434,6 +1641,7 @@ const ProductDetail: React.FC = () => {
         )}
       </AnimatePresence>
     </div>
+    </>
   );
 };
 

@@ -18,6 +18,8 @@ import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import webhookRoutes from './routes/webhookRoutes.js';
 import supportRoutes from './routes/supportRoutes.js';
+import collectionRoutes from './routes/collectionRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -95,6 +97,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/collections', collectionRoutes);
+app.use('/api/payments', paymentRoutes);
 app.use('/api/webhooks', webhookRoutes);
 app.use('/api/support', supportRoutes);
 

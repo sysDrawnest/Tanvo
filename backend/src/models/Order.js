@@ -35,7 +35,7 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: {
     type: String,
     required: true,
-    enum: ['COD', 'CARD', 'UPI', 'NETBANKING', 'WALLET'],
+    enum: ['COD', 'ONLINE', 'CARD', 'UPI', 'NETBANKING', 'WALLET'],
     uppercase: true,
     trim: true
   },
@@ -45,6 +45,18 @@ const orderSchema = new mongoose.Schema({
     update_time: String,
     email_address: String
   },
+  // Razorpay payment integration fields
+  razorpayOrderId: { type: String, default: '' },
+  razorpayPaymentId: { type: String, default: '' },
+  razorpaySignature: { type: String, default: '' },
+  paymentVerifiedAt: { type: Date },
+
+  // COD Risk fields
+  isCOD: { type: Boolean, default: false },
+  codAdvancePaid: { type: Number, default: 0 },
+  codRemainingAmount: { type: Number, default: 0 },
+  codFee: { type: Number, default: 0 },
+
   itemsPrice: {
     type: Number,
     required: true,
@@ -73,8 +85,8 @@ const orderSchema = new mongoose.Schema({
   orderStatus: {
     type: String,
     required: true,
-    enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Refunded'],
-    default: 'Pending'
+    enum: ['Created', 'Payment Pending', 'Payment Verified', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Refunded'],
+    default: 'Created'
   },
   paymentStatus: {
     type: String,
