@@ -1,5 +1,3 @@
----
-
 ```yaml
 name: TANVO
 colors:
@@ -62,7 +60,11 @@ spacing:
   gutter: 24px
   margin-edge: 32px
   section-gap: 96px
-
+  radius-small: 6px # Form elements, inputs
+  radius-medium: 8px # Buttons, interactive UI controls
+  radius-large: 12px # Cards, grids, block containers
+  button-py: 14px # Top/Bottom padding for structural height
+  button-px: 28px # Left/Right padding for luxury width
 ```
 
 ---
@@ -78,22 +80,22 @@ This document defines the foundational design tokens, styling rules, and visual 
 - **Brand Essence**: Premium Indian heritage, luxury handlooms (Odisha weaves), storytelling, and craftsmanship trust.
 - **Aesthetic Tone**: Luxury fashion house interface, editorial, archival, refined, and sophisticated.
 - **Background Mood**: Off-white, soft raw-cotton tones instead of stark cold white or dark gray.
-- **Structural Philosophy**: Refined rectangular structures with subtle, disciplined corner radii (4px to 12px) to evoke an elite heritage editorial feel. Avoid playful, app-like, or overly rounded UI layouts.
+- **Structural Philosophy**: Refined rectangular structures with subtle, disciplined corner radii (6px to 12px) to evoke an elite heritage editorial feel. Avoid playful, app-like, or overly rounded UI layouts.
 
 ---
 
-## 2. Color Palette (Design Tokens)
+## 2. Color Palette & Functional Mapping
 
-The colors are selected to match traditional natural dyes (madder red, indigo, turmeric, and brass/gold thread work).
+The colors match traditional natural dyes (madder red, indigo, turmeric, and brass/gold thread work) and are rigorously mapped to interaction states to ensure absolute system consistency.
 
-- **Traditional Madder Red (`#780000`)**: Primary brand color, headers, primary buttons, logo.
-- **Vibrant Vermilion (`#C1121F`)**: CTA accents, secondary buttons, active highlights.
-- **Heritage Brass Gold (`#C9A84C`)**: Premium highlights, badges, borders, checkout items, buttons.
-- **Champagne Gold (`#E8C97A`)**: Soft gold hover gradients, light borders.
+- **Traditional Madder Red (`#780000`)**: Primary brand identity, text headers, logo, primary button gradient start, and focused field outlines.
+- **Vibrant Vermilion (`#C1121F`)**: Primary button gradient end, CTA highlights, and active elements.
+- **Heritage Brass Gold (`#C9A84C`)**: Premium highlights, badges, borders, checkout items.
+- **Champagne Gold (`#E8C97A`)**: Soft gold hover states, light decorative borders.
 - **Raw Cotton Background (`#F9F5EE`)**: Soft, warm background tint for the entire website.
-- **Mineral Charcoal (`#0D0B0A`)**: Text headings, deep labels, primary readability.
-- **Heritage Indigo (`#669BBC`)**: Accent blue-indigo for secondary tags, banners.
-- **Pristine White (`#FFFFFF`)**: Used only for component cards, dialogs, and panels to pop.
+- **Mineral Charcoal (`#0D0B0A`)**: Typographic body copy, primary labels, maximum readability.
+- **Heritage Indigo (`#669BBC`)**: Accent blue-indigo for storytelling tags, secondary banners.
+- **Pristine White (`#FFFFFF`)**: Used strictly for structural components, cards, dialogs, and panels to pop out cleanly against the raw cotton background.
 
 ---
 
@@ -118,41 +120,41 @@ Elegant editorial serif headings paired with clean geometric body text.
 
 ## 4. Corner Radius & Shape Tokens
 
-TANVO implements an architectural, structured geometry. Avoid excessive rounded corners, pill shapes, or heavy glassmorphic styles.
+TANVO implements a sharp, architectural geometry. Absolute numerical constraints must be enforced across all components. Avoid excessive rounded corners, pill shapes, or glassmorphism.
 
-- **Product & Content Cards**: `rounded-xl` (Subtle 12px radius max for a clean, structural outline).
-- **Category Grids**: `rounded-md` to `rounded-xl` (Geometric discipline).
-- **Input Fields & Form Elements**: `rounded-md` (Slight 4px–6px curve for crisp, premium data entries).
-- **Modals & Overlays**: `rounded-xl` with thin geometric frames.
+- **Inputs & Fields**: Fixed 6px radius (`rounded-md` / `spacing.radius-small`).
+- **Buttons (All Variants)**: Fixed 8px radius (`rounded-lg` / `spacing.radius-medium`).
+- **Product Cards, Category Grids, & Modals**: Fixed 12px radius (`rounded-xl` / `spacing.radius-large`). Hard maximum boundary.
 
 ---
 
 ## 5. Buttons
 
-TANVO uses refined luxury button shapes that emulate high-fashion digital lookbooks rather than mainstream utility applications.
+TANVO uses refined luxury button shapes that emulate high-fashion digital lookbooks rather than mobile shopping apps.
 
 ### Primary Buttons
 
-- **Structure**: Elegant rectangular structure, medium height.
-- **Border Radius**: 4px to 8px (`rounded-sm` to `rounded-md`).
-- **Typography**: Uppercase typography with wide letter spacing (`tracking-[0.2em]`).
-- **Background**: Gradient from `#780000` to `#C1121F`.
-- **Text Color**: `#FFFFFF`
-- **Hover State**: Subtle brightness increase with a slow, deliberate transition.
+- **Dimensions**: Vertical padding `14px` (`py-3.5`), Horizontal padding `28px` (`px-7`). Minimum height constraint of exact `48px`.
+- **Border Radius**: Fixed 8px (`rounded-lg`).
+- **Typography**: Uppercase, `font-family: Inter`, weight `700`, font size `11px`, letter spacing `0.2em` (`tracking-[0.2em]`).
+- **Background**: Linear gradient (to right / 90deg) from `#780000` to `#C1121F`.
+- **Text Color**: Pure White (`#FFFFFF`).
+- **Hover State**: Slow transition (`duration-500` ease-in-out), subtle brightness increase (`hover:brightness-110`).
 
 ### Secondary Buttons
 
-- **Structure**: Minimal luxury appearance, rectangular shape.
-- **Border Radius**: 4px to 8px.
-- **Background**: Transparent background.
-- **Border**: Thin 1px solid `#780000` border.
-- **Text Color**: `#780000`
+- **Dimensions**: Matches primary layout exactly (`py-[14px] px-[28px] h-[48px]`).
+- **Border Radius**: Fixed 8px (`rounded-lg`).
+- **Background**: Transparent background (`bg-transparent`).
+- **Border**: Thin, crisp 1px solid border utilizing `#780000`.
+- **Text Color**: Traditional Madder Red (`#780000`).
+- **Hover State**: Slow transition, minimal luxury focus shift.
 
 ### Explicitly Avoid
 
 - Pill-shaped buttons (`rounded-full`).
 - Overly rounded, playful UI components.
-- Casual, mobile-first app-like button heights and shapes.
+- Casual, mobile-first app-like padding and button heights.
 
 ---
 
@@ -169,18 +171,20 @@ TANVO uses refined luxury button shapes that emulate high-fashion digital lookbo
 
 ### A. Cards & Grids
 
-- **Product Card**: White background, `rounded-xl` (subtle 12px radius), thin structural borders, soft shadows. Hover state transforms with a elegant frame lift and clean internal image zoom scale (`hover:scale-105` with `duration-500`).
+- **Product Card**: Pristine White background, fixed 12px radius (`rounded-xl`), thin structural outline border, soft minimalist shadow. Hover state transforms with an elegant frame lift (`-translate-y-1`) and clean internal image zoom scale (`hover:scale-105` with `duration-500`).
 - **Weaver Card**: Framed like a gallery painting. Clear grid lines, raw canvas text blocks, localized typography badges, and an integrated artisan provenance block.
 
 ### B. Forms & Inputs
 
-- **Input Fields**: Off-white/cream backgrounds, `rounded-md`, clean thin borders. Focused state swaps the frame color to a sharp `#780000` or `#C1121F` minimal highlight.
+- **Input Fields**: Vertical padding `12px`, horizontal padding `16px`, standard height `46px`. Background tone `#F9F5EE` inside cards, or `#FFFFFF` against the main layout.
+- **Corner Radius**: Fixed 6px radius (`rounded-md`).
+- **Focused State**: Swaps default border to a clean, non-blurry 1.5px solid border using Traditional Madder Red (`#780000`). No heavy outer glow or drop shadows allowed.
 
 ---
 
 ## 8. Instructions for Stitch AI Generator
 
-1. **Strict Color & Shape Compliance**: Do not use generic bright accents or rounded pill structures. All button shapes must abide by the 4px–8px luxury rectangular constraint. Cards must never exceed a 12px radius (`rounded-xl`).
+1. **Strict Color & Shape Compliance**: Do not use generic bright accents or rounded pill structures. All button shapes must abide by the fixed 8px luxury rectangular constraint. Cards must never exceed a 12px radius (`rounded-xl`).
 2. **Typography Consistency**: Every header requires `Playfair Display` serif styling. Action components, buttons, and system tags must feature tracked-out, capitalized `Raleway`/`Inter` labels.
 3. **High-End Animation Pace**: Micro-animations must feel grand and slow (`duration-500` or higher). Avoid quick, snappy, or bouncy application transitions.
 4. **Premium Storytelling Focus**: Dedicate structural grid space to heritage metadata: "Weaver Story", "Weave Origin", and clean, rectangular "Artisan Badges".
