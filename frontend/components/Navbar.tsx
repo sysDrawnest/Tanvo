@@ -593,30 +593,10 @@ const Navbar: React.FC = () => {
               ) : (
                 <Link
                   to="/auth"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    padding: '10px 24px',
-                    background: 'var(--brand-primary)',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: 11,
-                    fontWeight: 600,
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    color: '#F8EDED',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease',
-                    borderRadius: 0,
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLAnchorElement).style.background = 'var(--brand-secondary)';
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLAnchorElement).style.background = 'var(--brand-primary)';
-                  }}
+                  className="nav-icon-btn"
+                  aria-label="Login"
                 >
-                  <LogIn size={14} /> Login
+                  <User size={18} />
                 </Link>
               )}
             </div>
