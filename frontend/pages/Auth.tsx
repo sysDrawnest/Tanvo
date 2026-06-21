@@ -85,23 +85,6 @@ const Auth: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-[#F9F5EE] text-[#261816] font-body-md flex flex-col lg:flex-row relative">
-      {/* Top Floating Logo/Branding for Desktop */}
-      <div className="hidden lg:block absolute top-8 right-16 z-50">
-        <div className="flex items-center gap-8">
-          <Link to="/" className="font-label-sm text-xs text-[#59413d] hover:text-[#780000] tracking-[0.2em] transition-colors uppercase">Our Story</Link>
-          <Link to="/products" className="font-label-sm text-xs text-[#59413d] hover:text-[#780000] tracking-[0.2em] transition-colors uppercase">Collections</Link>
-          <div className="h-4 w-[1px] bg-[#E2D9C8]"></div>
-          <Link to="/cart" className="text-[#59413d] hover:text-[#780000] transition-colors">
-            <span className="sr-only">Shopping Bag</span>
-            <div className="relative">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-            </div>
-          </Link>
-        </div>
-      </div>
-
       {/* Left Panel: Immersive Brand Story (hidden on mobile, visible on lg) */}
       <section className="relative w-full lg:w-1/2 h-[380px] lg:h-screen overflow-hidden bg-[#4f0000]">
         <div className="absolute inset-0 z-0">
@@ -139,28 +122,6 @@ const Auth: React.FC = () => {
                 : 'Experience the timeless artistry of Odisha’s finest weavers. Every thread tells a story of survival, skill, and soul.'}
             </p>
 
-            {/* Heritage Indicators */}
-            <div className="flex flex-wrap gap-4 lg:gap-6 pt-4 border-t border-white/20">
-              <div className="flex items-center gap-2.5">
-                <Award size={18} className="text-[#C9A84C]" />
-                <span className="font-label-sm text-[9px] lg:text-[10px] tracking-[0.1em] uppercase">Authentic Handloom</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Users size={18} className="text-[#C9A84C]" />
-                <span className="font-label-sm text-[9px] lg:text-[10px] tracking-[0.1em] uppercase">Artisan Crafted</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <BookOpen size={18} className="text-[#C9A84C]" />
-                <span className="font-label-sm text-[9px] lg:text-[10px] tracking-[0.1em] uppercase">Odisha Heritage</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Copyright */}
-          <div className="hidden lg:block">
-            <p className="font-label-sm text-[9px] uppercase tracking-widest opacity-60">
-              © 2024 TANVO. HANDWOVEN STORIES FROM ODISHA.
-            </p>
           </div>
         </div>
       </section>
