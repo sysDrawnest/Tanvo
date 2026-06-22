@@ -1,24 +1,40 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 const VideoBanner: React.FC = () => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [isPlaying, setIsPlaying] = useState(true);
+
+    const togglePlay = () => {
+        if (videoRef.current) {
+            if (isPlaying) {
+                videoRef.current.pause();
+            } else {
+                videoRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
+
     return (
         <section 
             className="relative w-full overflow-hidden"
             style={{ 
-                height: '60vh', 
-                minHeight: '400px', 
-                maxHeight: '700px',
+                height: '70vh', 
+                minHeight: '500px', 
+                maxHeight: '800px',
             }}
         >
-            {/* Video Background */}
+            {/* Video Background - Adjusted object-position to show model's head */}
             <video
+                ref={videoRef}
                 autoPlay
                 muted
                 loop
                 playsInline
                 className="w-full h-full object-cover"
                 style={{
-                    filter: 'brightness(0.5) saturate(1.1)',
+                    objectPosition: 'center 25%', // Shifts video up to show the head
+                    filter: 'brightness(0.45) saturate(1.1)',
                 }}
             >
                 <source src="/Woman_wearing_silk_saree_202606221155.mp4" type="video/mp4" />
@@ -26,22 +42,22 @@ const VideoBanner: React.FC = () => {
             </video>
 
             {/* Gradient Overlay - Adds depth and luxury feel */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60"></div>
 
             {/* Gold Accent Overlay - Subtle glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#C9A84C]/5 via-transparent to-[#C9A84C]/5"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#C9A84C]/8 via-transparent to-[#C9A84C]/5"></div>
 
             {/* Decorative Gold Line - Left */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-24 bg-gradient-to-b from-transparent via-[#C9A84C] to-transparent opacity-60 hidden lg:block"></div>
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-32 bg-gradient-to-b from-transparent via-[#C9A84C] to-transparent opacity-60 hidden lg:block"></div>
 
             {/* Decorative Gold Line - Right */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-24 bg-gradient-to-b from-transparent via-[#C9A84C] to-transparent opacity-60 hidden lg:block"></div>
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-32 bg-gradient-to-b from-transparent via-[#C9A84C] to-transparent opacity-60 hidden lg:block"></div>
 
             {/* Decorative Corner Elements */}
-            <div className="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 border-[#C9A84C]/30 hidden lg:block"></div>
-            <div className="absolute top-8 right-8 w-12 h-12 border-t-2 border-r-2 border-[#C9A84C]/30 hidden lg:block"></div>
-            <div className="absolute bottom-8 left-8 w-12 h-12 border-b-2 border-l-2 border-[#C9A84C]/30 hidden lg:block"></div>
-            <div className="absolute bottom-8 right-8 w-12 h-12 border-b-2 border-r-2 border-[#C9A84C]/30 hidden lg:block"></div>
+            <div className="absolute top-10 left-10 w-16 h-16 border-t-2 border-l-2 border-[#C9A84C]/30 hidden lg:block"></div>
+            <div className="absolute top-10 right-10 w-16 h-16 border-t-2 border-r-2 border-[#C9A84C]/30 hidden lg:block"></div>
+            <div className="absolute bottom-10 left-10 w-16 h-16 border-b-2 border-l-2 border-[#C9A84C]/30 hidden lg:block"></div>
+            <div className="absolute bottom-10 right-10 w-16 h-16 border-b-2 border-r-2 border-[#C9A84C]/30 hidden lg:block"></div>
 
             {/* Content Overlay */}
             <div className="absolute inset-0 flex flex-col items-center justify-center px-4 md:px-8">
@@ -89,26 +105,13 @@ const VideoBanner: React.FC = () => {
 
             {/* Optional: Play/Pause Button Overlay - Minimal */}
             <button 
-                className="absolute bottom-6 right-6 md:bottom-8 md:right-8 text-white/40 hover:text-white/80 transition-colors duration-300"
+                className="absolute bottom-6 right-6 md:bottom-8 md:right-8 text-white/40 hover:text-white/80 transition-colors duration-300 z-20"
                 aria-label="Toggle video playback"
-                onClick={(e) => {
-                    const video = e.currentTarget.closest('section')?.querySelector('video');
-                    if (video) {
-                        if (video.paused) {
-                            video.play();
-                            e.currentTarget.innerHTML = `
-                                <span class="material-symbols-outlined text-xl">pause</span>
-                            `;
-                        } else {
-                            video.pause();
-                            e.currentTarget.innerHTML = `
-                                <span class="material-symbols-outlined text-xl">play_arrow</span>
-                            `;
-                        }
-                    }
-                }}
+                onClick={togglePlay}
             >
-                <span className="material-symbols-outlined text-xl">pause</span>
+                <span className="material-symbols-outlined text-xl">
+                    {isPlaying ? 'pause' : 'play_arrow'}
+                </span>
             </button>
         </section>
     );
