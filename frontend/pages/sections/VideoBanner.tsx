@@ -24,7 +24,7 @@ const VideoBanner: React.FC = () => {
                 maxHeight: '800px',
             }}
         >
-            {/* Video Background - Adjusted object-position to show model's head */}
+            {/* Video Background */}
             <video
                 ref={videoRef}
                 autoPlay
@@ -33,33 +33,32 @@ const VideoBanner: React.FC = () => {
                 playsInline
                 className="w-full h-full object-cover"
                 style={{
-                    objectPosition: 'center 25%', // Shifts video up to show the head
-                    filter: 'brightness(0.45) saturate(1.1)',
+                    objectPosition: 'center 25%',
+                    // Increased brightness from 0.45 to 0.85 for better clarity
+                    filter: 'brightness(0.85) saturate(1.1)', 
                 }}
             >
                 <source src="/Woman_wearing_silk_saree_202606221155.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
 
-            {/* Gradient Overlay - Adds depth and luxury feel */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60"></div>
+            {/* 
+               Adjusted Gradient Overlay:
+               Reduced intensity from black/60 to black/30 to ensure the video 
+               pops while still providing enough contrast for the white text.
+            */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30"></div>
 
-            {/* Content Overlay - Centered Text Only */}
+            {/* Content Overlay */}
             <div className="absolute inset-0 flex flex-col items-center justify-center px-4 md:px-8">
-                {/* 
-                  Updates: 
-                  - Swapped copy to a short, punchy option that safely fits on one line.
-                  - Scaled down font sizing (text-base to lg:text-4xl) to ensure it stays single-line.
-                  - Added whitespace-nowrap safely since the text string is short.
-                */}
-                <h1 className="text-base sm:text-xl md:text-3xl lg:text-4xl font-sans font-light tracking-[0.15em] text-white text-center uppercase whitespace-nowrap">
+                <h1 className="text-base sm:text-xl md:text-3xl lg:text-4xl font-sans font-light tracking-[0.15em] text-white text-center uppercase whitespace-nowrap drop-shadow-lg">
                     Timeless Heritage. <span className="text-[#C9A84C] font-normal">Modern Elegance.</span>
                 </h1>
             </div>
 
-            {/* Optional: Play/Pause Button Overlay - Minimal */}
+            {/* Play/Pause Button */}
             <button 
-                className="absolute bottom-6 right-6 md:bottom-8 md:right-8 text-white/40 hover:text-white/80 transition-colors duration-300 z-20"
+                className="absolute bottom-6 right-6 md:bottom-8 md:right-8 text-white/60 hover:text-white transition-colors duration-300 z-20"
                 aria-label="Toggle video playback"
                 onClick={togglePlay}
             >
