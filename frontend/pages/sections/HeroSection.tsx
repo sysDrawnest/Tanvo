@@ -485,7 +485,7 @@ const HeroSection: React.FC = () => {
                     letterSpacing: '0.25em',
                     fontWeight: 300,
                     textTransform: 'uppercase',
-                    fontFamily: 'Inter, sans-serif'
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
                 }}>
                     Tanvo
                 </div>
@@ -528,7 +528,7 @@ const HeroSection: React.FC = () => {
                     marginBottom: '48px',
                     fontWeight: 300,
                     maxWidth: '450px',
-                    fontFamily: 'Inter, sans-serif'
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
                 }}>
                     Experience the timeless elegance and intricate craftsmanship woven into every thread.
                 </p>
@@ -546,7 +546,7 @@ const HeroSection: React.FC = () => {
                         borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
                         paddingBottom: '8px',
                         transition: 'all 0.4s ease',
-                        fontFamily: 'Inter, sans-serif'
+                        fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
                     }}
                     onMouseEnter={(e) => {
                         e.currentTarget.style.borderBottomColor = '#FFFFFF';
@@ -580,7 +580,7 @@ const HeroSection: React.FC = () => {
                     fontSize: '10px',
                     letterSpacing: '0.25em',
                     textTransform: 'uppercase',
-                    fontFamily: 'Inter, sans-serif'
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
                 }}>
                     Scroll
                 </span>

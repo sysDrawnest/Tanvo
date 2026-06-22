@@ -5,37 +5,37 @@ import { ShieldCheck, Tag, Award, Heart } from 'lucide-react';
 const reasons = [
     {
         icon: ShieldCheck,
-        title: 'Weaver Collectives',
-        desc: 'Direct collaboration with over 200 registered artisan families in Maniabandha, Nuapatna, and Barpali.',
+        title: 'Direct from Weavers',
+        desc: 'Bypassing middlemen to bring you authentic handloom straight from the master artisans of Odisha.',
         color: '#C9A84C'
     },
     {
         icon: Tag,
-        title: 'Fair Price Sourcing',
-        desc: 'Eliminating traditional 2-3x retail markups to route 70% of the purchase value directly to weaving households.',
-        color: '#C9A84C'
+        title: '30% Cheaper than Retail',
+        desc: 'Direct sourcing allows us to offer premium heritage wear at honest, fair-trade prices.',
+        color: '#8B0000'
     },
     {
         icon: Award,
-        title: 'Registered GI Tagging',
-        desc: 'Audited compliance with Geographical Indication tags (Sambalpuri Ikat GI No. 22, Khandua Silk GI No. 132).',
-        color: '#C9A84C'
+        title: 'GI Certified Fabrics',
+        desc: 'Each piece comes with the assurance of Geographical Indication tags, preserving heritage authenticity.',
+        color: '#006400'
     },
     {
         icon: Heart,
-        title: 'Handloom Mark Certified',
-        desc: 'Ministry of Textiles validated certification, ensuring 100% manual shuttle operation without powerloom use.',
-        color: '#C9A84C'
+        title: 'Authentic Handloom',
+        desc: '100% genuine Sambalpuri, Bomkai, and Ikat weaves, crafted with generations of soul.',
+        color: '#4B0082'
     }
 ];
 
 const WhyChooseUs: React.FC = () => {
     return (
-        <section style={{ padding: '100px max(48px, 6vw)', background: '#FFFFFF' }}>
+        <section style={{ padding: '100px max(48px, 6vw)', background: '#FDFCF9' }}>
             <div style={{ maxWidth: 1200, margin: '0 auto' }}>
                 <div style={{ textAlign: 'center', marginBottom: 64 }}>
                     <p className="section-label" style={{ color: 'var(--gold)', letterSpacing: '0.3em', textTransform: 'uppercase', fontSize: 10, fontWeight: 700, marginBottom: 16 }}>The TANVO Promise</p>
-                    <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 300, color: 'var(--ink)' }}>
+                    <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 300, color: 'var(--ink)' }}>
                         Why Choose <span style={{ color: 'var(--gold)', fontStyle: 'italic' }}>TANVO</span>
                     </h2>
                 </div>
@@ -66,16 +66,15 @@ const WhyChooseUs: React.FC = () => {
                             }}
                         >
                             <div style={{
-                                width: 48, height: 48, borderRadius: '0px',
+                                width: 48, height: 48, borderRadius: '50%',
                                 background: `${item.color}10`, color: item.color,
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                margin: '0 auto 16px',
-                                border: '1px solid rgba(201,168,76,0.2)'
+                                margin: '0 auto 16px'
                             }}>
-                                <item.icon className="w-5 h-5 md:w-6 md:h-6" />
+                                <item.icon className="w-6 h-6 md:w-8 md:h-8" />
                             </div>
-                            <h3 className="font-display text-lg md:text-xl mb-2 md:mb-4" style={{ fontFamily: 'Playfair Display, serif', color: 'var(--ink)', fontWeight: 400 }}>{item.title}</h3>
-                            <p className="font-sans text-[11px] md:text-sm leading-relaxed" style={{ fontFamily: 'Raleway, sans-serif', color: 'rgba(13,11,10,0.65)' }}>{item.desc}</p>
+                            <h3 className="font-display text-lg md:text-2xl mb-2 md:mb-4" style={{ color: 'var(--ink)' }}>{item.title}</h3>
+                            <p className="font-sans-custom text-[11px] md:text-sm leading-relaxed" style={{ color: 'rgba(13,11,10,0.6)' }}>{item.desc}</p>
                         </motion.div>
                     ))}
                 </div>

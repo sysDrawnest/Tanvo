@@ -198,7 +198,7 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 + 0.3 }}
                         style={{
-                            fontFamily: 'Playfair Display, serif',
+                            fontFamily: 'Cormorant Garamond, serif',
                             fontSize: '32px',
                             fontWeight: 500,
                             color: '#FFFFFF',
@@ -216,7 +216,7 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 + 0.4 }}
                         style={{
-                            fontFamily: 'Inter, sans-serif',
+                            fontFamily: 'Montserrat, sans-serif',
                             fontSize: '13px',
                             color: 'rgba(255,255,255,0.75)',
                             lineHeight: 1.6,
@@ -307,7 +307,7 @@ const TrustSignals: React.FC = () => {
     return (
         <section className="trust-signals-section" style={{
             padding: '80px 0',
-            background: '#1C1612',
+            background: '#0f0a06',
             position: 'relative',
             overflow: 'hidden',
         }}>
@@ -363,7 +363,7 @@ const TrustSignals: React.FC = () => {
                             whileInView={{ opacity: 1 }}
                             transition={{ delay: 0.2 }}
                             style={{
-                                fontFamily: 'Playfair Display, serif',
+                                fontFamily: 'Cormorant Garamond, serif',
                                 fontSize: 'clamp(40px, 6vw, 64px)',
                                 fontWeight: 400,
                                 color: '#FFFFFF',
@@ -398,7 +398,7 @@ const TrustSignals: React.FC = () => {
                         style={{
                             color: 'rgba(255,255,255,0.6)',
                             maxWidth: 420,
-                            fontFamily: 'Inter, sans-serif',
+                            fontFamily: 'Montserrat, sans-serif',
                             fontSize: '14px',
                             lineHeight: 1.7,
                         }}
@@ -454,7 +454,7 @@ const TrustSignals: React.FC = () => {
                                 color: 'rgba(255,255,255,0.7)',
                                 fontSize: '13px',
                                 fontWeight: 500,
-                                fontFamily: 'Inter, sans-serif',
+                                fontFamily: 'Montserrat, sans-serif',
                                 letterSpacing: '0.5px',
                             }}
                         >
