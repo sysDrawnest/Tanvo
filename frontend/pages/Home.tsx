@@ -6,17 +6,25 @@ import { motion } from 'framer-motion';
 // ── Section Components ──
 import HeroSection from './sections/HeroSection';
 import MarqueeTicker from './sections/MarqueeTicker';
+import PillarsSection from './sections/PillarsSection';
 import EditorialBanner from './sections/EditorialBanner';
 import CategoryGrid from './sections/CategoryGrid';
+import DualFeatureSection from './sections/DualFeatureSection';
 import ProductsGrid from './sections/ProductsGrid';
 import IkatDeepDive from './sections/IkatDeepDive';
 import MasterWeaverSection from './sections/MasterWeaverSection';
 import InstagramSection from './sections/InstagramSection';
 import TrustBar from './sections/TrustBar';
+import WhyChooseUs from './sections/WhyChooseUs';
+import TrustSignals from './sections/TrustSignals';
 import WhatsAppOrder from '../components/WhatsAppOrder';
+import RegisterModal from '../components/RegisterModal';
 
 // ── New Components ──
 import HandwovenHeritage from './sections/HandwovenHeritage';
+import LearningSection from './sections/LearningSection';
+import JournalHint from './sections/JournalHint';
+import NewArrivalsBanner from './sections/NewArrivalsBanner';
 
 const Home: React.FC = () => {
   const { products, fetchProducts, loading } = useStore();
@@ -52,13 +60,8 @@ const Home: React.FC = () => {
       <div className="fixed inset-0 pointer-events-none opacity-50 z-1" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")` }} />
 
       <div className="relative z-10">
-        {/* 1. Hero Banner */}
         <HeroSection />
 
-        {/* 2. Ribbon Ticker */}
-        <MarqueeTicker />
-
-        {/* 3. Bestsellers (Asymmetric grid layout, Warm Ivory background) */}
         {bestsellers.length > 0 && (
           <ProductsGrid
             products={bestsellers}
@@ -66,18 +69,13 @@ const Home: React.FC = () => {
             title="Bestsellers"
             viewAllLink="/shop?isBestSeller=true"
             viewAllText="All Bestsellers"
-            background="var(--ivory)"
-            layout="asymmetric"
+            background="#F5E5E5"
           />
         )}
 
-        {/* 4. Value proposition banner */}
         <HandwovenHeritage />
 
-        {/* 5. Weave traditions categories */}
-        <CategoryGrid />
-
-        {/* 6. Curated Selection (Classic grid layout, white background) */}
+        {/* Sarees directly after hero for buying */}
         <ProductsGrid
           products={products.slice(0, 8)}
           label="Direct from the Loom"
@@ -86,28 +84,44 @@ const Home: React.FC = () => {
           viewAllLink="/shop"
           viewAllText="Explore All Sarees"
           background="white"
-          layout="classic"
         />
 
-        {/* 7. Interactive Hotspot Deep Dive (Dark Charcoal background) */}
+        <MarqueeTicker />
+        <PillarsSection />
+
+        {/* New Arrivals Section */}
+        <ProductsGrid
+          products={newArrivals}
+          label="Just Arrived"
+          title="New"
+          titleEm="Arrivals"
+          viewAllLink="/shop?sort=-createdAt"
+          viewAllText="View Newest Drops"
+          background="transparent"
+        />
+
         <IkatDeepDive />
 
-        {/* 8. Editorial video banner */}
         <EditorialBanner />
+        <CategoryGrid />
+        <WhyChooseUs />
+        <NewArrivalsBanner />
 
-        {/* 9. Weaver legacy and statistics */}
+        <DualFeatureSection
+          bestseller={bestsellers[0]}
+          newArrival={newArrivals[0]}
+        />
+
+        <TrustSignals />
         <MasterWeaverSection />
+        <JournalHint />
+        <LearningSection />
 
-        {/* 10. Instagram Feed */}
         <InstagramSection
           handle="@Tanvo"
           profileUrl="https://instagram.com"
         />
-
-        {/* Floating WhatsApp Action */}
         <WhatsAppOrder />
-
-        {/* 11. Trust footer ribbon */}
         <TrustBar />
       </div>
     </div>

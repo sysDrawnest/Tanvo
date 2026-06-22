@@ -6,7 +6,7 @@ import React from 'react';
  */
 const GlobalStyles: React.FC = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600&family=Montserrat:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=Raleway:wght@200;300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 
     :root {
       /* ── Ivory Luxury Palette ── */
@@ -51,9 +51,9 @@ const GlobalStyles: React.FC = () => (
 
     /* ── Typography Utilities ── */
     .font-display  { font-family: 'Cormorant Garamond', serif; }
-    .font-cinzel   { font-family: 'Montserrat', sans-serif; }
+    .font-cinzel   { font-family: 'Cinzel', serif; }
     .font-raleway  { font-family: 'Raleway', sans-serif; }
-    .font-garamond { font-family: 'Cormorant Garamond', serif; }
+    .font-garamond { font-family: 'EB Garamond', serif; }
 
     /* Section eyebrow label */
     .section-label {
