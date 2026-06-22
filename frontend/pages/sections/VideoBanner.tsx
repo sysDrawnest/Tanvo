@@ -75,13 +75,6 @@ const VideoBanner: React.FC = () => {
                     <span className="w-2 h-2 rounded-full bg-[#C9A84C] animate-pulse delay-150"></span>
                 </div>
 
-                {/* Scroll Indicator */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-                    <span className="text-[8px] font-label uppercase tracking-[0.2em] text-white/40">
-                        Scroll to Explore
-                    </span>
-                    <div className="w-px h-8 bg-gradient-to-b from-[#C9A84C] to-transparent"></div>
-                </div>
             </div>
 
             {/* Bottom Gradient Border */}
