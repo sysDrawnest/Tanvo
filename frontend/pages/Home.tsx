@@ -9,10 +9,8 @@ import MarqueeTicker from './sections/MarqueeTicker';
 import PillarsSection from './sections/PillarsSection';
 import EditorialBanner from './sections/EditorialBanner';
 import CategoryGrid from './sections/CategoryGrid';
-import DualFeatureSection from './sections/DualFeatureSection';
 import ProductsGrid from './sections/ProductsGrid';
 import IkatDeepDive from './sections/IkatDeepDive';
-import MasterWeaverSection from './sections/MasterWeaverSection';
 import InstagramSection from './sections/InstagramSection';
 import TrustBar from './sections/TrustBar';
 import WhyChooseUs from './sections/WhyChooseUs';
@@ -22,9 +20,7 @@ import RegisterModal from '../components/RegisterModal';
 
 // ── New Components ──
 import HandwovenHeritage from './sections/HandwovenHeritage';
-import LearningSection from './sections/LearningSection';
 import JournalHint from './sections/JournalHint';
-import NewArrivalsBanner from './sections/NewArrivalsBanner';
 
 const Home: React.FC = () => {
   const { products, fetchProducts, loading } = useStore();
@@ -69,7 +65,7 @@ const Home: React.FC = () => {
             title="Bestsellers"
             viewAllLink="/shop?isBestSeller=true"
             viewAllText="All Bestsellers"
-            background="#F5E5E5"
+            background="#F9F5EE"
           />
         )}
 
@@ -77,7 +73,7 @@ const Home: React.FC = () => {
 
         {/* Sarees directly after hero for buying */}
         <ProductsGrid
-          products={products.slice(0, 8)}
+          products={products.slice(0, 4)}
           label="Direct from the Loom"
           title="Curated"
           titleEm="Selection"
@@ -97,7 +93,7 @@ const Home: React.FC = () => {
           titleEm="Arrivals"
           viewAllLink="/shop?sort=-createdAt"
           viewAllText="View Newest Drops"
-          background="transparent"
+          background="#F9F5EE"
         />
 
         <IkatDeepDive />
@@ -105,17 +101,9 @@ const Home: React.FC = () => {
         <EditorialBanner />
         <CategoryGrid />
         <WhyChooseUs />
-        <NewArrivalsBanner />
-
-        <DualFeatureSection
-          bestseller={bestsellers[0]}
-          newArrival={newArrivals[0]}
-        />
 
         <TrustSignals />
-        <MasterWeaverSection />
         <JournalHint />
-        <LearningSection />
 
         <InstagramSection
           handle="@Tanvo"

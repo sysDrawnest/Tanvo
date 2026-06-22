@@ -13,9 +13,9 @@ const TrustBar: React.FC = () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', borderTop: '1px solid rgba(13,11,10,0.15)' }}>
                 {trustItems.map((item, i) => (
                     <div key={i} style={{ padding: '32px 24px', textAlign: 'center', borderRight: i < trustItems.length - 1 ? '1px solid rgba(13,11,10,0.15)' : 'none' }}>
-                        <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 18, color: 'var(--ink)', display: 'block', marginBottom: 8 }}>{item.icon}</span>
-                        <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 9, fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 4 }}>{item.title}</p>
-                        <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 8, color: 'rgba(13,11,10,0.6)', letterSpacing: '0.1em' }}>{item.sub}</p>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, color: 'var(--ink)', display: 'block', marginBottom: 8 }}>{item.icon}</span>
+                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 9, fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 4 }}>{item.title}</p>
+                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 8, color: 'rgba(13,11,10,0.6)', letterSpacing: '0.1em' }}>{item.sub}</p>
                     </div>
                 ))}
             </div>
