@@ -47,13 +47,13 @@ const VideoBanner: React.FC = () => {
             {/* Content Overlay - Centered Text Only */}
             <div className="absolute inset-0 flex flex-col items-center justify-center px-4 md:px-8">
                 {/* 
-                  Changes made below:
-                  1. Reduced font sizes across breakpoints (e.g., lg:text-7xl to lg:text-5xl)
-                  2. Changed 'font-serif' to 'font-sans' (or you can use 'font-light' / custom family)
-                  3. Removed 'whitespace-nowrap' to allow elegant natural wrapping on small screens
+                  Updates: 
+                  - Swapped copy to a short, punchy option that safely fits on one line.
+                  - Scaled down font sizing (text-base to lg:text-4xl) to ensure it stays single-line.
+                  - Added whitespace-nowrap safely since the text string is short.
                 */}
-                <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-sans font-medium text-white text-center leading-snug tracking-wide max-w-4xl">
-                    Where Tradition Meets <span className="text-[#C9A84C] font-semibold">Modern Luxury</span>
+                <h1 className="text-base sm:text-xl md:text-3xl lg:text-4xl font-sans font-light tracking-[0.15em] text-white text-center uppercase whitespace-nowrap">
+                    Timeless Heritage. <span className="text-[#C9A84C] font-normal">Modern Elegance.</span>
                 </h1>
             </div>
 
