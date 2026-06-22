@@ -36,7 +36,7 @@ const MasterWeaverSection: React.FC = () => {
                 color: 'rgba(245, 240, 232, 0.02)',
                 lineHeight: 0.8,
                 pointerEvents: 'none',
-                fontFamily: "'Cinzel', serif",
+                fontFamily: "'Montserrat', sans-serif",
                 zIndex: 0,
             }}>
                 LEGACY
@@ -61,7 +61,7 @@ const MasterWeaverSection: React.FC = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32 }}>
                             <span style={{ height: 1, width: 40, background: 'var(--gold)' }} />
                             <p style={{
-                                fontFamily: "'Cinzel', serif",
+                                fontFamily: "'Montserrat', sans-serif",
                                 fontSize: 11,
                                 letterSpacing: '0.4em',
                                 color: 'var(--gold)',
@@ -96,7 +96,7 @@ const MasterWeaverSection: React.FC = () => {
                             "Every thread carries a story…"
                         </p>
 
-                        <div style={{ maxWidth: 460, marginBottom: 56 }}>
+                        <div style={{ maxWidth: 460, marginBottom: 40 }}>
                             <p style={{
                                 fontFamily: "'Raleway', sans-serif",
                                 fontSize: 'clamp(14px, 1.2vw, 15px)',
@@ -106,6 +106,50 @@ const MasterWeaverSection: React.FC = () => {
                             }}>
                                 Each saree takes 15–20 days to complete. Our weavers spend months calculating dye ratios and loom setups before a single thread is laid — delivering mathematical perfection in silk and cotton.
                             </p>
+                        </div>
+
+                        {/* Stats Grid */}
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr',
+                            gap: '32px 24px',
+                            marginBottom: '48px',
+                            maxWidth: '460px',
+                            paddingTop: '32px',
+                            borderTop: '1px solid rgba(245, 240, 232, 0.08)',
+                        }}>
+                            {[
+                                { num: '7+', label: 'Generations', sub: 'of master craft' },
+                                { num: '15', label: 'Days', sub: 'per single saree' },
+                                { num: '200+', label: 'Weavers', sub: 'in our collective' },
+                                { num: '100%', label: 'Authentic', sub: 'GI certified' },
+                            ].map((p, i) => (
+                                <div key={i}>
+                                    <p style={{
+                                        fontFamily: "'Cormorant Garamond', serif",
+                                        fontSize: 'clamp(32px, 3.5vw, 42px)',
+                                        fontWeight: 300,
+                                        color: 'var(--gold)',
+                                        margin: 0,
+                                        lineHeight: 1,
+                                    }}>{p.num}</p>
+                                    <p style={{
+                                        fontFamily: "'Montserrat', sans-serif",
+                                        fontSize: '9px',
+                                        fontWeight: 600,
+                                        letterSpacing: '0.15em',
+                                        textTransform: 'uppercase',
+                                        color: '#F5F0E8',
+                                        margin: '6px 0 2px 0',
+                                    }}>{p.label}</p>
+                                    <p style={{
+                                        fontFamily: "'Raleway', sans-serif",
+                                        fontSize: '11px',
+                                        color: 'rgba(245, 240, 232, 0.4)',
+                                        margin: 0,
+                                    }}>{p.sub}</p>
+                                </div>
+                            ))}
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
@@ -125,7 +169,7 @@ const MasterWeaverSection: React.FC = () => {
                             </Link>
 
                             <p style={{
-                                fontFamily: "'Cinzel', serif",
+                                fontFamily: "'Montserrat', sans-serif",
                                 fontSize: 10,
                                 letterSpacing: '0.3em',
                                 color: 'rgba(245, 240, 232, 0.4)',
@@ -205,7 +249,7 @@ const MasterWeaverSection: React.FC = () => {
                                 </div>
                                 <p style={{
                                     color: '#0D0B0A',
-                                    fontFamily: "'Cinzel', serif",
+                                    fontFamily: "'Montserrat', sans-serif",
                                     fontSize: 10,
                                     letterSpacing: '0.2em',
                                     fontWeight: 700,
@@ -222,7 +266,7 @@ const MasterWeaverSection: React.FC = () => {
                             right: '-20px',
                             writingMode: 'vertical-rl',
                             fontSize: 10,
-                            fontFamily: "'Cinzel', serif",
+                            fontFamily: "'Montserrat', sans-serif",
                             letterSpacing: '0.5em',
                             color: 'rgba(245, 240, 232, 0.2)',
                             textTransform: 'uppercase',
