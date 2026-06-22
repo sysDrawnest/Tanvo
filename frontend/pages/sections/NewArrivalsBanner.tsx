@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 const NewArrivalsBanner: React.FC = () => {
     return (
         <section className="container mx-auto px-4 py-12 md:py-20">
-            <div className="bg-[#D1D1D4] w-full max-w-7xl mx-auto overflow-hidden flex flex-col md:flex-row items-center min-h-[450px] shadow-sm">
+            <div className="bg-[#F9F5EE] w-full max-w-7xl mx-auto overflow-hidden flex flex-col md:flex-row items-center min-h-[450px] shadow-sm">
 
                 {/* Left Image Column */}
-                <div className="w-full md:w-1/2 h-full flex items-end justify-center pt-8 md:pt-12 px-6 bg-[#C4C4C7]">
+                <div className="w-full md:w-1/2 h-full flex items-end justify-center pt-8 md:pt-12 px-6 bg-transparent">
                     <img
                         src="/new_arrivals.png"
                         alt="New Arrivals Artisans"
@@ -33,7 +33,7 @@ const NewArrivalsBanner: React.FC = () => {
 
                     <Link
                         to="/shop?sort=-createdAt"
-                        className="bg-[#FF4D55] text-white px-12 py-4 text-sm font-semibold tracking-wider transition-all duration-300 hover:bg-[#E63E46] hover:shadow-xl shadow-md uppercase"
+                        className="bg-[#1C1612] text-[#F9F5EE] px-12 py-4 text-sm font-semibold tracking-wider transition-all duration-300 hover:bg-[#333333] hover:shadow-xl shadow-md uppercase"
                     >
                         Shop Now
                     </Link>

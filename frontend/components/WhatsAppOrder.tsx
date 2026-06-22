@@ -114,97 +114,6 @@ const WhatsAppOrder = () => {
             </p>
           </motion.div>
 
-          {/* Right side - Quick order cards */}
-          <motion.div
-            className="right-content"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <div className="quick-order-header">
-              <h3>Quick Inquiry</h3>
-              <p>Tap to ask about our heritage collections</p>
-            </div>
-
-            <div className="quick-order-grid">
-              {[
-                {
-                  type: "Wedding Saree",
-                  weave: "Sambalpuri Silk",
-                  price: "₹9,999 - ₹35,000",
-                  icon: "👰",
-                  badge: "Most Popular"
-                },
-                {
-                  type: "Bridal Collection",
-                  weave: "Bomkai Silk",
-                  price: "₹15,000 - ₹45,000",
-                  icon: "💍",
-                  badge: "Premium"
-                },
-                {
-                  type: "Festival Wear",
-                  weave: "Ikat Cotton",
-                  price: "₹4,500 - ₹12,000",
-                  icon: "✨",
-                  badge: "New Collection"
-                },
-                {
-                  type: "Men's Handloom",
-                  weave: "Khandua",
-                  price: "₹3,800 - ₹8,500",
-                  icon: "👔",
-                  badge: "Exclusive"
-                }
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="quick-order-card"
-                  onClick={() => handleQuickOrder(item.type, item.weave)}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + (index * 0.1) }}
-                  viewport={{ once: true }}
-                >
-                  {item.badge && (
-                    <span className="card-badge">{item.badge}</span>
-                  )}
-                  <span className="item-emoji">{item.icon}</span>
-                  <div className="item-details">
-                    <span className="item-name">{item.type}</span>
-                    <span className="item-weave">{item.weave}</span>
-                    <span className="item-price">{item.price}</span>
-                  </div>
-                  <MessageCircle size={16} className="item-whatsapp" />
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="weave-quick-row">
-              <p className="weave-label">Explore weaves:</p>
-              <div className="weave-tags">
-                {['Sambalpuri', 'Bomkai', 'Ikat', 'Khandua', 'Pasapali'].map((weave, index) => (
-                  <motion.span
-                    key={index}
-                    className="weave-tag"
-                    onClick={() => handleWeaveInquiry(weave)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {weave}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-
-            <div className="testimonial-note">
-              <Heart size={14} className="heart-icon" />
-              <span>Join 500+ families who found their heirloom pieces through artisan chats</span>
-            </div>
-          </motion.div>
         </div>
 
         {/* Stats banner */}
@@ -319,19 +228,20 @@ const StyledSection = styled.section`
   }
 
   .content-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
     position: relative;
     z-index: 3;
   }
 
-  /* Left content styles */
   .left-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .badge {
@@ -365,8 +275,9 @@ const StyledSection = styled.section`
   .highlight {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    background: linear-gradient(135deg, #B43F3F, #FF8225);
+    background: linear-gradient(135deg, #1C1612, #333333);
     padding: 4px 16px 4px 20px;
     border-radius: 50px;
     margin-left: 8px;
@@ -390,7 +301,7 @@ const StyledSection = styled.section`
     color: rgba(23, 59, 69, 0.7);
     line-height: 1.6;
     margin-bottom: 30px;
-    max-width: 90%;
+    max-width: 600px;
     font-family: 'Inter', sans-serif;
   }
 

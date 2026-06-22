@@ -48,96 +48,9 @@ const MasterWeaverSection: React.FC = () => {
                     flexDirection: 'row',
                     flexWrap: 'wrap',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
+                    justifyContent: 'center',
                     gap: '60px',
                 }}>
-                    {/* Text Container */}
-                    <div style={{
-                        flex: '1 1 480px',
-                        opacity: visible ? 1 : 0,
-                        transform: visible ? 'translateY(0)' : 'translateY(40px)',
-                        transition: 'opacity 1s ease, transform 1s cubic-bezier(0.2, 0, 0.2, 1)',
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32 }}>
-                            <span style={{ height: 1, width: 40, background: 'var(--gold)' }} />
-                            <p style={{
-                                fontFamily: "'Cinzel', serif",
-                                fontSize: 11,
-                                letterSpacing: '0.4em',
-                                color: 'var(--gold)',
-                                textTransform: 'uppercase',
-                                margin: 0,
-                            }}>
-                                Meet the Makers
-                            </p>
-                        </div>
-
-                        <h2 style={{
-                            fontFamily: "'Cormorant Garamond', serif",
-                            fontSize: 'clamp(48px, 6vw, 84px)',
-                            fontWeight: 300,
-                            lineHeight: 0.9,
-                            letterSpacing: '-0.03em',
-                            marginBottom: 20,
-                        }}>
-                            Master Weavers<br />
-                            <span style={{ color: 'var(--gold)', fontStyle: 'italic', display: 'block', marginTop: 10 }}>Preserving</span>
-                            Living Heritage
-                        </h2>
-
-                        <p style={{
-                            fontFamily: "'Cormorant Garamond', serif",
-                            fontSize: 'clamp(20px, 2vw, 24px)',
-                            fontStyle: 'italic',
-                            color: 'rgba(245, 240, 232, 0.6)',
-                            marginBottom: 48,
-                            lineHeight: 1.4,
-                        }}>
-                            "Every thread carries a story…"
-                        </p>
-
-                        <div style={{ maxWidth: 460, marginBottom: 56 }}>
-                            <p style={{
-                                fontFamily: "'Raleway', sans-serif",
-                                fontSize: 'clamp(14px, 1.2vw, 15px)',
-                                color: 'rgba(245, 240, 232, 0.5)',
-                                lineHeight: 1.9,
-                                letterSpacing: '0.01em',
-                            }}>
-                                Each saree takes 15–20 days to complete. Our weavers spend months calculating dye ratios and loom setups before a single thread is laid — delivering mathematical perfection in silk and cotton.
-                            </p>
-                        </div>
-
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
-                            <Link
-                                to="/about"
-                                className="btn-gold"
-                                style={{
-                                    padding: '16px 44px',
-                                    fontSize: 11,
-                                    letterSpacing: '0.2em',
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: 12,
-                                }}
-                            >
-                                Meet the Artisans <ArrowUpRight size={16} />
-                            </Link>
-
-                            <p style={{
-                                fontFamily: "'Cinzel', serif",
-                                fontSize: 10,
-                                letterSpacing: '0.3em',
-                                color: 'rgba(245, 240, 232, 0.4)',
-                                textTransform: 'uppercase',
-                                margin: 0,
-                                borderBottom: '1px solid rgba(245, 240, 232, 0.1)',
-                                paddingBottom: 4,
-                            }}>
-                                Weaving Legacy
-                            </p>
-                        </div>
-                    </div>
 
                     {/* Image Composition */}
                     <div style={{
