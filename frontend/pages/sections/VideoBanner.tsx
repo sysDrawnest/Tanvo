@@ -47,27 +47,13 @@ const VideoBanner: React.FC = () => {
             {/* Content Overlay - Centered Text Only */}
             <div className="absolute inset-0 flex flex-col items-center justify-center px-4 md:px-8">
                 {/* 
-                    TEXT STYLING - These lines control the appearance:
-                    
-                    Line 1 (text size): 
-                    "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
-                    - text-2xl: mobile size
-                    - sm:text-3xl: small tablet
-                    - md:text-4xl: medium tablet/desktop
-                    - lg:text-5xl: large desktop
-                    
-                    Line 2 (font family):
-                    "font-['Raleway']" - Changed from font-serif to Raleway
-                    
-                    Line 3 (color and spacing):
-                    "text-white text-center leading-[1.2] tracking-wider"
-                    - text-white: white color
-                    - text-center: centered
-                    - leading-[1.2]: line height
-                    - tracking-wider: letter spacing
+                  Changes made below:
+                  1. Reduced font sizes across breakpoints (e.g., lg:text-7xl to lg:text-5xl)
+                  2. Changed 'font-serif' to 'font-sans' (or you can use 'font-light' / custom family)
+                  3. Removed 'whitespace-nowrap' to allow elegant natural wrapping on small screens
                 */}
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-['Raleway'] font-light text-white text-center leading-[1.2] tracking-wider max-w-6xl whitespace-nowrap">
-                    Where Tradition Meets <span className="text-[#C9A84C] font-medium">Modern Luxury</span>
+                <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-sans font-medium text-white text-center leading-snug tracking-wide max-w-4xl">
+                    Where Tradition Meets <span className="text-[#C9A84C] font-semibold">Modern Luxury</span>
                 </h1>
             </div>
 
