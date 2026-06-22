@@ -14,7 +14,7 @@ const VideoBanner: React.FC = () => {
                     objectFit: 'cover',
                 }}
             >
-                <source src="/saree quality 2.mp4" type="video/mp4" />
+                <source src="/Woman_wearing_silk_saree_202606221155.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
         </section>
