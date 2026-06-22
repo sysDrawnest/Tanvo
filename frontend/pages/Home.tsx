@@ -11,7 +11,6 @@ import EditorialBanner from './sections/EditorialBanner';
 import CategoryGrid from './sections/CategoryGrid';
 import ProductsGrid from './sections/ProductsGrid';
 import IkatDeepDive from './sections/IkatDeepDive';
-import MasterWeaverSection from './sections/MasterWeaverSection';
 import InstagramSection from './sections/InstagramSection';
 import TrustBar from './sections/TrustBar';
 import WhyChooseUs from './sections/WhyChooseUs';
@@ -24,6 +23,7 @@ import HandwovenHeritage from './sections/HandwovenHeritage';
 import LearningSection from './sections/LearningSection';
 import JournalHint from './sections/JournalHint';
 import NewArrivalsBanner from './sections/NewArrivalsBanner';
+import VideoBanner from './sections/VideoBanner';
 
 const Home: React.FC = () => {
   const { products, fetchProducts, loading } = useStore();
@@ -60,6 +60,7 @@ const Home: React.FC = () => {
 
       <div className="relative z-10">
         <HeroSection />
+        <VideoBanner />
 
         {bestsellers.length > 0 && (
           <ProductsGrid
@@ -107,7 +108,6 @@ const Home: React.FC = () => {
         <NewArrivalsBanner />
 
         <TrustSignals />
-        <MasterWeaverSection />
         <JournalHint />
         <LearningSection />
 
