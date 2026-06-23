@@ -389,12 +389,11 @@ const Navbar: React.FC = () => {
             fontSize: '10px',
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
-            padding: isScrolled ? '6px 0' : '10px 0',
+            padding: '8px 0',
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            transition: 'padding 0.4s ease',
             fontFamily: "'Cinzel', serif",
             fontWeight: 500,
           }}
@@ -407,13 +406,12 @@ const Navbar: React.FC = () => {
           maxWidth: 1400,
           width: '100%',
           margin: '0 auto',
-          height: isScrolled ? 64 : 88,
+          height: 72,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 max(24px, 4vw)',
           gap: 20,
-          transition: 'height 0.4s ease',
         }}>
 
           {/* ── LEFT: Logo ── */}
@@ -426,13 +424,12 @@ const Navbar: React.FC = () => {
           }}>
             <h1 style={{
               fontFamily: '"Playfair Display", serif',
-              fontSize: isScrolled ? 28 : 36,
+              fontSize: 32,
               fontWeight: 500,
               letterSpacing: '0.1em',
               color: 'var(--brand-primary)',
               textTransform: 'uppercase',
               lineHeight: 1,
-              transition: 'font-size 0.4s',
               margin: 0,
             }}>
               Tanvo
