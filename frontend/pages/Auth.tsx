@@ -88,14 +88,15 @@ const Auth: React.FC = () => {
       {/* Left Panel: Immersive Brand Story (hidden on mobile, visible on lg) */}
       <section className="relative w-full lg:w-1/2 h-[380px] lg:h-screen overflow-hidden bg-[#4f0000]">
         <div className="absolute inset-0 z-0">
-          <div 
-            className="w-full h-full bg-cover bg-center transition-transform duration-[10s] hover:scale-105" 
-            style={{ 
-              backgroundImage: isLogin 
-                ? `url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxs7WnhPjsLmTpUhqvLBupZXQnl57kKQ9qNCjiGLl7XvkStVrO-jRRGdiTvbKOLYVolD3PyG33m1DxjAHkVagjCsPs-OBXnzLTpeUf4VLwhb_x8yDuM1LZ7v02qYfRVpwwFR61ipZbVin0GTlLX4QaCidv8fwsC3a0sHvxfVetSopMgGSLNBYZvxWu6J7bBC-Oud821lkHyrAvhibk7DJFey7jLn0Zjs6YmTixGkzy43VmqCJB5gL93msxNzy08mgrlAbl-8ZDAHsd')`
-                : `url('https://lh3.googleusercontent.com/aida-public/AB6AXuAGO05z-jeHTNnkAf3ps-GbndSQmli62kUSqy3x00T0l_Ip-zrL9j17BPaHGKK7B-7CSPB1PoozBtjSg0e-Iaf2l6GWJFUYQVR4V-iLZIgLjanwC_G2yO4q4Zg8f17IN_h8hP-4Q3XHBIxtNObpyLxLFbmZwo0idfIghsQ3nFN2dk_F5QSbULXjfm4WOGXBMqtLgcaxXZTsnJyRxbnIPUfEiksG5N-TcHkP_zAkRxefnl37DwSGMp2QAXRvq6kRI2e6ti0g9on4Cka5')`
-            }}
-          />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/EditorialBanner.mp4" type="video/mp4" />
+          </video>
           {/* Dark Overlay for Readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#4f0000]/95 via-[#4f0000]/40 to-transparent"></div>
         </div>
