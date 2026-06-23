@@ -14,41 +14,7 @@ const EditorialBanner: React.FC = () => {
             backgroundColor: '#F9F6F0' // Ivory base
         }}>
             
-            {/* Left Column: Visual Canvas */}
-            <div style={{ 
-                position: 'relative', 
-                flex: '1 1 50%', 
-                height: '100%', 
-                overflow: 'hidden',
-                display: 'block'
-            }}>
-                <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                    }}
-                >
-                    <source src="/EditorialBanner.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
-                
-                {/* Subtle, soft vignette overlay to give the video an editorial tone */}
-                <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'rgba(0, 0, 0, 0.04)',
-                }} />
-            </div>
-
-            {/* Right Column: Ivory Editorial Text Panel */}
+            {/* Left Column: Ivory Editorial Text Panel */}
             <div style={{ 
                 flex: '1 1 50%', 
                 height: '100%', 
@@ -116,7 +82,7 @@ const EditorialBanner: React.FC = () => {
                                 borderBottom: '1px solid #1C1B1A',
                                 paddingBottom: '6px',
                                 transition: 'opacity 0.3s ease',
-                                borderRadius: '0px' // Refined rectangular design accentuation
+                                borderRadius: '0px' 
                             }}
                             onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
                             onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
@@ -126,6 +92,41 @@ const EditorialBanner: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Right Column: Visual Canvas */}
+            <div style={{ 
+                position: 'relative', 
+                flex: '1 1 50%', 
+                height: '100%', 
+                overflow: 'hidden',
+                display: 'block'
+            }}>
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                    }}
+                >
+                    <source src="/EditorialBanner.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+                
+                {/* Subtle, soft vignette overlay to give the video an editorial tone */}
+                <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'rgba(0, 0, 0, 0.04)',
+                }} />
+            </div>
+
         </section>
     );
 };
