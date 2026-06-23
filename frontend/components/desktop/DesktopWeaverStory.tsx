@@ -58,9 +58,9 @@ export const DesktopWeaverStory: React.FC<Props> = ({ product }) => {
             {/* Metadata chips */}
             <div className="space-y-2">
               {[
-                ['Weave', product.weave],
-                ['Craft', 'Hand-knotted Ikat'],
-                ['Heritage', 'GI Certified'],
+                ['Specialty', product.weave],
+                ['Heritage', 'Generational Craft'],
+                ['Region', product.weaverInfo.location || 'Odisha'],
               ].map(([k, v]) => (
                 <div key={k} className="flex justify-between py-2 border-b border-[#F9F5EE]/8 text-xs">
                   <span className="text-[#F9F5EE]/40 tracking-wider">{k}</span>
@@ -79,9 +79,9 @@ export const DesktopWeaverStory: React.FC<Props> = ({ product }) => {
 
             <div className="grid grid-cols-3 gap-6 pt-4">
               {[
-                { number: '3rd', label: 'Generation' },
+                { number: product.weaverInfo.generation || '3rd', label: 'Generation' },
                 { number: '21+', label: 'Days to weave' },
-                { number: '100%', label: 'Hand-knotted' },
+                { number: '100%', label: 'Human Made' },
               ].map(({ number, label }) => (
                 <div key={label} className="border-l border-[#C9A84C]/30 pl-4">
                   <p className="text-2xl font-display font-medium text-[#C9A84C]">{number}</p>

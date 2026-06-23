@@ -932,7 +932,7 @@ const ProductDetail: React.FC = () => {
                 { id: 'description', label: 'Description' },
                 { id: 'specifications', label: 'Specifications' },
                 { id: 'care', label: 'Care Instructions' },
-                { id: 'reviews', label: `Collector Notes (${product.numReviews})` }
+                { id: 'reviews', label: `Reviews (${product.numReviews})` }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -1100,7 +1100,7 @@ const ProductDetail: React.FC = () => {
                           ))}
                         </div>
                         <p className="text-xs mt-2 text-[#0D0B0A]/60">
-                          Based on {product.numReviews} collector notes
+                          Based on {product.numReviews} reviews
                         </p>
                       </div>
 
@@ -1133,14 +1133,14 @@ const ProductDetail: React.FC = () => {
                           onClick={() => setShowReviewForm(!showReviewForm)}
                           className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] transition-all whitespace-nowrap"
                         >
-                          {showReviewForm ? 'Cancel Note' : 'Add Collector Note'}
+                          {showReviewForm ? 'Cancel' : 'Write a Review'}
                         </motion.button>
                       ) : (
                         <Link
                           to="/auth"
                           className="px-6 py-3 border border-[#0D0B0A] text-[#0D0B0A] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#0D0B0A] hover:text-[#F9F5EE] transition-all whitespace-nowrap"
                         >
-                          Sign in to write a Note
+                          Sign in to write a review
                         </Link>
                       )}
                     </div>
@@ -1155,7 +1155,7 @@ const ProductDetail: React.FC = () => {
                           className="bg-white p-6 rounded-[4px] border border-[#0D0B0A]/10 space-y-4"
                         >
                           <h4 className="font-display font-medium text-lg text-[#0D0B0A]">
-                            Share Your Collector Experience
+                            Write Your Review
                           </h4>
                           {reviewError && (
                             <div className="p-3 bg-red-50 text-red-700 border border-red-200 rounded-[2px] text-xs">
@@ -1164,13 +1164,13 @@ const ProductDetail: React.FC = () => {
                           )}
                           {reviewSuccess && (
                             <div className="p-3 bg-green-50 text-green-700 border border-green-200 rounded-[2px] text-xs">
-                              Thank you! Your note has been submitted for heritage curation.
+                              Thank you! Your review has been submitted successfully.
                             </div>
                           )}
                           
                           <div className="space-y-2">
                             <label className="text-xs font-semibold tracking-wider uppercase text-[#0D0B0A] block">
-                              Collector Rating
+                              Rating
                             </label>
                             <div className="flex gap-1">
                               {[1, 2, 3, 4, 5].map((star) => (
@@ -1191,7 +1191,7 @@ const ProductDetail: React.FC = () => {
 
                           <div className="space-y-2">
                             <label htmlFor="review-title" className="text-xs font-semibold tracking-wider uppercase text-[#0D0B0A] block">
-                              Note Summary
+                              Review Summary
                             </label>
                             <input
                               id="review-title"
@@ -1205,7 +1205,7 @@ const ProductDetail: React.FC = () => {
 
                           <div className="space-y-2">
                             <label htmlFor="review-comment" className="text-xs font-semibold tracking-wider uppercase text-[#0D0B0A] block">
-                              Note Details *
+                              Review Details *
                             </label>
                             <textarea
                               id="review-comment"
@@ -1224,7 +1224,7 @@ const ProductDetail: React.FC = () => {
                               disabled={submittingReview}
                               className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] transition-colors disabled:opacity-50"
                             >
-                              {submittingReview ? 'Submitting...' : 'Submit Note'}
+                              {submittingReview ? 'Submitting...' : 'Submit Review'}
                             </button>
                             <button
                               type="button"
@@ -1238,7 +1238,7 @@ const ProductDetail: React.FC = () => {
                       )}
                     </AnimatePresence>
 
-                    {/* Collector Notes List */}
+                    {/* Reviews List */}
                     {loadingReviews ? (
                       <div className="flex justify-center py-12">
                         <div className="relative">
@@ -1282,7 +1282,7 @@ const ProductDetail: React.FC = () => {
                                     </span>
                                     {review.isVerifiedPurchase && (
                                       <span className="text-[9px] bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20 px-2 py-0.5 rounded-[2px] uppercase font-semibold">
-                                        Verified Collector
+                                        Verified Buyer
                                       </span>
                                     )}
                                   </div>

@@ -30,9 +30,9 @@ interface Props {
 
 const TABS = [
   { id: 'description', label: 'The Saree' },
-  { id: 'specifications', label: 'Craftsmanship' },
+  { id: 'specifications', label: 'Specifications' },
   { id: 'care', label: 'Care Guide' },
-  { id: 'reviews', label: 'Collector Notes' },
+  { id: 'reviews', label: 'Reviews' },
 ];
 
 export const DesktopTabs: React.FC<Props> = ({
@@ -160,7 +160,7 @@ export const DesktopTabs: React.FC<Props> = ({
               </div>
             )}
 
-            {/* COLLECTOR NOTES / REVIEWS */}
+            {/* REVIEWS */}
             {activeTab === 'reviews' && (
               <div className="space-y-10">
                 {/* Summary row */}
@@ -172,7 +172,7 @@ export const DesktopTabs: React.FC<Props> = ({
                         <Star key={i} size={14} className={i < Math.floor(product.ratings) ? 'text-[#C9A84C] fill-current' : 'text-[#0D0B0A]/10'} />
                       ))}
                     </div>
-                    <p className="text-xs mt-2 text-[#0D0B0A]/45">{product.numReviews} collector notes</p>
+                    <p className="text-xs mt-2 text-[#0D0B0A]/45">{product.numReviews} reviews</p>
                   </div>
 
                   <div className="flex-1 max-w-xs space-y-2">
@@ -196,11 +196,11 @@ export const DesktopTabs: React.FC<Props> = ({
                         onClick={() => setShowReviewForm(!showReviewForm)}
                         className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] text-xs font-bold tracking-widest uppercase rounded-[3px] hover:bg-[#780000] transition-colors"
                       >
-                        {showReviewForm ? 'Cancel' : 'Add Collector Note'}
+                        {showReviewForm ? 'Cancel' : 'Write a Review'}
                       </button>
                     ) : (
                       <Link to="/auth" className="px-6 py-3 border border-[#0D0B0A] text-[#0D0B0A] text-xs font-bold tracking-widest uppercase rounded-[3px] hover:bg-[#0D0B0A] hover:text-[#F9F5EE] transition-colors inline-block">
-                        Sign In to Write a Note
+                        Sign In to Write a Review
                       </Link>
                     )}
                   </div>
@@ -214,9 +214,9 @@ export const DesktopTabs: React.FC<Props> = ({
                       onSubmit={handleReviewSubmit}
                       className="border border-[#0D0B0A]/10 rounded-[4px] p-8 space-y-5 bg-[#F9F5EE]"
                     >
-                      <h4 className="font-display font-medium text-xl text-[#0D0B0A]">Your Collector Note</h4>
+                      <h4 className="font-display font-medium text-xl text-[#0D0B0A]">Your Review</h4>
                       {reviewError && <p className="text-xs text-red-700 bg-red-50 border border-red-200 p-3 rounded-[2px]">{reviewError}</p>}
-                      {reviewSuccess && <p className="text-xs text-green-700 bg-green-50 border border-green-200 p-3 rounded-[2px]">Note submitted for heritage curation.</p>}
+                      {reviewSuccess && <p className="text-xs text-green-700 bg-green-50 border border-green-200 p-3 rounded-[2px]">Review submitted successfully.</p>}
                       <div>
                         <p className="text-[10px] font-bold tracking-widest uppercase text-[#0D0B0A] mb-2">Rating</p>
                         <div className="flex gap-1">
@@ -227,11 +227,11 @@ export const DesktopTabs: React.FC<Props> = ({
                           ))}
                         </div>
                       </div>
-                      <input type="text" value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="Note title (e.g. Magnificent weave and drape)" className="w-full px-4 py-3 text-sm border border-[#0D0B0A]/15 rounded-[2px] bg-white" />
+                      <input type="text" value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="Review title (e.g. Magnificent weave and drape)" className="w-full px-4 py-3 text-sm border border-[#0D0B0A]/15 rounded-[2px] bg-white" />
                       <textarea rows={4} value={newComment} onChange={e => setNewComment(e.target.value)} placeholder="Describe your experience — the fabric, drape, and craftsmanship..." required className="w-full px-4 py-3 text-sm border border-[#0D0B0A]/15 rounded-[2px] bg-white resize-none" />
                       <div className="flex gap-3">
                         <button type="submit" disabled={submittingReview} className="px-7 py-3 bg-[#780000] text-[#F9F5EE] text-xs font-bold tracking-widest uppercase rounded-[3px] hover:bg-[#5a0000] transition-colors disabled:opacity-50">
-                          {submittingReview ? 'Submitting...' : 'Submit Note'}
+                          {submittingReview ? 'Submitting...' : 'Submit Review'}
                         </button>
                         <button type="button" onClick={() => setShowReviewForm(false)} className="px-7 py-3 border border-[#0D0B0A]/20 text-[#0D0B0A] text-xs font-bold tracking-widest uppercase rounded-[3px] hover:bg-white transition-colors">
                           Cancel
@@ -272,13 +272,13 @@ export const DesktopTabs: React.FC<Props> = ({
                     ))}
                   </div>
                 ) : (
-                  <p className="text-center py-16 text-sm text-[#0D0B0A]/40">No collector notes yet. Be the first.</p>
+                  <p className="text-center py-16 text-sm text-[#0D0B0A]/40">No reviews yet. Be the first.</p>
                 )}
 
                 {hasMoreReviews && (
                   <div className="text-center pt-4">
                     <button onClick={handleLoadMoreReviews} disabled={loadingReviews} className="px-8 py-3 border border-[#0D0B0A]/20 text-[#0D0B0A] text-xs font-bold tracking-widest uppercase rounded-[3px] hover:bg-[#0D0B0A] hover:text-[#F9F5EE] transition-colors disabled:opacity-40">
-                      Load More Notes
+                      Load More Reviews
                     </button>
                   </div>
                 )}
