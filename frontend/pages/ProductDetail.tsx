@@ -15,8 +15,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSwipeable } from 'react-swipeable';
 import { Helmet } from 'react-helmet-async';
 import { ProductHeritageAccordion } from '../components/ProductHeritageAccordion';
-import { useProductDetail } from '../hooks/useProductDetail';
-import { ProductDetailDesktop } from './ProductDetailDesktop';
 
 interface Product {
   _id: string;
@@ -83,29 +81,254 @@ const useResponsive = () => {
 };
 
 const ProductDetail: React.FC = () => {
-  const ctx = useProductDetail();
-  const {
-    id, product, loading, quantity, setQuantity,
-    selectedImage, setSelectedImage, activeTab, setActiveTab,
-    pincode, setPincode, deliveryCheck,
-    selectedColor, setSelectedColor, selectedSize, setSelectedSize,
-    showShareMenu, setShowShareMenu, isStickyCart,
-    isFullscreenGallery, setIsFullscreenGallery,
-    showBackToTop, reviews, relatedProducts,
-    loadingReviews, hasMoreReviews,
-    showAuthMessage, setShowAuthMessage,
-    showReviewForm, setShowReviewForm,
-    newRating, setNewRating, newTitle, setNewTitle, newComment, setNewComment,
-    submittingReview, reviewError, reviewSuccess,
-    isWishlisted, isAuthenticated, toggleWishlist,
-    handleAddToCart, handleBuyNow, handlePincodeCheck,
-    handleShare, handleReviewSubmit, handleLoadMoreReviews,
-    swipeHandlers, scrollToTop, formatDate, getCraftTime,
-  } = ctx;
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { addToCart, wishlist, toggleWishlist, isAuthenticated } = useStore();
   const { isMobile } = useResponsive();
 
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [activeTab, setActiveTab] = useState('description');
+  const [pincode, setPincode] = useState('');
+  const [deliveryCheck, setDeliveryCheck] = useState<null | { available: boolean; date: string }>(null);
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const [isStickyCart, setIsStickyCart] = useState(false);
+  const [isFullscreenGallery, setIsFullscreenGallery] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+  const [reviewPage, setReviewPage] = useState(1);
+  const [hasMoreReviews, setHasMoreReviews] = useState(true);
+  const [showAuthMessage, setShowAuthMessage] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [newRating, setNewRating] = useState(5);
+  const [newTitle, setNewTitle] = useState('');
+  const [newComment, setNewComment] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+  const [reviewError, setReviewError] = useState('');
+  const [reviewSuccess, setReviewSuccess] = useState(false);
 
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newComment.trim().length < 5) {
+      setReviewError('Review comment must be at least 5 characters long');
+      return;
+    }
+    try {
+      setSubmittingReview(true);
+      setReviewError('');
+      await API.post(`/products/${id}/reviews`, {
+        rating: newRating,
+        title: newTitle,
+        comment: newComment
+      });
+      setReviewSuccess(true);
+      setNewRating(5);
+      setNewTitle('');
+      setNewComment('');
+      setShowReviewForm(false);
+      fetchReviews(1);
+    } catch (error: any) {
+      console.error('Error submitting review:', error);
+      setReviewError(error.response?.data?.message || 'Failed to submit review. You may have already reviewed this product.');
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
 
+  const isWishlisted = product ? wishlist.includes(product._id) : false;
+
+  // Fetch product data
+  useEffect(() => {
+    if (id) {
+      fetchProduct();
+    }
+  }, [id]);
+
+  // Fetch reviews when tab changes or page changes
+  useEffect(() => {
+    if (activeTab === 'reviews' && product) {
+      fetchReviews(1);
+    }
+  }, [activeTab, product]);
+
+  const fetchProduct = async () => {
+    try {
+      setLoading(true);
+      const { data } = await API.get(`/products/${id}`);
+      setProduct(data);
+      setRelatedProducts(data.relatedProducts || []);
+
+      // Set default color if available
+      if (data.colors && data.colors.length > 0) {
+        setSelectedColor(data.colors[0]);
+      }
+
+      // Set default size if available
+      if (data.sizes && data.sizes.length > 0) {
+        setSelectedSize(data.sizes[0]);
+      }
+    } catch (error) {
+      console.error('Error fetching product:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchReviews = async (page: number) => {
+    try {
+      setLoadingReviews(true);
+      const { data } = await API.get(`/products/${id}/reviews?page=${page}&limit=5`);
+
+      if (page === 1) {
+        setReviews(data.reviews);
+      } else {
+        setReviews(prev => [...prev, ...data.reviews]);
+      }
+
+      setHasMoreReviews(data.hasMore);
+      setReviewPage(page);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    addToCart(
+      product._id,
+      quantity,
+      selectedColor || undefined,
+      selectedSize || undefined
+    );
+  };
+
+  const handleBuyNow = () => {
+    if (!product) return;
+
+    if (!isAuthenticated) {
+      setShowAuthMessage(true);
+      return;
+    }
+
+    // Add to cart and go to checkout
+    addToCart(product._id, quantity, selectedColor || undefined, selectedSize || undefined);
+    navigate('/checkout');
+  };
+
+  const handlePincodeCheck = async () => {
+    if (pincode.length === 6) {
+      try {
+        setDeliveryCheck(null);
+        const { data } = await API.post('/orders/check-serviceability', {
+          pincode,
+          weight: 0.5 // Default weight
+        });
+
+        if (data.status === 200 && data.data && data.data.available_courier_companies_count > 0) {
+          const etd = data.data.available_courier_companies[0]?.etd || '3-7 days';
+
+          setDeliveryCheck({
+            available: true,
+            date: etd.includes('-') ? etd : `by ${etd}`
+          });
+        } else {
+          setDeliveryCheck({
+            available: false,
+            date: ''
+          });
+        }
+      } catch (error) {
+        console.error('Error checking delivery:', error);
+        setDeliveryCheck({
+          available: false,
+          date: ''
+        });
+      }
+    }
+  };
+
+  const handleShare = (platform: string) => {
+    const url = window.location.href;
+    const text = `Check out this handwoven masterpiece from TANVO: ${product?.name}`;
+
+    const shareUrls: Record<string, string> = {
+      WhatsApp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`,
+      Facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      Pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(text)}`,
+      Email: `mailto:?subject=${encodeURIComponent(text)}&body=${encodeURIComponent(url)}`
+    };
+
+    window.open(shareUrls[platform], '_blank');
+    setShowShareMenu(false);
+  };
+
+  const handleLoadMoreReviews = () => {
+    fetchReviews(reviewPage + 1);
+  };
+
+  // Swipe handlers for mobile
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (selectedImage < (product?.images?.length || 1) - 1) {
+        setSelectedImage(prev => prev + 1);
+      }
+    },
+    onSwipedRight: () => {
+      if (selectedImage > 0) {
+        setSelectedImage(prev => prev - 1);
+      }
+    },
+    trackMouse: true
+  });
+
+  // Scroll effects
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsStickyCart(window.scrollY > 400);
+      setShowBackToTop(window.scrollY > 600);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  };
+
+  // Dynamic craft time logic based on category/fabric/weave
+  const getCraftTime = () => {
+    if (!product) return '18-21 Days';
+    const weaveLower = product.weave.toLowerCase();
+    const fabricLower = product.fabric.toLowerCase();
+    
+    if (weaveLower.includes('ikat') || weaveLower.includes('bomkai') || weaveLower.includes('sambalpuri')) {
+      return '18-21 Days';
+    }
+    if (fabricLower.includes('silk') || weaveLower.includes('jacquard')) {
+      return '15-18 Days';
+    }
+    if (fabricLower.includes('cotton')) {
+      return '8-12 Days';
+    }
+    return '14-16 Days';
+  };
 
   if (loading) {
     return (
@@ -154,13 +377,6 @@ const ProductDetail: React.FC = () => {
 
   return (
     <>
-      {/* ── DESKTOP LAYOUT (lg+) ── */}
-      <div className="hidden lg:block">
-        <ProductDetailDesktop ctx={ctx} />
-      </div>
-
-      {/* ── MOBILE / TABLET LAYOUT (<lg) ── */}
-      <div className="lg:hidden">
       <Helmet>
         <title>{`${product.name} - Odisha Handloom Heritage | TANVO`}</title>
         <meta name="description" content={product.shortDescription || product.description.slice(0, 160)} />
@@ -932,7 +1148,7 @@ const ProductDetail: React.FC = () => {
                 { id: 'description', label: 'Description' },
                 { id: 'specifications', label: 'Specifications' },
                 { id: 'care', label: 'Care Instructions' },
-                { id: 'reviews', label: `Reviews (${product.numReviews})` }
+                { id: 'reviews', label: `Collector Notes (${product.numReviews})` }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -1100,7 +1316,7 @@ const ProductDetail: React.FC = () => {
                           ))}
                         </div>
                         <p className="text-xs mt-2 text-[#0D0B0A]/60">
-                          Based on {product.numReviews} reviews
+                          Based on {product.numReviews} collector notes
                         </p>
                       </div>
 
@@ -1133,14 +1349,14 @@ const ProductDetail: React.FC = () => {
                           onClick={() => setShowReviewForm(!showReviewForm)}
                           className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] transition-all whitespace-nowrap"
                         >
-                          {showReviewForm ? 'Cancel' : 'Write a Review'}
+                          {showReviewForm ? 'Cancel Note' : 'Add Collector Note'}
                         </motion.button>
                       ) : (
                         <Link
                           to="/auth"
                           className="px-6 py-3 border border-[#0D0B0A] text-[#0D0B0A] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#0D0B0A] hover:text-[#F9F5EE] transition-all whitespace-nowrap"
                         >
-                          Sign in to write a review
+                          Sign in to write a Note
                         </Link>
                       )}
                     </div>
@@ -1155,7 +1371,7 @@ const ProductDetail: React.FC = () => {
                           className="bg-white p-6 rounded-[4px] border border-[#0D0B0A]/10 space-y-4"
                         >
                           <h4 className="font-display font-medium text-lg text-[#0D0B0A]">
-                            Write Your Review
+                            Share Your Collector Experience
                           </h4>
                           {reviewError && (
                             <div className="p-3 bg-red-50 text-red-700 border border-red-200 rounded-[2px] text-xs">
@@ -1164,13 +1380,13 @@ const ProductDetail: React.FC = () => {
                           )}
                           {reviewSuccess && (
                             <div className="p-3 bg-green-50 text-green-700 border border-green-200 rounded-[2px] text-xs">
-                              Thank you! Your review has been submitted successfully.
+                              Thank you! Your note has been submitted for heritage curation.
                             </div>
                           )}
                           
                           <div className="space-y-2">
                             <label className="text-xs font-semibold tracking-wider uppercase text-[#0D0B0A] block">
-                              Rating
+                              Collector Rating
                             </label>
                             <div className="flex gap-1">
                               {[1, 2, 3, 4, 5].map((star) => (
@@ -1191,7 +1407,7 @@ const ProductDetail: React.FC = () => {
 
                           <div className="space-y-2">
                             <label htmlFor="review-title" className="text-xs font-semibold tracking-wider uppercase text-[#0D0B0A] block">
-                              Review Summary
+                              Note Summary
                             </label>
                             <input
                               id="review-title"
@@ -1205,7 +1421,7 @@ const ProductDetail: React.FC = () => {
 
                           <div className="space-y-2">
                             <label htmlFor="review-comment" className="text-xs font-semibold tracking-wider uppercase text-[#0D0B0A] block">
-                              Review Details *
+                              Note Details *
                             </label>
                             <textarea
                               id="review-comment"
@@ -1224,7 +1440,7 @@ const ProductDetail: React.FC = () => {
                               disabled={submittingReview}
                               className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] transition-colors disabled:opacity-50"
                             >
-                              {submittingReview ? 'Submitting...' : 'Submit Review'}
+                              {submittingReview ? 'Submitting...' : 'Submit Note'}
                             </button>
                             <button
                               type="button"
@@ -1238,7 +1454,7 @@ const ProductDetail: React.FC = () => {
                       )}
                     </AnimatePresence>
 
-                    {/* Reviews List */}
+                    {/* Collector Notes List */}
                     {loadingReviews ? (
                       <div className="flex justify-center py-12">
                         <div className="relative">
@@ -1282,7 +1498,7 @@ const ProductDetail: React.FC = () => {
                                     </span>
                                     {review.isVerifiedPurchase && (
                                       <span className="text-[9px] bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20 px-2 py-0.5 rounded-[2px] uppercase font-semibold">
-                                        Verified Buyer
+                                        Verified Collector
                                       </span>
                                     )}
                                   </div>
@@ -1456,7 +1672,6 @@ const ProductDetail: React.FC = () => {
         )}
       </AnimatePresence>
     </div>
-    </div>{/* end lg:hidden mobile wrapper */}
     </>
   );
 };
