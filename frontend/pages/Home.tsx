@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import HeroSection from './sections/HeroSection';
 import MarqueeTicker from './sections/MarqueeTicker';
 import PillarsSection from './sections/PillarsSection';
+import EditorialBanner from './sections/EditorialBanner';
 import CategoryGrid from './sections/CategoryGrid';
 import ProductsGrid from './sections/ProductsGrid';
 import IkatDeepDive from './sections/IkatDeepDive';
@@ -101,6 +102,7 @@ const Home: React.FC = () => {
 
         <IkatDeepDive />
 
+        <EditorialBanner />
         <CategoryGrid />
         <WhyChooseUs />
         <NewArrivalsBanner />

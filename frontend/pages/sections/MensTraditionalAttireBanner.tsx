@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const MensTraditionalAttireBanner: React.FC = () => {
+const NewArrivalsBanner: React.FC = () => {
     return (
         <section className="container mx-auto px-4 py-12 md:py-20">
             <div className="bg-[#F9F5EE] w-full max-w-7xl mx-auto overflow-hidden flex flex-col md:flex-row items-center min-h-[450px] shadow-sm">
@@ -26,7 +26,9 @@ const MensTraditionalAttireBanner: React.FC = () => {
                     </div>
 
                     <p className="text-[#333333] text-sm md:text-base leading-relaxed mb-10 max-w-md font-sans">
-                        Explore our exclusive collection of handwoven men's traditional wear. From classic Kurtas to elegant Dhotis and pure Khandua silk, embrace the timeless heritage of Odisha craft tailored for men.
+                        Experience the latest masterpieces from our looms. Discover fresh patterns,
+                        vibrant natural dyes, and the unparalleled touch of authentic Odisha heritage,
+                        handpicked for the contemporary soul.
                     </p>
 
                     <Link
@@ -42,4 +44,4 @@ const MensTraditionalAttireBanner: React.FC = () => {
     );
 };
 
-export default MensTraditionalAttireBanner;
+export default NewArrivalsBanner;
