@@ -234,6 +234,8 @@ const ProductDetail: React.FC = () => {
         });
 
         if (data.status === 200 && data.data && data.data.available_courier_companies_count > 0) {
+          const deliveryDate = new Date();
+          // Find the ETD from the first available courier
           const etd = data.data.available_courier_companies[0]?.etd || '3-7 days';
 
           setDeliveryCheck({
@@ -312,41 +314,23 @@ const ProductDetail: React.FC = () => {
     });
   };
 
-  // Dynamic craft time logic based on category/fabric/weave
-  const getCraftTime = () => {
-    if (!product) return '18-21 Days';
-    const weaveLower = product.weave.toLowerCase();
-    const fabricLower = product.fabric.toLowerCase();
-    
-    if (weaveLower.includes('ikat') || weaveLower.includes('bomkai') || weaveLower.includes('sambalpuri')) {
-      return '18-21 Days';
-    }
-    if (fabricLower.includes('silk') || weaveLower.includes('jacquard')) {
-      return '15-18 Days';
-    }
-    if (fabricLower.includes('cotton')) {
-      return '8-12 Days';
-    }
-    return '14-16 Days';
-  };
-
   if (loading) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="min-h-screen pt-32 pb-24 flex items-center justify-center bg-[#F9F5EE]"
+        className="min-h-screen pt-32 pb-24 flex items-center justify-center bg-[#F8EDED]"
       >
-        <div className="text-center font-sans">
+        <div className="text-center">
           <div className="relative">
-            <div className="w-16 h-16 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-20 h-20 border-4 border-[#B43F3F] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-[#0D0B0A] rounded-full"></div>
+              <div className="w-2 h-2 bg-[#FF8225] rounded-full"></div>
             </div>
           </div>
-          <p className="font-medium text-xs tracking-widest uppercase text-[#0D0B0A]/70">
-            Curation is loading...
+          <p className="font-medium text-[#173B45]">
+            Weaving your product details...
           </p>
         </div>
       </motion.div>
@@ -358,17 +342,17 @@ const ProductDetail: React.FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="min-h-screen pt-32 pb-24 bg-[#F9F5EE] flex items-center"
+        className="min-h-screen pt-32 pb-24 bg-[#F8EDED]"
       >
-        <div className="container mx-auto px-4 text-center font-sans">
-          <h1 className="text-2xl sm:text-3xl font-display font-medium mb-4 text-[#0D0B0A]">
-            Heirloom Not Found
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-3xl sm:text-4xl font-display font-medium mb-4 text-[#173B45]">
+            Product Not Found
           </h1>
-          <p className="mb-8 text-[#0D0B0A]/60 text-sm">
-            The saree you are looking for has been woven into another collection.
+          <p className="mb-8 text-[#173B45]/70">
+            The saree you're looking for has been woven into another collection.
           </p>
-          <Link to="/shop" className="inline-block px-8 py-4 bg-[#0D0B0A] text-[#F9F5EE] rounded-[2px] font-semibold text-xs tracking-widest uppercase hover:bg-[#C9A84C] transition-all">
-            Browse All Weaves
+          <Link to="/shop" className="inline-block px-8 py-4 bg-[#B43F3F] text-[#F8EDED] rounded-xl font-medium hover:bg-[#FF8225] transition-all">
+            Continue Shopping
           </Link>
         </div>
       </motion.div>
@@ -408,12 +392,12 @@ const ProductDetail: React.FC = () => {
         </script>
       </Helmet>
 
-      <div className="min-h-screen bg-[#F9F5EE]">
+      <div className="min-h-screen bg-[#F8EDED]">
       {/* Textile overlay */}
       <div
-        className="fixed inset-0 pointer-events-none z-0"
+        className="fixed inset-0 pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%230D0B0A' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")`,
           opacity: 0.5,
         }}
       />
@@ -426,7 +410,7 @@ const ProductDetail: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={scrollToTop}
-            className="fixed bottom-24 right-4 z-50 p-3 bg-[#0D0B0A] text-[#F9F5EE] rounded-[2px] shadow-lg hover:bg-[#C9A84C] transition-colors"
+            className="fixed bottom-24 right-4 z-50 p-3 bg-[#FF8225] text-[#F8EDED] rounded-full shadow-lg hover:bg-[#B43F3F] transition-colors"
           >
             <ChevronUp size={20} />
           </motion.button>
@@ -440,11 +424,11 @@ const ProductDetail: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-[#0D0B0A]/95 backdrop-blur-lg flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-[#173B45]/95 backdrop-blur-lg flex items-center justify-center"
             onClick={() => setIsFullscreenGallery(false)}
           >
             <button
-              className="absolute top-4 right-4 text-[#F9F5EE] hover:text-[#C9A84C] z-10"
+              className="absolute top-4 right-4 text-[#F8EDED] hover:text-[#FF8225] z-10"
               onClick={() => setIsFullscreenGallery(false)}
             >
               <X size={32} />
@@ -461,29 +445,29 @@ const ProductDetail: React.FC = () => {
               {product.images.length > 1 && (
                 <>
                   <button
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-[#F9F5EE]/20 backdrop-blur-sm rounded-[2px] hover:bg-[#C9A84C] transition-colors"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-[#F8EDED]/20 backdrop-blur-sm rounded-full hover:bg-[#FF8225] transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedImage(prev => prev > 0 ? prev - 1 : product.images.length - 1);
                     }}
                   >
-                    <ChevronLeft className="text-[#F9F5EE]" size={24} />
+                    <ChevronLeft className="text-[#F8EDED]" size={24} />
                   </button>
 
                   <button
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-[#F9F5EE]/20 backdrop-blur-sm rounded-[2px] hover:bg-[#C9A84C] transition-colors"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-[#F8EDED]/20 backdrop-blur-sm rounded-full hover:bg-[#FF8225] transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedImage(prev => prev < product.images.length - 1 ? prev + 1 : 0);
                     }}
                   >
-                    <ChevronRight className="text-[#F9F5EE]" size={24} />
+                    <ChevronRight className="text-[#F8EDED]" size={24} />
                   </button>
                 </>
               )}
 
               {/* Image counter */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-[#0D0B0A] text-[#F9F5EE] text-xs px-3 py-1.5 rounded-[2px]">
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-[#173B45] text-[#F8EDED] text-xs px-3 py-1.5 rounded-full">
                 {selectedImage + 1} / {product.images.length}
               </div>
             </div>
@@ -499,34 +483,34 @@ const ProductDetail: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-[#0D0B0A]/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-[#173B45]/60 backdrop-blur-sm"
               onClick={() => setShowAuthMessage(false)}
             />
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative bg-[#F9F5EE] max-w-md w-full p-8 rounded-[4px] shadow-2xl border border-[#0D0B0A]/10 text-center font-sans"
+              className="relative bg-[#F8EDED] max-w-md w-full p-8 rounded-2xl shadow-2xl border border-[#B43F3F]/10 text-center"
             >
-              <div className="w-12 h-12 bg-[#C9A84C]/10 rounded-[2px] flex items-center justify-center mx-auto mb-6 text-[#C9A84C]">
-                <Lock className="w-6 h-6" />
+              <div className="w-16 h-16 bg-[#B43F3F]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Lock className="text-[#B43F3F] w-8 h-8" />
               </div>
-              <h2 className="text-xl font-display font-medium text-[#0D0B0A] mb-3">
-                Collector Account Required
+              <h2 className="text-2xl font-display font-medium text-[#173B45] mb-4">
+                Login Required
               </h2>
-              <p className="text-[#0D0B0A]/70 text-sm mb-6 leading-relaxed">
-                To purchase this handwoven masterpiece, please sign in or register your collector profile.
+              <p className="text-[#173B45]/70 mb-8">
+                To purchase this handwoven masterpiece, please sign in or create an account.
               </p>
               <div className="flex flex-col gap-3">
                 <Link
                   to={`/auth?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`}
-                  className="w-full py-3.5 bg-[#0D0B0A] text-[#F9F5EE] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] transition-all border border-[#0D0B0A] hover:border-[#C9A84C] shadow-lg shadow-[#0D0B0A]/10"
+                  className="w-full py-4 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-all shadow-lg shadow-[#B43F3F]/20"
                 >
                   Sign In / Register
                 </Link>
                 <button
                   onClick={() => setShowAuthMessage(false)}
-                  className="w-full py-3 text-xs font-semibold tracking-wider text-[#0D0B0A]/60 uppercase hover:text-[#0D0B0A] transition-colors"
+                  className="w-full py-4 text-[#173B45]/60 font-medium hover:text-[#173B45] transition-colors"
                 >
                   Continue Browsing
                 </button>
@@ -542,15 +526,15 @@ const ProductDetail: React.FC = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-2 text-[11px] font-semibold tracking-wider uppercase font-sans mb-6 overflow-x-auto pb-2 scrollbar-hide text-[#0D0B0A]/60"
+          className="flex items-center gap-2 text-sm mb-6 overflow-x-auto pb-2 scrollbar-hide text-[#173B45]/60"
         >
-          <Link to="/" className="hover:text-[#C9A84C] whitespace-nowrap">Home</Link>
+          <Link to="/" className="hover:text-[#B43F3F] whitespace-nowrap">Home</Link>
           <span>/</span>
-          <Link to="/shop" className="hover:text-[#C9A84C] whitespace-nowrap">Shop</Link>
+          <Link to="/shop" className="hover:text-[#B43F3F] whitespace-nowrap">Shop</Link>
           <span>/</span>
-          <Link to={`/shop?category=${product.category}`} className="hover:text-[#C9A84C] whitespace-nowrap">{product.category}</Link>
+          <Link to={`/shop?category=${product.category}`} className="hover:text-[#B43F3F] whitespace-nowrap">{product.category}</Link>
           <span>/</span>
-          <span className="font-semibold text-[#0D0B0A] truncate">
+          <span className="font-medium truncate text-[#173B45]">
             {product.name}
           </span>
         </motion.div>
@@ -566,7 +550,7 @@ const ProductDetail: React.FC = () => {
             {/* Main Image */}
             <div
               {...swipeHandlers}
-              className="relative aspect-[4/5] bg-white rounded-[4px] overflow-hidden group cursor-zoom-in border border-[#0D0B0A]/10"
+              className="relative aspect-[4/5] bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden group cursor-zoom-in border border-[#B43F3F]/10"
               onClick={() => setIsFullscreenGallery(true)}
             >
               <motion.img
@@ -579,60 +563,65 @@ const ProductDetail: React.FC = () => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
 
-              {/* Luxury Story Badges */}
-              <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex flex-col gap-1.5 font-sans z-10">
-                <motion.span
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="px-2.5 py-1 bg-[#0D0B0A] text-[#F9F5EE] text-[9px] font-semibold tracking-widest uppercase rounded-[2px] shadow-sm border border-[#C9A84C]/30"
-                >
-                  HANDWOVEN
-                </motion.span>
-                <motion.span
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="px-2.5 py-1 bg-[#F9F5EE] text-[#0D0B0A] text-[9px] font-semibold tracking-widest uppercase rounded-[2px] shadow-sm border border-[#0D0B0A]/10"
-                >
-                  ARTISAN VERIFIED
-                </motion.span>
-                {(product.isBestSeller || product.stock <= 3) && (
+              {/* Badges */}
+              <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex flex-col gap-2">
+                {product.isBestSeller && (
                   <motion.span
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="px-2.5 py-1 bg-[#C9A84C] text-[#0D0B0A] text-[9px] font-semibold tracking-widest uppercase rounded-[2px] shadow-sm"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 500, delay: 0.2 }}
+                    className="px-3 py-1.5 bg-[#B43F3F] text-[#F8EDED] text-xs font-medium rounded-full shadow-lg"
                   >
-                    LIMITED PIECE
+                    Best Seller
+                  </motion.span>
+                )}
+                {product.originalPrice && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 500, delay: 0.3 }}
+                    className="px-3 py-1.5 bg-[#FF8225] text-[#F8EDED] text-xs font-medium rounded-full shadow-lg"
+                  >
+                    {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                  </motion.span>
+                )}
+                {product.isNewArrival && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 500, delay: 0.4 }}
+                    className="px-3 py-1.5 bg-[#173B45] text-[#F8EDED] text-xs font-medium rounded-full shadow-lg"
+                  >
+                    New Arrival
                   </motion.span>
                 )}
               </div>
 
               {/* Wishlist & Share */}
-              <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex flex-col gap-2 z-10">
+              <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex flex-col gap-2">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleWishlist(product._id);
                   }}
-                  className={`p-2.5 rounded-[2px] shadow-md transition-all duration-300 ${isWishlisted
-                    ? 'bg-[#0D0B0A] text-[#F9F5EE]'
-                    : 'bg-white text-[#0D0B0A] hover:text-[#C9A84C]'
+                  className={`p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 ${isWishlisted
+                    ? 'bg-[#B43F3F] text-[#F8EDED]'
+                    : 'bg-white text-[#173B45] hover:text-[#B43F3F]'
                     }`}
                 >
                   <Heart size={isMobile ? 18 : 20} fill={isWishlisted ? "currentColor" : "none"} />
                 </motion.button>
 
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowShareMenu(!showShareMenu);
                   }}
-                  className="p-2.5 bg-white text-[#0D0B0A] rounded-[2px] shadow-md hover:text-[#C9A84C] transition-all duration-300 relative"
+                  className="p-2 sm:p-3 bg-white text-[#173B45] rounded-full shadow-lg hover:text-[#FF8225] transition-all duration-300 relative"
                 >
                   <Share2 size={isMobile ? 18 : 20} />
 
@@ -642,26 +631,26 @@ const ProductDetail: React.FC = () => {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="absolute top-12 right-0 rounded-[2px] shadow-2xl p-4 w-48 z-20 bg-white border border-[#0D0B0A]/10 text-left"
+                        className="absolute top-12 right-0 rounded-2xl shadow-2xl p-4 w-48 z-20 bg-white border border-[#B43F3F]/10"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <p className="text-xs font-semibold tracking-wider uppercase mb-3 text-[#0D0B0A]">
-                          Share Piece
+                        <p className="text-sm font-medium mb-3 text-[#173B45]">
+                          Share this masterpiece
                         </p>
-                        <div className="space-y-1.5 font-sans">
+                        <div className="space-y-2">
                           {[
                             { name: 'WhatsApp', icon: '📱', color: '#25D366' },
                             { name: 'Facebook', icon: '📘', color: '#1877F2' },
                             { name: 'Pinterest', icon: '📌', color: '#E60023' },
-                            { name: 'Email', icon: '✉️', color: '#0D0B0A' }
+                            { name: 'Email', icon: '✉️', color: '#B43F3F' }
                           ].map((platform) => (
                             <button
                               key={platform.name}
                               onClick={() => handleShare(platform.name)}
-                              className="w-full flex items-center gap-3 px-2 py-1.5 text-xs rounded-[2px] hover:bg-[#F9F5EE] text-[#0D0B0A] transition-colors"
+                              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-[#F8EDED] text-[#173B45] transition-colors"
                             >
                               <span>{platform.icon}</span>
-                              <span className="font-medium">{platform.name}</span>
+                              <span>{platform.name}</span>
                             </button>
                           ))}
                         </div>
@@ -672,14 +661,14 @@ const ProductDetail: React.FC = () => {
               </div>
 
               {/* Image Counter (Mobile) */}
-              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-[#0D0B0A]/85 backdrop-blur-sm text-[#F9F5EE] text-[10px] font-semibold tracking-widest uppercase px-3 py-1.5 rounded-[2px] lg:hidden">
+              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-[#173B45]/80 backdrop-blur-sm text-[#F8EDED] text-xs px-3 py-1.5 rounded-full lg:hidden">
                 {selectedImage + 1} / {product.images.length}
               </div>
 
               {/* Zoom Indicator (Desktop) */}
-              <div className="absolute bottom-4 right-4 bg-[#0D0B0A]/85 backdrop-blur-sm text-[#F9F5EE] text-[10px] font-semibold tracking-widest uppercase px-3 py-1.5 rounded-[2px] hidden lg:block">
-                <span className="flex items-center gap-1.5">
-                  <Search size={12} className="text-[#C9A84C]" /> Click to Inspect
+              <div className="absolute bottom-4 right-4 bg-[#173B45]/80 backdrop-blur-sm text-[#F8EDED] text-xs px-3 py-2 rounded-full hidden lg:block">
+                <span className="flex items-center gap-1">
+                  <Search className="w-3 h-3" /> Click to zoom
                 </span>
               </div>
             </div>
@@ -693,9 +682,9 @@ const ProductDetail: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setSelectedImage(index)}
-                    className={`aspect-square rounded-[2px] overflow-hidden border transition-all duration-300 ${selectedImage === index
-                      ? 'border-[#C9A84C] ring-1 ring-[#C9A84C] shadow-md scale-105'
-                      : 'border-transparent hover:border-[#0D0B0A]'
+                    className={`aspect-square rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 ${selectedImage === index
+                      ? 'border-[#FF8225] shadow-lg scale-105'
+                      : 'border-transparent hover:border-[#B43F3F]'
                       }`}
                   >
                     <img
@@ -718,200 +707,143 @@ const ProductDetail: React.FC = () => {
           >
             {/* Title & Rating */}
             <div>
-              <div className="text-[11px] font-bold tracking-widest text-[#C9A84C] uppercase mb-1 font-sans">
-                {product.weave}
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#B43F3F]/10 text-[#B43F3F]">
+                  {product.category}
+                </span>
+                <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#FF8225]/10 text-[#FF8225]">
+                  {product.weave}
+                </span>
+                <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#173B45]/10 text-[#173B45]">
+                  {product.fabric}
+                </span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-3 text-[#0D0B0A] leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-4 text-[#173B45]">
                 {product.name}
               </h1>
 
               {/* Rating */}
-              <div className="flex items-center gap-3 text-xs mb-4">
-                <div className="flex items-center gap-0.5">
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      size={14}
+                      size={isMobile ? 16 : 18}
                       className={`${i < Math.floor(product.ratings)
-                        ? 'text-[#C9A84C] fill-current'
-                        : 'text-[#0D0B0A]/10'
+                        ? 'text-[#FF8225] fill-current'
+                        : 'text-[#173B45]/20'
                         }`}
                     />
                   ))}
                 </div>
-                <span className="text-[#0D0B0A]/70 font-sans">
-                  {product.ratings.toFixed(1)} <span className="mx-1">|</span> {product.numReviews} collectors
+                <span className="text-sm text-[#173B45]/70">
+                  <span className="font-medium text-[#173B45]">
+                    {product.ratings.toFixed(1)}
+                  </span>
+                  <span className="mx-1">·</span>
+                  <button
+                    onClick={() => setActiveTab('reviews')}
+                    className="hover:text-[#B43F3F]"
+                  >
+                    {product.numReviews} verified reviews
+                  </button>
                 </span>
-              </div>
-              
-              {/* Origin tag */}
-              <div className="flex items-center gap-1.5 text-xs text-[#0D0B0A]/60 font-sans mb-1">
-                <MapPin size={12} className="text-[#C9A84C]" />
-                <span>Handwoven in {product.weaverInfo?.location || 'Odisha, India'}</span>
               </div>
             </div>
 
-            {/* Price Box */}
-            <div className="py-4 border-y border-[#0D0B0A]/10 space-y-3 font-sans">
-              <div className="flex items-baseline gap-3">
-                <span className="text-2xl sm:text-3xl font-medium text-[#0D0B0A]">
-                  ₹{product.price.toLocaleString()}
-                </span>
-                {product.originalPrice && (
-                  <span className="text-sm sm:text-base line-through text-[#0D0B0A]/40">
+            {/* Price */}
+            <div className="flex flex-wrap items-baseline gap-4">
+              <span className="text-3xl sm:text-4xl font-medium text-[#B43F3F]">
+                ₹{product.price.toLocaleString()}
+              </span>
+              {product.originalPrice && (
+                <>
+                  <span className="text-lg sm:text-xl line-through text-[#173B45]/40">
                     ₹{product.originalPrice.toLocaleString()}
                   </span>
-                )}
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
-                {[
-                  'Artisan verified',
-                  'Handloom authenticity',
-                  'Free insured delivery'
-                ].map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-1.5 text-[11px] text-[#0D0B0A]/70 uppercase tracking-wide font-semibold">
-                    <Check size={12} className="text-[#C9A84C]" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
+                  <span className="px-3 py-1 bg-[#FF8225]/10 text-[#FF8225] text-sm font-medium rounded-full">
+                    Save ₹{(product.originalPrice - product.price).toLocaleString()}
+                  </span>
+                </>
+              )}
             </div>
 
             {/* TANVO Authenticity Promise */}
-            <div className="p-5 rounded-[4px] border border-[#0D0B0A]/10 bg-white/70 backdrop-blur-sm shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-[#0D0B0A]/10 pb-2">
-                <Award className="w-5 h-5 text-[#C9A84C]" />
-                <h3 className="font-display font-medium text-base text-[#0D0B0A]">
+            <div className="p-4 sm:p-5 rounded-2xl border border-[#B43F3F]/10 bg-white/60 backdrop-blur-sm shadow-sm space-y-4">
+              <div className="flex items-center gap-2 border-b border-[#B43F3F]/10 pb-2">
+                <Award className="w-5 h-5 text-[#B43F3F]" />
+                <h3 className="font-display font-medium text-base text-[#173B45]">
                   TANVO Authenticity Promise
                 </h3>
               </div>
-              <div className="grid grid-cols-2 gap-3 text-[11px] font-sans">
-                <div className="flex items-center gap-2 text-[#0D0B0A]/80 font-medium">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]"></div>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#B43F3F]"></div>
                   <span>Handloom Certified</span>
                 </div>
-                <div className="flex items-center gap-2 text-[#0D0B0A]/80 font-medium">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]"></div>
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#FF8225]"></div>
                   <span>Artisan Verified</span>
                 </div>
-                <div className="flex items-center gap-2 text-[#0D0B0A]/80 font-medium">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]"></div>
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#173B45]"></div>
                   <span>Fabric: {product.fabric}</span>
                 </div>
-                <div className="flex items-center gap-2 text-[#0D0B0A]/80 font-medium">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]"></div>
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#B43F3F]"></div>
                   <span>Weave: {product.weave}</span>
                 </div>
               </div>
-              <p className="text-xs text-[#0D0B0A]/70 italic leading-relaxed pt-1 font-serif">
+              <p className="text-xs text-[#173B45]/70 italic leading-relaxed pt-1">
                 "We guarantee this saree is a genuine hand-spun, hand-woven Indian masterpiece. We work directly with artisan families, paying fair wages and ensuring their ancestral craft lives on."
               </p>
             </div>
 
-            {/* Craft Details Box */}
-            <div className="p-5 rounded-[4px] border border-[#0D0B0A]/10 bg-[#F9F5EE]/40 space-y-4 font-sans">
-              <h3 className="text-[10px] font-bold tracking-widest text-[#0D0B0A] uppercase">
-                CRAFT DETAILS
-              </h3>
-              <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-xs">
-                <div>
-                  <span className="text-[#0D0B0A]/50 block text-[10px] tracking-wider uppercase font-semibold">Weave</span>
-                  <span className="font-semibold text-[#0D0B0A]">{product.weave}</span>
-                </div>
-                <div>
-                  <span className="text-[#0D0B0A]/50 block text-[10px] tracking-wider uppercase font-semibold">Fabric</span>
-                  <span className="font-semibold text-[#0D0B0A]">{product.fabric}</span>
-                </div>
-                <div>
-                  <span className="text-[#0D0B0A]/50 block text-[10px] tracking-wider uppercase font-semibold">Origin</span>
-                  <span className="font-semibold text-[#0D0B0A]">{product.weaverInfo?.location || 'Odisha, India'}</span>
-                </div>
-                <div>
-                  <span className="text-[#0D0B0A]/50 block text-[10px] tracking-wider uppercase font-semibold">Craft Time</span>
-                  <span className="font-semibold text-[#0D0B0A]">{getCraftTime()}</span>
-                </div>
-              </div>
-            </div>
-
             {/* Stock Status */}
-            <div className="flex items-center gap-2 font-sans text-xs">
-              <div className={`w-2.5 h-2.5 rounded-full ${product.stock > 5 ? 'bg-green-600' : 'bg-[#C9A84C]'
+            <div className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full ${product.stock > 5 ? 'bg-green-500' : 'bg-[#FF8225]'
                 } animate-pulse`}></div>
-              <span className="font-semibold uppercase tracking-wider text-[#0D0B0A]/85">
+              <span className="text-sm font-medium text-[#173B45]">
                 {product.stock > 5
-                  ? 'Ready for dispatch'
+                  ? 'In Stock'
                   : product.stock > 0
-                    ? `Only ${product.stock} pieces left in archive`
+                    ? `Only ${product.stock} units left!`
                     : 'Out of Stock'
                 }
               </span>
             </div>
 
-            {/* Weaver Story Card */}
-            {product.weaverInfo && (
-              <motion.div
-                whileHover={{ scale: 1.01 }}
-                className="p-5 rounded-[4px] border border-[#C9A84C]/20 bg-gradient-to-r from-[#C9A84C]/5 to-transparent space-y-3"
-              >
-                <div className="flex items-start justify-between font-sans">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-[#0D0B0A] text-[#F9F5EE] rounded-full flex items-center justify-center font-display font-medium text-lg shadow-inner">
-                      {product.weaverInfo.name.charAt(0)}
-                    </div>
-                    <div>
-                      <h4 className="font-display font-medium text-base text-[#0D0B0A]">
-                        {product.weaverInfo.name}
-                      </h4>
-                      <p className="text-xs text-[#0D0B0A]/60">
-                        {product.weaverInfo.location} • {product.weaverInfo.generation} Weaver
-                      </p>
-                    </div>
-                  </div>
-                  <span className="px-2.5 py-1 text-[10px] font-semibold tracking-wider uppercase rounded-[2px] bg-[#C9A84C]/15 text-[#C9A84C]">
-                    Heritage Master
-                  </span>
-                </div>
-                <p className="text-xs text-[#0D0B0A]/80 leading-relaxed font-sans">
-                  {product.weaverInfo.story || `This saree was hand-guided on a traditional pit loom by ${product.weaverInfo.name}, preserving the heritage weave legacy of ${product.weaverInfo.location}.`}
-                </p>
-                <div className="pt-1 flex justify-end font-sans">
-                  <Link to={`/weavers/${encodeURIComponent(product.weaverInfo.name)}`} className="text-xs font-bold text-[#C9A84C] hover:text-[#0D0B0A] transition-colors uppercase tracking-widest">
-                    Meet the Weaver →
-                  </Link>
-                </div>
-              </motion.div>
-            )}
-
             {/* Color Selection */}
             {product.colors && product.colors.length > 0 && (
-              <div className="space-y-3 font-sans">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[#0D0B0A]">
-                  Color: <span className="font-bold text-[#C9A84C] ml-1">
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-[#173B45]">
+                  Color: <span className="font-medium text-[#B43F3F]">
                     {selectedColor || 'Select'}
                   </span>
                 </p>
-                <div className="flex flex-wrap gap-2.5">
+                <div className="flex flex-wrap gap-3">
                   {product.colors.map((color: string) => (
                     <motion.button
                       key={color}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setSelectedColor(color)}
                       className="group relative"
                     >
-                      <div className={`w-8 h-8 rounded-[4px] border transition-all duration-300 ${selectedColor === color
-                        ? 'border-[#C9A84C] ring-1 ring-[#C9A84C]'
-                        : 'border-[#0D0B0A]/20 hover:border-[#C9A84C]'
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 transition-all duration-300 ${selectedColor === color
+                        ? 'border-[#FF8225] scale-110'
+                        : 'border-[#173B45]/20 hover:border-[#B43F3F]'
                         }`}>
                         <div
-                          className="w-full h-full rounded-[2px]"
+                          className="w-full h-full rounded-full"
                           style={{
-                            backgroundColor: color.toLowerCase()
+                            backgroundColor: color.toLowerCase(),
+                            boxShadow: selectedColor === color ? '0 0 0 2px #FF8225' : 'none'
                           }}
                         />
                       </div>
-                      <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-[9px] whitespace-nowrap text-[#0D0B0A]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 uppercase tracking-widest font-semibold">
+                      <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs whitespace-nowrap text-[#173B45]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         {color}
                       </span>
                     </motion.button>
@@ -922,22 +854,22 @@ const ProductDetail: React.FC = () => {
 
             {/* Size Selection */}
             {product.sizes && product.sizes.length > 0 && (
-              <div className="space-y-3 font-sans">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[#0D0B0A]">
-                  Size: <span className="font-bold text-[#C9A84C] ml-1">
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-[#173B45]">
+                  Size: <span className="font-medium text-[#B43F3F]">
                     {selectedSize || 'Select'}
                   </span>
                 </p>
-                <div className="flex flex-wrap gap-2.5">
+                <div className="flex flex-wrap gap-3">
                   {product.sizes.map((size: string) => (
                     <motion.button
                       key={size}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 rounded-[2px] border text-xs font-semibold tracking-wider uppercase transition-all duration-300 ${selectedSize === size
-                        ? 'border-[#0D0B0A] bg-[#0D0B0A] text-[#F9F5EE]'
-                        : 'border-[#0D0B0A]/20 hover:border-[#C9A84C] text-[#0D0B0A]'
+                      className={`px-4 py-2 rounded-lg border-2 transition-all duration-300 ${selectedSize === size
+                        ? 'border-[#B43F3F] bg-[#B43F3F] text-[#F8EDED]'
+                        : 'border-[#173B45]/20 hover:border-[#B43F3F] text-[#173B45]'
                         }`}
                     >
                       {size}
@@ -947,76 +879,114 @@ const ProductDetail: React.FC = () => {
               </div>
             )}
 
-            {/* Heirloom Narrative & Wear Moments */}
-            <div className="space-y-4 border-t border-[#0D0B0A]/10 pt-4">
-              <div className="space-y-1">
-                <h4 className="text-[10px] font-bold tracking-widest text-[#C9A84C] uppercase font-sans">
-                  The Heirloom Value
-                </h4>
-                <p className="text-xs text-[#0D0B0A]/80 leading-relaxed font-serif italic">
-                  A rare piece from Odisha's weaving tradition. Each thread is tied, dyed, and woven by hand, creating a pattern that cannot be exactly repeated.
-                </p>
+            {/* Key Features Grid */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-xl bg-white border border-[#B43F3F]/10">
+                <Gem className="w-4 h-4 sm:w-5 sm:h-5 text-[#B43F3F] shrink-0" />
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-[#173B45]">
+                    {product.fabric}
+                  </p>
+                  <p className="text-xs text-[#173B45]/50">
+                    Premium Quality
+                  </p>
+                </div>
               </div>
-
-              <div className="space-y-1.5">
-                <h4 className="text-[10px] font-bold tracking-widest text-[#0D0B0A]/50 uppercase font-sans">
-                  Perfect For
-                </h4>
-                <div className="flex flex-wrap gap-2 pt-1 font-sans">
-                  {['Wedding Ceremonies', 'Festive Celebrations', 'Heritage Receptions', 'Thoughtful Gifting'].map((occ) => (
-                    <span key={occ} className="px-2.5 py-1 bg-[#0D0B0A]/5 text-[#0D0B0A]/80 text-[10px] font-semibold tracking-wider uppercase rounded-[2px]">
-                      {occ}
-                    </span>
-                  ))}
+              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-xl bg-white border border-[#B43F3F]/10">
+                <Ruler className="w-4 h-4 sm:w-5 sm:h-5 text-[#FF8225] shrink-0" />
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-[#173B45]">
+                    {product.length || '6.3 Meters'}
+                  </p>
+                  <p className="text-xs text-[#173B45]/50">
+                    {product.blousePiece ? 'Includes Blouse' : 'Blouse Separate'}
+                  </p>
                 </div>
               </div>
             </div>
 
+            {/* Weaver Story Card */}
+            {product.weaverInfo && (
+              <motion.div
+                whileHover={{ scale: 1.01 }}
+                className="p-5 rounded-2xl border border-[#B43F3F]/10 bg-gradient-to-r from-[#B43F3F]/5 to-transparent space-y-3"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-[#173B45] text-[#F8EDED] rounded-full flex items-center justify-center font-display font-medium text-lg shadow-inner">
+                      {product.weaverInfo.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h4 className="font-display font-medium text-base text-[#173B45]">
+                        {product.weaverInfo.name}
+                      </h4>
+                      <p className="text-xs text-[#173B45]/60">
+                        {product.weaverInfo.location} • {product.weaverInfo.generation} Weaver
+                      </p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-1 text-[10px] font-semibold tracking-wider uppercase rounded-full bg-[#FF8225]/15 text-[#FF8225]">
+                    Heritage Master
+                  </span>
+                </div>
+                <p className="text-xs text-[#173B45]/80 leading-relaxed">
+                  {product.weaverInfo.story || `This saree was hand-guided on a traditional pit loom by ${product.weaverInfo.name}, preserving the heritage weave legacy of ${product.weaverInfo.location}.`}
+                </p>
+                <div className="pt-1 flex justify-end">
+                  <Link to={`/weavers/${encodeURIComponent(product.weaverInfo.name)}`} className="text-xs font-semibold text-[#B43F3F] hover:text-[#FF8225] transition-colors">
+                    Meet the Weaver →
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+
             {/* Quantity & Add to Cart */}
-            <div className="space-y-4 font-sans pt-2">
-              <div className="flex items-center gap-4">
-                <span className="text-xs font-semibold text-[#0D0B0A] uppercase tracking-wider">
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <span className="text-sm font-medium text-[#173B45]">
                   Quantity:
                 </span>
-                <div className="flex items-center border border-[#0D0B0A]/20 rounded-[2px] bg-white overflow-hidden">
-                  <button
+                <div className="flex items-center border border-[#173B45]/20 rounded-full w-full sm:w-auto bg-white">
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-[#0D0B0A]/5 transition-colors"
+                    className="w-12 h-12 flex items-center justify-center rounded-l-full hover:bg-[#F8EDED] transition-colors"
                     disabled={quantity <= 1}
                   >
-                    <Minus size={14} className={quantity <= 1 ? 'text-[#0D0B0A]/20' : 'text-[#0D0B0A]'} />
-                  </button>
-                  <span className="w-12 text-center font-medium text-[#0D0B0A]">
+                    <Minus size={16} className={quantity <= 1 ? 'text-[#173B45]/30' : 'text-[#173B45]'} />
+                  </motion.button>
+                  <span className="w-16 text-center font-medium text-lg text-[#173B45]">
                     {quantity}
                   </span>
-                  <button
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
                     onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-[#0D0B0A]/5 transition-colors"
+                    className="w-12 h-12 flex items-center justify-center rounded-r-full hover:bg-[#F8EDED] transition-colors"
                     disabled={quantity >= product.stock}
                   >
-                    <Plus size={14} className={quantity >= product.stock ? 'text-[#0D0B0A]/20' : 'text-[#0D0B0A]'} />
-                  </button>
+                    <Plus size={16} className={quantity >= product.stock ? 'text-[#173B45]/30' : 'text-[#173B45]'} />
+                  </motion.button>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleAddToCart}
                   disabled={product.stock === 0}
-                  className="group py-4 font-semibold text-xs tracking-widest uppercase rounded-[2px] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-white border border-[#0D0B0A] text-[#0D0B0A] hover:bg-[#0D0B0A] hover:text-[#F9F5EE]"
+                  className="group py-3 sm:py-4 font-medium rounded-xl hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-white border-2 border-[#B43F3F] text-[#B43F3F] hover:bg-[#B43F3F] hover:text-[#F8EDED]"
                 >
-                  <ShoppingBag size={14} />
-                  Add to Bag
+                  <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
+                  Add to Cart
                 </motion.button>
                 <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleBuyNow}
                   disabled={product.stock === 0}
-                  className="py-4 bg-[#0D0B0A] text-[#F9F5EE] border border-[#0D0B0A] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] hover:border-[#C9A84C] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                  className="py-3 sm:py-4 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Buy It Now
                 </motion.button>
@@ -1028,28 +998,28 @@ const ProductDetail: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="p-5 rounded-[4px] border border-[#0D0B0A]/10 bg-white"
+              className="p-5 sm:p-6 rounded-xl border border-[#B43F3F]/10 bg-white"
             >
-              <div className="flex items-center gap-2 mb-4 font-sans">
-                <MapPin className="w-4 h-4 text-[#C9A84C]" />
-                <h3 className="font-semibold text-xs tracking-wider text-[#0D0B0A] uppercase">
-                  Check Delivery Serviceability
+              <div className="flex items-center gap-2 mb-4">
+                <MapPin className="w-5 h-5 text-[#FF8225]" />
+                <h3 className="font-display font-medium text-lg text-[#173B45]">
+                  Check Delivery
                 </h3>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 font-sans">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   value={pincode}
                   onChange={(e) => setPincode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  placeholder="Enter 6-digit PIN code"
-                  className="flex-1 px-4 py-3 border border-[#0D0B0A]/20 rounded-[2px] focus:border-[#C9A84C] focus:ring-1 focus:ring-[#C9A84C] transition-all bg-white text-[#0D0B0A] placeholder-[#0D0B0A]/30 text-sm"
+                  placeholder="Enter PIN code"
+                  className="flex-1 px-4 py-3 border border-[#173B45]/20 rounded-xl focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all bg-white text-[#173B45] placeholder-[#173B45]/40"
                 />
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handlePincodeCheck}
-                  className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] transition-all"
+                  className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-all"
                 >
                   Check
                 </motion.button>
@@ -1061,23 +1031,23 @@ const ProductDetail: React.FC = () => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className={`mt-4 p-4 rounded-[2px] font-sans text-xs ${deliveryCheck.available
-                      ? 'bg-green-50/50 text-green-800 border border-green-200'
-                      : 'bg-orange-50/50 text-orange-850 border border-orange-200'
+                    className={`mt-4 p-4 rounded-xl ${deliveryCheck.available
+                      ? 'bg-green-50 text-green-700'
+                      : 'bg-orange-50 text-orange-700'
                       }`}
                   >
                     <div className="flex items-start gap-3">
-                      <Truck className="w-4 h-4 shrink-0 mt-0.5" />
+                      <Truck className="w-5 h-5 shrink-0 mt-0.5" />
                       <div>
                         {deliveryCheck.available ? (
                           <>
-                            <p className="font-semibold">Serviceable. Delivery estimated {deliveryCheck.date}.</p>
-                            <p className="text-[10px] opacity-80 mt-0.5">Free fully-insured shipping on orders above ₹5,000.</p>
+                            <p className="font-medium">Available! Get it by {deliveryCheck.date}</p>
+                            <p className="text-sm mt-1">Free shipping on orders above ₹5,000</p>
                           </>
                         ) : (
                           <>
-                            <p className="font-semibold">Delivery unavailable at this PIN code.</p>
-                            <p className="text-[10px] opacity-80 mt-0.5">Please contact concierge support for alternate options.</p>
+                            <p className="font-medium">Not available at this PIN code</p>
+                            <p className="text-sm mt-1">Try nearby areas or contact support</p>
                           </>
                         )}
                       </div>
@@ -1088,44 +1058,44 @@ const ProductDetail: React.FC = () => {
             </motion.div>
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-3 p-4 sm:p-5 rounded-[4px] border border-[#0D0B0A]/10 bg-white font-sans">
+            <div className="grid grid-cols-3 gap-3 p-4 sm:p-6 rounded-xl border border-[#B43F3F]/10 bg-white">
               <div className="text-center">
-                <Shield className="w-5 h-5 mx-auto mb-2 text-[#C9A84C]" />
-                <p className="text-[10px] font-semibold tracking-wider uppercase text-[#0D0B0A]">
-                  Certified Pure
+                <Shield className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-2 text-[#B43F3F]" />
+                <p className="text-[10px] sm:text-xs font-medium text-[#173B45]">
+                  Handloom Certified
                 </p>
               </div>
               <div className="text-center">
-                <Lock className="w-5 h-5 mx-auto mb-2 text-[#C9A84C]" />
-                <p className="text-[10px] font-semibold tracking-wider uppercase text-[#0D0B0A]">
-                  Secure Curation
+                <Lock className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-2 text-[#FF8225]" />
+                <p className="text-[10px] sm:text-xs font-medium text-[#173B45]">
+                  Secure Payments
                 </p>
               </div>
               <div className="text-center">
-                <Users className="w-5 h-5 mx-auto mb-2 text-[#C9A84C]" />
-                <p className="text-[10px] font-semibold tracking-wider uppercase text-[#0D0B0A]">
+                <Users className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-2 text-[#173B45]" />
+                <p className="text-[10px] sm:text-xs font-medium text-[#173B45]">
                   Artisan Direct
                 </p>
               </div>
             </div>
 
-            {/* Concierge & Support Quick Actions */}
-            <div className="grid grid-cols-2 gap-3 font-sans">
+            {/* Need Help */}
+            <div className="grid grid-cols-2 gap-3">
               <motion.button
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                className="flex items-center justify-center gap-2 py-3 border border-[#0D0B0A]/10 rounded-[2px] text-[#0D0B0A] hover:border-[#C9A84C] hover:bg-[#C9A84C]/5 transition-all bg-white text-xs font-semibold tracking-wider uppercase"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center justify-center gap-2 py-3 border border-[#B43F3F]/10 rounded-xl text-[#173B45] hover:border-[#FF8225] hover:bg-[#FF8225]/5 transition-all bg-white"
               >
-                <MessageCircle className="w-4 h-4 text-[#C9A84C]" />
-                <span>Chat Concierge</span>
+                <MessageCircle className="w-4 h-4 text-[#FF8225]" />
+                <span className="text-xs sm:text-sm font-medium">Chat with Weaver</span>
               </motion.button>
               <motion.button
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                className="flex items-center justify-center gap-2 py-3 border border-[#0D0B0A]/10 rounded-[2px] text-[#0D0B0A] hover:border-[#0D0B0A] hover:bg-[#0D0B0A]/5 transition-all bg-white text-xs font-semibold tracking-wider uppercase"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center justify-center gap-2 py-3 border border-[#B43F3F]/10 rounded-xl text-[#173B45] hover:border-[#B43F3F] hover:bg-[#B43F3F]/5 transition-all bg-white"
               >
-                <RotateCcw className="w-4 h-4 text-[#C9A84C]" />
-                <span>7-Day Return Rule</span>
+                <RotateCcw className="w-4 h-4 text-[#B43F3F]" />
+                <span className="text-xs sm:text-sm font-medium">7-Day Returns</span>
               </motion.button>
             </div>
 
@@ -1139,30 +1109,30 @@ const ProductDetail: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-12 sm:mt-16 lg:mt-20 font-sans"
+          className="mt-12 sm:mt-16 lg:mt-20"
         >
           {/* Desktop Tabs */}
-          <div className="border-b border-[#0D0B0A]/10">
+          <div className="border-b border-[#B43F3F]/10">
             <div className="flex gap-8 overflow-x-auto pb-1">
               {[
                 { id: 'description', label: 'Description' },
                 { id: 'specifications', label: 'Specifications' },
                 { id: 'care', label: 'Care Instructions' },
-                { id: 'reviews', label: `Collector Notes (${product.numReviews})` }
+                { id: 'reviews', label: `Reviews (${product.numReviews})` }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`pb-4 px-2 font-medium text-sm transition-all duration-300 relative whitespace-nowrap ${activeTab === tab.id
-                    ? 'text-[#0D0B0A] font-semibold'
-                    : 'text-[#0D0B0A]/50 hover:text-[#0D0B0A]'
+                  className={`pb-4 px-2 font-medium transition-all duration-300 relative whitespace-nowrap ${activeTab === tab.id
+                    ? 'text-[#B43F3F]'
+                    : 'text-[#173B45]/60 hover:text-[#173B45]'
                     }`}
                 >
                   {tab.label}
                   {activeTab === tab.id && (
                     <motion.div
                       layoutId="activeTab"
-                      className="absolute bottom-0 left-0 w-full h-0.5 bg-[#C9A84C]"
+                      className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF8225]"
                     />
                   )}
                 </button>
@@ -1181,32 +1151,32 @@ const ProductDetail: React.FC = () => {
               >
                 {activeTab === 'description' && (
                   <div className="prose max-w-none">
-                    <p className="leading-relaxed text-sm sm:text-base text-[#0D0B0A]/85 font-serif">
+                    <p className="leading-relaxed text-base sm:text-lg text-[#173B45]/80">
                       {product.description}
                     </p>
                     {product.tags && product.tags.length > 0 && (
                       <div className="mt-6 flex flex-wrap gap-2">
                         {product.tags.map(tag => (
-                          <span key={tag} className="px-3 py-1 bg-[#0D0B0A]/5 text-[#0D0B0A]/85 text-xs rounded-[2px] font-sans font-medium">
+                          <span key={tag} className="px-3 py-1 bg-[#F8EDED] text-[#173B45] text-xs rounded-full">
                             #{tag}
                           </span>
                         ))}
                       </div>
                     )}
                     <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="p-6 rounded-[4px] bg-white border border-[#0D0B0A]/10">
-                        <h4 className="font-display font-medium text-base mb-3 text-[#0D0B0A]">
+                      <div className="p-6 rounded-xl bg-white border border-[#B43F3F]/10">
+                        <h4 className="font-display font-medium mb-3 text-[#173B45]">
                           Weaving Technique
                         </h4>
-                        <p className="text-xs sm:text-sm text-[#0D0B0A]/70 leading-relaxed font-sans">
+                        <p className="text-sm text-[#173B45]/70">
                           Handwoven using traditional {product.weave} technique, passed down through generations of master weavers.
                         </p>
                       </div>
-                      <div className="p-6 rounded-[4px] bg-white border border-[#0D0B0A]/10">
-                        <h4 className="font-display font-medium text-base mb-3 text-[#0D0B0A]">
+                      <div className="p-6 rounded-xl bg-white border border-[#B43F3F]/10">
+                        <h4 className="font-display font-medium mb-3 text-[#173B45]">
                           Design Inspiration
                         </h4>
-                        <p className="text-xs sm:text-sm text-[#0D0B0A]/70 leading-relaxed font-sans">
+                        <p className="text-sm text-[#173B45]/70">
                           Inspired by ancient temple motifs and traditional patterns, each piece tells a unique story.
                         </p>
                       </div>
@@ -1215,12 +1185,12 @@ const ProductDetail: React.FC = () => {
                 )}
 
                 {activeTab === 'specifications' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-4">
-                      <h3 className="font-display font-medium text-lg text-[#0D0B0A]">
+                      <h3 className="font-display font-medium text-xl text-[#173B45]">
                         Product Details
                       </h3>
-                      <div className="space-y-3 font-sans">
+                      <div className="space-y-3">
                         {[
                           { label: 'Fabric', value: product.fabric },
                           { label: 'Weave Type', value: product.weave },
@@ -1233,19 +1203,19 @@ const ProductDetail: React.FC = () => {
                           { label: 'Weight', value: 'Approx. 450-500 gms' },
                           { label: 'Country', value: 'India (Odisha)' }
                         ].map((item, idx) => (
-                          <div key={idx} className="flex justify-between py-2 border-b border-[#0D0B0A]/10">
-                            <span className="text-[#0D0B0A]/60">
+                          <div key={idx} className="flex justify-between py-2 border-b border-[#B43F3F]/10">
+                            <span className="text-[#173B45]/60">
                               {item.label}
                             </span>
-                            <span className="font-semibold text-[#0D0B0A]">
+                            <span className="font-medium text-[#173B45]">
                               {item.value}
                             </span>
                           </div>
                         ))}
                       </div>
                     </div>
-                    <div className="space-y-4 font-sans">
-                      <h3 className="font-display font-medium text-lg text-[#0D0B0A]">
+                    <div className="space-y-4">
+                      <h3 className="font-display font-medium text-xl text-[#173B45]">
                         Shipping Info
                       </h3>
                       <div className="space-y-3">
@@ -1256,8 +1226,8 @@ const ProductDetail: React.FC = () => {
                           { icon: Shield, text: '100% authentic handloom guarantee' }
                         ].map((item, idx) => (
                           <div key={idx} className="flex items-start gap-3">
-                            <item.icon className="w-4 h-4 shrink-0 text-[#C9A84C] mt-0.5" />
-                            <span className="text-[#0D0B0A]/70 text-sm">
+                            <item.icon className="w-5 h-5 shrink-0 text-[#B43F3F]" />
+                            <span className="text-[#173B45]/70">
                               {item.text}
                             </span>
                           </div>
@@ -1268,16 +1238,16 @@ const ProductDetail: React.FC = () => {
                 )}
 
                 {activeTab === 'care' && (
-                  <div className="max-w-3xl font-sans">
-                    <div className="p-8 rounded-[4px] border border-[#0D0B0A]/10 bg-white">
-                      <h3 className="font-display font-medium text-lg mb-6 flex items-center gap-2 text-[#0D0B0A]">
-                        <Leaf className="w-5 h-5 text-[#C9A84C]" />
+                  <div className="max-w-3xl">
+                    <div className="p-8 rounded-2xl border border-[#B43F3F]/10 bg-white">
+                      <h3 className="font-display font-medium text-xl mb-6 flex items-center gap-2 text-[#173B45]">
+                        <Leaf className="w-6 h-6 text-green-600" />
                         Care Instructions
                       </h3>
-                      <p className="mb-6 text-sm text-[#0D0B0A]/80 leading-relaxed font-sans">
+                      <p className="mb-6 text-[#173B45]/80">
                         {product.careInstructions || 'Dry clean only for first wash. Store in muslin cloth. Keep away from direct sunlight.'}
                       </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-sans">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {[
                           'Dry clean only for first wash',
                           'Store in muslin cloth',
@@ -1287,8 +1257,8 @@ const ProductDetail: React.FC = () => {
                           'Use neem leaves to prevent pests'
                         ].map((tip, idx) => (
                           <div key={idx} className="flex items-start gap-2">
-                            <Check className="w-4 h-4 text-[#C9A84C] shrink-0 mt-0.5" />
-                            <span className="text-[#0D0B0A]/70">
+                            <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                            <span className="text-sm text-[#173B45]/70">
                               {tip}
                             </span>
                           </div>
@@ -1299,24 +1269,24 @@ const ProductDetail: React.FC = () => {
                 )}
 
                 {activeTab === 'reviews' && (
-                  <div className="space-y-8 font-sans">
+                  <div className="space-y-8">
                     {/* Rating Summary */}
                     <div className="flex flex-col sm:flex-row items-start gap-8">
                       <div className="text-center sm:text-left">
-                        <div className="text-5xl sm:text-6xl font-display font-semibold text-[#0D0B0A]">
+                        <div className="text-5xl sm:text-6xl font-display font-medium text-[#B43F3F]">
                           {product.ratings.toFixed(1)}
                         </div>
                         <div className="flex items-center gap-1 mt-2 justify-center sm:justify-start">
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} size={16} className={
                               i < Math.floor(product.ratings)
-                                ? 'text-[#C9A84C] fill-current'
-                                : 'text-[#0D0B0A]/15'
+                                ? 'text-[#FF8225] fill-current'
+                                : 'text-[#173B45]/20'
                             } />
                           ))}
                         </div>
-                        <p className="text-xs mt-2 text-[#0D0B0A]/60">
-                          Based on {product.numReviews} collector notes
+                        <p className="text-sm mt-2 text-[#173B45]/60">
+                          Based on {product.numReviews} reviews
                         </p>
                       </div>
 
@@ -1325,16 +1295,16 @@ const ProductDetail: React.FC = () => {
                           const percentage = Math.floor(Math.random() * 100);
                           return (
                             <div key={rating} className="flex items-center gap-3 mb-2">
-                              <span className="text-xs w-8 text-[#0D0B0A]/60">
+                              <span className="text-sm w-8 text-[#173B45]/70">
                                 {rating} ★
                               </span>
-                              <div className="flex-1 h-2 rounded-[2px] overflow-hidden bg-[#0D0B0A]/5">
+                              <div className="flex-1 h-2 rounded-full overflow-hidden bg-[#F8EDED]">
                                 <div
-                                  className="h-full bg-gradient-to-r from-[#0D0B0A] to-[#C9A84C]"
+                                  className="h-full bg-gradient-to-r from-[#B43F3F] to-[#FF8225]"
                                   style={{ width: `${percentage}%` }}
                                 />
                               </div>
-                              <span className="text-xs text-[#0D0B0A]/50 w-8 text-right">
+                              <span className="text-sm text-[#173B45]/60">
                                 {percentage}%
                               </span>
                             </div>
@@ -1347,16 +1317,16 @@ const ProductDetail: React.FC = () => {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => setShowReviewForm(!showReviewForm)}
-                          className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] transition-all whitespace-nowrap"
+                          className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-xl hover:bg-[#FF8225] transition-all whitespace-nowrap"
                         >
-                          {showReviewForm ? 'Cancel Note' : 'Add Collector Note'}
+                          {showReviewForm ? 'Cancel Review' : 'Write a Review'}
                         </motion.button>
                       ) : (
                         <Link
                           to="/auth"
-                          className="px-6 py-3 border border-[#0D0B0A] text-[#0D0B0A] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#0D0B0A] hover:text-[#F9F5EE] transition-all whitespace-nowrap"
+                          className="px-6 py-3 border-2 border-[#B43F3F] text-[#B43F3F] rounded-xl hover:bg-[#B43F3F] hover:text-[#F8EDED] transition-all whitespace-nowrap"
                         >
-                          Sign in to write a Note
+                          Login to Review
                         </Link>
                       )}
                     </div>
@@ -1368,25 +1338,25 @@ const ProductDetail: React.FC = () => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           onSubmit={handleReviewSubmit}
-                          className="bg-white p-6 rounded-[4px] border border-[#0D0B0A]/10 space-y-4"
+                          className="bg-[#F8EDED]/30 p-6 rounded-2xl border border-[#B43F3F]/10 space-y-4"
                         >
-                          <h4 className="font-display font-medium text-lg text-[#0D0B0A]">
-                            Share Your Collector Experience
+                          <h4 className="font-display font-medium text-lg text-[#173B45]">
+                            Share Your Experience
                           </h4>
                           {reviewError && (
-                            <div className="p-3 bg-red-50 text-red-700 border border-red-200 rounded-[2px] text-xs">
+                            <div className="p-3 bg-red-50 text-red-600 rounded-xl text-sm">
                               {reviewError}
                             </div>
                           )}
                           {reviewSuccess && (
-                            <div className="p-3 bg-green-50 text-green-700 border border-green-200 rounded-[2px] text-xs">
-                              Thank you! Your note has been submitted for heritage curation.
+                            <div className="p-3 bg-green-50 text-green-600 rounded-xl text-sm">
+                              Thank you! Your review has been submitted and is pending verification.
                             </div>
                           )}
                           
                           <div className="space-y-2">
-                            <label className="text-xs font-semibold tracking-wider uppercase text-[#0D0B0A] block">
-                              Collector Rating
+                            <label className="text-sm font-medium text-[#173B45] block">
+                              Rating
                             </label>
                             <div className="flex gap-1">
                               {[1, 2, 3, 4, 5].map((star) => (
@@ -1394,11 +1364,11 @@ const ProductDetail: React.FC = () => {
                                   type="button"
                                   key={star}
                                   onClick={() => setNewRating(star)}
-                                  className="text-[#C9A84C]"
+                                  className="text-[#FF8225]"
                                 >
                                   <Star
                                     size={24}
-                                    fill={star <= newRating ? '#C9A84C' : 'none'}
+                                    fill={star <= newRating ? '#FF8225' : 'none'}
                                   />
                                 </button>
                               ))}
@@ -1406,31 +1376,31 @@ const ProductDetail: React.FC = () => {
                           </div>
 
                           <div className="space-y-2">
-                            <label htmlFor="review-title" className="text-xs font-semibold tracking-wider uppercase text-[#0D0B0A] block">
-                              Note Summary
+                            <label htmlFor="review-title" className="text-sm font-medium text-[#173B45] block">
+                              Review Title
                             </label>
                             <input
                               id="review-title"
                               type="text"
                               value={newTitle}
                               onChange={(e) => setNewTitle(e.target.value)}
-                              placeholder="e.g. Magnificent Drape and Luster"
-                              className="w-full px-4 py-2 text-sm border border-[#0D0B0A]/20 rounded-[2px] bg-white text-[#0D0B0A]"
+                              placeholder="Summarize your experience"
+                              className="w-full px-4 py-2 border border-[#173B45]/20 rounded-xl bg-white text-[#173B45]"
                             />
                           </div>
 
                           <div className="space-y-2">
-                            <label htmlFor="review-comment" className="text-xs font-semibold tracking-wider uppercase text-[#0D0B0A] block">
-                              Note Details *
+                            <label htmlFor="review-comment" className="text-sm font-medium text-[#173B45] block">
+                              Review Content *
                             </label>
                             <textarea
                               id="review-comment"
                               rows={4}
                               value={newComment}
                               onChange={(e) => setNewComment(e.target.value)}
-                              placeholder="How is the texture, the weight, the weaving detail, and the drape?"
+                              placeholder="What did you love? How was the texture, fabric, and drape?"
                               required
-                              className="w-full px-4 py-2 text-sm border border-[#0D0B0A]/20 rounded-[2px] bg-white text-[#0D0B0A]"
+                              className="w-full px-4 py-2 border border-[#173B45]/20 rounded-xl bg-white text-[#173B45]"
                             />
                           </div>
 
@@ -1438,14 +1408,14 @@ const ProductDetail: React.FC = () => {
                             <button
                               type="submit"
                               disabled={submittingReview}
-                              className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] transition-colors disabled:opacity-50"
+                              className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-colors disabled:opacity-50"
                             >
-                              {submittingReview ? 'Submitting...' : 'Submit Note'}
+                              {submittingReview ? 'Submitting...' : 'Submit Review'}
                             </button>
                             <button
                               type="button"
                               onClick={() => setShowReviewForm(false)}
-                              className="px-6 py-3 border border-[#0D0B0A]/20 text-[#0D0B0A] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-white hover:text-[#0D0B0A] transition-all"
+                              className="px-6 py-3 border border-[#173B45]/20 text-[#173B45] font-medium rounded-xl hover:bg-white hover:text-[#B43F3F] transition-all"
                             >
                               Cancel
                             </button>
@@ -1454,13 +1424,13 @@ const ProductDetail: React.FC = () => {
                       )}
                     </AnimatePresence>
 
-                    {/* Collector Notes List */}
+                    {/* Customer Reviews */}
                     {loadingReviews ? (
                       <div className="flex justify-center py-12">
                         <div className="relative">
-                          <div className="w-10 h-10 border-2 border-[#0D0B0A] border-t-transparent rounded-full animate-spin"></div>
+                          <div className="w-10 h-10 border-4 border-[#B43F3F] border-t-transparent rounded-full animate-spin"></div>
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full"></div>
+                            <div className="w-2 h-2 bg-[#FF8225] rounded-full"></div>
                           </div>
                         </div>
                       </div>
@@ -1472,33 +1442,33 @@ const ProductDetail: React.FC = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.1 }}
-                            className="border border-[#0D0B0A]/10 rounded-[4px] p-6 hover:shadow-md transition-all bg-white"
+                            className="border border-[#B43F3F]/10 rounded-2xl p-6 hover:shadow-lg transition-all bg-white"
                           >
                             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
                               <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 bg-[#0D0B0A] rounded-full flex items-center justify-center text-[#F9F5EE] font-medium text-sm">
+                                <div className="w-10 h-10 bg-[#173B45] rounded-full flex items-center justify-center text-[#F8EDED] font-medium">
                                   {review.user.name.charAt(0)}
                                 </div>
                                 <div>
-                                  <p className="font-semibold text-sm text-[#0D0B0A]">
+                                  <p className="font-medium text-[#173B45]">
                                     {review.user.name}
                                   </p>
-                                  <div className="flex flex-wrap items-center gap-2 text-xs">
+                                  <div className="flex flex-wrap items-center gap-2 text-sm">
                                     <div className="flex">
                                       {[...Array(5)].map((_, i) => (
                                         <Star key={i} size={12} className={
                                           i < review.rating
-                                            ? 'text-[#C9A84C] fill-current'
-                                            : 'text-[#0D0B0A]/10'
+                                            ? 'text-[#FF8225] fill-current'
+                                            : 'text-[#173B45]/20'
                                         } />
                                       ))}
                                     </div>
-                                    <span className="text-[10px] text-[#0D0B0A]/50 font-medium">
+                                    <span className="text-xs text-[#173B45]/60">
                                       {formatDate(review.createdAt)}
                                     </span>
                                     {review.isVerifiedPurchase && (
-                                      <span className="text-[9px] bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20 px-2 py-0.5 rounded-[2px] uppercase font-semibold">
-                                        Verified Collector
+                                      <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                                        Verified Purchase
                                       </span>
                                     )}
                                   </div>
@@ -1507,27 +1477,27 @@ const ProductDetail: React.FC = () => {
                             </div>
 
                             {review.title && (
-                              <h4 className="font-semibold text-sm text-[#0D0B0A] mb-2">{review.title}</h4>
+                              <h4 className="font-medium text-[#173B45] mb-2">{review.title}</h4>
                             )}
 
-                            <p className="mb-4 text-xs sm:text-sm text-[#0D0B0A]/70 leading-relaxed font-sans">
+                            <p className="mb-4 text-[#173B45]/70">
                               {review.comment}
                             </p>
 
                             {review.images && review.images.length > 0 && (
                               <div className="flex gap-2 mb-4">
                                 {review.images.map((img, imgIdx) => (
-                                  <img key={imgIdx} src={img.url} alt="Collector Note Detail" className="w-16 h-16 object-cover rounded-[2px] cursor-pointer hover:opacity-80 transition-opacity" />
+                                  <img key={imgIdx} src={img.url} alt="Review" className="w-16 h-16 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity" />
                                 ))}
                               </div>
                             )}
 
-                            <div className="flex items-center gap-4 text-xs font-sans">
-                              <button className="flex items-center gap-1 text-[#0D0B0A]/60 hover:text-[#C9A84C] transition-colors font-medium">
-                                <ThumbsUp size={12} />
+                            <div className="flex items-center gap-4">
+                              <button className="flex items-center gap-1 text-sm text-[#173B45]/60 hover:text-[#B43F3F] transition-colors">
+                                <ThumbsUp size={14} />
                                 <span>Helpful ({review.helpful?.length || 0})</span>
                               </button>
-                              <button className="text-[#0D0B0A]/60 hover:text-[#C9A84C] transition-colors font-medium">
+                              <button className="text-sm text-[#173B45]/60 hover:text-[#B43F3F] transition-colors">
                                 Report
                               </button>
                             </div>
@@ -1535,8 +1505,8 @@ const ProductDetail: React.FC = () => {
                         ))}
                       </div>
                     ) : (
-                      <div className="text-center py-12 bg-white rounded-[4px] border border-[#0D0B0A]/10">
-                        <p className="text-[#0D0B0A]/60 text-sm">No notes available yet. Be the first to share your notes on this piece!</p>
+                      <div className="text-center py-12 bg-white rounded-2xl border border-[#B43F3F]/10">
+                        <p className="text-[#173B45]/60">No reviews yet. Be the first to review this product!</p>
                       </div>
                     )}
 
@@ -1548,9 +1518,9 @@ const ProductDetail: React.FC = () => {
                           whileTap={{ scale: 0.98 }}
                           onClick={handleLoadMoreReviews}
                           disabled={loadingReviews}
-                          className="px-8 py-3 border border-[#0D0B0A] text-[#0D0B0A] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#0D0B0A] hover:text-[#F9F5EE] transition-all disabled:opacity-50"
+                          className="px-8 py-3 border-2 border-[#B43F3F] text-[#B43F3F] font-medium rounded-xl hover:bg-[#B43F3F] hover:text-[#F8EDED] transition-all disabled:opacity-50"
                         >
-                          {loadingReviews ? 'Loading...' : 'Load More Notes'}
+                          {loadingReviews ? 'Loading...' : 'Load More Reviews'}
                         </motion.button>
                       </div>
                     )}
@@ -1561,17 +1531,17 @@ const ProductDetail: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* Complete The Heritage Collection */}
+        {/* You May Also Like */}
         {relatedProducts.length > 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="mt-12 sm:mt-16 lg:mt-20 font-sans"
+            className="mt-12 sm:mt-16 lg:mt-20"
           >
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-display font-medium mb-4 sm:mb-6 lg:mb-8 flex items-center gap-2 text-[#0D0B0A]">
-              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-[#C9A84C]" />
-              Complete The Heritage Collection
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-display font-medium mb-4 sm:mb-6 lg:mb-8 flex items-center gap-2 text-[#173B45]">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF8225]" />
+              You May Also Like
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
@@ -1583,41 +1553,38 @@ const ProductDetail: React.FC = () => {
                   transition={{ delay: 0.7 + idx * 0.1 }}
                 >
                   <Link to={`/product/${product._id}`} className="group block">
-                    <div className="rounded-[4px] overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 border border-[#0D0B0A]/10 bg-white">
+                    <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-[#B43F3F]/10 bg-white">
                       <div className="relative aspect-[3/4] overflow-hidden">
                         <img
                           src={product.images[0]?.url}
                           alt={product.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         />
                         {product.isBestSeller && (
-                          <div className="absolute top-2 left-2 px-2 py-1 bg-[#0D0B0A] text-[#F9F5EE] text-[9px] font-semibold tracking-widest uppercase rounded-[2px] border border-[#C9A84C]/30 z-10">
-                            ARCHIVED
+                          <div className="absolute top-2 left-2 px-2 py-1 bg-[#B43F3F] text-[#F8EDED] text-[10px] font-medium rounded-full">
+                            Best Seller
                           </div>
                         )}
                       </div>
-                      <div className="p-3 sm:p-4">
-                        <div className="text-[10px] font-bold tracking-widest text-[#C9A84C] uppercase mb-1">
-                          {product.weave}
-                        </div>
-                        <h3 className="font-serif text-sm group-hover:text-[#C9A84C] transition-colors line-clamp-2 mb-2 text-[#0D0B0A] min-h-[40px]">
+                      <div className="p-2 sm:p-3 lg:p-4">
+                        <h3 className="font-medium text-xs sm:text-sm lg:text-base group-hover:text-[#B43F3F] transition-colors line-clamp-2 mb-1 sm:mb-2 text-[#173B45]">
                           {product.name}
                         </h3>
-                        <div className="flex items-center gap-1 mb-2">
-                          <Star size={10} className="text-[#C9A84C] fill-current" />
-                          <span className="text-xs font-semibold text-[#0D0B0A]">
+                        <div className="flex items-center gap-1 mb-1 sm:mb-2">
+                          <Star size={10} className="text-[#FF8225] fill-current" />
+                          <span className="text-xs sm:text-sm font-medium text-[#173B45]">
                             {product.ratings.toFixed(1)}
                           </span>
-                          <span className="text-[10px] text-[#0D0B0A]/50">
+                          <span className="text-[10px] sm:text-xs text-[#173B45]/60">
                             ({product.numReviews})
                           </span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-semibold text-[#0D0B0A]">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <span className="text-sm sm:text-base lg:text-lg font-medium text-[#B43F3F]">
                             ₹{product.price.toLocaleString()}
                           </span>
                           {product.originalPrice && (
-                            <span className="text-[10px] line-through text-[#0D0B0A]/40 font-medium">
+                            <span className="text-[10px] sm:text-xs line-through text-[#173B45]/40">
                               ₹{product.originalPrice.toLocaleString()}
                             </span>
                           )}
@@ -1639,32 +1606,34 @@ const ProductDetail: React.FC = () => {
             initial={{ y: 100 }}
             animate={{ y: 0 }}
             exit={{ y: 100 }}
-            className="fixed bottom-0 left-0 right-0 p-4 border-t border-[#0D0B0A]/10 z-40 bg-white shadow-lg font-sans"
+            className="fixed bottom-0 left-0 right-0 p-4 border-t border-[#B43F3F]/10 z-40 bg-white shadow-lg"
           >
             <div className="flex items-center justify-between gap-4">
               <div>
-                <span className="text-lg font-bold text-[#0D0B0A]">
+                <span className="text-lg font-medium text-[#B43F3F]">
                   ₹{product.price.toLocaleString()}
                 </span>
-                <p className="text-[9px] text-[#0D0B0A]/60 tracking-wider uppercase font-semibold">
-                  Handwoven • Secure Delivery
-                </p>
+                {product.originalPrice && (
+                  <span className="text-sm line-through ml-2 text-[#173B45]/40">
+                    ₹{product.originalPrice.toLocaleString()}
+                  </span>
+                )}
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => toggleWishlist(product._id)}
-                  className={`p-3 rounded-[2px] transition-all border ${isWishlisted
-                    ? 'bg-[#0D0B0A] border-[#0D0B0A] text-[#F9F5EE]'
-                    : 'bg-[#F9F5EE] border-[#0D0B0A]/20 text-[#0D0B0A]'
+                  className={`p-3 rounded-full transition-all ${isWishlisted
+                    ? 'bg-[#B43F3F] text-[#F8EDED]'
+                    : 'bg-[#F8EDED] text-[#173B45]'
                     }`}
                 >
                   <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} />
                 </button>
                 <button
                   onClick={handleAddToCart}
-                  className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] font-semibold text-xs tracking-widest uppercase rounded-[2px] hover:bg-[#C9A84C] transition-all"
+                  className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-full hover:bg-[#FF8225] transition-all"
                 >
-                  Add to Bag
+                  Add to Cart
                 </button>
               </div>
             </div>
