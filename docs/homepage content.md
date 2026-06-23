@@ -185,15 +185,17 @@ This document serves as the absolute visual and code structure map for the **TAN
 *   **Filename**: `frontend/pages/sections/TrustSignals.tsx`
 *   **UI/Design Description**:
     *   Deep warm charcoal background (`#0f0a06`).
-    *   3-column card grid containing multimedia content.
+    *   3-column card grid containing multimedia content with subtle `2px` rounded borders.
 *   **Content**:
-    *   *Loom Process Card*: Loops `/saree quality 2.mp4`.
-    *   *Customer Stories Card*: Shows customer photo mocks.
-    *   *Premium Packaging Card*: Illustrates sustainable boxed wrapping.
+    *   Headline: *"The Story Behind Every Saree"* (Subheading: *"Worn Across Generations"*)
+    *   Teaser Panels:
+        1. *The Loom Journey* (video loop of `/saree quality 2.mp4` showing raw dye processing)
+        2. *The Weaver Stories* (meet the artisan families)
+        3. *Authenticity Promise* (verifiable credentials and certification checks)
 *   **Interactions**:
-    *   Hovering over the Loom Process card starts auto-playing the video.
-    *   Clicking on cards reveals custom play/pause overlays.
-    *   Features a bottom row of four micro-verification badges (Authenticity, Free Shipping, 24/7 Support, Handcrafted with Love).
+    *   Hovering over cards scales background assets and launches the video loops.
+    *   Play button replaced with a highly editorial `WATCH STORY` text action.
+    *   Features a bottom row of four micro-verification badges (Authenticity Guaranteed, Free Shipping Worldwide, 24/7 Customer Support, Handcrafted with Love).
 
 ---
 

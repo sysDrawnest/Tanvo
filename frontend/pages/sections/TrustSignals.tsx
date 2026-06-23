@@ -5,30 +5,30 @@ import { Play, Star, Box, Image as ImageIcon, Pause, Shield, Truck, Users, Award
 const trustSections = [
     {
         icon: Play,
-        title: 'Loom Process',
-        desc: 'Watch our master weavers bring threads to life in the traditional handloom process, preserving centuries-old techniques passed down through generations.',
-        badge: 'Behind the Scenes',
+        title: 'The Loom Journey',
+        desc: 'Follow the making of a TANVO saree — from silk threads and natural dyes to the hands of Odisha master weavers.',
+        badge: 'Behind The Craft',
         videoSrc: '/saree quality 2.mp4',
-        stats: 'Since 1952',
+        stats: 'Handwoven Heritage',
         color: '#C9A84C'
     },
     {
-        icon: ImageIcon,
-        title: 'Customer Stories',
-        desc: 'Real photos from our TANVO family worldwide celebrating heritage, culture, and the timeless beauty of handcrafted sarees.',
-        badge: '5K+ Happy Customers',
-        img: 'https://images.unsplash.com/photo-1610030469668-935142b9cdd0?w=800',
-        stats: 'Worldwide',
-        color: '#B8860B'
+        icon: Users,
+        title: 'The Weaver Stories',
+        desc: 'Meet the artisans, families, and generations preserving Odisha’s timeless weaving traditions.',
+        badge: 'Meet The Makers',
+        img: '/weaver-story.png',
+        stats: 'Generations Of Craft',
+        color: '#C9A84C'
     },
     {
-        icon: Box,
-        title: 'Premium Packaging',
-        desc: 'Every saree is packed with love in eco-friendly, heritage-inspired packaging that tells a story before you even open it.',
-        badge: 'Eco-Friendly',
-        img: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800',
-        stats: '100% Recyclable',
-        color: '#DAA520'
+        icon: Shield,
+        title: 'Authenticity Promise',
+        desc: 'Every creation carries details about its weave, origin, fabric, and craftsmanship.',
+        badge: 'Certified Heritage',
+        img: '/certificate.png',
+        stats: 'Craft You Can Trust',
+        color: '#C9A84C'
     }
 ];
 
@@ -78,7 +78,7 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
             style={{
                 position: 'relative',
                 overflow: 'hidden',
-                borderRadius: '0px',
+                borderRadius: '2px',
                 cursor: 'pointer',
                 height: '480px',
                 boxShadow: '0 20px 40px -12px rgba(0,0,0,0.3)',
@@ -185,7 +185,7 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
                             textTransform: 'uppercase',
                             marginBottom: 20,
                             width: 'fit-content',
-                            borderRadius: '0px',
+                            borderRadius: '2px',
                         }}
                     >
                         <span>✦</span>
@@ -198,7 +198,7 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 + 0.3 }}
                         style={{
-                            fontFamily: 'Cormorant Garamond, serif',
+                            fontFamily: "'Playfair Display', serif",
                             fontSize: '32px',
                             fontWeight: 500,
                             color: '#FFFFFF',
@@ -216,7 +216,7 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 + 0.4 }}
                         style={{
-                            fontFamily: 'Montserrat, sans-serif',
+                            fontFamily: "'Raleway', sans-serif",
                             fontSize: '13px',
                             color: 'rgba(255,255,255,0.75)',
                             lineHeight: 1.6,
@@ -249,15 +249,22 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
                         </motion.div>
                     )}
 
-                    {/* Play Button */}
+                    {/* Editorial Play Button */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 + 0.6 }}
                         style={{
-                            width: 52,
-                            height: 52,
-                            borderRadius: '0px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        <div style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: '2px',
                             border: `1.5px solid ${item.color}`,
                             display: 'flex',
                             alignItems: 'center',
@@ -266,36 +273,19 @@ const TrustCard: React.FC<{ item: any, idx: number }> = ({ item, idx }) => {
                             background: (isHovered || isPlaying) ? item.color : 'rgba(0,0,0,0.3)',
                             backdropFilter: 'blur(8px)',
                             transition: 'all 0.3s ease',
-                        }}
-                        whileHover={{
-                            scale: 1.1,
-                            background: item.color,
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <AnimatePresence mode="wait">
-                            {isPlaying ? (
-                                <motion.div
-                                    key="pause"
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.5 }}
-                                    transition={{ duration: 0.15 }}
-                                >
-                                    <Pause size={20} fill="white" />
-                                </motion.div>
-                            ) : (
-                                <motion.div
-                                    key="play"
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.5 }}
-                                    transition={{ duration: 0.15 }}
-                                >
-                                    <item.icon size={20} fill="white" />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                        }}>
+                            {isPlaying ? <Pause size={14} fill="white" /> : <item.icon size={14} fill="white" />}
+                        </div>
+                        <span style={{
+                            fontFamily: "'Raleway', sans-serif",
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            letterSpacing: '0.2em',
+                            color: '#FFFFFF',
+                            textTransform: 'uppercase',
+                        }}>
+                            {isPlaying ? 'PAUSE STORY' : 'WATCH STORY'}
+                        </span>
                     </motion.div>
                 </motion.div>
             </div>
@@ -356,28 +346,28 @@ const TrustSignals: React.FC = () => {
                                 marginBottom: 16,
                             }}
                         >
-                            Building Confidence
+                            Worn Across Generations
                         </motion.p>
                         <motion.h2
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             transition={{ delay: 0.2 }}
                             style={{
-                                fontFamily: 'Cormorant Garamond, serif',
+                                fontFamily: "'Playfair Display', serif",
                                 fontSize: 'clamp(40px, 6vw, 64px)',
                                 fontWeight: 400,
                                 color: '#FFFFFF',
                                 lineHeight: 1.1,
                             }}
                         >
-                            Transparency in{' '}
+                            The Story Behind{' '}
                             <span style={{
                                 color: '#C9A84C',
                                 fontStyle: 'italic',
                                 position: 'relative',
                                 display: 'inline-block',
                             }}>
-                                Every Thread
+                                Every Saree
                                 <span style={{
                                     position: 'absolute',
                                     bottom: 8,
@@ -398,7 +388,7 @@ const TrustSignals: React.FC = () => {
                         style={{
                             color: 'rgba(255,255,255,0.6)',
                             maxWidth: 420,
-                            fontFamily: 'Montserrat, sans-serif',
+                            fontFamily: "'Raleway', sans-serif",
                             fontSize: '14px',
                             lineHeight: 1.7,
                         }}
@@ -454,14 +444,14 @@ const TrustSignals: React.FC = () => {
                                 color: 'rgba(255,255,255,0.7)',
                                 fontSize: '13px',
                                 fontWeight: 500,
-                                fontFamily: 'Montserrat, sans-serif',
+                                fontFamily: "'Raleway', sans-serif",
                                 letterSpacing: '0.5px',
                             }}
                         >
                             <div style={{
                                 width: 36,
                                 height: 36,
-                                borderRadius: '0px',
+                                borderRadius: '2px',
                                 background: 'rgba(201, 168, 76, 0.1)',
                                 display: 'flex',
                                 alignItems: 'center',
