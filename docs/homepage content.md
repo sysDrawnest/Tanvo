@@ -197,16 +197,22 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 15. Journal Hint (From The Journal)
+### 15. Journal Hint (The TANVO Chronicles)
 *   **Filename**: `frontend/pages/sections/JournalHint.tsx`
 *   **UI/Design Description**:
-    *   Split editorial layout on warm ivory (`#F9F5EE`) background.
-    *   Left side showcases large high-fashion serif typography with ample breathing whitespace.
-    *   Right side showcases a high-aspect ratio vertical photo of a weaver.
+    *   Magazine-inspired split layout on a solid ink backdrop (`#0D0B0A`).
+    *   *Left Column*: Immersive masthead block showing the issue tags, title, sub-summary, and CTA button.
+    *   *Right Column*: Teaser index showcasing three active article rows separated by thin gold rules.
+    *   Features a delicate gold crosshatch textile grid overlay (`#C9A84C`) at `0.04` opacity.
 *   **Content**:
-    *   Headline: *"The Stories Behind The Weave"*
-    *   Description: *"Explore the lives of master artisans, ancient weaving traditions, and the cultural heritage preserved through every handcrafted piece."*
-    *   CTA Link: "Explore Journal" with a sliding hover arrow.
+    *   Headline: *"The real stories behind our brand"*
+    *   Teasers:
+        1. *Craft*: "The mathematics of the loom" (Sambalpuri resist pattern geometry)
+        2. *Heritage*: "Seven hundred years of silk" (historical court lineages)
+        3. *Process*: "Why a single saree takes three weeks" (time investment breakdowns)
+*   **Interactions**:
+    *   Uses native `IntersectionObserver` to trigger clean scroll entry animations: left column fades up, right column articles slide in with staggered delays (400ms, 520ms, 640ms).
+    *   Hovering on any article row triggers a sliding red (`#780000`) arrow button that glides in smoothly from the left.
 
 ---
 
