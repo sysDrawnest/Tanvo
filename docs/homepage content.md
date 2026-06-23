@@ -197,13 +197,16 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 15. Journal Hint
+### 15. Journal Hint (From The Journal)
 *   **Filename**: `frontend/pages/sections/JournalHint.tsx`
 *   **UI/Design Description**:
-    *   Clean white backdrop with centered, minimalist layout.
+    *   Split editorial layout on warm ivory (`#F9F5EE`) background.
+    *   Left side showcases large high-fashion serif typography with ample breathing whitespace.
+    *   Right side showcases a high-aspect ratio vertical photo of a weaver.
 *   **Content**:
-    *   Headline: *"Recommended Reading: The Real Stories Behind Our Brand"*
-    *   CTA Link: "Explore the Chronicles"
+    *   Headline: *"The Stories Behind The Weave"*
+    *   Description: *"Explore the lives of master artisans, ancient weaving traditions, and the cultural heritage preserved through every handcrafted piece."*
+    *   CTA Link: "Explore Journal" with a sliding hover arrow.
 
 ---
 
