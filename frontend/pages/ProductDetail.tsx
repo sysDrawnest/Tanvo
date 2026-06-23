@@ -545,12 +545,12 @@ const ProductDetail: React.FC = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="space-y-4"
+            className="space-y-4 lg:sticky lg:top-32 lg:self-start"
           >
             {/* Main Image */}
             <div
               {...swipeHandlers}
-              className="relative aspect-[4/5] bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden group cursor-zoom-in border border-[#B43F3F]/10"
+              className="relative aspect-[4/5] bg-white rounded-sm overflow-hidden group cursor-zoom-in border border-[#B43F3F]/10"
               onClick={() => setIsFullscreenGallery(true)}
             >
               <motion.img
@@ -570,9 +570,9 @@ const ProductDetail: React.FC = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 500, delay: 0.2 }}
-                    className="px-3 py-1.5 bg-[#B43F3F] text-[#F8EDED] text-xs font-medium rounded-full shadow-lg"
+                    className="px-3 py-1.5 bg-[#173B45] text-[#F8EDED] text-[10px] sm:text-xs font-semibold tracking-wider rounded-sm shadow-sm border border-[#173B45]"
                   >
-                    Best Seller
+                    LIMITED PIECE
                   </motion.span>
                 )}
                 {product.originalPrice && (
@@ -580,9 +580,9 @@ const ProductDetail: React.FC = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 500, delay: 0.3 }}
-                    className="px-3 py-1.5 bg-[#FF8225] text-[#F8EDED] text-xs font-medium rounded-full shadow-lg"
+                    className="px-3 py-1.5 bg-[#B43F3F] text-[#F8EDED] text-[10px] sm:text-xs font-semibold tracking-wider rounded-sm shadow-sm"
                   >
-                    {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                    HANDWOVEN
                   </motion.span>
                 )}
                 {product.isNewArrival && (
@@ -590,9 +590,9 @@ const ProductDetail: React.FC = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 500, delay: 0.4 }}
-                    className="px-3 py-1.5 bg-[#173B45] text-[#F8EDED] text-xs font-medium rounded-full shadow-lg"
+                    className="px-3 py-1.5 bg-white text-[#173B45] text-[10px] sm:text-xs font-semibold tracking-wider rounded-sm shadow-sm border border-[#173B45]/20"
                   >
-                    New Arrival
+                    ARTISAN VERIFIED
                   </motion.span>
                 )}
               </div>
@@ -606,7 +606,7 @@ const ProductDetail: React.FC = () => {
                     e.stopPropagation();
                     toggleWishlist(product._id);
                   }}
-                  className={`p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 ${isWishlisted
+                  className={`p-2 sm:p-3 rounded-sm shadow-lg transition-all duration-300 ${isWishlisted
                     ? 'bg-[#B43F3F] text-[#F8EDED]'
                     : 'bg-white text-[#173B45] hover:text-[#B43F3F]'
                     }`}
@@ -621,7 +621,7 @@ const ProductDetail: React.FC = () => {
                     e.stopPropagation();
                     setShowShareMenu(!showShareMenu);
                   }}
-                  className="p-2 sm:p-3 bg-white text-[#173B45] rounded-full shadow-lg hover:text-[#FF8225] transition-all duration-300 relative"
+                  className="p-2 sm:p-3 bg-white text-[#173B45] rounded-sm shadow-lg hover:text-[#B43F3F] transition-all duration-300 relative"
                 >
                   <Share2 size={isMobile ? 18 : 20} />
 
@@ -707,31 +707,27 @@ const ProductDetail: React.FC = () => {
           >
             {/* Title & Rating */}
             <div>
-              <div className="flex flex-wrap items-center gap-2 mb-3">
-                <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#B43F3F]/10 text-[#B43F3F]">
-                  {product.category}
-                </span>
-                <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#FF8225]/10 text-[#FF8225]">
-                  {product.weave}
-                </span>
-                <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#173B45]/10 text-[#173B45]">
-                  {product.fabric}
-                </span>
-              </div>
-
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-4 text-[#173B45]">
+              <p className="text-[#173B45]/60 text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold mb-2">
+                {product.weave}
+              </p>
+              
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-2 text-[#173B45] leading-tight">
                 {product.name}
               </h1>
 
+              <p className="text-[#173B45]/70 italic mb-4 text-sm sm:text-base">
+                Handwoven in {product.weaverInfo?.location || 'Odisha'}
+              </p>
+
               {/* Rating */}
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4 border-b border-[#173B45]/10 pb-4 mb-4">
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      size={isMobile ? 16 : 18}
+                      size={isMobile ? 14 : 16}
                       className={`${i < Math.floor(product.ratings)
-                        ? 'text-[#FF8225] fill-current'
+                        ? 'text-[#173B45] fill-current'
                         : 'text-[#173B45]/20'
                         }`}
                     />
@@ -741,36 +737,38 @@ const ProductDetail: React.FC = () => {
                   <span className="font-medium text-[#173B45]">
                     {product.ratings.toFixed(1)}
                   </span>
-                  <span className="mx-1">·</span>
+                  <span className="mx-2">|</span>
                   <button
                     onClick={() => setActiveTab('reviews')}
-                    className="hover:text-[#B43F3F]"
+                    className="hover:text-[#B43F3F] transition-colors"
                   >
-                    {product.numReviews} verified reviews
+                    {product.numReviews} collectors
                   </button>
                 </span>
               </div>
             </div>
 
             {/* Price */}
-            <div className="flex flex-wrap items-baseline gap-4">
-              <span className="text-3xl sm:text-4xl font-medium text-[#B43F3F]">
-                ₹{product.price.toLocaleString()}
-              </span>
-              {product.originalPrice && (
-                <>
-                  <span className="text-lg sm:text-xl line-through text-[#173B45]/40">
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-wrap items-baseline gap-4">
+                <span className="text-2xl sm:text-3xl font-medium text-[#173B45]">
+                  ₹{product.price.toLocaleString()}
+                </span>
+                {product.originalPrice && (
+                  <span className="text-lg line-through text-[#173B45]/40">
                     ₹{product.originalPrice.toLocaleString()}
                   </span>
-                  <span className="px-3 py-1 bg-[#FF8225]/10 text-[#FF8225] text-sm font-medium rounded-full">
-                    Save ₹{(product.originalPrice - product.price).toLocaleString()}
-                  </span>
-                </>
-              )}
+                )}
+              </div>
+              <div className="text-xs text-[#173B45]/70 flex flex-col gap-1.5 font-medium">
+                <span className="flex items-center gap-2"><Check size={12} className="text-[#173B45]" /> Artisan verified</span>
+                <span className="flex items-center gap-2"><Check size={12} className="text-[#173B45]" /> Handloom authenticity</span>
+                <span className="flex items-center gap-2"><Check size={12} className="text-[#173B45]" /> Free insured delivery</span>
+              </div>
             </div>
 
             {/* TANVO Authenticity Promise */}
-            <div className="p-4 sm:p-5 rounded-2xl border border-[#B43F3F]/10 bg-white/60 backdrop-blur-sm shadow-sm space-y-4">
+            <div className="p-4 sm:p-5 rounded-sm border border-[#173B45]/10 bg-white shadow-sm space-y-4">
               <div className="flex items-center gap-2 border-b border-[#B43F3F]/10 pb-2">
                 <Award className="w-5 h-5 text-[#B43F3F]" />
                 <h3 className="font-display font-medium text-base text-[#173B45]">
@@ -867,7 +865,7 @@ const ProductDetail: React.FC = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 rounded-lg border-2 transition-all duration-300 ${selectedSize === size
+                      className={`px-4 py-2 rounded-sm border-2 transition-all duration-300 ${selectedSize === size
                         ? 'border-[#B43F3F] bg-[#B43F3F] text-[#F8EDED]'
                         : 'border-[#173B45]/20 hover:border-[#B43F3F] text-[#173B45]'
                         }`}
@@ -881,7 +879,7 @@ const ProductDetail: React.FC = () => {
 
             {/* Key Features Grid */}
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-xl bg-white border border-[#B43F3F]/10">
+              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-sm bg-white border border-[#B43F3F]/10">
                 <Gem className="w-4 h-4 sm:w-5 sm:h-5 text-[#B43F3F] shrink-0" />
                 <div>
                   <p className="text-xs sm:text-sm font-medium text-[#173B45]">
@@ -892,7 +890,7 @@ const ProductDetail: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-xl bg-white border border-[#B43F3F]/10">
+              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-sm bg-white border border-[#B43F3F]/10">
                 <Ruler className="w-4 h-4 sm:w-5 sm:h-5 text-[#FF8225] shrink-0" />
                 <div>
                   <p className="text-xs sm:text-sm font-medium text-[#173B45]">
@@ -909,7 +907,7 @@ const ProductDetail: React.FC = () => {
             {product.weaverInfo && (
               <motion.div
                 whileHover={{ scale: 1.01 }}
-                className="p-5 rounded-2xl border border-[#B43F3F]/10 bg-gradient-to-r from-[#B43F3F]/5 to-transparent space-y-3"
+                className="p-5 rounded-sm border border-[#B43F3F]/10 bg-gradient-to-r from-[#B43F3F]/5 to-transparent space-y-3"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
@@ -940,28 +938,39 @@ const ProductDetail: React.FC = () => {
               </motion.div>
             )}
 
+            {/* Wear Moments */}
+            <div className="py-4">
+              <p className="text-[#173B45] text-sm uppercase tracking-widest font-semibold mb-2">Perfect For</p>
+              <div className="flex flex-wrap gap-2 text-sm text-[#173B45]/70">
+                <span className="px-3 py-1 bg-white border border-[#173B45]/10 rounded-sm">Wedding</span>
+                <span className="px-3 py-1 bg-white border border-[#173B45]/10 rounded-sm">Festivals</span>
+                <span className="px-3 py-1 bg-white border border-[#173B45]/10 rounded-sm">Reception</span>
+                <span className="px-3 py-1 bg-white border border-[#173B45]/10 rounded-sm">Gifting</span>
+              </div>
+            </div>
+
             {/* Quantity & Add to Cart */}
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <span className="text-sm font-medium text-[#173B45]">
                   Quantity:
                 </span>
-                <div className="flex items-center border border-[#173B45]/20 rounded-full w-full sm:w-auto bg-white">
+                <div className="flex items-center border border-[#173B45]/20 rounded-sm w-full sm:w-auto bg-white">
                   <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-12 h-12 flex items-center justify-center rounded-l-full hover:bg-[#F8EDED] transition-colors"
+                    className="w-12 h-12 flex items-center justify-center hover:bg-[#F8EDED] transition-colors"
                     disabled={quantity <= 1}
                   >
                     <Minus size={16} className={quantity <= 1 ? 'text-[#173B45]/30' : 'text-[#173B45]'} />
                   </motion.button>
-                  <span className="w-16 text-center font-medium text-lg text-[#173B45]">
+                  <span className="w-16 text-center font-medium text-lg text-[#173B45] border-x border-[#173B45]/20 py-2">
                     {quantity}
                   </span>
                   <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                    className="w-12 h-12 flex items-center justify-center rounded-r-full hover:bg-[#F8EDED] transition-colors"
+                    className="w-12 h-12 flex items-center justify-center hover:bg-[#F8EDED] transition-colors"
                     disabled={quantity >= product.stock}
                   >
                     <Plus size={16} className={quantity >= product.stock ? 'text-[#173B45]/30' : 'text-[#173B45]'} />
@@ -976,19 +985,18 @@ const ProductDetail: React.FC = () => {
                   whileTap={{ scale: 0.98 }}
                   onClick={handleAddToCart}
                   disabled={product.stock === 0}
-                  className="group py-3 sm:py-4 font-medium rounded-xl hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-white border-2 border-[#B43F3F] text-[#B43F3F] hover:bg-[#B43F3F] hover:text-[#F8EDED]"
+                  className="group py-3 sm:py-4 font-semibold tracking-wider rounded-sm hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-white border border-[#173B45] text-[#173B45] hover:bg-[#173B45] hover:text-[#F8EDED]"
                 >
-                  <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
-                  Add to Cart
+                  ADD TO BAG
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleBuyNow}
                   disabled={product.stock === 0}
-                  className="py-3 sm:py-4 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="py-3 sm:py-4 bg-[#B43F3F] text-[#F8EDED] font-semibold tracking-wider rounded-sm hover:bg-[#FF8225] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Buy It Now
+                  BUY NOW
                 </motion.button>
               </div>
             </div>
@@ -998,7 +1006,7 @@ const ProductDetail: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="p-5 sm:p-6 rounded-xl border border-[#B43F3F]/10 bg-white"
+              className="p-5 sm:p-6 rounded-sm border border-[#B43F3F]/10 bg-white"
             >
               <div className="flex items-center gap-2 mb-4">
                 <MapPin className="w-5 h-5 text-[#FF8225]" />
@@ -1013,13 +1021,14 @@ const ProductDetail: React.FC = () => {
                   value={pincode}
                   onChange={(e) => setPincode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   placeholder="Enter PIN code"
-                  className="flex-1 px-4 py-3 border border-[#173B45]/20 rounded-xl focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all bg-white text-[#173B45] placeholder-[#173B45]/40"
+                  className="flex-1 px-4 py-3 border border-[#173B45]/20 rounded-sm focus:border-[#FF8225] focus:ring-1 focus:ring-[#FF8225] transition-all bg-white text-[#173B45] placeholder-[#173B45]/40"
                 />
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handlePincodeCheck}
-                  className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-all"
+                  className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-sm hover:bg-[#FF8225] transition-all"
+
                 >
                   Check
                 </motion.button>
@@ -1099,8 +1108,7 @@ const ProductDetail: React.FC = () => {
               </motion.button>
             </div>
 
-            {/* Heritage Details Accordion */}
-            <ProductHeritageAccordion product={product} />
+            {/* Accordion Removed */}
           </motion.div>
         </div>
 
@@ -1115,10 +1123,10 @@ const ProductDetail: React.FC = () => {
           <div className="border-b border-[#B43F3F]/10">
             <div className="flex gap-8 overflow-x-auto pb-1">
               {[
-                { id: 'description', label: 'Description' },
+                { id: 'description', label: 'The Story' },
                 { id: 'specifications', label: 'Specifications' },
-                { id: 'care', label: 'Care Instructions' },
-                { id: 'reviews', label: `Reviews (${product.numReviews})` }
+                { id: 'care', label: 'Care & Origin' },
+                { id: 'reviews', label: `Collector Notes (${product.numReviews})` }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -1239,10 +1247,10 @@ const ProductDetail: React.FC = () => {
 
                 {activeTab === 'care' && (
                   <div className="max-w-3xl">
-                    <div className="p-8 rounded-2xl border border-[#B43F3F]/10 bg-white">
+                    <div className="p-8 rounded-sm border border-[#B43F3F]/10 bg-white">
                       <h3 className="font-display font-medium text-xl mb-6 flex items-center gap-2 text-[#173B45]">
-                        <Leaf className="w-6 h-6 text-green-600" />
-                        Care Instructions
+                        <Leaf className="w-5 h-5 text-[#173B45]" />
+                        Care & Authenticity
                       </h3>
                       <p className="mb-6 text-[#173B45]/80">
                         {product.careInstructions || 'Dry clean only for first wash. Store in muslin cloth. Keep away from direct sunlight.'}
@@ -1280,13 +1288,13 @@ const ProductDetail: React.FC = () => {
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} size={16} className={
                               i < Math.floor(product.ratings)
-                                ? 'text-[#FF8225] fill-current'
+                                ? 'text-[#173B45] fill-current'
                                 : 'text-[#173B45]/20'
                             } />
                           ))}
                         </div>
                         <p className="text-sm mt-2 text-[#173B45]/60">
-                          Based on {product.numReviews} reviews
+                          Based on {product.numReviews} notes
                         </p>
                       </div>
 
@@ -1317,16 +1325,16 @@ const ProductDetail: React.FC = () => {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => setShowReviewForm(!showReviewForm)}
-                          className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-xl hover:bg-[#FF8225] transition-all whitespace-nowrap"
+                          className="px-6 py-3 bg-[#173B45] text-[#F8EDED] rounded-sm hover:bg-[#B43F3F] transition-all whitespace-nowrap"
                         >
-                          {showReviewForm ? 'Cancel Review' : 'Write a Review'}
+                          {showReviewForm ? 'Cancel Note' : 'Write a Note'}
                         </motion.button>
                       ) : (
                         <Link
                           to="/auth"
-                          className="px-6 py-3 border-2 border-[#B43F3F] text-[#B43F3F] rounded-xl hover:bg-[#B43F3F] hover:text-[#F8EDED] transition-all whitespace-nowrap"
+                          className="px-6 py-3 border border-[#173B45] text-[#173B45] rounded-sm hover:bg-[#173B45] hover:text-[#F8EDED] transition-all whitespace-nowrap"
                         >
-                          Login to Review
+                          Login to Add Note
                         </Link>
                       )}
                     </div>
@@ -1338,10 +1346,10 @@ const ProductDetail: React.FC = () => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           onSubmit={handleReviewSubmit}
-                          className="bg-[#F8EDED]/30 p-6 rounded-2xl border border-[#B43F3F]/10 space-y-4"
+                          className="bg-[#F8EDED]/30 p-6 rounded-sm border border-[#173B45]/10 space-y-4"
                         >
                           <h4 className="font-display font-medium text-lg text-[#173B45]">
-                            Share Your Experience
+                            Share Your Note
                           </h4>
                           {reviewError && (
                             <div className="p-3 bg-red-50 text-red-600 rounded-xl text-sm">
@@ -1400,7 +1408,7 @@ const ProductDetail: React.FC = () => {
                               onChange={(e) => setNewComment(e.target.value)}
                               placeholder="What did you love? How was the texture, fabric, and drape?"
                               required
-                              className="w-full px-4 py-2 border border-[#173B45]/20 rounded-xl bg-white text-[#173B45]"
+                              className="w-full px-4 py-2 border border-[#173B45]/20 rounded-sm bg-white text-[#173B45]"
                             />
                           </div>
 
@@ -1408,14 +1416,14 @@ const ProductDetail: React.FC = () => {
                             <button
                               type="submit"
                               disabled={submittingReview}
-                              className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-colors disabled:opacity-50"
+                              className="px-6 py-3 bg-[#173B45] text-[#F8EDED] font-medium rounded-sm hover:bg-[#B43F3F] transition-colors disabled:opacity-50"
                             >
-                              {submittingReview ? 'Submitting...' : 'Submit Review'}
+                              {submittingReview ? 'Submitting...' : 'Submit Note'}
                             </button>
                             <button
                               type="button"
                               onClick={() => setShowReviewForm(false)}
-                              className="px-6 py-3 border border-[#173B45]/20 text-[#173B45] font-medium rounded-xl hover:bg-white hover:text-[#B43F3F] transition-all"
+                              className="px-6 py-3 border border-[#173B45]/20 text-[#173B45] font-medium rounded-sm hover:bg-white hover:text-[#B43F3F] transition-all"
                             >
                               Cancel
                             </button>
@@ -1442,7 +1450,7 @@ const ProductDetail: React.FC = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.1 }}
-                            className="border border-[#B43F3F]/10 rounded-2xl p-6 hover:shadow-lg transition-all bg-white"
+                            className="border border-[#B43F3F]/10 rounded-sm p-6 hover:shadow-lg transition-all bg-white"
                           >
                             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
                               <div className="flex items-start gap-3">
@@ -1458,7 +1466,7 @@ const ProductDetail: React.FC = () => {
                                       {[...Array(5)].map((_, i) => (
                                         <Star key={i} size={12} className={
                                           i < review.rating
-                                            ? 'text-[#FF8225] fill-current'
+                                            ? 'text-[#173B45] fill-current'
                                             : 'text-[#173B45]/20'
                                         } />
                                       ))}
@@ -1467,7 +1475,7 @@ const ProductDetail: React.FC = () => {
                                       {formatDate(review.createdAt)}
                                     </span>
                                     {review.isVerifiedPurchase && (
-                                      <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                                      <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-sm">
                                         Verified Purchase
                                       </span>
                                     )}
@@ -1487,7 +1495,7 @@ const ProductDetail: React.FC = () => {
                             {review.images && review.images.length > 0 && (
                               <div className="flex gap-2 mb-4">
                                 {review.images.map((img, imgIdx) => (
-                                  <img key={imgIdx} src={img.url} alt="Review" className="w-16 h-16 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity" />
+                                  <img key={imgIdx} src={img.url} alt="Review" className="w-16 h-16 object-cover rounded-sm cursor-pointer hover:opacity-80 transition-opacity" />
                                 ))}
                               </div>
                             )}
@@ -1505,8 +1513,8 @@ const ProductDetail: React.FC = () => {
                         ))}
                       </div>
                     ) : (
-                      <div className="text-center py-12 bg-white rounded-2xl border border-[#B43F3F]/10">
-                        <p className="text-[#173B45]/60">No reviews yet. Be the first to review this product!</p>
+                      <div className="text-center py-12 bg-white rounded-sm border border-[#B43F3F]/10">
+                        <p className="text-[#173B45]/60">No notes yet. Be the first to add a note!</p>
                       </div>
                     )}
 
@@ -1518,9 +1526,9 @@ const ProductDetail: React.FC = () => {
                           whileTap={{ scale: 0.98 }}
                           onClick={handleLoadMoreReviews}
                           disabled={loadingReviews}
-                          className="px-8 py-3 border-2 border-[#B43F3F] text-[#B43F3F] font-medium rounded-xl hover:bg-[#B43F3F] hover:text-[#F8EDED] transition-all disabled:opacity-50"
+                          className="px-8 py-3 border border-[#173B45] text-[#173B45] font-medium rounded-sm hover:bg-[#173B45] hover:text-[#F8EDED] transition-all disabled:opacity-50"
                         >
-                          {loadingReviews ? 'Loading...' : 'Load More Reviews'}
+                          {loadingReviews ? 'Loading...' : 'Load More Notes'}
                         </motion.button>
                       </div>
                     )}
@@ -1531,7 +1539,7 @@ const ProductDetail: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* You May Also Like */}
+        {/* Similar Weaves */}
         {relatedProducts.length > 0 && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -1540,8 +1548,7 @@ const ProductDetail: React.FC = () => {
             className="mt-12 sm:mt-16 lg:mt-20"
           >
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-display font-medium mb-4 sm:mb-6 lg:mb-8 flex items-center gap-2 text-[#173B45]">
-              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF8225]" />
-              You May Also Like
+              Similar Weaves
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
@@ -1553,7 +1560,7 @@ const ProductDetail: React.FC = () => {
                   transition={{ delay: 0.7 + idx * 0.1 }}
                 >
                   <Link to={`/product/${product._id}`} className="group block">
-                    <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-[#B43F3F]/10 bg-white">
+                    <div className="rounded-sm overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-1 border border-[#B43F3F]/10 bg-white">
                       <div className="relative aspect-[3/4] overflow-hidden">
                         <img
                           src={product.images[0]?.url}
@@ -1561,8 +1568,8 @@ const ProductDetail: React.FC = () => {
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         />
                         {product.isBestSeller && (
-                          <div className="absolute top-2 left-2 px-2 py-1 bg-[#B43F3F] text-[#F8EDED] text-[10px] font-medium rounded-full">
-                            Best Seller
+                          <div className="absolute top-2 left-2 px-2 py-1 bg-[#173B45] text-[#F8EDED] text-[10px] font-medium rounded-sm">
+                            LIMITED
                           </div>
                         )}
                       </div>
@@ -1609,20 +1616,18 @@ const ProductDetail: React.FC = () => {
             className="fixed bottom-0 left-0 right-0 p-4 border-t border-[#B43F3F]/10 z-40 bg-white shadow-lg"
           >
             <div className="flex items-center justify-between gap-4">
-              <div>
+              <div className="flex flex-col">
                 <span className="text-lg font-medium text-[#B43F3F]">
                   ₹{product.price.toLocaleString()}
                 </span>
-                {product.originalPrice && (
-                  <span className="text-sm line-through ml-2 text-[#173B45]/40">
-                    ₹{product.originalPrice.toLocaleString()}
-                  </span>
-                )}
+                <span className="text-xs text-[#173B45]/70">
+                  Handwoven • Secure Delivery
+                </span>
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => toggleWishlist(product._id)}
-                  className={`p-3 rounded-full transition-all ${isWishlisted
+                  className={`p-3 rounded-sm transition-all ${isWishlisted
                     ? 'bg-[#B43F3F] text-[#F8EDED]'
                     : 'bg-[#F8EDED] text-[#173B45]'
                     }`}
@@ -1631,9 +1636,9 @@ const ProductDetail: React.FC = () => {
                 </button>
                 <button
                   onClick={handleAddToCart}
-                  className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-full hover:bg-[#FF8225] transition-all"
+                  className="px-6 py-3 bg-[#173B45] text-[#F8EDED] font-semibold tracking-wider text-sm rounded-sm hover:bg-[#B43F3F] transition-all"
                 >
-                  Add to Cart
+                  ADD TO BAG
                 </button>
               </div>
             </div>
