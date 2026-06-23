@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NewArrivalsBanner: React.FC = () => {
+const MensTraditionalAttireBanner: React.FC = () => {
     return (
         <section className="container mx-auto px-4 py-12 md:py-20">
             <div className="bg-[#F9F5EE] w-full max-w-7xl mx-auto overflow-hidden flex flex-col md:flex-row items-center min-h-[450px] shadow-sm">
@@ -44,4 +44,4 @@ const NewArrivalsBanner: React.FC = () => {
     );
 };
 
-export default NewArrivalsBanner;
+export default MensTraditionalAttireBanner;
