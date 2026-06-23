@@ -22,7 +22,7 @@ import RegisterModal from '../components/RegisterModal';
 import HandwovenHeritage from './sections/HandwovenHeritage';
 import LearningSection from './sections/LearningSection';
 import JournalHint from './sections/JournalHint';
-import NewArrivalsBanner from './sections/NewArrivalsBanner';
+import MensTraditionalAttireBanner from './sections/MensTraditionalAttireBanner';
 import VideoBanner from './sections/VideoBanner';
 
 const Home: React.FC = () => {
@@ -105,7 +105,7 @@ const Home: React.FC = () => {
         <EditorialBanner />
         <CategoryGrid />
         <WhyChooseUs />
-        <NewArrivalsBanner />
+        <MensTraditionalAttireBanner />
 
         <TrustSignals />
         <JournalHint />
