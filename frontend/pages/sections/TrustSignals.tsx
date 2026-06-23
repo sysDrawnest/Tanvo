@@ -297,7 +297,7 @@ const TrustSignals: React.FC = () => {
     return (
         <section className="trust-signals-section" style={{
             padding: '80px 0',
-            background: '#0f0a06',
+            background: '#0D0B0A',
             position: 'relative',
             overflow: 'hidden',
         }}>

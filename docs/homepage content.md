@@ -184,7 +184,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 ### 14. Trust Signals Media Showcase
 *   **Filename**: `frontend/pages/sections/TrustSignals.tsx`
 *   **UI/Design Description**:
-    *   Deep warm charcoal background (`#0f0a06`).
+    *   Solid ink backdrop background (`#0D0B0A`).
     *   3-column card grid containing multimedia content with subtle `2px` rounded borders.
 *   **Content**:
     *   Headline: *"The Story Behind Every Saree"* (Subheading: *"Worn Across Generations"*)
