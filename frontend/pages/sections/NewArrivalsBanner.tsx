@@ -21,7 +21,7 @@ const NewArrivalsBanner: React.FC = () => {
                     <div className="flex items-baseline mb-6">
                         <span className="text-3xl md:text-5xl font-light text-[#1B2B3A] mr-1">#</span>
                         <h2 className="font-serif text-4xl md:text-7xl text-[#1B2B3A] tracking-tighter leading-none">
-                            NewArrivals
+                            Mens Traditional Attire
                         </h2>
                     </div>
 
