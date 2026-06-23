@@ -20,7 +20,7 @@ import RegisterModal from '../components/RegisterModal';
 
 // ── New Components ──
 import HandwovenHeritage from './sections/HandwovenHeritage';
-import LearningSection from './sections/LearningSection';
+import DrapedEveryMoment from './sections/DrapedEveryMoment';
 import JournalHint from './sections/JournalHint';
 import MensTraditionalAttireBanner from './sections/MensTraditionalAttireBanner';
 import VideoBanner from './sections/VideoBanner';
@@ -109,7 +109,7 @@ const Home: React.FC = () => {
 
         <TrustSignals />
         <JournalHint />
-        <LearningSection />
+        <DrapedEveryMoment />
 
         <InstagramSection
           handle="@Tanvo"

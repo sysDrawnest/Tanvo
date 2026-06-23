@@ -207,12 +207,13 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 16. Learning Section (Art of Drape)
-*   **Filename**: `frontend/pages/sections/LearningSection.tsx`
+### 16. Draped For Every Moment (The Art of Occasion)
+*   **Filename**: `frontend/pages/sections/DrapedEveryMoment.tsx`
 *   **UI/Design Description**:
     *   Asymmetric, staggered vertical cards with 9:16 aspect ratios.
 *   **Content**:
-    *   Drape collections for Banarasi Silk, Sambalpuri Ikat, Designer Fancy, and Pure Tussar Silk.
+    *   Occasions: Wedding Elegance (Bridal Collection), Golden Beginnings (Celebration), Effortless Grace (Daily Heritage), A Gift Of Tradition (Thoughtful Gifts).
+*   **Interactions**: Hovering on a card zooms the image, fades in the detailed description, and reveals the occasion details.
 
 ---
 
