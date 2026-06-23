@@ -1,57 +1,130 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const EditorialBanner: React.FC = () => {
     return (
-        <section style={{ position: 'relative', height: '85vh', minHeight: '600px', overflow: 'hidden' }}>
-            {/* Background Video */}
-            <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
+        <section style={{ 
+            display: 'flex', 
+            flexDirection: 'row', 
+            height: '85vh', 
+            minHeight: '600px', 
+            width: '100%', 
+            overflow: 'hidden',
+            backgroundColor: '#F9F6F0' // Ivory base
+        }}>
+            
+            {/* Left Column: Visual Canvas */}
+            <div style={{ 
+                position: 'relative', 
+                flex: '1 1 50%', 
+                height: '100%', 
+                overflow: 'hidden',
+                display: 'block'
+            }}>
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                    }}
+                >
+                    <source src="/EditorialBanner.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+                
+                {/* Subtle, soft vignette overlay to give the video an editorial tone */}
+                <div style={{
                     position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    zIndex: 1,
-                }}
-            >
-                <source src="/EditorialBanner.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
+                    inset: 0,
+                    background: 'rgba(0, 0, 0, 0.04)',
+                }} />
+            </div>
 
-            {/* Dark Overlay for better contrast */}
-            <div style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to right, rgba(10, 10, 10, 0.8) 0%, rgba(10, 10, 10, 0.3) 50%, rgba(10, 10, 10, 0.1) 100%)',
-                zIndex: 2
-            }} />
+            {/* Right Column: Ivory Editorial Text Panel */}
+            <div style={{ 
+                flex: '1 1 50%', 
+                height: '100%', 
+                backgroundColor: '#F9F6F0', // Premium Ivory
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'center', 
+                padding: '0 max(60px, 6vw)',
+                boxSizing: 'border-box'
+            }}>
+                <div style={{ maxWidth: '460px' }}>
+                    {/* Brand Identifier */}
+                    <span style={{ 
+                        display: 'block',
+                        fontSize: '11px', 
+                        fontWeight: 500, 
+                        textTransform: 'uppercase', 
+                        letterSpacing: '0.25em', 
+                        color: '#706B63', 
+                        marginBottom: '32px' 
+                    }}>
+                        The TANVO Experience
+                    </span>
 
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 max(60px, 8vw)', zIndex: 5 }}>
-                <div style={{ maxWidth: 640 }}>
-                    <h2 className="font-display" style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 300, color: '#F5F0E8', lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: 32 }}>
-                        See our collection
+                    {/* Editorial Main Title */}
+                    <h2 className="font-sans" style={{ 
+                        fontSize: 'clamp(32px, 3.5vw, 44px)', 
+                        fontWeight: 300, 
+                        color: '#1C1B1A', 
+                        lineHeight: 1.2, 
+                        letterSpacing: '-0.01em', 
+                        marginBottom: '28px' 
+                    }}>
+                        Beyond A Saree
                     </h2>
-                    <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-                        <Link to="/shop" className="btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                            Explore Collection <ArrowUpRight size={16} />
+
+                    {/* Prose Narrative Structure */}
+                    <div style={{ 
+                        fontSize: '15px', 
+                        lineHeight: '1.8', 
+                        color: '#4A4640', 
+                        fontWeight: 300, 
+                        letterSpacing: '0.01em',
+                        marginBottom: '48px' 
+                    }}>
+                        <p style={{ margin: '0 0 8px 0' }}>A piece of heritage.</p>
+                        <p style={{ margin: '0 0 8px 0' }}>A story of craftsmanship.</p>
+                        <p style={{ margin: '0' }}>A connection between artisan and wearer.</p>
+                    </div>
+
+                    {/* Minimalist Editorial Action Element */}
+                    <div>
+                        <Link 
+                            to="/shop" 
+                            style={{ 
+                                display: 'inline-flex', 
+                                alignItems: 'center', 
+                                gap: '12px',
+                                fontSize: '13px',
+                                fontWeight: 500,
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.15em',
+                                color: '#1C1B1A',
+                                textDecoration: 'none',
+                                borderBottom: '1px solid #1C1B1A',
+                                paddingBottom: '6px',
+                                transition: 'opacity 0.3s ease',
+                                borderRadius: '0px' // Refined rectangular design accentuation
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+                            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                        >
+                            Explore the Collection <ArrowRight size={15} strokeWidth={1.5} />
                         </Link>
                     </div>
                 </div>
-            </div>
-
-            {/* Floating Quality Indicator */}
-            <div style={{ position: 'absolute', right: 40, bottom: 40, zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <div style={{ width: 1, height: 60, background: 'var(--gold)', marginBottom: 20 }}></div>
-                <p className="vertical-text section-label" style={{ color: 'var(--gold)', opacity: 0.8, writingMode: 'vertical-rl', margin: 0 }}>
-                    100% HANDWOVEN HERITAGE
-                </p>
             </div>
         </section>
     );
