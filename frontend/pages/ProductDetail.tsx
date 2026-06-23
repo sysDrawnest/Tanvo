@@ -14,7 +14,7 @@ import API from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSwipeable } from 'react-swipeable';
 import { Helmet } from 'react-helmet-async';
-import { TanvoStoryAccordion } from '../components/TanvoStoryAccordion';
+import { ProductHeritageAccordion } from '../components/ProductHeritageAccordion';
 
 interface Product {
   _id: string;
@@ -112,7 +112,6 @@ const ProductDetail: React.FC = () => {
   const [submittingReview, setSubmittingReview] = useState(false);
   const [reviewError, setReviewError] = useState('');
   const [reviewSuccess, setReviewSuccess] = useState(false);
-  const [authExpanded, setAuthExpanded] = useState(false);
 
   const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -321,16 +320,16 @@ const ProductDetail: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="min-h-screen pt-28 pb-24 flex items-center justify-center bg-[#F9F5EE]"
+        className="min-h-screen pt-32 pb-24 flex items-center justify-center bg-[#F8EDED]"
       >
         <div className="text-center">
           <div className="relative">
-            <div className="w-20 h-20 border-4 border-[#780000] border-t-transparent rounded animate-spin mx-auto mb-4"></div>
+            <div className="w-20 h-20 border-4 border-[#B43F3F] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-2 h-2 bg-[#C9A84C] rounded"></div>
+              <div className="w-2 h-2 bg-[#FF8225] rounded-full"></div>
             </div>
           </div>
-          <p className="font-medium text-[#0D0B0A]">
+          <p className="font-medium text-[#173B45]">
             Weaving your product details...
           </p>
         </div>
@@ -338,389 +337,21 @@ const ProductDetail: React.FC = () => {
     );
   }
 
-  const renderDescriptionTab = () => (
-    <div className="prose max-w-none">
-      <p className="leading-relaxed text-base sm:text-lg text-[#0D0B0A]/80">
-        {product.description}
-      </p>
-      {product.tags && product.tags.length > 0 && (
-        <div className="mt-6 flex flex-wrap gap-2">
-          {product.tags.map(tag => (
-            <span key={tag} className="px-3 py-1 bg-[#F9F5EE] text-[#0D0B0A] text-xs rounded border border-[#E2D9C8]">
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-6 rounded-sm bg-white border border-[#E2D9C8]">
-          <h4 className="font-display font-medium mb-3 text-[#0D0B0A]">
-            Weaving Technique
-          </h4>
-          <p className="text-sm text-[#0D0B0A]/70">
-            Handwoven using traditional {product.weave} technique, passed down through generations of master weavers.
-          </p>
-        </div>
-        <div className="p-6 rounded-sm bg-white border border-[#E2D9C8]">
-          <h4 className="font-display font-medium mb-3 text-[#0D0B0A]">
-            Design Inspiration
-          </h4>
-          <p className="text-sm text-[#0D0B0A]/70">
-            Inspired by ancient temple motifs and traditional patterns, each piece tells a unique story.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderSpecificationsTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div className="space-y-4">
-        <h3 className="font-display font-medium text-xl text-[#0D0B0A]">
-          Product Details
-        </h3>
-        <div className="space-y-3">
-          {[
-            { label: 'Fabric', value: product.fabric },
-            { label: 'Weave Type', value: product.weave },
-            { label: 'Length', value: product.length || '6.3 Meters' },
-            { label: 'Blouse Piece', value: product.blousePiece ? 'Included' : 'Separate' },
-            { label: 'Category', value: product.category },
-            { label: 'Sub Category', value: product.subCategory },
-            { label: 'Border', value: 'Traditional temple design' },
-            { label: 'Pallu', value: 'Intricate ikat pattern' },
-            { label: 'Weight', value: 'Approx. 450-500 gms' },
-            { label: 'Country', value: 'India (Odisha)' }
-          ].map((item, idx) => (
-            <div key={idx} className="flex justify-between py-2 border-b border-[#E2D9C8]">
-              <span className="text-[#0D0B0A]/60">
-                {item.label}
-              </span>
-              <span className="font-medium text-[#0D0B0A]">
-                {item.value}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="space-y-4">
-        <h3 className="font-display font-medium text-xl text-[#0D0B0A]">
-          Shipping Info
-        </h3>
-        <div className="space-y-3">
-          {[
-            { icon: Truck, text: 'Free shipping on orders above ₹5,000' },
-            { icon: Clock, text: 'Delivery in 3-5 business days' },
-            { icon: RotateCcw, text: '7-day easy returns' },
-            { icon: Shield, text: '100% authentic handloom guarantee' }
-          ].map((item, idx) => (
-            <div key={idx} className="flex items-start gap-3">
-              <item.icon className="w-5 h-5 shrink-0 text-[#780000]" />
-              <span className="text-[#0D0B0A]/70">
-                {item.text}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderCareTab = () => (
-    <div className="max-w-3xl">
-      <div className="p-6 sm:p-8 rounded-sm border border-[#E2D9C8] bg-white">
-        <h3 className="font-display font-medium text-xl mb-6 flex items-center gap-2 text-[#0D0B0A]">
-          <Leaf className="w-6 h-6 text-green-600" />
-          Care Instructions
-        </h3>
-        <p className="mb-6 text-[#0D0B0A]/80">
-          {product.careInstructions || 'Dry clean only for first wash. Store in muslin cloth. Keep away from direct sunlight.'}
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[
-            'Dry clean only for first wash',
-            'Store in muslin cloth',
-            'Keep away from direct sunlight',
-            'Do not use bleach',
-            'Iron while slightly damp',
-            'Use neem leaves to prevent pests'
-          ].map((tip, idx) => (
-            <div key={idx} className="flex items-start gap-2">
-              <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
-              <span className="text-sm text-[#0D0B0A]/70">
-                {tip}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderReviewsTab = () => (
-    <div className="space-y-8">
-      {/* Rating Summary */}
-      <div className="flex flex-col sm:flex-row items-start gap-8">
-        <div className="text-center sm:text-left">
-          <div className="text-5xl sm:text-6xl font-display font-medium text-[#780000]">
-            {product.ratings.toFixed(1)}
-          </div>
-          <div className="flex items-center gap-1 mt-2 justify-center sm:justify-start">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={16} className={
-                i < Math.floor(product.ratings)
-                  ? 'text-[#C9A84C] fill-current'
-                  : 'text-[#0D0B0A]/20'
-              } />
-            ))}
-          </div>
-          <p className="text-sm mt-2 text-[#0D0B0A]/60">
-            Based on {product.numReviews} reviews
-          </p>
-        </div>
-
-        <div className="flex-1 w-full">
-          {[5, 4, 3, 2, 1].map((rating) => {
-            const percentage = Math.floor(Math.random() * 100);
-            return (
-              <div key={rating} className="flex items-center gap-3 mb-2">
-                <span className="text-sm w-8 text-[#0D0B0A]/70">
-                  {rating} ★
-                </span>
-                <div className="flex-1 h-2 rounded overflow-hidden bg-[#F9F5EE] border border-[#E2D9C8]">
-                  <div
-                    className="h-full bg-[#780000]"
-                    style={{ width: `${percentage}%` }}
-                  />
-                </div>
-                <span className="text-sm text-[#0D0B0A]/60">
-                  {percentage}%
-                </span>
-              </div>
-            );
-          })}
-        </div>
-
-        {isAuthenticated ? (
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => setShowReviewForm(!showReviewForm)}
-            className="px-6 py-3 bg-[#0D0B0A] text-[#F9F5EE] rounded-sm hover:bg-[#780000] transition-all whitespace-nowrap"
-            style={{ fontFamily: 'Raleway, sans-serif', fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' }}
-          >
-            {showReviewForm ? 'Cancel Review' : 'Write a Review'}
-          </motion.button>
-        ) : (
-          <Link
-            to="/auth"
-            className="px-6 py-3 border border-[#0D0B0A] text-[#0D0B0A] rounded-sm hover:bg-[#0D0B0A] hover:text-[#F9F5EE] transition-all whitespace-nowrap"
-            style={{ fontFamily: 'Raleway, sans-serif', fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' }}
-          >
-            Login to Review
-          </Link>
-        )}
-      </div>
-
-      <AnimatePresence>
-        {showReviewForm && (
-          <motion.form
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            onSubmit={handleReviewSubmit}
-            className="bg-[#F9F5EE]/30 p-6 rounded border border-[#E2D9C8] space-y-4"
-          >
-            <h4 className="font-display font-medium text-lg text-[#0D0B0A]">
-              Share Your Experience
-            </h4>
-            {reviewError && (
-              <div className="p-3 bg-red-50 text-red-600 rounded-sm text-sm">
-                {reviewError}
-              </div>
-            )}
-            {reviewSuccess && (
-              <div className="p-3 bg-green-50 text-green-600 rounded-sm text-sm">
-                Thank you! Your review has been submitted and is pending verification.
-              </div>
-            )}
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-[#0D0B0A] block">
-                Rating
-              </label>
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    type="button"
-                    key={star}
-                    onClick={() => setNewRating(star)}
-                    className="text-[#C9A84C]"
-                  >
-                    <Star
-                      size={24}
-                      fill={star <= newRating ? '#C9A84C' : 'none'}
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="review-title" className="text-sm font-medium text-[#0D0B0A] block">
-                Review Title
-              </label>
-              <input
-                id="review-title"
-                type="text"
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
-                placeholder="Summarize your experience"
-                className="w-full px-4 py-2 border border-[#E2D9C8] rounded-sm bg-white text-[#0D0B0A] outline-none focus:border-[#780000]"
-                style={{ fontFamily: 'Raleway, sans-serif' }}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="review-comment" className="text-sm font-medium text-[#0D0B0A] block">
-                Review Content *
-              </label>
-              <textarea
-                id="review-comment"
-                rows={4}
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="What did you love? How was the texture, fabric, and drape?"
-                required
-                className="w-full px-4 py-2 border border-[#E2D9C8] rounded-sm bg-white text-[#0D0B0A] outline-none focus:border-[#780000]"
-                style={{ fontFamily: 'Raleway, sans-serif' }}
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                type="submit"
-                disabled={submittingReview}
-                className="px-6 py-3 bg-[#780000] text-[#F9F5EE] font-medium rounded-sm hover:bg-[#0D0B0A] transition-colors disabled:opacity-50"
-                style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' }}
-              >
-                {submittingReview ? 'Submitting...' : 'Submit Review'}
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowReviewForm(false)}
-                className="px-6 py-3 border border-[#E2D9C8] text-[#0D0B0A] font-medium rounded-sm hover:bg-white hover:text-[#780000] transition-all"
-                style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' }}
-              >
-                Cancel
-              </button>
-            </div>
-          </motion.form>
-        )}
-      </AnimatePresence>
-
-      {/* Customer Reviews */}
-      {loadingReviews ? (
-        <div className="flex justify-center py-12">
-          <div className="relative">
-            <div className="w-10 h-10 border-4 border-[#780000] border-t-transparent rounded animate-spin"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-2 h-2 bg-[#C9A84C] rounded"></div>
-            </div>
-          </div>
-        </div>
-      ) : reviews.length > 0 ? (
-        <div className="space-y-6">
-          {reviews.map((review, idx) => (
-            <motion.div
-              key={review._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="border border-[#E2D9C8] rounded p-6 hover:shadow-lg transition-all bg-white"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-[#0D0B0A] rounded flex items-center justify-center text-[#F9F5EE] font-medium">
-                    {review.user.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-medium text-[#0D0B0A]">
-                      {review.user.name}
-                    </p>
-                    <div className="flex flex-wrap items-center gap-2 text-sm">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={12} className={
-                            i < review.rating
-                              ? 'text-[#C9A84C] fill-current'
-                              : 'text-[#0D0B0A]/20'
-                          } />
-                        ))}
-                      </div>
-                      <span className="text-xs text-[#0D0B0A]/60">
-                        {formatDate(review.createdAt)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                {review.isVerifiedPurchase && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-xs font-medium bg-green-50 text-green-800 border border-green-200">
-                    <Check size={12} /> Verified Purchase
-                  </span>
-                )}
-              </div>
-
-              {review.title && (
-                <h5 className="font-display font-medium text-base mb-2 text-[#0D0B0A]">
-                  {review.title}
-                </h5>
-              )}
-              <p className="text-sm text-[#0D0B0A]/80 leading-relaxed">
-                {review.comment}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12 border border-dashed border-[#E2D9C8] rounded-sm">
-          <p className="text-sm text-[#0D0B0A]/60 mb-2">No reviews yet.</p>
-          <p className="text-xs text-[#0D0B0A]/40">Be the first to share your experience with this saree.</p>
-        </div>
-      )}
-
-      {/* Pagination */}
-      {reviews.length > 0 && hasMoreReviews && (
-        <div className="flex justify-center mt-8">
-          <motion.button
-            whileTap={{ scale: 0.98 }}
-            onClick={handleLoadMoreReviews}
-            disabled={loadingReviews}
-            className="px-8 py-3 border-2 border-[#0D0B0A] text-[#0D0B0A] font-medium rounded-sm hover:bg-[#0D0B0A] hover:text-[#F9F5EE] transition-all disabled:opacity-50"
-            style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' }}
-          >
-            {loadingReviews ? 'Loading...' : 'Load More Reviews'}
-          </motion.button>
-        </div>
-      )}
-    </div>
-  );
-
   if (!product) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="min-h-screen pt-28 pb-24 bg-[#F9F5EE]"
+        className="min-h-screen pt-32 pb-24 bg-[#F8EDED]"
       >
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl sm:text-4xl font-display font-medium mb-4 text-[#0D0B0A]">
+          <h1 className="text-3xl sm:text-4xl font-display font-medium mb-4 text-[#173B45]">
             Product Not Found
           </h1>
-          <p className="mb-8 text-[#0D0B0A]/70">
+          <p className="mb-8 text-[#173B45]/70">
             The saree you're looking for has been woven into another collection.
           </p>
-          <Link to="/shop" className="inline-block px-8 py-4 bg-[#780000] text-[#F9F5EE] rounded-sm font-medium hover:bg-[#C9A84C] transition-all">
+          <Link to="/shop" className="inline-block px-8 py-4 bg-[#B43F3F] text-[#F8EDED] rounded-xl font-medium hover:bg-[#FF8225] transition-all">
             Continue Shopping
           </Link>
         </div>
@@ -761,7 +392,7 @@ const ProductDetail: React.FC = () => {
         </script>
       </Helmet>
 
-      <div className="min-h-screen bg-[#F9F5EE]">
+      <div className="min-h-screen bg-[#F8EDED]">
       {/* Textile overlay */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -779,7 +410,7 @@ const ProductDetail: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={scrollToTop}
-            className="fixed bottom-24 right-4 z-50 p-3 bg-[#C9A84C] text-[#F9F5EE] rounded shadow-lg hover:bg-[#780000] transition-colors"
+            className="fixed bottom-24 right-4 z-50 p-3 bg-[#FF8225] text-[#F8EDED] rounded-full shadow-lg hover:bg-[#B43F3F] transition-colors"
           >
             <ChevronUp size={20} />
           </motion.button>
@@ -793,11 +424,11 @@ const ProductDetail: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-[#0D0B0A]/95 backdrop-blur-lg flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-[#173B45]/95 backdrop-blur-lg flex items-center justify-center"
             onClick={() => setIsFullscreenGallery(false)}
           >
             <button
-              className="absolute top-4 right-4 text-[#F9F5EE] hover:text-[#C9A84C] z-10"
+              className="absolute top-4 right-4 text-[#F8EDED] hover:text-[#FF8225] z-10"
               onClick={() => setIsFullscreenGallery(false)}
             >
               <X size={32} />
@@ -814,29 +445,29 @@ const ProductDetail: React.FC = () => {
               {product.images.length > 1 && (
                 <>
                   <button
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-[#F9F5EE]/20 backdrop-blur-sm rounded hover:bg-[#C9A84C] transition-colors"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-[#F8EDED]/20 backdrop-blur-sm rounded-full hover:bg-[#FF8225] transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedImage(prev => prev > 0 ? prev - 1 : product.images.length - 1);
                     }}
                   >
-                    <ChevronLeft className="text-[#F9F5EE]" size={24} />
+                    <ChevronLeft className="text-[#F8EDED]" size={24} />
                   </button>
 
                   <button
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-[#F9F5EE]/20 backdrop-blur-sm rounded hover:bg-[#C9A84C] transition-colors"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-[#F8EDED]/20 backdrop-blur-sm rounded-full hover:bg-[#FF8225] transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedImage(prev => prev < product.images.length - 1 ? prev + 1 : 0);
                     }}
                   >
-                    <ChevronRight className="text-[#F9F5EE]" size={24} />
+                    <ChevronRight className="text-[#F8EDED]" size={24} />
                   </button>
                 </>
               )}
 
               {/* Image counter */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-[#0D0B0A] text-[#F9F5EE] text-xs px-3 py-1.5 rounded">
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-[#173B45] text-[#F8EDED] text-xs px-3 py-1.5 rounded-full">
                 {selectedImage + 1} / {product.images.length}
               </div>
             </div>
@@ -852,34 +483,34 @@ const ProductDetail: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-[#0D0B0A]/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-[#173B45]/60 backdrop-blur-sm"
               onClick={() => setShowAuthMessage(false)}
             />
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative bg-[#F9F5EE] max-w-md w-full p-8 rounded shadow-2xl border border-[#780000]/10 text-center"
+              className="relative bg-[#F8EDED] max-w-md w-full p-8 rounded-2xl shadow-2xl border border-[#B43F3F]/10 text-center"
             >
-              <div className="w-16 h-16 bg-[#780000]/10 rounded flex items-center justify-center mx-auto mb-6">
-                <Lock className="text-[#780000] w-8 h-8" />
+              <div className="w-16 h-16 bg-[#B43F3F]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Lock className="text-[#B43F3F] w-8 h-8" />
               </div>
-              <h2 className="text-2xl font-display font-medium text-[#0D0B0A] mb-4">
+              <h2 className="text-2xl font-display font-medium text-[#173B45] mb-4">
                 Login Required
               </h2>
-              <p className="text-[#0D0B0A]/70 mb-8">
+              <p className="text-[#173B45]/70 mb-8">
                 To purchase this handwoven masterpiece, please sign in or create an account.
               </p>
               <div className="flex flex-col gap-3">
                 <Link
                   to={`/auth?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`}
-                  className="w-full py-4 bg-[#780000] text-[#F9F5EE] font-medium rounded-sm hover:bg-[#C9A84C] transition-all shadow-lg shadow-[#780000]/20"
+                  className="w-full py-4 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-all shadow-lg shadow-[#B43F3F]/20"
                 >
                   Sign In / Register
                 </Link>
                 <button
                   onClick={() => setShowAuthMessage(false)}
-                  className="w-full py-4 text-[#0D0B0A]/60 font-medium hover:text-[#0D0B0A] transition-colors"
+                  className="w-full py-4 text-[#173B45]/60 font-medium hover:text-[#173B45] transition-colors"
                 >
                   Continue Browsing
                 </button>
@@ -889,37 +520,37 @@ const ProductDetail: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 max-w-7xl relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-32 max-w-7xl relative z-10">
         {/* Breadcrumb */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-2 text-sm mb-6 overflow-x-auto pb-2 scrollbar-hide text-[#0D0B0A]/60"
+          className="flex items-center gap-2 text-sm mb-6 overflow-x-auto pb-2 scrollbar-hide text-[#173B45]/60"
         >
-          <Link to="/" className="hover:text-[#780000] whitespace-nowrap">Home</Link>
+          <Link to="/" className="hover:text-[#B43F3F] whitespace-nowrap">Home</Link>
           <span>/</span>
-          <Link to="/shop" className="hover:text-[#780000] whitespace-nowrap">Shop</Link>
+          <Link to="/shop" className="hover:text-[#B43F3F] whitespace-nowrap">Shop</Link>
           <span>/</span>
-          <Link to={`/shop?category=${product.category}`} className="hover:text-[#780000] whitespace-nowrap">{product.category}</Link>
+          <Link to={`/shop?category=${product.category}`} className="hover:text-[#B43F3F] whitespace-nowrap">{product.category}</Link>
           <span>/</span>
-          <span className="font-medium truncate text-[#0D0B0A]">
+          <span className="font-medium truncate text-[#173B45]">
             {product.name}
           </span>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr] gap-8 lg:gap-14 items-start">
-          {/* Left Column - Sticky Gallery */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 xl:gap-16">
+          {/* Left Column - Images */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="space-y-3 lg:sticky lg:top-[120px] lg:self-start"
+            className="space-y-4"
           >
             {/* Main Image */}
             <div
               {...swipeHandlers}
-              className="relative aspect-[4/5] bg-white rounded-sm sm:rounded lg:rounded-3xl overflow-hidden group cursor-zoom-in border border-[#780000]/10"
+              className="relative aspect-[4/5] bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden group cursor-zoom-in border border-[#B43F3F]/10"
               onClick={() => setIsFullscreenGallery(true)}
             >
               <motion.img
@@ -939,7 +570,7 @@ const ProductDetail: React.FC = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 500, delay: 0.2 }}
-                    className="px-3 py-1.5 bg-[#780000] text-[#F9F5EE] text-xs font-medium rounded shadow-lg"
+                    className="px-3 py-1.5 bg-[#B43F3F] text-[#F8EDED] text-xs font-medium rounded-full shadow-lg"
                   >
                     Best Seller
                   </motion.span>
@@ -949,7 +580,7 @@ const ProductDetail: React.FC = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 500, delay: 0.3 }}
-                    className="px-3 py-1.5 bg-[#C9A84C] text-[#F9F5EE] text-xs font-medium rounded shadow-lg"
+                    className="px-3 py-1.5 bg-[#FF8225] text-[#F8EDED] text-xs font-medium rounded-full shadow-lg"
                   >
                     {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
                   </motion.span>
@@ -959,7 +590,7 @@ const ProductDetail: React.FC = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 500, delay: 0.4 }}
-                    className="px-3 py-1.5 bg-[#0D0B0A] text-[#F9F5EE] text-xs font-medium rounded shadow-lg"
+                    className="px-3 py-1.5 bg-[#173B45] text-[#F8EDED] text-xs font-medium rounded-full shadow-lg"
                   >
                     New Arrival
                   </motion.span>
@@ -975,9 +606,9 @@ const ProductDetail: React.FC = () => {
                     e.stopPropagation();
                     toggleWishlist(product._id);
                   }}
-                  className={`p-2 sm:p-3 rounded shadow-lg transition-all duration-300 ${isWishlisted
-                    ? 'bg-[#780000] text-[#F9F5EE]'
-                    : 'bg-white text-[#0D0B0A] hover:text-[#780000]'
+                  className={`p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 ${isWishlisted
+                    ? 'bg-[#B43F3F] text-[#F8EDED]'
+                    : 'bg-white text-[#173B45] hover:text-[#B43F3F]'
                     }`}
                 >
                   <Heart size={isMobile ? 18 : 20} fill={isWishlisted ? "currentColor" : "none"} />
@@ -990,7 +621,7 @@ const ProductDetail: React.FC = () => {
                     e.stopPropagation();
                     setShowShareMenu(!showShareMenu);
                   }}
-                  className="p-2 sm:p-3 bg-white text-[#0D0B0A] rounded shadow-lg hover:text-[#C9A84C] transition-all duration-300 relative"
+                  className="p-2 sm:p-3 bg-white text-[#173B45] rounded-full shadow-lg hover:text-[#FF8225] transition-all duration-300 relative"
                 >
                   <Share2 size={isMobile ? 18 : 20} />
 
@@ -1000,10 +631,10 @@ const ProductDetail: React.FC = () => {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="absolute top-12 right-0 rounded shadow-2xl p-4 w-48 z-20 bg-white border border-[#780000]/10"
+                        className="absolute top-12 right-0 rounded-2xl shadow-2xl p-4 w-48 z-20 bg-white border border-[#B43F3F]/10"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <p className="text-sm font-medium mb-3 text-[#0D0B0A]">
+                        <p className="text-sm font-medium mb-3 text-[#173B45]">
                           Share this masterpiece
                         </p>
                         <div className="space-y-2">
@@ -1011,12 +642,12 @@ const ProductDetail: React.FC = () => {
                             { name: 'WhatsApp', icon: '📱', color: '#25D366' },
                             { name: 'Facebook', icon: '📘', color: '#1877F2' },
                             { name: 'Pinterest', icon: '📌', color: '#E60023' },
-                            { name: 'Email', icon: '✉️', color: '#780000' }
+                            { name: 'Email', icon: '✉️', color: '#B43F3F' }
                           ].map((platform) => (
                             <button
                               key={platform.name}
                               onClick={() => handleShare(platform.name)}
-                              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-[#F9F5EE] text-[#0D0B0A] transition-colors"
+                              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg hover:bg-[#F8EDED] text-[#173B45] transition-colors"
                             >
                               <span>{platform.icon}</span>
                               <span>{platform.name}</span>
@@ -1030,12 +661,12 @@ const ProductDetail: React.FC = () => {
               </div>
 
               {/* Image Counter (Mobile) */}
-              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-[#0D0B0A]/80 backdrop-blur-sm text-[#F9F5EE] text-xs px-3 py-1.5 rounded lg:hidden">
+              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-[#173B45]/80 backdrop-blur-sm text-[#F8EDED] text-xs px-3 py-1.5 rounded-full lg:hidden">
                 {selectedImage + 1} / {product.images.length}
               </div>
 
               {/* Zoom Indicator (Desktop) */}
-              <div className="absolute bottom-4 right-4 bg-[#0D0B0A]/80 backdrop-blur-sm text-[#F9F5EE] text-xs px-3 py-2 rounded hidden lg:block">
+              <div className="absolute bottom-4 right-4 bg-[#173B45]/80 backdrop-blur-sm text-[#F8EDED] text-xs px-3 py-2 rounded-full hidden lg:block">
                 <span className="flex items-center gap-1">
                   <Search className="w-3 h-3" /> Click to zoom
                 </span>
@@ -1051,9 +682,9 @@ const ProductDetail: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setSelectedImage(index)}
-                    className={`aspect-square rounded-lg sm:rounded-sm overflow-hidden border-2 transition-all duration-300 ${selectedImage === index
-                      ? 'border-[#C9A84C] shadow-lg scale-105'
-                      : 'border-transparent hover:border-[#780000]'
+                    className={`aspect-square rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 ${selectedImage === index
+                      ? 'border-[#FF8225] shadow-lg scale-105'
+                      : 'border-transparent hover:border-[#B43F3F]'
                       }`}
                   >
                     <img
@@ -1067,291 +698,410 @@ const ProductDetail: React.FC = () => {
             )}
           </motion.div>
 
-
-          {/* ── Right Column: Purchase Panel ── */}
+          {/* Right Column - Product Info */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="space-y-6 pb-10"
+            className="space-y-5 sm:space-y-6 lg:space-y-8"
           >
-            {/* 1. PRODUCT IDENTITY */}
+            {/* Title & Rating */}
             <div>
-              <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C9A84C', marginBottom: 10 }}>
-                {product.weave} · {product.fabric}
-              </p>
-              <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: isMobile ? 26 : 34, fontWeight: 500, color: '#0D0B0A', lineHeight: 1.25, marginBottom: 12 }}>
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#B43F3F]/10 text-[#B43F3F]">
+                  {product.category}
+                </span>
+                <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#FF8225]/10 text-[#FF8225]">
+                  {product.weave}
+                </span>
+                <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#173B45]/10 text-[#173B45]">
+                  {product.fabric}
+                </span>
+              </div>
+
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-4 text-[#173B45]">
                 {product.name}
               </h1>
-              {(product.shortDescription || product.description) && (
-                <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: 14, color: 'rgba(13,11,10,0.6)', lineHeight: 1.7 }}>
-                  {product.shortDescription || product.description.slice(0, 130)}
-                </p>
-              )}
-            </div>
 
-            {/* Divider */}
-            <div style={{ height: 1, background: '#E2D9C8' }} />
-
-            {/* 2. RATING + TRUST */}
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-2">
-                <div className="flex gap-0.5">
+              {/* Rating */}
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={13} style={{ color: '#C9A84C', fill: i < Math.floor(product.ratings) ? '#C9A84C' : 'none' }} />
+                    <Star
+                      key={i}
+                      size={isMobile ? 16 : 18}
+                      className={`${i < Math.floor(product.ratings)
+                        ? 'text-[#FF8225] fill-current'
+                        : 'text-[#173B45]/20'
+                        }`}
+                    />
                   ))}
                 </div>
-                <button
-                  onClick={() => setActiveTab('reviews')}
-                  style={{ fontFamily: 'Raleway, sans-serif', fontSize: 12, color: 'rgba(13,11,10,0.55)', letterSpacing: '0.03em' }}
-                >
-                  {product.ratings.toFixed(1)} ({product.numReviews} verified)
-                </button>
-              </div>
-              <div style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, color: 'rgba(13,11,10,0.45)', letterSpacing: '0.05em', display: 'flex', gap: 12 }}>
-                <span>✓ Authentic Handloom</span>
-                <span style={{ color: '#E2D9C8' }}>|</span>
-                <span>✓ Artisan Verified</span>
+                <span className="text-sm text-[#173B45]/70">
+                  <span className="font-medium text-[#173B45]">
+                    {product.ratings.toFixed(1)}
+                  </span>
+                  <span className="mx-1">·</span>
+                  <button
+                    onClick={() => setActiveTab('reviews')}
+                    className="hover:text-[#B43F3F]"
+                  >
+                    {product.numReviews} verified reviews
+                  </button>
+                </span>
               </div>
             </div>
 
-            {/* 3. PRICE */}
-            <div style={{ padding: '16px 20px', background: '#fff', border: '1px solid #E2D9C8', borderRadius: 4 }}>
-              <div className="flex flex-wrap items-baseline gap-3 mb-2">
-                <span style={{ fontFamily: 'Playfair Display, serif', fontSize: 32, fontWeight: 600, color: '#780000' }}>
-                  ₹{product.price.toLocaleString()}
-                </span>
-                {product.originalPrice && (
-                  <>
-                    <span style={{ fontSize: 16, textDecoration: 'line-through', color: 'rgba(13,11,10,0.3)' }}>
-                      ₹{product.originalPrice.toLocaleString()}
-                    </span>
-                    <span style={{ background: '#C9A84C', color: '#0D0B0A', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 2, letterSpacing: '0.08em' }}>
-                      SAVE {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
-                    </span>
-                  </>
-                )}
+            {/* Price */}
+            <div className="flex flex-wrap items-baseline gap-4">
+              <span className="text-3xl sm:text-4xl font-medium text-[#B43F3F]">
+                ₹{product.price.toLocaleString()}
+              </span>
+              {product.originalPrice && (
+                <>
+                  <span className="text-lg sm:text-xl line-through text-[#173B45]/40">
+                    ₹{product.originalPrice.toLocaleString()}
+                  </span>
+                  <span className="px-3 py-1 bg-[#FF8225]/10 text-[#FF8225] text-sm font-medium rounded-full">
+                    Save ₹{(product.originalPrice - product.price).toLocaleString()}
+                  </span>
+                </>
+              )}
+            </div>
+
+            {/* TANVO Authenticity Promise */}
+            <div className="p-4 sm:p-5 rounded-2xl border border-[#B43F3F]/10 bg-white/60 backdrop-blur-sm shadow-sm space-y-4">
+              <div className="flex items-center gap-2 border-b border-[#B43F3F]/10 pb-2">
+                <Award className="w-5 h-5 text-[#B43F3F]" />
+                <h3 className="font-display font-medium text-base text-[#173B45]">
+                  TANVO Authenticity Promise
+                </h3>
               </div>
-              <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, color: 'rgba(13,11,10,0.45)', letterSpacing: '0.04em' }}>
-                ✓ Free Shipping above ₹5,000 · All taxes included
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#B43F3F]"></div>
+                  <span>Handloom Certified</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#FF8225]"></div>
+                  <span>Artisan Verified</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#173B45]"></div>
+                  <span>Fabric: {product.fabric}</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#173B45]/80">
+                  <div className="w-2 h-2 rounded-full bg-[#B43F3F]"></div>
+                  <span>Weave: {product.weave}</span>
+                </div>
+              </div>
+              <p className="text-xs text-[#173B45]/70 italic leading-relaxed pt-1">
+                "We guarantee this saree is a genuine hand-spun, hand-woven Indian masterpiece. We work directly with artisan families, paying fair wages and ensuring their ancestral craft lives on."
               </p>
             </div>
 
-            {/* 4. AUTHENTICITY PROMISE (compact) */}
-            <div style={{ border: '1px solid #E2D9C8', padding: '14px 18px', borderRadius: 4 }}>
-              <div className="flex items-center justify-between mb-3">
-                <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: 9, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#780000' }}>
-                  TANVO Authenticity
-                </p>
-                <button
-                  onClick={() => setAuthExpanded(!authExpanded)}
-                  style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, color: '#C9A84C', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.04em' }}
-                >
-                  {authExpanded ? 'Close ↑' : 'Know the story →'}
-                </button>
-              </div>
-              <div className="grid grid-cols-2 gap-y-2 gap-x-4">
-                {['Handwoven by verified artisans', 'Genuine Odisha handloom', 'Premium natural fabric', 'Direct artisan sourcing'].map(t => (
-                  <div key={t} className="flex items-center gap-1.5" style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, color: 'rgba(13,11,10,0.6)' }}>
-                    <Check size={10} style={{ color: '#C9A84C', flexShrink: 0 }} />{t}
-                  </div>
-                ))}
-              </div>
-              <AnimatePresence>
-                {authExpanded && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.25 }}
-                    style={{ overflow: 'hidden' }}
-                  >
-                    <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: 12, fontStyle: 'italic', color: 'rgba(13,11,10,0.55)', lineHeight: 1.7, marginTop: 12, paddingTop: 12, borderTop: '1px solid #E2D9C8' }}>
-                      "We guarantee this saree is a genuine hand-spun, hand-woven Indian masterpiece. We work directly with artisan families, paying fair wages and ensuring their ancestral craft lives on."
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            {/* Stock Status */}
+            <div className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full ${product.stock > 5 ? 'bg-green-500' : 'bg-[#FF8225]'
+                } animate-pulse`}></div>
+              <span className="text-sm font-medium text-[#173B45]">
+                {product.stock > 5
+                  ? 'In Stock'
+                  : product.stock > 0
+                    ? `Only ${product.stock} units left!`
+                    : 'Out of Stock'
+                }
+              </span>
             </div>
 
-            {/* 5. PRODUCT SELECTIONS */}
-            <div className="space-y-5">
-              {/* Stock status */}
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${product.stock > 5 ? 'bg-green-500 animate-pulse' : product.stock > 0 ? 'bg-amber-500 animate-pulse' : 'bg-red-500'}`} />
-                <span style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', color: '#0D0B0A' }}>
-                  {product.stock > 5 ? 'In Stock' : product.stock > 0 ? `Only ${product.stock} pieces left` : 'Out of Stock'}
-                </span>
+            {/* Color Selection */}
+            {product.colors && product.colors.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-[#173B45]">
+                  Color: <span className="font-medium text-[#B43F3F]">
+                    {selectedColor || 'Select'}
+                  </span>
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {product.colors.map((color: string) => (
+                    <motion.button
+                      key={color}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setSelectedColor(color)}
+                      className="group relative"
+                    >
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 transition-all duration-300 ${selectedColor === color
+                        ? 'border-[#FF8225] scale-110'
+                        : 'border-[#173B45]/20 hover:border-[#B43F3F]'
+                        }`}>
+                        <div
+                          className="w-full h-full rounded-full"
+                          style={{
+                            backgroundColor: color.toLowerCase(),
+                            boxShadow: selectedColor === color ? '0 0 0 2px #FF8225' : 'none'
+                          }}
+                        />
+                      </div>
+                      <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs whitespace-nowrap text-[#173B45]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {color}
+                      </span>
+                    </motion.button>
+                  ))}
+                </div>
               </div>
+            )}
 
-              {/* Colours */}
-              {product.colors && product.colors.length > 0 && (
-                <div>
-                  <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0D0B0A', marginBottom: 10 }}>
-                    Colour: <span style={{ color: '#780000', fontWeight: 400, textTransform: 'none' }}>{selectedColor}</span>
-                  </p>
-                  <div className="flex gap-2.5 flex-wrap">
-                    {product.colors.map(c => (
-                      <button
-                        key={c} onClick={() => setSelectedColor(c)} title={c}
-                        style={{ width: 34, height: 34, background: c.toLowerCase(), border: `2px solid ${selectedColor === c ? '#780000' : '#E2D9C8'}`, borderRadius: 2, outline: selectedColor === c ? '1px solid #780000' : 'none', outlineOffset: 2, transition: 'all 0.2s', cursor: 'pointer' }}
-                      />
-                    ))}
-                  </div>
+            {/* Size Selection */}
+            {product.sizes && product.sizes.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-[#173B45]">
+                  Size: <span className="font-medium text-[#B43F3F]">
+                    {selectedSize || 'Select'}
+                  </span>
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {product.sizes.map((size: string) => (
+                    <motion.button
+                      key={size}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setSelectedSize(size)}
+                      className={`px-4 py-2 rounded-lg border-2 transition-all duration-300 ${selectedSize === size
+                        ? 'border-[#B43F3F] bg-[#B43F3F] text-[#F8EDED]'
+                        : 'border-[#173B45]/20 hover:border-[#B43F3F] text-[#173B45]'
+                        }`}
+                    >
+                      {size}
+                    </motion.button>
+                  ))}
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Sizes */}
-              {product.sizes && product.sizes.length > 0 && (
+            {/* Key Features Grid */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-xl bg-white border border-[#B43F3F]/10">
+                <Gem className="w-4 h-4 sm:w-5 sm:h-5 text-[#B43F3F] shrink-0" />
                 <div>
-                  <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0D0B0A', marginBottom: 10 }}>
-                    Size: <span style={{ color: '#780000', fontWeight: 400, textTransform: 'none' }}>{selectedSize}</span>
+                  <p className="text-xs sm:text-sm font-medium text-[#173B45]">
+                    {product.fabric}
                   </p>
-                  <div className="flex gap-2 flex-wrap">
-                    {product.sizes.map(s => (
-                      <button
-                        key={s} onClick={() => setSelectedSize(s)}
-                        style={{ padding: '8px 16px', fontFamily: 'Raleway, sans-serif', fontSize: 11, letterSpacing: '0.06em', border: `1px solid ${selectedSize === s ? '#780000' : '#E2D9C8'}`, background: selectedSize === s ? '#780000' : 'transparent', color: selectedSize === s ? '#F9F5EE' : '#0D0B0A', borderRadius: 2, cursor: 'pointer', transition: 'all 0.2s' }}
-                      >
-                        {s}
-                      </button>
-                    ))}
-                  </div>
+                  <p className="text-xs text-[#173B45]/50">
+                    Premium Quality
+                  </p>
                 </div>
-              )}
+              </div>
+              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-xl bg-white border border-[#B43F3F]/10">
+                <Ruler className="w-4 h-4 sm:w-5 sm:h-5 text-[#FF8225] shrink-0" />
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-[#173B45]">
+                    {product.length || '6.3 Meters'}
+                  </p>
+                  <p className="text-xs text-[#173B45]/50">
+                    {product.blousePiece ? 'Includes Blouse' : 'Blouse Separate'}
+                  </p>
+                </div>
+              </div>
+            </div>
 
-              {/* Quantity */}
-              <div>
-                <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0D0B0A', marginBottom: 10 }}>Quantity</p>
-                <div className="inline-flex items-center" style={{ border: '1px solid #E2D9C8', borderRadius: 4 }}>
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={quantity <= 1}
-                    className="w-11 h-11 flex items-center justify-center hover:bg-gray-50 disabled:opacity-30 transition-colors"
-                    style={{ borderRight: '1px solid #E2D9C8' }}
+            {/* Weaver Story Card */}
+            {product.weaverInfo && (
+              <motion.div
+                whileHover={{ scale: 1.01 }}
+                className="p-5 rounded-2xl border border-[#B43F3F]/10 bg-gradient-to-r from-[#B43F3F]/5 to-transparent space-y-3"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-[#173B45] text-[#F8EDED] rounded-full flex items-center justify-center font-display font-medium text-lg shadow-inner">
+                      {product.weaverInfo.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h4 className="font-display font-medium text-base text-[#173B45]">
+                        {product.weaverInfo.name}
+                      </h4>
+                      <p className="text-xs text-[#173B45]/60">
+                        {product.weaverInfo.location} • {product.weaverInfo.generation} Weaver
+                      </p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-1 text-[10px] font-semibold tracking-wider uppercase rounded-full bg-[#FF8225]/15 text-[#FF8225]">
+                    Heritage Master
+                  </span>
+                </div>
+                <p className="text-xs text-[#173B45]/80 leading-relaxed">
+                  {product.weaverInfo.story || `This saree was hand-guided on a traditional pit loom by ${product.weaverInfo.name}, preserving the heritage weave legacy of ${product.weaverInfo.location}.`}
+                </p>
+                <div className="pt-1 flex justify-end">
+                  <Link to={`/weavers/${encodeURIComponent(product.weaverInfo.name)}`} className="text-xs font-semibold text-[#B43F3F] hover:text-[#FF8225] transition-colors">
+                    Meet the Weaver →
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Quantity & Add to Cart */}
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <span className="text-sm font-medium text-[#173B45]">
+                  Quantity:
+                </span>
+                <div className="flex items-center border border-[#173B45]/20 rounded-full w-full sm:w-auto bg-white">
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-12 h-12 flex items-center justify-center rounded-l-full hover:bg-[#F8EDED] transition-colors"
+                    disabled={quantity <= 1}
                   >
-                    <Minus size={13} style={{ color: '#0D0B0A' }} />
-                  </button>
-                  <span style={{ width: 44, textAlign: 'center', fontFamily: 'Raleway, sans-serif', fontSize: 14, fontWeight: 600, color: '#0D0B0A' }}>
+                    <Minus size={16} className={quantity <= 1 ? 'text-[#173B45]/30' : 'text-[#173B45]'} />
+                  </motion.button>
+                  <span className="w-16 text-center font-medium text-lg text-[#173B45]">
                     {quantity}
                   </span>
-                  <button
-                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))} disabled={quantity >= product.stock}
-                    className="w-11 h-11 flex items-center justify-center hover:bg-gray-50 disabled:opacity-30 transition-colors"
-                    style={{ borderLeft: '1px solid #E2D9C8' }}
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                    className="w-12 h-12 flex items-center justify-center rounded-r-full hover:bg-[#F8EDED] transition-colors"
+                    disabled={quantity >= product.stock}
                   >
-                    <Plus size={13} style={{ color: '#0D0B0A' }} />
-                  </button>
+                    <Plus size={16} className={quantity >= product.stock ? 'text-[#173B45]/30' : 'text-[#173B45]'} />
+                  </motion.button>
                 </div>
               </div>
-            </div>
 
-            {/* 6. PURCHASE ACTIONS */}
-            <div className="space-y-3">
-              {/* Micro trust row */}
-              <div style={{ fontFamily: 'Raleway, sans-serif', fontSize: 10, color: 'rgba(13,11,10,0.4)', letterSpacing: '0.06em', display: 'flex', flexWrap: 'wrap', gap: '4px 20px' }}>
-                <span>✓ Handwoven Odisha Heritage</span>
-                <span>✓ Verified Artisan</span>
-                <span>✓ 7-Day Returns</span>
-              </div>
-
-              {/* ADD TO CART */}
-              <motion.button
-                whileTap={{ scale: 0.99 }}
-                onClick={handleAddToCart}
-                disabled={product.stock === 0}
-                className="w-full py-4 font-semibold tracking-widest uppercase text-sm transition-all disabled:opacity-40 group"
-                style={{ fontFamily: 'Raleway, sans-serif', letterSpacing: '0.15em', background: 'transparent', border: '1.5px solid #0D0B0A', color: '#0D0B0A', borderRadius: 4 }}
-                onMouseEnter={e => { const t = e.currentTarget; t.style.background = '#0D0B0A'; t.style.color = '#F9F5EE'; }}
-                onMouseLeave={e => { const t = e.currentTarget; t.style.background = 'transparent'; t.style.color = '#0D0B0A'; }}
-              >
-                Add to Cart
-              </motion.button>
-
-              {/* BUY NOW */}
-              <motion.button
-                whileTap={{ scale: 0.99 }}
-                onClick={handleBuyNow}
-                disabled={product.stock === 0}
-                className="w-full py-4 font-semibold tracking-widest uppercase text-sm transition-all disabled:opacity-40"
-                style={{ fontFamily: 'Raleway, sans-serif', letterSpacing: '0.15em', background: '#780000', border: '1.5px solid #780000', color: '#F9F5EE', borderRadius: 4 }}
-                onMouseEnter={e => { const t = e.currentTarget; t.style.background = '#0D0B0A'; t.style.borderColor = '#0D0B0A'; }}
-                onMouseLeave={e => { const t = e.currentTarget; t.style.background = '#780000'; t.style.borderColor = '#780000'; }}
-              >
-                Buy Now
-              </motion.button>
-
-              {/* Helper links */}
-              <div className="flex gap-6 justify-center pt-1">
-                <button className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
-                  style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, color: 'rgba(13,11,10,0.5)', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.04em' }}>
-                  <MessageCircle size={12} /> Chat with Weaver
-                </button>
-                <button className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
-                  style={{ fontFamily: 'Raleway, sans-serif', fontSize: 11, color: 'rgba(13,11,10,0.5)', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.04em' }}>
-                  <RotateCcw size={12} /> 7-Day Returns
-                </button>
+              {/* Action Buttons */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleAddToCart}
+                  disabled={product.stock === 0}
+                  className="group py-3 sm:py-4 font-medium rounded-xl hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-white border-2 border-[#B43F3F] text-[#B43F3F] hover:bg-[#B43F3F] hover:text-[#F8EDED]"
+                >
+                  <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
+                  Add to Cart
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleBuyNow}
+                  disabled={product.stock === 0}
+                  className="py-3 sm:py-4 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Buy It Now
+                </motion.button>
               </div>
             </div>
 
-            {/* Divider */}
-            <div style={{ height: 1, background: '#E2D9C8' }} />
+            {/* Delivery Check */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="p-5 sm:p-6 rounded-xl border border-[#B43F3F]/10 bg-white"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <MapPin className="w-5 h-5 text-[#FF8225]" />
+                <h3 className="font-display font-medium text-lg text-[#173B45]">
+                  Check Delivery
+                </h3>
+              </div>
 
-            {/* 7. DELIVERY CHECK */}
-            <div>
-              <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#0D0B0A', marginBottom: 12 }}>
-                Check Delivery
-              </p>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   value={pincode}
-                  onChange={e => setPincode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  placeholder="Enter 6-digit PIN code"
-                  className="flex-1 px-4 py-3 text-sm outline-none transition-all"
-                  style={{ border: '1px solid #E2D9C8', background: '#fff', color: '#0D0B0A', fontFamily: 'Raleway, sans-serif', borderRadius: 4 }}
-                  onFocus={e => { e.target.style.borderColor = '#780000'; }}
-                  onBlur={e => { e.target.style.borderColor = '#E2D9C8'; }}
+                  onChange={(e) => setPincode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  placeholder="Enter PIN code"
+                  className="flex-1 px-4 py-3 border border-[#173B45]/20 rounded-xl focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all bg-white text-[#173B45] placeholder-[#173B45]/40"
                 />
                 <motion.button
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handlePincodeCheck}
-                  style={{ padding: '0 20px', background: '#0D0B0A', color: '#F9F5EE', fontFamily: 'Raleway, sans-serif', fontSize: 10, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', border: 'none', borderRadius: 4, cursor: 'pointer', flexShrink: 0 }}
+                  className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-all"
                 >
                   Check
                 </motion.button>
               </div>
+
               <AnimatePresence>
                 {deliveryCheck && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="mt-3 px-4 py-3 text-xs flex items-start gap-2"
-                    style={{ background: deliveryCheck.available ? '#f0fdf4' : '#fff7ed', border: `1px solid ${deliveryCheck.available ? '#86efac' : '#fed7aa'}`, borderRadius: 4 }}
+                    className={`mt-4 p-4 rounded-xl ${deliveryCheck.available
+                      ? 'bg-green-50 text-green-700'
+                      : 'bg-orange-50 text-orange-700'
+                      }`}
                   >
-                    <Truck size={12} style={{ color: deliveryCheck.available ? '#16a34a' : '#ea580c', flexShrink: 0, marginTop: 1 }} />
-                    <div style={{ fontFamily: 'Raleway, sans-serif', color: deliveryCheck.available ? '#15803d' : '#c2410c' }}>
-                      {deliveryCheck.available ? (
-                        <>
-                          <p style={{ fontWeight: 600 }}>Available — arrives {deliveryCheck.date}</p>
-                          <p style={{ opacity: 0.7, marginTop: 2 }}>Free shipping on orders above ₹5,000</p>
-                        </>
-                      ) : (
-                        <>
-                          <p style={{ fontWeight: 600 }}>Not serviceable at this PIN</p>
-                          <p style={{ opacity: 0.7, marginTop: 2 }}>Try nearby areas or contact support</p>
-                        </>
-                      )}
+                    <div className="flex items-start gap-3">
+                      <Truck className="w-5 h-5 shrink-0 mt-0.5" />
+                      <div>
+                        {deliveryCheck.available ? (
+                          <>
+                            <p className="font-medium">Available! Get it by {deliveryCheck.date}</p>
+                            <p className="text-sm mt-1">Free shipping on orders above ₹5,000</p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="font-medium">Not available at this PIN code</p>
+                            <p className="text-sm mt-1">Try nearby areas or contact support</p>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
+            </motion.div>
+
+            {/* Trust Badges */}
+            <div className="grid grid-cols-3 gap-3 p-4 sm:p-6 rounded-xl border border-[#B43F3F]/10 bg-white">
+              <div className="text-center">
+                <Shield className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-2 text-[#B43F3F]" />
+                <p className="text-[10px] sm:text-xs font-medium text-[#173B45]">
+                  Handloom Certified
+                </p>
+              </div>
+              <div className="text-center">
+                <Lock className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-2 text-[#FF8225]" />
+                <p className="text-[10px] sm:text-xs font-medium text-[#173B45]">
+                  Secure Payments
+                </p>
+              </div>
+              <div className="text-center">
+                <Users className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-2 text-[#173B45]" />
+                <p className="text-[10px] sm:text-xs font-medium text-[#173B45]">
+                  Artisan Direct
+                </p>
+              </div>
             </div>
 
-            {/* 8. THE TANVO STORY */}
-            <TanvoStoryAccordion product={product} />
-          </motion.div>
+            {/* Need Help */}
+            <div className="grid grid-cols-2 gap-3">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center justify-center gap-2 py-3 border border-[#B43F3F]/10 rounded-xl text-[#173B45] hover:border-[#FF8225] hover:bg-[#FF8225]/5 transition-all bg-white"
+              >
+                <MessageCircle className="w-4 h-4 text-[#FF8225]" />
+                <span className="text-xs sm:text-sm font-medium">Chat with Weaver</span>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center justify-center gap-2 py-3 border border-[#B43F3F]/10 rounded-xl text-[#173B45] hover:border-[#B43F3F] hover:bg-[#B43F3F]/5 transition-all bg-white"
+              >
+                <RotateCcw className="w-4 h-4 text-[#B43F3F]" />
+                <span className="text-xs sm:text-sm font-medium">7-Day Returns</span>
+              </motion.button>
+            </div>
 
+            {/* Heritage Details Accordion */}
+            <ProductHeritageAccordion product={product} />
+          </motion.div>
         </div>
 
         {/* Tabs Section */}
@@ -1359,126 +1109,439 @@ const ProductDetail: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-12 sm:mt-16 lg:mt-20 border-t border-[#E2D9C8] pt-12"
+          className="mt-12 sm:mt-16 lg:mt-20"
         >
-          {isMobile ? (
-            /* Mobile Accordion Style Tabs */
-            <div className="space-y-2">
+          {/* Desktop Tabs */}
+          <div className="border-b border-[#B43F3F]/10">
+            <div className="flex gap-8 overflow-x-auto pb-1">
               {[
-                { id: 'description', label: 'Description', content: renderDescriptionTab() },
-                { id: 'specifications', label: 'Specifications', content: renderSpecificationsTab() },
-                { id: 'care', label: 'Care Instructions', content: renderCareTab() },
-                { id: 'reviews', label: `Reviews (${product.numReviews})`, content: renderReviewsTab() }
-              ].map((tab) => {
-                const isOpen = activeTab === tab.id;
-                return (
-                  <div key={tab.id} className="border-b border-[#E2D9C8] last:border-b-0">
-                    <button
-                      onClick={() => setActiveTab(isOpen ? '' : tab.id)}
-                      className="w-full flex justify-between items-center py-4 text-left transition-colors duration-200"
-                      style={{
-                        fontFamily: 'Playfair Display, serif',
-                        fontSize: 16,
-                        fontWeight: 500,
-                        color: '#0D0B0A',
-                        background: 'none',
-                        border: 'none'
-                      }}
-                    >
-                      <span className={isOpen ? 'text-[#780000]' : 'text-[#0D0B0A]'}>{tab.label}</span>
-                      <ChevronDown
-                        size={18}
-                        className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#C9A84C]' : 'text-[#0D0B0A]/40'}`}
-                      />
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.25, ease: 'easeInOut' }}
-                          className="overflow-hidden pb-6"
+                { id: 'description', label: 'Description' },
+                { id: 'specifications', label: 'Specifications' },
+                { id: 'care', label: 'Care Instructions' },
+                { id: 'reviews', label: `Reviews (${product.numReviews})` }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`pb-4 px-2 font-medium transition-all duration-300 relative whitespace-nowrap ${activeTab === tab.id
+                    ? 'text-[#B43F3F]'
+                    : 'text-[#173B45]/60 hover:text-[#173B45]'
+                    }`}
+                >
+                  {tab.label}
+                  {activeTab === tab.id && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF8225]"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="py-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {activeTab === 'description' && (
+                  <div className="prose max-w-none">
+                    <p className="leading-relaxed text-base sm:text-lg text-[#173B45]/80">
+                      {product.description}
+                    </p>
+                    {product.tags && product.tags.length > 0 && (
+                      <div className="mt-6 flex flex-wrap gap-2">
+                        {product.tags.map(tag => (
+                          <span key={tag} className="px-3 py-1 bg-[#F8EDED] text-[#173B45] text-xs rounded-full">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-6 rounded-xl bg-white border border-[#B43F3F]/10">
+                        <h4 className="font-display font-medium mb-3 text-[#173B45]">
+                          Weaving Technique
+                        </h4>
+                        <p className="text-sm text-[#173B45]/70">
+                          Handwoven using traditional {product.weave} technique, passed down through generations of master weavers.
+                        </p>
+                      </div>
+                      <div className="p-6 rounded-xl bg-white border border-[#B43F3F]/10">
+                        <h4 className="font-display font-medium mb-3 text-[#173B45]">
+                          Design Inspiration
+                        </h4>
+                        <p className="text-sm text-[#173B45]/70">
+                          Inspired by ancient temple motifs and traditional patterns, each piece tells a unique story.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'specifications' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h3 className="font-display font-medium text-xl text-[#173B45]">
+                        Product Details
+                      </h3>
+                      <div className="space-y-3">
+                        {[
+                          { label: 'Fabric', value: product.fabric },
+                          { label: 'Weave Type', value: product.weave },
+                          { label: 'Length', value: product.length || '6.3 Meters' },
+                          { label: 'Blouse Piece', value: product.blousePiece ? 'Included' : 'Separate' },
+                          { label: 'Category', value: product.category },
+                          { label: 'Sub Category', value: product.subCategory },
+                          { label: 'Border', value: 'Traditional temple design' },
+                          { label: 'Pallu', value: 'Intricate ikat pattern' },
+                          { label: 'Weight', value: 'Approx. 450-500 gms' },
+                          { label: 'Country', value: 'India (Odisha)' }
+                        ].map((item, idx) => (
+                          <div key={idx} className="flex justify-between py-2 border-b border-[#B43F3F]/10">
+                            <span className="text-[#173B45]/60">
+                              {item.label}
+                            </span>
+                            <span className="font-medium text-[#173B45]">
+                              {item.value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="font-display font-medium text-xl text-[#173B45]">
+                        Shipping Info
+                      </h3>
+                      <div className="space-y-3">
+                        {[
+                          { icon: Truck, text: 'Free shipping on orders above ₹5,000' },
+                          { icon: Clock, text: 'Delivery in 3-5 business days' },
+                          { icon: RotateCcw, text: '7-day easy returns' },
+                          { icon: Shield, text: '100% authentic handloom guarantee' }
+                        ].map((item, idx) => (
+                          <div key={idx} className="flex items-start gap-3">
+                            <item.icon className="w-5 h-5 shrink-0 text-[#B43F3F]" />
+                            <span className="text-[#173B45]/70">
+                              {item.text}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'care' && (
+                  <div className="max-w-3xl">
+                    <div className="p-8 rounded-2xl border border-[#B43F3F]/10 bg-white">
+                      <h3 className="font-display font-medium text-xl mb-6 flex items-center gap-2 text-[#173B45]">
+                        <Leaf className="w-6 h-6 text-green-600" />
+                        Care Instructions
+                      </h3>
+                      <p className="mb-6 text-[#173B45]/80">
+                        {product.careInstructions || 'Dry clean only for first wash. Store in muslin cloth. Keep away from direct sunlight.'}
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {[
+                          'Dry clean only for first wash',
+                          'Store in muslin cloth',
+                          'Keep away from direct sunlight',
+                          'Do not use bleach',
+                          'Iron while slightly damp',
+                          'Use neem leaves to prevent pests'
+                        ].map((tip, idx) => (
+                          <div key={idx} className="flex items-start gap-2">
+                            <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                            <span className="text-sm text-[#173B45]/70">
+                              {tip}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'reviews' && (
+                  <div className="space-y-8">
+                    {/* Rating Summary */}
+                    <div className="flex flex-col sm:flex-row items-start gap-8">
+                      <div className="text-center sm:text-left">
+                        <div className="text-5xl sm:text-6xl font-display font-medium text-[#B43F3F]">
+                          {product.ratings.toFixed(1)}
+                        </div>
+                        <div className="flex items-center gap-1 mt-2 justify-center sm:justify-start">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={16} className={
+                              i < Math.floor(product.ratings)
+                                ? 'text-[#FF8225] fill-current'
+                                : 'text-[#173B45]/20'
+                            } />
+                          ))}
+                        </div>
+                        <p className="text-sm mt-2 text-[#173B45]/60">
+                          Based on {product.numReviews} reviews
+                        </p>
+                      </div>
+
+                      <div className="flex-1 w-full">
+                        {[5, 4, 3, 2, 1].map((rating) => {
+                          const percentage = Math.floor(Math.random() * 100);
+                          return (
+                            <div key={rating} className="flex items-center gap-3 mb-2">
+                              <span className="text-sm w-8 text-[#173B45]/70">
+                                {rating} ★
+                              </span>
+                              <div className="flex-1 h-2 rounded-full overflow-hidden bg-[#F8EDED]">
+                                <div
+                                  className="h-full bg-gradient-to-r from-[#B43F3F] to-[#FF8225]"
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                              <span className="text-sm text-[#173B45]/60">
+                                {percentage}%
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {isAuthenticated ? (
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setShowReviewForm(!showReviewForm)}
+                          className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-xl hover:bg-[#FF8225] transition-all whitespace-nowrap"
                         >
-                          {tab.content}
-                        </motion.div>
+                          {showReviewForm ? 'Cancel Review' : 'Write a Review'}
+                        </motion.button>
+                      ) : (
+                        <Link
+                          to="/auth"
+                          className="px-6 py-3 border-2 border-[#B43F3F] text-[#B43F3F] rounded-xl hover:bg-[#B43F3F] hover:text-[#F8EDED] transition-all whitespace-nowrap"
+                        >
+                          Login to Review
+                        </Link>
+                      )}
+                    </div>
+
+                    <AnimatePresence>
+                      {showReviewForm && (
+                        <motion.form
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          onSubmit={handleReviewSubmit}
+                          className="bg-[#F8EDED]/30 p-6 rounded-2xl border border-[#B43F3F]/10 space-y-4"
+                        >
+                          <h4 className="font-display font-medium text-lg text-[#173B45]">
+                            Share Your Experience
+                          </h4>
+                          {reviewError && (
+                            <div className="p-3 bg-red-50 text-red-600 rounded-xl text-sm">
+                              {reviewError}
+                            </div>
+                          )}
+                          {reviewSuccess && (
+                            <div className="p-3 bg-green-50 text-green-600 rounded-xl text-sm">
+                              Thank you! Your review has been submitted and is pending verification.
+                            </div>
+                          )}
+                          
+                          <div className="space-y-2">
+                            <label className="text-sm font-medium text-[#173B45] block">
+                              Rating
+                            </label>
+                            <div className="flex gap-1">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                  type="button"
+                                  key={star}
+                                  onClick={() => setNewRating(star)}
+                                  className="text-[#FF8225]"
+                                >
+                                  <Star
+                                    size={24}
+                                    fill={star <= newRating ? '#FF8225' : 'none'}
+                                  />
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <label htmlFor="review-title" className="text-sm font-medium text-[#173B45] block">
+                              Review Title
+                            </label>
+                            <input
+                              id="review-title"
+                              type="text"
+                              value={newTitle}
+                              onChange={(e) => setNewTitle(e.target.value)}
+                              placeholder="Summarize your experience"
+                              className="w-full px-4 py-2 border border-[#173B45]/20 rounded-xl bg-white text-[#173B45]"
+                            />
+                          </div>
+
+                          <div className="space-y-2">
+                            <label htmlFor="review-comment" className="text-sm font-medium text-[#173B45] block">
+                              Review Content *
+                            </label>
+                            <textarea
+                              id="review-comment"
+                              rows={4}
+                              value={newComment}
+                              onChange={(e) => setNewComment(e.target.value)}
+                              placeholder="What did you love? How was the texture, fabric, and drape?"
+                              required
+                              className="w-full px-4 py-2 border border-[#173B45]/20 rounded-xl bg-white text-[#173B45]"
+                            />
+                          </div>
+
+                          <div className="flex gap-3">
+                            <button
+                              type="submit"
+                              disabled={submittingReview}
+                              className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-xl hover:bg-[#FF8225] transition-colors disabled:opacity-50"
+                            >
+                              {submittingReview ? 'Submitting...' : 'Submit Review'}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setShowReviewForm(false)}
+                              className="px-6 py-3 border border-[#173B45]/20 text-[#173B45] font-medium rounded-xl hover:bg-white hover:text-[#B43F3F] transition-all"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </motion.form>
                       )}
                     </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            /* Desktop Elegant Editorial Tabs */
-            <>
-              <div className="border-b border-[#E2D9C8]">
-                <div className="flex gap-10 pb-0">
-                  {[
-                    { id: 'description', label: 'Description' },
-                    { id: 'specifications', label: 'Specifications' },
-                    { id: 'care', label: 'Care Instructions' },
-                    { id: 'reviews', label: `Reviews (${product.numReviews})` }
-                  ].map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className="pb-4 px-1 font-semibold transition-all duration-300 relative whitespace-nowrap"
-                      style={{
-                        fontFamily: 'Raleway, sans-serif',
-                        fontSize: 12,
-                        letterSpacing: '0.12em',
-                        textTransform: 'uppercase',
-                        color: activeTab === tab.id ? '#0D0B0A' : 'rgba(13,11,10,0.4)',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {tab.label}
-                      {activeTab === tab.id && (
-                        <motion.div
-                          layoutId="activeTabUnderline"
-                          className="absolute bottom-0 left-0 w-full h-0.5 bg-[#C9A84C]"
-                        />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
 
-              <div className="py-10">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {activeTab === 'description' && renderDescriptionTab()}
-                    {activeTab === 'specifications' && renderSpecificationsTab()}
-                    {activeTab === 'care' && renderCareTab()}
-                    {activeTab === 'reviews' && renderReviewsTab()}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </>
-          )}
+                    {/* Customer Reviews */}
+                    {loadingReviews ? (
+                      <div className="flex justify-center py-12">
+                        <div className="relative">
+                          <div className="w-10 h-10 border-4 border-[#B43F3F] border-t-transparent rounded-full animate-spin"></div>
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-2 h-2 bg-[#FF8225] rounded-full"></div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : reviews.length > 0 ? (
+                      <div className="space-y-6">
+                        {reviews.map((review, idx) => (
+                          <motion.div
+                            key={review._id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="border border-[#B43F3F]/10 rounded-2xl p-6 hover:shadow-lg transition-all bg-white"
+                          >
+                            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                              <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 bg-[#173B45] rounded-full flex items-center justify-center text-[#F8EDED] font-medium">
+                                  {review.user.name.charAt(0)}
+                                </div>
+                                <div>
+                                  <p className="font-medium text-[#173B45]">
+                                    {review.user.name}
+                                  </p>
+                                  <div className="flex flex-wrap items-center gap-2 text-sm">
+                                    <div className="flex">
+                                      {[...Array(5)].map((_, i) => (
+                                        <Star key={i} size={12} className={
+                                          i < review.rating
+                                            ? 'text-[#FF8225] fill-current'
+                                            : 'text-[#173B45]/20'
+                                        } />
+                                      ))}
+                                    </div>
+                                    <span className="text-xs text-[#173B45]/60">
+                                      {formatDate(review.createdAt)}
+                                    </span>
+                                    {review.isVerifiedPurchase && (
+                                      <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                                        Verified Purchase
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {review.title && (
+                              <h4 className="font-medium text-[#173B45] mb-2">{review.title}</h4>
+                            )}
+
+                            <p className="mb-4 text-[#173B45]/70">
+                              {review.comment}
+                            </p>
+
+                            {review.images && review.images.length > 0 && (
+                              <div className="flex gap-2 mb-4">
+                                {review.images.map((img, imgIdx) => (
+                                  <img key={imgIdx} src={img.url} alt="Review" className="w-16 h-16 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity" />
+                                ))}
+                              </div>
+                            )}
+
+                            <div className="flex items-center gap-4">
+                              <button className="flex items-center gap-1 text-sm text-[#173B45]/60 hover:text-[#B43F3F] transition-colors">
+                                <ThumbsUp size={14} />
+                                <span>Helpful ({review.helpful?.length || 0})</span>
+                              </button>
+                              <button className="text-sm text-[#173B45]/60 hover:text-[#B43F3F] transition-colors">
+                                Report
+                              </button>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-12 bg-white rounded-2xl border border-[#B43F3F]/10">
+                        <p className="text-[#173B45]/60">No reviews yet. Be the first to review this product!</p>
+                      </div>
+                    )}
+
+                    {/* Load More */}
+                    {hasMoreReviews && (
+                      <div className="text-center">
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={handleLoadMoreReviews}
+                          disabled={loadingReviews}
+                          className="px-8 py-3 border-2 border-[#B43F3F] text-[#B43F3F] font-medium rounded-xl hover:bg-[#B43F3F] hover:text-[#F8EDED] transition-all disabled:opacity-50"
+                        >
+                          {loadingReviews ? 'Loading...' : 'Load More Reviews'}
+                        </motion.button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </motion.div>
 
-        {/* Complete Your Collection Section */}
+        {/* You May Also Like */}
         {relatedProducts.length > 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="mt-16 sm:mt-24 border-t border-[#C9A84C]/30 pt-16"
+            className="mt-12 sm:mt-16 lg:mt-20"
           >
-            <h2 
-              className="text-xl sm:text-2xl lg:text-3xl font-medium mb-6 sm:mb-8 lg:mb-10 text-[#0D0B0A]"
-              style={{ fontFamily: 'Playfair Display, serif', letterSpacing: '0.02em' }}
-            >
-              Complete Your Collection
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-display font-medium mb-4 sm:mb-6 lg:mb-8 flex items-center gap-2 text-[#173B45]">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF8225]" />
+              You May Also Like
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
@@ -1490,44 +1553,38 @@ const ProductDetail: React.FC = () => {
                   transition={{ delay: 0.7 + idx * 0.1 }}
                 >
                   <Link to={`/product/${product._id}`} className="group block">
-                    <div className="rounded-sm overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-[#E2D9C8] hover:border-[#C9A84C] bg-white">
+                    <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-[#B43F3F]/10 bg-white">
                       <div className="relative aspect-[3/4] overflow-hidden">
                         <img
                           src={product.images[0]?.url}
                           alt={product.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         />
                         {product.isBestSeller && (
-                          <div 
-                            className="absolute top-2 left-2 px-2 py-0.5 bg-[#780000] text-[#F9F5EE] text-[9px] font-semibold tracking-wider uppercase rounded-sm"
-                            style={{ fontFamily: 'Raleway, sans-serif' }}
-                          >
+                          <div className="absolute top-2 left-2 px-2 py-1 bg-[#B43F3F] text-[#F8EDED] text-[10px] font-medium rounded-full">
                             Best Seller
                           </div>
                         )}
                       </div>
                       <div className="p-2 sm:p-3 lg:p-4">
-                        <h3 
-                          className="font-medium text-xs sm:text-sm lg:text-base group-hover:text-[#780000] transition-colors line-clamp-2 mb-1 sm:mb-2 text-[#0D0B0A]"
-                          style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 600 }}
-                        >
+                        <h3 className="font-medium text-xs sm:text-sm lg:text-base group-hover:text-[#B43F3F] transition-colors line-clamp-2 mb-1 sm:mb-2 text-[#173B45]">
                           {product.name}
                         </h3>
                         <div className="flex items-center gap-1 mb-1 sm:mb-2">
-                          <Star size={10} className="text-[#C9A84C] fill-current" />
-                          <span className="text-xs font-semibold text-[#0D0B0A]">
+                          <Star size={10} className="text-[#FF8225] fill-current" />
+                          <span className="text-xs sm:text-sm font-medium text-[#173B45]">
                             {product.ratings.toFixed(1)}
                           </span>
-                          <span className="text-[10px] text-[#0D0B0A]/60">
+                          <span className="text-[10px] sm:text-xs text-[#173B45]/60">
                             ({product.numReviews})
                           </span>
                         </div>
                         <div className="flex items-center gap-1 sm:gap-2">
-                          <span className="text-sm sm:text-base lg:text-lg font-semibold text-[#780000]">
+                          <span className="text-sm sm:text-base lg:text-lg font-medium text-[#B43F3F]">
                             ₹{product.price.toLocaleString()}
                           </span>
                           {product.originalPrice && (
-                            <span className="text-[10px] sm:text-xs line-through text-[#0D0B0A]/40">
+                            <span className="text-[10px] sm:text-xs line-through text-[#173B45]/40">
                               ₹{product.originalPrice.toLocaleString()}
                             </span>
                           )}
@@ -1549,15 +1606,15 @@ const ProductDetail: React.FC = () => {
             initial={{ y: 100 }}
             animate={{ y: 0 }}
             exit={{ y: 100 }}
-            className="fixed bottom-0 left-0 right-0 p-4 border-t border-[#780000]/10 z-40 bg-white shadow-lg"
+            className="fixed bottom-0 left-0 right-0 p-4 border-t border-[#B43F3F]/10 z-40 bg-white shadow-lg"
           >
             <div className="flex items-center justify-between gap-4">
               <div>
-                <span className="text-lg font-medium text-[#780000]">
+                <span className="text-lg font-medium text-[#B43F3F]">
                   ₹{product.price.toLocaleString()}
                 </span>
                 {product.originalPrice && (
-                  <span className="text-sm line-through ml-2 text-[#0D0B0A]/40">
+                  <span className="text-sm line-through ml-2 text-[#173B45]/40">
                     ₹{product.originalPrice.toLocaleString()}
                   </span>
                 )}
@@ -1565,16 +1622,16 @@ const ProductDetail: React.FC = () => {
               <div className="flex gap-2">
                 <button
                   onClick={() => toggleWishlist(product._id)}
-                  className={`p-3 rounded transition-all ${isWishlisted
-                    ? 'bg-[#780000] text-[#F9F5EE]'
-                    : 'bg-[#F9F5EE] text-[#0D0B0A]'
+                  className={`p-3 rounded-full transition-all ${isWishlisted
+                    ? 'bg-[#B43F3F] text-[#F8EDED]'
+                    : 'bg-[#F8EDED] text-[#173B45]'
                     }`}
                 >
                   <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} />
                 </button>
                 <button
                   onClick={handleAddToCart}
-                  className="px-6 py-3 bg-[#780000] text-[#F9F5EE] font-medium rounded hover:bg-[#C9A84C] transition-all"
+                  className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] font-medium rounded-full hover:bg-[#FF8225] transition-all"
                 >
                   Add to Cart
                 </button>
