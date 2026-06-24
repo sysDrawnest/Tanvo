@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 
 const ModernMuse: React.FC = () => {
     return (
-        <section className="container mx-auto px-4 py-16 md:py-24 flex justify-center">
-            <div className="relative w-full max-w-[1100px] aspect-[4/5] md:aspect-[16/9] bg-[#F9F5EE] border border-[#C9A84C] shadow-2xl overflow-hidden">
+        <section className="w-full relative">
+            <div className="relative w-full h-[85vh] min-h-[600px] max-h-[900px] bg-[#0D0B0A] overflow-hidden">
                 
                 {/* Hero Image Background */}
                 <div className="absolute inset-0 w-full h-full overflow-hidden bg-black">
@@ -22,9 +22,9 @@ const ModernMuse: React.FC = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent md:bg-gradient-to-tr md:from-black/70 md:via-black/20 md:to-transparent"></div>
                 </div>
 
-                {/* Content Overlay (Bottom-Left) */}
-                <div className="absolute bottom-0 left-0 p-6 md:p-16 max-w-xl text-white">
-                    <div className="flex flex-col space-y-4 md:space-y-6">
+                {/* Content Overlay */}
+                <div className="absolute inset-0 container mx-auto px-4 sm:px-6 lg:px-8 flex items-end pb-12 md:pb-20 lg:pb-24 text-white pointer-events-none">
+                    <div className="flex flex-col space-y-4 md:space-y-6 max-w-xl pointer-events-auto">
                         
                         {/* Brand Label */}
                         <motion.div 
