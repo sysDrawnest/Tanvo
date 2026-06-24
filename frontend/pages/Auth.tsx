@@ -91,9 +91,7 @@ const Auth: React.FC = () => {
           <div 
             className="w-full h-full bg-cover bg-center transition-transform duration-[10s] hover:scale-105" 
             style={{ 
-              backgroundImage: isLogin 
-                ? `url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxs7WnhPjsLmTpUhqvLBupZXQnl57kKQ9qNCjiGLl7XvkStVrO-jRRGdiTvbKOLYVolD3PyG33m1DxjAHkVagjCsPs-OBXnzLTpeUf4VLwhb_x8yDuM1LZ7v02qYfRVpwwFR61ipZbVin0GTlLX4QaCidv8fwsC3a0sHvxfVetSopMgGSLNBYZvxWu6J7bBC-Oud821lkHyrAvhibk7DJFey7jLn0Zjs6YmTixGkzy43VmqCJB5gL93msxNzy08mgrlAbl-8ZDAHsd')`
-                : `url('https://lh3.googleusercontent.com/aida-public/AB6AXuAGO05z-jeHTNnkAf3ps-GbndSQmli62kUSqy3x00T0l_Ip-zrL9j17BPaHGKK7B-7CSPB1PoozBtjSg0e-Iaf2l6GWJFUYQVR4V-iLZIgLjanwC_G2yO4q4Zg8f17IN_h8hP-4Q3XHBIxtNObpyLxLFbmZwo0idfIghsQ3nFN2dk_F5QSbULXjfm4WOGXBMqtLgcaxXZTsnJyRxbnIPUfEiksG5N-TcHkP_zAkRxefnl37DwSGMp2QAXRvq6kRI2e6ti0g9on4Cka5')`
+              backgroundImage: `url('/Authentication%20Image.png')`
             }}
           />
           {/* Dark Overlay for Readability */}
