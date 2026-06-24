@@ -1,42 +1,87 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const ModernMuse: React.FC = () => {
     return (
-        <section className="container mx-auto px-4 py-12 md:py-20">
-            <div className="bg-[#F9F5EE] w-full max-w-7xl mx-auto overflow-hidden flex flex-col md:flex-row items-center min-h-[450px] shadow-sm">
-
-                {/* Left Image Column */}
-                <div className="w-full md:w-1/2 h-full flex items-end justify-center pt-8 md:pt-12 px-6 bg-transparent">
-                    <img
-                        src="/IMG202606241417.jpeg"
-                        alt="The Modern Muse"
-                        className="w-full h-full object-cover max-h-[450px] transform hover:scale-105 transition-transform duration-700 rounded-sm"
+        <section className="container mx-auto px-4 py-16 md:py-24 flex justify-center">
+            <div className="relative w-full max-w-[1100px] aspect-[4/5] md:aspect-[16/9] bg-[#F9F5EE] border border-[#C9A84C] shadow-2xl overflow-hidden">
+                
+                {/* Hero Image Background */}
+                <div className="absolute inset-0 w-full h-full overflow-hidden bg-black">
+                    <motion.img 
+                        initial={{ scale: 1.1, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+                        viewport={{ once: true }}
+                        alt="TANVO Modern Muse Editorial" 
+                        className="w-full h-full object-cover object-[center_30%]" 
+                        src="/IMG202606240805.jpeg" 
                     />
+                    {/* Dark Overlay for Text Legibility (Editorial Gradient) */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent md:bg-gradient-to-tr md:from-black/70 md:via-black/20 md:to-transparent"></div>
                 </div>
 
-                {/* Right Content Column */}
-                <div className="w-full md:w-1/2 p-10 md:p-16 flex flex-col items-start justify-center">
+                {/* Content Overlay (Bottom-Left) */}
+                <div className="absolute bottom-0 left-0 p-6 md:p-16 max-w-xl text-white">
+                    <div className="flex flex-col space-y-4 md:space-y-6">
+                        
+                        {/* Brand Label */}
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                            viewport={{ once: true }}
+                        >
+                            <span className="font-sans text-xs tracking-[0.3em] uppercase text-white/80">
+                                TANVO PRESENTS
+                            </span>
+                        </motion.div>
 
-                    <div className="flex items-baseline mb-6">
-                        <span className="text-3xl md:text-5xl font-light text-[#1B2B3A] mr-1">#</span>
-                        <h2 className="font-serif text-4xl md:text-7xl text-[#1B2B3A] tracking-tighter leading-none">
-                            Modern Muse
-                        </h2>
+                        {/* Heading */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                            viewport={{ once: true }}
+                        >
+                            <h2 className="font-serif text-4xl md:text-[64px] leading-none mb-4 text-white drop-shadow-md">
+                                THE MODERN MUSE
+                            </h2>
+                            <p className="font-sans text-sm md:text-lg text-white/90 max-w-md leading-relaxed drop-shadow-sm">
+                                Where heritage weaving meets contemporary elegance. A curated dialogue between ancestral craft and modern silhouette.
+                            </p>
+                        </motion.div>
+
+                        {/* CTA Button */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                            viewport={{ once: true }}
+                            className="pt-2 md:pt-4"
+                        >
+                            <Link 
+                                to="/shop?style=Modern,Designer"
+                                className="group relative inline-flex px-8 md:px-10 py-4 md:py-5 bg-[#780000] text-white font-sans text-xs md:text-sm uppercase tracking-widest rounded-[4px] overflow-hidden transition-all duration-500 hover:bg-[#4f0000] hover:shadow-xl active:scale-95"
+                            >
+                                <span className="relative z-10">EXPLORE COLLECTION</span>
+                                <div className="absolute inset-0 w-0 bg-black/10 group-hover:w-full transition-all duration-500"></div>
+                            </Link>
+                        </motion.div>
                     </div>
-
-                    <p className="text-[#333333] text-sm md:text-base leading-relaxed mb-10 max-w-md font-sans">
-                        Contemporary silhouettes, timeless Indian drapes. Sarees designed for modern celebrations—where heritage meets effortless elegance.
-                    </p>
-
-                    <Link
-                        to="/shop?style=Modern,Designer"
-                        className="bg-[#1C1612] text-[#F9F5EE] px-12 py-4 text-sm font-semibold tracking-wider transition-all duration-300 hover:bg-[#333333] hover:shadow-xl shadow-md uppercase"
-                    >
-                        Explore Collection
-                    </Link>
                 </div>
 
+                {/* Floating Brand Aesthetic Detail */}
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0.4 }}
+                    transition={{ delay: 0.8, duration: 1 }}
+                    viewport={{ once: true }}
+                    className="absolute bottom-8 right-8 md:right-12 hidden md:block"
+                >
+                    <p className="font-serif text-white text-xs md:text-sm tracking-[0.5em] uppercase [writing-mode:vertical-lr]">HERITAGE HOUSE</p>
+                </motion.div>
             </div>
         </section>
     );
