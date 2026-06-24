@@ -89,6 +89,8 @@ const productSchema = new mongoose.Schema({
     default: 0
   },
   tags: [String],
+  occasion: [String],
+  style: [String],
   weight: Number,
   dimensions: {
     length: Number,

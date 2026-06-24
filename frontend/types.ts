@@ -42,6 +42,8 @@ export interface Product {
   ratings: number;
   numReviews: number;              // Changed from 'reviews' to 'numReviews' to match DB
   tags?: string[];
+  occasion?: string[];
+  style?: string[];
   weaverInfo?: {
     name: string;
     generation: string;

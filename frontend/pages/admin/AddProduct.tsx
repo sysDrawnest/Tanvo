@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, X, Save, ArrowLeft } from 'lucide-react';
 import API from '../../services/api';
@@ -29,6 +29,8 @@ const AddProduct: React.FC = () => {
     isBestSeller: false,
     isNewArrival: false,
     tags: '',
+    occasion: '',
+    style: '',
     weaverName: '',
     weaverGeneration: '',
     weaverLocation: '',
@@ -430,6 +432,34 @@ const AddProduct: React.FC = () => {
                 value={formData.tags}
                 onChange={handleChange}
                 placeholder="wedding, festival, traditional"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Occasion (comma separated)
+              </label>
+              <input
+                type="text"
+                name="occasion"
+                value={formData.occasion}
+                onChange={handleChange}
+                placeholder="Wedding, Festive, Party"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Style (comma separated)
+              </label>
+              <input
+                type="text"
+                name="style"
+                value={formData.style}
+                onChange={handleChange}
+                placeholder="Modern, Traditional, Minimal"
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               />
             </div>

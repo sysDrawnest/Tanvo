@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Upload, X, Save, ArrowLeft, Trash2 , Star} from 'lucide-react';
 import API from '../../services/api';
@@ -69,6 +69,8 @@ const EditProduct: React.FC = () => {
     isBestSeller: false,
     isNewArrival: false,
     tags: '',
+    occasion: '',
+    style: '',
     weaverName: '',
     weaverGeneration: '',
     weaverLocation: '',
@@ -119,6 +121,8 @@ const EditProduct: React.FC = () => {
         isBestSeller: product.isBestSeller || false,
         isNewArrival: product.isNewArrival || false,
         tags: product.tags?.join(', ') || '',
+        occasion: product.occasion?.join(', ') || '',
+        style: product.style?.join(', ') || '',
         weaverName: product.weaverInfo?.name || '',
         weaverGeneration: product.weaverInfo?.generation || '',
         weaverLocation: product.weaverInfo?.location || '',
@@ -612,6 +616,34 @@ const EditProduct: React.FC = () => {
                 value={formData.tags}
                 onChange={handleChange}
                 placeholder="wedding, festival, traditional"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Occasion (comma separated)
+              </label>
+              <input
+                type="text"
+                name="occasion"
+                value={formData.occasion}
+                onChange={handleChange}
+                placeholder="Wedding, Festive, Party"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Style (comma separated)
+              </label>
+              <input
+                type="text"
+                name="style"
+                value={formData.style}
+                onChange={handleChange}
+                placeholder="Modern, Traditional, Minimal"
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
               />
             </div>
