@@ -89,7 +89,7 @@ const Auth: React.FC = () => {
       <section className="relative w-full lg:w-1/2 h-[380px] lg:h-screen overflow-hidden bg-[#4f0000]">
         <div className="absolute inset-0 z-0">
           <div 
-            className="w-full h-full bg-cover bg-center transition-transform duration-[10s] hover:scale-105" 
+            className="w-full h-full bg-cover bg-center lg:bg-[position:20%_center] transition-transform duration-[10s] hover:scale-105" 
             style={{ 
               backgroundImage: `url('/Authentication%20Image.png')`
             }}
