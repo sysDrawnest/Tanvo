@@ -25,6 +25,7 @@ import JournalHint from './sections/JournalHint';
 import MensTraditionalAttireBanner from './sections/MensTraditionalAttireBanner';
 import ModernMuse from './sections/ModernMuse';
 import VideoBanner from './sections/VideoBanner';
+import ModernMusePopup from '../components/ModernMusePopup';
 
 const Home: React.FC = () => {
   const { products, fetchProducts, loading } = useStore();
@@ -60,6 +61,7 @@ const Home: React.FC = () => {
       <div className="fixed inset-0 pointer-events-none opacity-50 z-1" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")` }} />
 
       <div className="relative z-10">
+        <ModernMusePopup />
         <HeroSection />
         <VideoBanner />
 
