@@ -9,7 +9,7 @@ const NewArrivalsBanner: React.FC = () => {
                 {/* Left Image Column */}
                 <div className="w-full md:w-1/2 h-full flex items-end justify-center pt-8 md:pt-12 px-6 bg-transparent">
                     <img
-                        src="/new_arrivals.png"
+                        src="/Man wearing handloom kurta .jpeg"
                         alt="New Arrivals Artisans"
                         className="w-full h-auto object-contain max-h-[450px] transform hover:scale-105 transition-transform duration-700"
                     />
