@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// Correctly importing useNavigate and useLocation hooks from react-router-dom
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useStore } from '../context/StoreContext';
 import { Mail, Lock, User as UserIcon, ArrowRight, CheckCircle, Eye, EyeOff, Award, Users, BookOpen } from 'lucide-react';
@@ -16,6 +17,7 @@ const Auth: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Get redirect path from query string
   const queryParams = new URLSearchParams(location.search);
   const redirectPath = queryParams.get('redirect') || '/';
 
@@ -31,12 +33,14 @@ const Auth: React.FC = () => {
       if (isLogin) {
         const res = await login(email, password);
         if (res.success) {
+          // Merge guest cart/wishlist into account
           if (hasGuestData) {
             setMerging(true);
             await mergeGuestData();
             setMerging(false);
           }
 
+          // Redirect admin users to the admin dashboard
           if (res.user?.role === 'admin') {
             navigate('/admin');
           } else {
@@ -46,8 +50,10 @@ const Auth: React.FC = () => {
           setAuthError(res.error || 'Login failed. Please check your credentials.');
         }
       } else {
+        // @ts-ignore
         const res = await register({ name, email, password });
         if (res.success) {
+          // Merge guest cart/wishlist into new account
           if (hasGuestData) {
             setMerging(true);
             await mergeGuestData();
@@ -79,16 +85,13 @@ const Auth: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-[#F9F5EE] text-[#261816] font-body-md flex flex-col lg:flex-row relative">
-      {/* Left Panel: Immersive Brand Story */}
+      {/* Left Panel: Immersive Brand Story (hidden on mobile, visible on lg) */}
       <section className="relative w-full lg:w-1/2 h-[380px] lg:h-screen overflow-hidden bg-[#4f0000]">
-        {/* Image Container with Fixed Positioning */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/Authentication%20Image.png"
-            alt="TANVO Heritage Handloom"
-            className="w-full h-full object-cover object-center lg:object-[center_center]"
-            style={{
-              objectPosition: '50% 50%',
+          <div 
+            className="w-full h-full bg-cover bg-center lg:bg-[position:20%_center] transition-transform duration-[10s] hover:scale-105" 
+            style={{ 
+              backgroundImage: `url('/Authentication%20Image.png')`
             }}
           />
           {/* Dark Overlay for Readability */}
@@ -114,8 +117,9 @@ const Auth: React.FC = () => {
             <p className="text-xs lg:text-base font-body-lg text-white/80 mb-6 lg:mb-10 max-w-md">
               {isLogin 
                 ? 'Authentic Odisha handlooms crafted by skilled artisans and preserved through generations.' 
-                : 'Experience the timeless artistry of Odisha\'s finest weavers. Every thread tells a story of survival, skill, and soul.'}
+                : 'Experience the timeless artistry of Odisha’s finest weavers. Every thread tells a story of survival, skill, and soul.'}
             </p>
+
           </div>
         </div>
       </section>
