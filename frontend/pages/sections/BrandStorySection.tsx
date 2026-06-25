@@ -14,7 +14,7 @@ const BrandStorySection: React.FC = () => {
                 className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-screen"
             >
                 {/* Assuming a video exists. Using a placeholder or existing video format */}
-                <source src="/saree_making.mp4" type="video/mp4" />
+                <source src="/VID02606251815.mp4" type="video/mp4" />
                 <img src="https://picsum.photos/id/1011/1200/800" alt="Weaving" className="w-full h-full object-cover opacity-50" />
             </video>
 
