@@ -21,7 +21,7 @@ import RegisterModal from '../components/RegisterModal';
 // ── New Components ──
 import HandwovenHeritage from './sections/HandwovenHeritage';
 import DrapedEveryMoment from './sections/DrapedEveryMoment';
-import JournalHint from './sections/JournalHint';
+import BrandStoryModal from './sections/BrandStoryModal';
 import MensTraditionalAttireBanner from './sections/MensTraditionalAttireBanner';
 import ModernMuse from './sections/ModernMuse';
 import VideoBanner from './sections/VideoBanner';
@@ -109,7 +109,7 @@ const Home: React.FC = () => {
         <DrapedEveryMoment />
         <WhyChooseUs />
         <TrustSignals />
-        <JournalHint />
+        <BrandStoryModal />
         <WhatsAppOrder />
         
         <InstagramSection
