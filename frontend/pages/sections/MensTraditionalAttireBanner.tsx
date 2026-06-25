@@ -11,7 +11,7 @@ const NewArrivalsBanner: React.FC = () => {
                     <img
                         src="/Mens Collection Banner.png"
                         alt="New Arrivals Artisans"
-                        className="w-full h-full object-cover object-center"
+                        className="w-full h-full object-cover object-[80%_top]"
                     />
                     {/* Gradient overlay for text readability */}
                     <div className="absolute inset-0 bg-gradient-to-r from-[#F9F5EE] via-[#F9F5EE]/60 to-transparent md:via-[#F9F5EE]/30"></div>
