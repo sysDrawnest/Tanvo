@@ -73,13 +73,13 @@ const Home: React.FC = () => {
           />
         )}
 
-        <VideoBanner />
         <MarqueeTicker />
         <PillarsSection />
+        <VideoBanner />
         <CategoryGrid />
         <HandwovenHeritage />
 
-        {/* Sarees directly after hero for buying */}
+        {/* Curated Selection */}
         <ProductsGrid
           products={products.slice(0, 4)}
           label="Direct from the Loom"
@@ -89,6 +89,8 @@ const Home: React.FC = () => {
           viewAllText="Explore All Sarees"
           background="white"
         />
+
+        <EditorialBanner />
 
         {/* New Arrivals Section */}
         <ProductsGrid
@@ -101,7 +103,6 @@ const Home: React.FC = () => {
           background="transparent"
         />
 
-        <EditorialBanner />
         <MensTraditionalAttireBanner />
         <ModernMuse />
         <DrapedEveryMoment />

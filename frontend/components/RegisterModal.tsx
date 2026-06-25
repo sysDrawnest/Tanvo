@@ -7,12 +7,39 @@ const RegisterModal: React.FC = () => {
     const [email, setEmail] = useState('');
 
     useEffect(() => {
-        // Show modal after 2 seconds only if not shown before
         const hasSeenModal = localStorage.getItem('hasSeenRegisterModal');
-        if (!hasSeenModal) {
-            const timer = setTimeout(() => setIsOpen(true), 2000);
-            return () => clearTimeout(timer);
-        }
+        if (hasSeenModal) return;
+
+        let triggered = false;
+
+        const handleScroll = () => {
+            if (triggered) return;
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            if (scrollPercent > 60) {
+                setIsOpen(true);
+                triggered = true;
+                window.removeEventListener('scroll', handleScroll);
+                document.removeEventListener('mouseout', handleMouseOut);
+            }
+        };
+
+        const handleMouseOut = (e: MouseEvent) => {
+            if (triggered) return;
+            if (e.clientY <= 0) {
+                setIsOpen(true);
+                triggered = true;
+                window.removeEventListener('scroll', handleScroll);
+                document.removeEventListener('mouseout', handleMouseOut);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        document.addEventListener('mouseout', handleMouseOut);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('mouseout', handleMouseOut);
+        };
     }, []);
 
     const handleClose = () => {
