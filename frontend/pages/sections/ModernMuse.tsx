@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 
 const ModernMuse: React.FC = () => {
     return (
-        <section className="w-full my-8 md:my-16">
-            <div className="relative w-full h-[600px] md:h-[70vh] min-h-[500px] max-h-[800px] bg-[#F9F5EE] overflow-hidden">
+        <section className="w-full">
+            <div className="relative w-full aspect-[4/5] md:aspect-[21/9] lg:aspect-[2.5/1] bg-black overflow-hidden">
                 
                 {/* Hero Image Background */}
                 <div className="absolute inset-0 w-full h-full overflow-hidden bg-black">
