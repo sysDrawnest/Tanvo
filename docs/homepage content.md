@@ -181,7 +181,22 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 14. Trust Signals Media Showcase
+### 14. Modern Muse
+*   **Filename**: `frontend/pages/sections/ModernMuse.tsx`
+*   **UI/Design Description**:
+    *   Full-width edge-to-edge section (or container-bound on large screens) set on a clean Warm Ivory (`#F9F5EE`) background.
+    *   Features a large-scale, cinematic fashion editorial image (`/IMG202606240805.jpeg`) with a dark gradient overlay.
+    *   Content overlay positioned at the bottom-left.
+*   **Content**:
+    *   Brand Label: *"TANVO PRESENTS"*
+    *   Headline: *"THE MODERN MUSE"*
+    *   Description: *"Where heritage weaving meets contemporary elegance. A curated dialogue between ancestral craft and modern silhouette."*
+    *   Floating detail: *"HERITAGE HOUSE"* (vertical text on the right)
+*   **Interactions**: Framer Motion scroll-reveal animations for text fading up and image scaling from 1.1 to 1.0 smoothly. CTA button features a left-to-right dark hover sweep.
+
+---
+
+### 15. Trust Signals Media Showcase
 *   **Filename**: `frontend/pages/sections/TrustSignals.tsx`
 *   **UI/Design Description**:
     *   Solid ink backdrop background (`#0D0B0A`).
@@ -199,7 +214,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 15. Journal Hint (The TANVO Chronicles)
+### 16. Journal Hint (The TANVO Chronicles)
 *   **Filename**: `frontend/pages/sections/JournalHint.tsx`
 *   **UI/Design Description**:
     *   Magazine-inspired split layout on a solid ink backdrop (`#0D0B0A`).
@@ -218,7 +233,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 16. Draped For Every Moment (The Art of Occasion)
+### 17. Draped For Every Moment (The Art of Occasion)
 *   **Filename**: `frontend/pages/sections/DrapedEveryMoment.tsx`
 *   **UI/Design Description**:
     *   Asymmetric, staggered vertical cards with 9:16 aspect ratios.
@@ -228,7 +243,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 17. Instagram Social Grid
+### 18. Instagram Social Grid
 *   **Filename**: `frontend/pages/sections/InstagramSection.tsx`
 *   **UI/Design Description**:
     *   Full-width 6-column image strip with dark overlays.
@@ -238,7 +253,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 18. Premium WhatsApp Commerce Section
+### 19. Premium WhatsApp Commerce Section
 *   **Filename**: `frontend/components/WhatsAppOrder.tsx`
 *   **UI/Design Description**:
     *   Centered, spacious single-column layouts over a premium soft red-cream backdrop.
@@ -252,7 +267,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 19. Trust Bar
+### 20. Trust Bar
 *   **Filename**: `frontend/pages/sections/TrustBar.tsx`
 *   **UI/Design Description**:
     *   Horizontal gold strip right above the site footer divided into 4 columns by fine borders.

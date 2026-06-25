@@ -61,7 +61,6 @@ const Home: React.FC = () => {
 
       <div className="relative z-10">
         <HeroSection />
-        <VideoBanner />
 
         {bestsellers.length > 0 && (
           <ProductsGrid
@@ -74,6 +73,10 @@ const Home: React.FC = () => {
           />
         )}
 
+        <VideoBanner />
+        <MarqueeTicker />
+        <PillarsSection />
+        <CategoryGrid />
         <HandwovenHeritage />
 
         {/* Sarees directly after hero for buying */}
@@ -87,9 +90,6 @@ const Home: React.FC = () => {
           background="white"
         />
 
-        <MarqueeTicker />
-        <PillarsSection />
-
         {/* New Arrivals Section */}
         <ProductsGrid
           products={newArrivals}
@@ -101,23 +101,20 @@ const Home: React.FC = () => {
           background="transparent"
         />
 
-        <IkatDeepDive />
-
         <EditorialBanner />
-        <CategoryGrid />
-        <WhyChooseUs />
         <MensTraditionalAttireBanner />
         <ModernMuse />
-
+        <DrapedEveryMoment />
+        <WhyChooseUs />
         <TrustSignals />
         <JournalHint />
-        <DrapedEveryMoment />
-
+        <WhatsAppOrder />
+        
         <InstagramSection
           handle="@Tanvo"
           profileUrl="https://instagram.com"
         />
-        <WhatsAppOrder />
+        
         <TrustBar />
       </div>
     </div>
