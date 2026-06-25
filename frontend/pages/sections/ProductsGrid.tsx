@@ -28,11 +28,11 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
     const textColor = inverse ? 'var(--ivory)' : 'var(--ink)';
     
     return (
-        <section style={{ padding: '100px max(48px, 6vw)', background }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 64, flexWrap: 'wrap', gap: 24 }}>
+        <section className="px-4 py-16 md:px-[6vw] md:py-24" style={{ background }}>
+            <div className="mb-8 md:mb-16 flex justify-between items-end flex-wrap gap-6">
                 <div>
-                    <p className="section-label" style={{ marginBottom: 16, color: inverse ? 'var(--gold)' : undefined }}>{label}</p>
-                    <h2 className="font-display" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)', fontWeight: 300, color: textColor, lineHeight: 1.05 }}>
+                    <p className="section-label" style={{ marginBottom: 12, color: inverse ? 'var(--gold)' : undefined }}>{label}</p>
+                    <h2 className="font-display" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', fontWeight: 300, color: textColor, lineHeight: 1.05 }}>
                         {title}{titleEm && <> <em style={{ color: inverse ? 'var(--gold)' : undefined }}>{titleEm}</em></>}
                     </h2>
                 </div>
@@ -44,13 +44,13 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
                 </Link>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
                 {products.length > 0 ? (
                     products.map(product => <ProductCard key={product._id} product={product} inverse={inverse} />)
                 ) : (
                     <>
                         {[1, 2, 3, 4].map(i => (
-                            <div key={i} style={{ width: '100%', aspectRatio: '3/4', background: inverse ? 'rgba(255,255,255,0.05)' : 'rgba(13,11,10,0.05)', animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
+                            <div key={i} className="w-full aspect-[3/4] max-[640px]:aspect-[2/3] animate-pulse" style={{ background: inverse ? 'rgba(255,255,255,0.05)' : 'rgba(13,11,10,0.05)' }} />
                         ))}
                     </>
                 )}

@@ -626,6 +626,22 @@ const Shop: React.FC = () => {
           .shop-sort-wrap { align-self: flex-end; }
           .shop-filter-group { width: 100%; }
         }
+        @media (max-width: 640px) {
+          .shop-main {
+            padding: 0 16px !important;
+          }
+          .shop-skeleton-img {
+            aspect-ratio: 2/3 !important;
+          }
+          .shop-grid {
+            gap: 24px 12px !important;
+          }
+          .shop-filter-bar {
+            margin: 0 -16px !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+        }
       `}</style>
 
       <div className="shop-page">

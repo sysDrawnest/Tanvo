@@ -49,13 +49,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           aspect-ratio: 3/4;
           overflow: hidden;
           background: var(--ivory-deep);
-          margin-bottom: 20px;
+          margin-bottom: 14px;
         }
 
         .pc-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          object-position: center top;
           display: block;
           transition: transform 1.1s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.5s ease;
           transform: scale(1.04);
@@ -119,11 +120,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
         /* Badges */
         .pc-badge {
           position: absolute;
-          top: 14px;
-          left: 14px;
+          top: 10px;
+          left: 10px;
           display: flex;
           flex-direction: column;
-          gap: 6px;
+          gap: 4px;
           z-index: 2;
         }
         .pc-badge-tag {
@@ -133,7 +134,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           font-weight: 500;
           letter-spacing: 0.25em;
           text-transform: uppercase;
-          padding: 5px 10px;
+          padding: 4px 8px;
           background: var(--ink);
           color: var(--ivory);
         }
@@ -150,21 +151,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
         /* Quick actions */
         .pc-actions {
           position: absolute;
-          bottom: 14px;
-          right: 14px;
+          bottom: 12px;
+          right: 12px;
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 6px;
           z-index: 2;
           opacity: 0;
-          transform: translateY(8px);
+          transform: translateY(6px);
           transition: opacity 0.35s ease, transform 0.35s ease;
         }
         .pc-wrap:hover .pc-actions { opacity: 1; transform: translateY(0); }
 
         .pc-action-btn {
-          width: 36px;
-          height: 36px;
+          width: 32px;
+          height: 32px;
           background: rgba(249,245,238,0.92);
           backdrop-filter: blur(6px);
           border: 1px solid var(--ivory-deep);
@@ -177,7 +178,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
         .pc-action-btn:hover {
           background: var(--ink);
           border-color: var(--ink);
-          transform: scale(1.1);
+          transform: scale(1.08);
         }
         .pc-action-btn:hover svg { color: var(--ivory) !important; }
         .pc-action-btn.wishlisted { background: var(--terra); border-color: var(--terra); }
@@ -188,9 +189,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
-          gap: 12px;
+          gap: 8px;
         }
-        .pc-name-wrap {}
+        .pc-name-wrap {
+          flex: 1;
+          min-width: 0;
+        }
         .pc-weave {
           font-family: 'Cinzel', serif;
           font-size: 7.5px;
@@ -198,25 +202,28 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           letter-spacing: 0.28em;
           text-transform: uppercase;
           color: var(--terra);
-          margin-bottom: 6px;
+          margin-bottom: 4px;
           display: block;
         }
         .pc-name {
           font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(17px, 1.6vw, 22px);
+          font-size: clamp(15px, 1.5vw, 20px);
           font-weight: 400;
           color: ${inverse ? 'var(--ivory)' : 'var(--ink)'};
-          line-height: 1.15;
+          line-height: 1.2;
           text-decoration: none;
           transition: color 0.3s ease;
           display: block;
         }
         .pc-wrap:hover .pc-name { color: var(--terra); }
 
-        .pc-price-wrap { text-align: right; flex-shrink: 0; }
+        .pc-price-wrap {
+          text-align: right;
+          flex-shrink: 0;
+        }
         .pc-price {
           font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(17px, 1.6vw, 21px);
+          font-size: clamp(15px, 1.5vw, 19px);
           font-weight: 400;
           font-style: italic;
           color: ${inverse ? 'var(--ivory)' : 'var(--ink)'};
@@ -229,7 +236,88 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           color: var(--stone);
           text-decoration: line-through;
           display: block;
-          margin-top: 2px;
+          margin-top: 1px;
+        }
+
+        .pc-rating-wrap {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          margin-top: 4px;
+        }
+        .pc-rating-val {
+          font-family: 'Raleway', sans-serif;
+          font-size: 10px;
+          font-weight: 500;
+          color: var(--stone);
+        }
+
+        /* ── Mobile Optimization (2-column Boutique layout) ── */
+        @media (max-width: 640px) {
+          .pc-img-frame {
+            aspect-ratio: 2/3 !important;
+            margin-bottom: 8px !important;
+          }
+          .pc-img {
+            object-position: center top !important;
+          }
+          .pc-weave {
+            font-size: 7px !important;
+            letter-spacing: 0.15em !important;
+            margin-bottom: 2px !important;
+          }
+          .pc-name {
+            font-size: 13.5px !important;
+            line-height: 1.25 !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2 !important;
+            -webkit-box-orient: vertical !important;
+            overflow: hidden !important;
+          }
+          .pc-price {
+            font-size: 13.5px !important;
+          }
+          .pc-info {
+            flex-direction: column !important;
+            gap: 2px !important;
+            align-items: flex-start !important;
+          }
+          .pc-price-wrap {
+            text-align: left !important;
+            margin-top: 1px !important;
+          }
+          .pc-badge {
+            top: 8px !important;
+            left: 8px !important;
+            gap: 3px !important;
+          }
+          .pc-badge-tag {
+            font-size: 6px !important;
+            padding: 3px 6px !important;
+            letter-spacing: 0.15em !important;
+          }
+          .pc-actions {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            bottom: 8px !important;
+            right: 8px !important;
+            gap: 5px !important;
+          }
+          .pc-action-btn {
+            width: 28px !important;
+            height: 28px !important;
+            background: rgba(249, 245, 238, 0.95) !important;
+          }
+          .pc-action-btn svg {
+            width: 12px !important;
+            height: 12px !important;
+          }
+          .pc-rating-wrap {
+            margin-top: 2px !important;
+          }
+          .pc-rating-val {
+            font-size: 9px !important;
+          }
         }
       `}</style>
 
@@ -295,6 +383,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
             <Link to={`/product/${productId}`} className="pc-name">
               {product.name}
             </Link>
+
+            {/* Rating */}
+            {(product.ratings || product.rating || product.averageRating) && (
+              <div className="pc-rating-wrap">
+                <svg
+                  className="w-3 h-3 text-[#C9A84C] fill-current"
+                  viewBox="0 0 20 20"
+                  style={{ display: 'inline-block' }}
+                >
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span className="pc-rating-val">
+                  {Number(product.ratings || product.rating || product.averageRating).toFixed(1)}
+                  {typeof (product.numReviews || product.reviewsCount) === 'number' && ` (${product.numReviews || product.reviewsCount})`}
+                </span>
+              </div>
+            )}
           </div>
           <div className="pc-price-wrap">
             <span className="pc-price">₹{product.price?.toLocaleString()}</span>
