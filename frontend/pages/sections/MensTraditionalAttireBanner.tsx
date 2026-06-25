@@ -9,7 +9,7 @@ const NewArrivalsBanner: React.FC = () => {
                 {/* Full background image */}
                 <div className="absolute inset-0 w-full h-full">
                     <img
-                        src="/Man wearing handloom kurta .jpeg"
+                        src="/Mens Collection Banner.png"
                         alt="New Arrivals Artisans"
                         className="w-full h-full object-cover object-center"
                     />
