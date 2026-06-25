@@ -303,7 +303,7 @@ const UserProfile: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-none border border-[#173B45]/10 overflow-hidden mb-12 p-6 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6"
         >
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-6">
             <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#F8EDED] border border-[#173B45]/10 flex items-center justify-center overflow-hidden relative group flex-shrink-0">
               {profileImage ? (
                 <img src={profileImage} alt={user?.name} className="w-full h-full object-cover" />
@@ -335,10 +335,10 @@ const UserProfile: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center w-full md:w-auto">
             <button
               onClick={() => setActiveTab('settings')}
-              className="px-6 py-2.5 border border-[#173B45]/20 text-[#173B45] hover:border-[#173B45] transition-colors text-[10px] md:text-xs tracking-wider uppercase font-semibold"
+              className="w-full md:w-auto px-6 py-2.5 border border-[#173B45]/20 text-[#173B45] hover:border-[#173B45] transition-colors text-[10px] md:text-xs tracking-wider uppercase font-semibold text-center"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Edit Profile
@@ -381,7 +381,7 @@ const UserProfile: React.FC = () => {
           </aside>
 
           {/* Main Panel Content Area */}
-          <main className="col-span-1 md:col-span-3 bg-white border border-[#173B45]/10 p-6 md:p-10">
+          <main className="col-span-1 md:col-span-3 bg-white border border-[#173B45]/10 p-4 sm:p-6 md:p-10">
             
             {/* OVERVIEW TAB */}
             {activeTab === 'overview' && (
@@ -403,7 +403,7 @@ const UserProfile: React.FC = () => {
                     </div>
 
                     {orders.length > 0 ? (
-                      <div className="border border-[#173B45]/10 p-4 bg-white flex gap-4 items-center justify-between">
+                      <div className="border border-[#173B45]/10 p-4 bg-white flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                         <div className="flex gap-4 items-center">
                           <div className="w-16 h-20 bg-[#F8EDED] overflow-hidden flex-shrink-0 border border-[#173B45]/10">
                             <img
@@ -423,7 +423,7 @@ const UserProfile: React.FC = () => {
                             </span>
                           </div>
                         </div>
-                        <div className="flex flex-col gap-2 items-end">
+                        <div className="flex sm:flex-col gap-2 items-center sm:items-end justify-between sm:justify-center w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0">
                           <span className="text-sm font-light text-[#B43F3F]">{formatPrice(orders[0].totalPrice)}</span>
                           <Link
                             to={`/orders/${orders[0]._id}`}
@@ -517,7 +517,7 @@ const UserProfile: React.FC = () => {
                 {orders.length > 0 ? (
                   <div className="space-y-4">
                     {orders.map(order => (
-                      <div key={order._id} className="border border-[#173B45]/10 p-5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div key={order._id} className="border border-[#173B45]/10 p-4 sm:p-5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex gap-4 items-center">
                           <div className="w-14 h-18 bg-[#F8EDED] overflow-hidden flex-shrink-0 border border-[#173B45]/10">
                             <img
@@ -535,7 +535,7 @@ const UserProfile: React.FC = () => {
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-3 md:pt-0">
+                        <div className="flex items-center justify-between md:justify-end gap-4 md:gap-6 border-t md:border-t-0 pt-3 md:pt-0 w-full md:w-auto">
                           <span className={`px-2.5 py-0.5 text-[9px] font-bold tracking-wider uppercase ${getStatusColor(order.orderStatus)}`}>
                             {order.orderStatus}
                           </span>
@@ -778,7 +778,7 @@ const UserProfile: React.FC = () => {
                   {addresses.map(addr => (
                     <div
                       key={addr._id}
-                      className="p-5 border border-[#173B45]/10 bg-white flex justify-between items-start"
+                      className="p-4 sm:p-5 border border-[#173B45]/10 bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
                     >
                       <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -797,7 +797,7 @@ const UserProfile: React.FC = () => {
                         <p className="text-xs text-[#173B45]/60 mt-2">Phone: {addr.phone}</p>
                       </div>
 
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 self-end sm:self-center border-t sm:border-t-0 pt-2 sm:pt-0 w-full sm:w-auto justify-end">
                         {!addr.isDefault && (
                           <button
                             onClick={() => handleSetDefaultAddress(addr._id)}
