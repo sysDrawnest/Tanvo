@@ -502,7 +502,7 @@ const TrustSignals: React.FC = () => {
                 }
                 
                 /* Card inner elements transition */
-                .trust-card * {
+                .trust-card .card-overlay, .trust-card img {
                     transition: all 0.3s ease;
                 }
             `}</style>

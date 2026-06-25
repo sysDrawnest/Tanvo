@@ -3,10 +3,19 @@ import React from 'react';
 const MarqueeTicker: React.FC = () => {
     return (
         <div style={{ background: 'var(--gold)', padding: '14px 0', overflow: 'hidden' }}>
+            <style>{`
+                @keyframes marquee {
+                    from { transform: translateX(0); }
+                    to { transform: translateX(-50%); }
+                }
+                .marquee-inner {
+                    animation: marquee 30s linear infinite;
+                }
+            `}</style>
             <div className="marquee-inner" style={{ display: 'flex', whiteSpace: 'nowrap', width: 'max-content' }}>
                 {Array(6).fill('✦  Handwoven Sarees  ✦  GI Tagged Heritage  ✦  Direct from Master Weavers  ✦  Sambalpuri · Bomkai · Ikat  ').map((t, i) => (
                     <span key={i} style={{
-                        fontFamily: 'Montserrat, sans-serif',
+                        fontFamily: "'Inter', sans-serif",
                         fontSize: 9,
                         fontWeight: 700,
                         letterSpacing: '0.2em',

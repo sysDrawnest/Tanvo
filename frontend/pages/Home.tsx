@@ -87,7 +87,8 @@ const Home: React.FC = () => {
           titleEm="Selection"
           viewAllLink="/shop"
           viewAllText="Explore All Sarees"
-          background="white"
+          background="#0D0B0A"
+          inverse={true}
         />
 
         <EditorialBanner />

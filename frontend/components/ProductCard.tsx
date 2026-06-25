@@ -5,9 +5,10 @@ import { useStore } from '../context/StoreContext';
 
 interface ProductCardProps {
   product: any;
+  inverse?: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) => {
   const { addToCart, wishlist, toggleWishlist } = useStore();
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -204,7 +205,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           font-family: 'Cormorant Garamond', serif;
           font-size: clamp(17px, 1.6vw, 22px);
           font-weight: 400;
-          color: var(--ink);
+          color: ${inverse ? 'var(--ivory)' : 'var(--ink)'};
           line-height: 1.15;
           text-decoration: none;
           transition: color 0.3s ease;
@@ -218,7 +219,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           font-size: clamp(17px, 1.6vw, 21px);
           font-weight: 400;
           font-style: italic;
-          color: var(--ink);
+          color: ${inverse ? 'var(--ivory)' : 'var(--ink)'};
           display: block;
         }
         .pc-price-original {

@@ -43,14 +43,12 @@ const InstagramSection: React.FC<InstagramSectionProps> = ({
                         href={item.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="img-zoom"
+                        className="group img-zoom"
                         style={{ position: 'relative', aspectRatio: '1', display: 'block', overflow: 'hidden', background: '#111' }}
                     >
-                        <img src={item.image} alt="Instagram" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.75, transition: 'opacity 0.4s' }} />
+                        <img src={item.image} alt="Instagram" className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-400" />
                         <div
-                            style={{ position: 'absolute', inset: 0, background: 'rgba(201,168,76,0.25)', opacity: 0, transition: 'opacity 0.4s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                            onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.opacity = '1')}
-                            onMouseLeave={e => ((e.currentTarget as HTMLDivElement).style.opacity = '0')}
+                            className="absolute inset-0 bg-[rgba(201,168,76,0.25)] opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-center justify-center pointer-events-none"
                         >
                             <Instagram size={20} style={{ color: '#F5F0E8' }} />
                         </div>

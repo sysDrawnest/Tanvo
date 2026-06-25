@@ -1,8 +1,35 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 const EditorialBanner: React.FC = () => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        videoRef.current?.play().catch(() => {});
+                    } else {
+                        videoRef.current?.pause();
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        if (videoRef.current) {
+            observer.observe(videoRef.current);
+        }
+
+        return () => {
+            if (videoRef.current) {
+                observer.unobserve(videoRef.current);
+            }
+        };
+    }, []);
+
     return (
         <section style={{ 
             display: 'flex', 
@@ -11,14 +38,14 @@ const EditorialBanner: React.FC = () => {
             minHeight: '600px', 
             width: '100%', 
             overflow: 'hidden',
-            backgroundColor: '#F9F6F0' // Ivory base
+            backgroundColor: '#F9F5EE' // Ivory base
         }}>
             
             {/* Left Column: Ivory Editorial Text Panel */}
             <div style={{ 
                 flex: '1 1 50%', 
                 height: '100%', 
-                backgroundColor: '#F9F6F0', // Premium Ivory
+                backgroundColor: '#F9F5EE', // Premium Ivory
                 display: 'flex', 
                 flexDirection: 'column', 
                 justifyContent: 'center', 
@@ -102,7 +129,7 @@ const EditorialBanner: React.FC = () => {
                 display: 'block'
             }}>
                 <video
-                    autoPlay
+                    ref={videoRef}
                     muted
                     loop
                     playsInline

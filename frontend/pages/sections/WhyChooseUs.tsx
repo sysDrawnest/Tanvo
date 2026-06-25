@@ -66,7 +66,7 @@ const WhyChooseUs: React.FC = () => {
                             }}
                         >
                             <div style={{
-                                width: 48, height: 48, borderRadius: '0px',
+                                width: 48, height: 48, borderRadius: '8px',
                                 background: `${item.color}10`, color: item.color,
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 margin: '0 auto 16px',

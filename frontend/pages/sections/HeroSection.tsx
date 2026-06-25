@@ -489,15 +489,19 @@ const HeroSection: React.FC = () => {
                 }}>
                     Tanvo
                 </div>
-                <div style={{
+                <Link to="/shop" style={{
                     color: '#EAE6DF',
                     fontSize: '11px',
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
                     opacity: 0.7,
-                }}>
+                    textDecoration: 'none',
+                    transition: 'opacity 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}>
                     Fine Silks
-                </div>
+                </Link>
             </div>
 
             {/* Main content */}
