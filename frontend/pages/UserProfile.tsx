@@ -283,18 +283,51 @@ const UserProfile: React.FC = () => {
     <div className="min-h-screen bg-[#F8EDED] pt-20 md:pt-32 pb-16 md:pb-24 text-[#173B45]">
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         
-        {/* Mobile Sub-Header */}
-        <div className="md:hidden flex items-center justify-between mb-8">
-          <h1 className="text-xl font-display font-light text-[#173B45]" style={{ fontFamily: "'Playfair Display', serif" }}>
+        {/* Mobile Sub-Header & Horizontal Navigation */}
+        <div className="md:hidden mb-6">
+          <h1 className="text-xl font-display font-light text-[#173B45] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
             My Account
           </h1>
-          <button
-            onClick={() => setMobileMenuOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 border border-[#173B45]/20 bg-white rounded-none text-xs font-semibold tracking-wider uppercase"
-            style={{ fontFamily: "'Inter', sans-serif" }}
+          <style>{`
+            .mobile-tabs-scroll::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
+          <div 
+            className="mobile-tabs-scroll overflow-x-auto border-b border-[#173B45]/10 -mx-4 px-4 flex gap-6 whitespace-nowrap bg-white py-3"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none'
+            }}
           >
-            <Menu size={14} /> Menu
-          </button>
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`pb-2.5 text-xs tracking-wider uppercase font-bold transition-all relative ${
+                  activeTab === tab.id
+                    ? 'text-[#B43F3F]'
+                    : 'text-[#173B45]/60'
+                }`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                {tab.label}
+                {activeTab === tab.id && (
+                  <motion.div
+                    layoutId="activeTabUnderline"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#B43F3F]"
+                  />
+                )}
+              </button>
+            ))}
+            <button
+              onClick={logout}
+              className="pb-2.5 text-xs tracking-wider uppercase font-bold text-red-650"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {/* Elegant Profile Header - Luxury Redesign */}
@@ -954,74 +987,7 @@ const UserProfile: React.FC = () => {
         </div>
       </div>
 
-      {/* Elegant Mobile Bottom Sheet Navigation */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <>
-            {/* Overlay Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-[#0D0B0A] z-40 md:hidden animate-fade-in"
-            />
-            
-            {/* Drawer Sheet */}
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="fixed bottom-0 left-0 right-0 bg-[#F8EDED] z-50 rounded-t-[1.5rem] border-t border-[#173B45]/15 max-h-[80vh] overflow-y-auto pb-8 md:hidden px-6 pt-4"
-            >
-              <div className="w-12 h-1 bg-[#173B45]/15 rounded-full mx-auto mb-6" />
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-light text-[#173B45]" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  Account Menu
-                </h3>
-                <button onClick={() => setMobileMenuOpen(false)} className="p-1">
-                  <X size={18} className="text-[#173B45]/70" />
-                </button>
-              </div>
-              
-              <div className="space-y-1">
-                {tabs.map(tab => (
-                  <button
-                    key={tab.id}
-                    onClick={() => {
-                      setActiveTab(tab.id);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`w-full flex items-center gap-4 py-4 border-b border-[#173B45]/5 text-left font-medium text-sm transition-all ${
-                      activeTab === tab.id
-                        ? 'text-[#B43F3F] font-semibold'
-                        : 'text-[#173B45]/80'
-                    }`}
-                    style={{ fontFamily: "'Raleway', sans-serif" }}
-                  >
-                    <tab.icon size={16} className={activeTab === tab.id ? 'text-[#B43F3F]' : 'text-[#173B45]/40'} />
-                    <span className="flex-1">{tab.label}</span>
-                    {activeTab === tab.id && <Check size={14} className="text-[#B43F3F]" />}
-                  </button>
-                ))}
-                
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    logout();
-                  }}
-                  className="w-full flex items-center gap-4 py-4 text-left font-medium text-sm text-[#173B45]/60 hover:text-red-700 transition-colors"
-                  style={{ fontFamily: "'Raleway', sans-serif" }}
-                >
-                  <LogOut size={16} className="text-[#173B45]/40" />
-                  <span>Logout</span>
-                </button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+
     </div>
   );
 };
