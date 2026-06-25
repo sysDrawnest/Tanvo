@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   User, Mail, Phone, MapPin, Calendar, Package, Heart,
-  LogOut, Settings, Edit2, Camera, Award, Star, MessageSquare,
-  Briefcase, Shield, Bell, Moon, HelpCircle, ChevronRight, Gift,
-  Plus, Trash2, Menu, X, ChevronDown, ChevronUp, Check
+  LogOut, Settings, Edit2, Camera, Award, Shield, Plus, Trash2, Menu, X, Check, ChevronRight
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
@@ -55,7 +53,6 @@ const UserProfile: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [stats, setStats] = useState({
     totalSpent: 0,
     totalOrders: 0,
@@ -211,13 +208,13 @@ const UserProfile: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      Pending: 'bg-[#FF8225]/10 text-[#FF8225]',
-      Processing: 'bg-[#B43F3F]/10 text-[#B43F3F]',
-      Shipped: 'bg-[#173B45]/10 text-[#173B45]',
-      Delivered: 'bg-green-100 text-green-800',
-      Cancelled: 'bg-red-100 text-red-800'
+      Pending: 'text-[#C9A84C] bg-[#C9A84C]/5 border border-[#C9A84C]/25',
+      Processing: 'text-[#B43F3F] bg-[#B43F3F]/5 border border-[#B43F3F]/25',
+      Shipped: 'text-[#173B45] bg-[#173B45]/5 border border-[#173B45]/25',
+      Delivered: 'text-green-800 bg-green-50 border border-green-200',
+      Cancelled: 'text-red-800 bg-red-50 border border-red-200'
     };
-    return colors[status] || 'bg-gray-100 text-[#173B45]';
+    return colors[status] || 'text-[#173B45] bg-gray-50 border border-gray-200';
   };
 
   const formatDate = (dateString: string) => {
@@ -236,16 +233,37 @@ const UserProfile: React.FC = () => {
     }).format(price);
   };
 
+  const getDeliveredSarees = () => {
+    const items: Array<{ name: string; images: Array<{ url: string }> }> = [];
+    const seenNames = new Set<string>();
+
+    orders
+      .filter(order => order.orderStatus === 'Delivered')
+      .forEach(order => {
+        order.orderItems?.forEach(item => {
+          if (item.product && !seenNames.has(item.product.name)) {
+            seenNames.add(item.product.name);
+            items.push({
+              name: item.product.name,
+              images: item.product.images
+            });
+          }
+        });
+      });
+    return items;
+  };
+
   const tabs = [
     { id: 'overview', label: 'Overview', icon: User },
-    { id: 'orders', label: `Orders (${stats.totalOrders})`, icon: Package },
-    { id: 'wishlist', label: `Wishlist (${wishlistItems.length})`, icon: Heart },
+    { id: 'orders', label: `My Orders (${stats.totalOrders})`, icon: Package },
+    { id: 'sarees', label: 'My Saree Collection', icon: Award },
+    { id: 'wishlist', label: `Saved Items (${wishlistItems.length})`, icon: Heart },
     { id: 'addresses', label: `Addresses (${addresses.length})`, icon: MapPin },
-    { id: 'settings', label: 'Settings', icon: Settings }
+    { id: 'settings', label: 'Account Settings', icon: Settings }
   ];
 
   if (!isAuthenticated) {
-    return null; // Will redirect via useEffect
+    return null;
   }
 
   if (loading && !user) {
@@ -254,7 +272,7 @@ const UserProfile: React.FC = () => {
         <div className="relative">
           <div className="w-12 h-12 border-4 border-[#B43F3F] border-t-transparent rounded-full animate-spin"></div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-2 h-2 bg-[#FF8225] rounded-full"></div>
+            <div className="w-2 h-2 bg-[#C9A84C] rounded-full"></div>
           </div>
         </div>
       </div>
@@ -262,367 +280,411 @@ const UserProfile: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8EDED] pt-20 md:pt-32 pb-16 md:pb-24">
+    <div className="min-h-screen bg-[#F8EDED] pt-20 md:pt-32 pb-16 md:pb-24 text-[#173B45]">
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-        {/* Mobile Header */}
-        <div className="md:hidden flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-display font-medium text-[#173B45]">My Account</h1>
+        
+        {/* Mobile Sub-Header */}
+        <div className="md:hidden flex items-center justify-between mb-8">
+          <h1 className="text-xl font-display font-light text-[#173B45]" style={{ fontFamily: "'Playfair Display', serif" }}>
+            My Account
+          </h1>
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 bg-white rounded-xl shadow-sm border border-[#B43F3F]/10"
+            onClick={() => setMobileMenuOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 border border-[#173B45]/20 bg-white rounded-none text-xs font-semibold tracking-wider uppercase"
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            {mobileMenuOpen ? <X size={20} className="text-[#B43F3F]" /> : <Menu size={20} className="text-[#B43F3F]" />}
+            <Menu size={14} /> Menu
           </button>
         </div>
 
-        {/* Profile Header - Mobile Optimized */}
+        {/* Elegant Profile Header - Luxury Redesign */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-2xl md:rounded-[2.5rem] shadow-xl border border-[#B43F3F]/10 overflow-hidden mb-6 md:mb-8"
+          className="bg-white rounded-none border border-[#173B45]/10 overflow-hidden mb-12 p-6 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6"
         >
-          <div className="h-28 md:h-48 bg-gradient-to-r from-[#B43F3F] via-[#FF8225] to-[#B43F3F] relative">
-            {/* Profile Image and Name - Mobile Layout */}
-            <div className="absolute -bottom-12 md:-bottom-16 left-4 md:left-12 flex items-end gap-4 md:gap-6">
-              <div className="w-20 h-20 md:w-32 md:h-32 rounded-xl md:rounded-3xl bg-white p-1 shadow-2xl relative group">
-                <div className="w-full h-full rounded-lg md:rounded-2xl bg-[#F8EDED] flex items-center justify-center overflow-hidden">
-                  {profileImage ? (
-                    <img src={profileImage} alt={user?.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <User size={28} className="md:size-48 text-[#B43F3F]/30" />
-                  )}
-                </div>
-                <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg md:rounded-2xl flex items-center justify-center cursor-pointer">
-                  <Camera size={16} className="md:size-20 text-white" />
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleProfileImageUpload}
-                    disabled={loading}
-                  />
-                </label>
-              </div>
-              <div className="mb-2 md:mb-4">
-                <h1 className="text-xl md:text-3xl font-display font-medium text-[#173B45]">{user?.name || 'User'}</h1>
-                <p className="text-xs md:text-sm font-medium text-[#FF8225] uppercase tracking-wider flex items-center gap-1 md:gap-2">
-                  <Award size={14} className="md:size-16" />
-                  <span className="truncate max-w-[150px] md:max-w-none">
-                    {stats.loyaltyPoints >= 5000 ? 'Platinum' : stats.loyaltyPoints >= 2000 ? 'Gold' : 'Silver'} Member
-                  </span>
-                </p>
-              </div>
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#F8EDED] border border-[#173B45]/10 flex items-center justify-center overflow-hidden relative group flex-shrink-0">
+              {profileImage ? (
+                <img src={profileImage} alt={user?.name} className="w-full h-full object-cover" />
+              ) : (
+                <User size={24} className="text-[#173B45]/30" />
+              )}
+              <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                <Camera size={14} className="text-white" />
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleProfileImageUpload}
+                  disabled={loading}
+                />
+              </label>
             </div>
-
-            {/* Action Buttons - Mobile Optimized */}
-            <div className="absolute bottom-3 md:bottom-4 right-4 md:right-12 flex gap-2 md:gap-3">
-              <button
-                onClick={() => setActiveTab('settings')}
-                className="px-3 md:px-5 py-1.5 md:py-2.5 bg-white/90 backdrop-blur-sm text-[#173B45] rounded-lg md:rounded-xl font-medium text-[10px] md:text-xs uppercase tracking-wider shadow-lg hover:bg-white transition-colors"
-              >
-                Edit
-              </button>
-              <button
-                onClick={logout}
-                className="px-3 md:px-5 py-1.5 md:py-2.5 bg-[#B43F3F] text-white rounded-lg md:rounded-xl font-medium text-[10px] md:text-xs uppercase tracking-wider shadow-lg hover:bg-[#FF8225] transition-colors flex items-center gap-1 md:gap-2"
-              >
-                <LogOut size={12} className="md:size-14" />
-                <span className="hidden xs:inline">Logout</span>
-              </button>
+            
+            <div>
+              <span className="text-[10px] tracking-[0.2em] font-semibold text-[#C9A84C] uppercase block mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
+                {stats.loyaltyPoints >= 5000 ? 'Platinum Member' : stats.loyaltyPoints >= 2000 ? 'Gold Member' : 'Silver Member'}
+              </span>
+              <h1 className="text-xl md:text-2xl font-light text-[#173B45] leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Welcome Back, {user?.name || 'Priya'}
+              </h1>
+              <p className="text-xs text-[#173B45]/60 mt-1 italic" style={{ fontFamily: "'Raleway', sans-serif" }}>
+                "Your saree journey continues. Thank you for being part of TANVO."
+              </p>
             </div>
           </div>
 
-          {/* Stats Row - Mobile Optimized */}
-          <div className="pt-16 md:pt-24 pb-6 md:pb-12 px-4 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 border-t border-[#B43F3F]/10 mt-12 md:mt-16">
-            <div className="text-left">
-              <p className="text-[10px] md:text-xs font-medium text-[#FF8225] uppercase tracking-wider mb-0.5 md:mb-1">Spent</p>
-              <p className="text-sm md:text-2xl font-medium text-[#173B45]">{formatPrice(stats.totalSpent)}</p>
-            </div>
-            <div className="text-left">
-              <p className="text-[10px] md:text-xs font-medium text-[#FF8225] uppercase tracking-wider mb-0.5 md:mb-1">Since</p>
-              <p className="text-sm md:text-2xl font-medium text-[#173B45]">{stats.memberSince}</p>
-            </div>
-            <div className="text-left">
-              <p className="text-[10px] md:text-xs font-medium text-[#FF8225] uppercase tracking-wider mb-0.5 md:mb-1">Orders</p>
-              <p className="text-sm md:text-2xl font-medium text-[#173B45]">{stats.totalOrders}</p>
-            </div>
-            <div className="text-left">
-              <p className="text-[10px] md:text-xs font-medium text-[#FF8225] uppercase tracking-wider mb-0.5 md:mb-1">Points</p>
-              <p className="text-sm md:text-2xl font-medium text-[#173B45]">{stats.loyaltyPoints}</p>
-            </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setActiveTab('settings')}
+              className="px-6 py-2.5 border border-[#173B45]/20 text-[#173B45] hover:border-[#173B45] transition-colors text-[10px] md:text-xs tracking-wider uppercase font-semibold"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Edit Profile
+            </button>
           </div>
         </motion.div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-12">
-          {/* Mobile Menu Dropdown */}
-          <AnimatePresence>
-            {mobileMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="md:hidden col-span-1 overflow-hidden"
-              >
-                <div className="bg-white rounded-2xl shadow-lg border border-[#B43F3F]/10 p-2 mb-4">
-                  {tabs.map(tab => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm ${activeTab === tab.id
-                          ? 'bg-[#B43F3F] text-white'
-                          : 'text-[#173B45] hover:bg-[#F8EDED]'
-                        }`}
-                    >
-                      <tab.icon size={16} />
-                      <span className="flex-1 text-left">{tab.label}</span>
-                      {activeTab === tab.id && <Check size={14} />}
-                    </button>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
+        {/* Main Content Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 items-start">
+          
           {/* Sidebar Tabs - Desktop */}
-          <aside className="hidden md:block md:col-span-1 space-y-2">
+          <aside className="hidden md:block md:col-span-1 space-y-1">
+            <div className="text-[10px] tracking-[0.2em] font-bold text-[#173B45]/40 uppercase mb-4 pl-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+              My Account
+            </div>
             {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-medium text-sm ${activeTab === tab.id
-                    ? 'bg-[#B43F3F] text-white shadow-xl translate-x-2'
-                    : 'bg-white text-[#173B45] hover:bg-[#F8EDED] border border-[#B43F3F]/10'
+                className={`w-full flex items-center gap-4 px-4 py-3 transition-all font-medium text-sm border-l-2 ${activeTab === tab.id
+                    ? 'border-[#B43F3F] text-[#B43F3F] font-semibold bg-white'
+                    : 'border-transparent text-[#173B45]/70 hover:text-[#173B45] hover:border-[#173B45]/20'
                   }`}
+                style={{ fontFamily: "'Raleway', sans-serif" }}
               >
-                <tab.icon size={18} />
+                <tab.icon size={16} className={activeTab === tab.id ? 'text-[#B43F3F]' : 'text-[#173B45]/40'} />
                 <span className="flex-1 text-left">{tab.label}</span>
-                <ChevronRight size={16} className={activeTab === tab.id ? 'opacity-100' : 'opacity-0'} />
               </button>
             ))}
+            <div className="pt-6 border-t border-[#173B45]/10 mt-6">
+              <button
+                onClick={logout}
+                className="w-full flex items-center gap-4 px-4 py-3 text-[#173B45]/60 hover:text-red-700 transition-colors font-medium text-sm"
+                style={{ fontFamily: "'Raleway', sans-serif" }}
+              >
+                <LogOut size={16} className="text-[#173B45]/40" />
+                <span className="flex-1 text-left">Logout</span>
+              </button>
+            </div>
           </aside>
 
-          {/* Main Panel */}
-          <main className="col-span-1 md:col-span-3 bg-white rounded-2xl md:rounded-[2.5rem] shadow-xl border border-[#B43F3F]/10 p-4 md:p-12">
+          {/* Main Panel Content Area */}
+          <main className="col-span-1 md:col-span-3 bg-white border border-[#173B45]/10 p-6 md:p-10">
+            
+            {/* OVERVIEW TAB */}
             {activeTab === 'overview' && (
-              <div className="space-y-6 md:space-y-12">
-                <h2 className="text-2xl md:text-3xl font-display font-medium text-[#173B45]">Account Overview</h2>
+              <div className="space-y-10">
+                <h2 className="text-xl md:text-2xl font-light text-[#173B45] border-b border-[#173B45]/10 pb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Account Overview
+                </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Recent Order */}
-                  <div className="p-4 md:p-6 bg-[#F8EDED] rounded-2xl md:rounded-3xl border border-[#B43F3F]/10">
-                    <div className="flex justify-between items-center mb-4 md:mb-6">
-                      <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-xl md:rounded-2xl flex items-center justify-center text-[#FF8225] shadow-sm">
-                        <Package size={20} className="md:size-24" />
-                      </div>
-                      <Link to="/orders" className="text-xs font-medium text-[#FF8225] uppercase tracking-wider">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-baseline border-b border-[#173B45]/10 pb-2">
+                      <h3 className="text-sm font-semibold tracking-wider text-[#173B45]/60 uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        Recent Order
+                      </h3>
+                      <button onClick={() => setActiveTab('orders')} className="text-[10px] tracking-wider text-[#B43F3F] font-semibold uppercase hover:underline">
                         View All
-                      </Link>
+                      </button>
                     </div>
-                    <h3 className="text-base md:text-lg font-medium mb-2">Recent Order</h3>
+
                     {orders.length > 0 ? (
-                      <>
-                        <p className="text-xs md:text-sm text-[#173B45]/70 mb-4">
-                          Order #{orders[0]._id.slice(-8)} was {orders[0].orderStatus.toLowerCase()} on {formatDate(orders[0].createdAt)}
-                        </p>
-                        <button className="w-full py-2.5 md:py-3 bg-white text-[#173B45] rounded-xl font-medium text-xs uppercase tracking-wider border border-[#B43F3F]/20 hover:bg-[#F8EDED] transition-colors">
-                          Track Shipment
-                        </button>
-                      </>
+                      <div className="border border-[#173B45]/10 p-4 bg-white flex gap-4 items-center justify-between">
+                        <div className="flex gap-4 items-center">
+                          <div className="w-16 h-20 bg-[#F8EDED] overflow-hidden flex-shrink-0 border border-[#173B45]/10">
+                            <img
+                              src={orders[0].orderItems?.[0]?.product?.images?.[0]?.url || 'https://picsum.photos/id/1011/300/400'}
+                              alt={orders[0].orderItems?.[0]?.product?.name || 'Saree'}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="text-[10px] text-[#173B45]/50 tracking-wider">ORDER #{orders[0]._id.slice(-8)}</p>
+                            <h4 className="font-semibold text-sm text-[#173B45] mt-0.5 line-clamp-1" style={{ fontFamily: "'Playfair Display', serif" }}>
+                              {orders[0].orderItems?.[0]?.product?.name || 'Sambalpuri Saree'}
+                            </h4>
+                            <p className="text-[10px] text-[#173B45]/60 mt-0.5">Placed on {formatDate(orders[0].createdAt)}</p>
+                            <span className="inline-block mt-2 text-[8px] font-bold tracking-wider text-[#C9A84C] uppercase bg-[#C9A84C]/5 px-2 py-0.5 border border-[#C9A84C]/20">
+                              {orders[0].orderStatus}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-2 items-end">
+                          <span className="text-sm font-light text-[#B43F3F]">{formatPrice(orders[0].totalPrice)}</span>
+                          <Link
+                            to={`/orders/${orders[0]._id}`}
+                            className="px-4 py-1.5 border border-[#B43F3F] text-[#B43F3F] hover:bg-[#B43F3F] hover:text-white text-center text-[10px] tracking-wider uppercase font-semibold transition-all"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            Details
+                          </Link>
+                        </div>
+                      </div>
                     ) : (
-                      <p className="text-xs md:text-sm text-[#173B45]/70 mb-4">No orders yet. Start shopping!</p>
+                      <div className="text-center py-10 border border-dashed border-[#173B45]/20 bg-[#F8EDED]/20">
+                        <p className="text-xs text-[#173B45]/50 italic mb-3">No orders placed yet.</p>
+                        <Link to="/shop" className="inline-block border border-[#C9A84C] text-[#173B45] px-4 py-2 text-[10px] tracking-wider uppercase font-semibold hover:bg-[#C9A84C] hover:text-white transition-all">
+                          Start Exploring
+                        </Link>
+                      </div>
                     )}
                   </div>
 
-                  {/* Rewards Card */}
-                  <div className="p-4 md:p-6 bg-gradient-to-br from-[#173B45] to-[#0f2a33] rounded-2xl md:rounded-3xl text-white shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-[#FF8225]/10 rounded-full blur-2xl -mr-12 -mt-12" />
-                    <div className="flex justify-between items-center mb-4 md:mb-6">
-                      <div className="w-10 h-10 md:w-12 md:h-12 bg-white/10 rounded-xl md:rounded-2xl flex items-center justify-center text-[#FF8225]">
-                        <Award size={20} className="md:size-24" />
+                  {/* Journey milestones */}
+                  <div className="space-y-4">
+                    <div className="border-b border-[#173B45]/10 pb-2">
+                      <h3 className="text-sm font-semibold tracking-wider text-[#173B45]/60 uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        Your TANVO Journey
+                      </h3>
+                    </div>
+
+                    <div className="relative border-l border-[#173B45]/15 ml-3 pl-6 space-y-4 py-1">
+                      <div className="relative">
+                        <div className="absolute -left-[31px] top-0.5 w-4.5 h-4.5 rounded-full bg-[#B43F3F] border border-white flex items-center justify-center">
+                          <Check size={8} className="text-white" />
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-semibold text-[#173B45]">First Purchase</h4>
+                          <p className="text-[10px] text-[#173B45]/60">Your handloom story began here.</p>
+                        </div>
                       </div>
-                      <span className="text-[8px] md:text-[10px] font-medium uppercase tracking-wider px-2 py-1 bg-[#FF8225] text-[#173B45] rounded">
-                        {stats.loyaltyPoints >= 5000 ? 'Platinum' : stats.loyaltyPoints >= 2000 ? 'Gold' : 'Silver'}
-                      </span>
+
+                      <div className="relative">
+                        <div className={`absolute -left-[31px] top-0.5 w-4.5 h-4.5 rounded-full border border-white flex items-center justify-center ${stats.totalOrders >= 3 ? 'bg-[#B43F3F]' : 'bg-gray-200'}`}>
+                          {stats.totalOrders >= 3 && <Check size={8} className="text-white" />}
+                        </div>
+                        <div>
+                          <h4 className={`text-xs font-semibold ${stats.totalOrders >= 3 ? 'text-[#173B45]' : 'text-[#173B45]/40'}`}>Handloom Collector</h4>
+                          <p className="text-[10px] text-[#173B45]/60">Collected 3+ pieces of traditional weaving heritage.</p>
+                        </div>
+                      </div>
+
+                      <div className="relative">
+                        <div className={`absolute -left-[31px] top-0.5 w-4.5 h-4.5 rounded-full border border-white flex items-center justify-center ${stats.totalOrders >= 5 ? 'bg-[#B43F3F]' : 'bg-gray-200'}`}>
+                          {stats.totalOrders >= 5 && <Check size={8} className="text-white" />}
+                        </div>
+                        <div>
+                          <h4 className={`text-xs font-semibold ${stats.totalOrders >= 5 ? 'text-[#173B45]' : 'text-[#173B45]/40'}`}>Collector Edition Member</h4>
+                          <p className="text-[10px] text-[#173B45]/60">Milestone reached at 5 collected sarees.</p>
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-base md:text-lg font-medium mb-1">Tanvo Rewards</h3>
-                    <p className="text-[10px] md:text-xs text-white/70 mb-4 md:mb-6">
-                      {stats.loyaltyPoints >= 5000
-                        ? 'You\'re at our highest tier!'
-                        : `${5000 - stats.loyaltyPoints} pts to Platinum.`}
-                    </p>
-                    <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mb-1">
-                      <div
-                        className="h-full bg-[#FF8225]"
-                        style={{ width: `${Math.min((stats.loyaltyPoints / 5000) * 100, 100)}%` }}
-                      />
-                    </div>
-                    <p className="text-[8px] md:text-[10px] text-white/50">1 point per ₹100 spent</p>
                   </div>
                 </div>
 
-                {/* Quick Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-6 md:pt-8 border-t border-[#B43F3F]/10">
-                  <div className="text-center">
-                    <div className="text-lg md:text-2xl font-medium text-[#B43F3F]">{wishlistItems.length}</div>
-                    <div className="text-[10px] md:text-xs text-[#173B45]/70">Wishlist</div>
+                {/* Quick typographics stats */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-[#173B45]/10">
+                  <div>
+                    <p className="text-[9px] tracking-widest text-[#173B45]/50 uppercase font-semibold">Total Collection Value</p>
+                    <p className="text-lg font-light text-[#173B45] mt-1">{formatPrice(stats.totalSpent)}</p>
                   </div>
-                  <div className="text-center">
-                    <div className="text-lg md:text-2xl font-medium text-[#B43F3F]">{addresses.length}</div>
-                    <div className="text-[10px] md:text-xs text-[#173B45]/70">Addresses</div>
+                  <div>
+                    <p className="text-[9px] tracking-widest text-[#173B45]/50 uppercase font-semibold">Member Since</p>
+                    <p className="text-lg font-light text-[#173B45] mt-1">{stats.memberSince}</p>
                   </div>
-                  <div className="text-center">
-                    <div className="text-lg md:text-2xl font-medium text-[#B43F3F]">{orders.filter(o => o.orderStatus === 'Delivered').length}</div>
-                    <div className="text-[10px] md:text-xs text-[#173B45]/70">Completed</div>
+                  <div>
+                    <p className="text-[9px] tracking-widest text-[#173B45]/50 uppercase font-semibold">Sarees Ordered</p>
+                    <p className="text-lg font-light text-[#173B45] mt-1">{stats.totalOrders}</p>
                   </div>
-                  <div className="text-center">
-                    <div className="text-lg md:text-2xl font-medium text-[#B43F3F]">{orders.filter(o => o.orderStatus === 'Pending').length}</div>
-                    <div className="text-[10px] md:text-xs text-[#173B45]/70">Pending</div>
+                  <div>
+                    <p className="text-[9px] tracking-widest text-[#173B45]/50 uppercase font-semibold">Loyalty Points</p>
+                    <p className="text-lg font-light text-[#173B45] mt-1">{stats.loyaltyPoints}</p>
                   </div>
                 </div>
               </div>
             )}
 
+            {/* ORDERS TAB */}
             {activeTab === 'orders' && (
-              <div className="space-y-4 md:space-y-6">
-                <h2 className="text-2xl md:text-3xl font-display font-medium text-[#173B45] mb-4 md:mb-8">Order History</h2>
+              <div className="space-y-6">
+                <h2 className="text-xl md:text-2xl font-light text-[#173B45] border-b border-[#173B45]/10 pb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  My Orders
+                </h2>
                 {orders.length > 0 ? (
-                  orders.map(order => (
-                    <div key={order._id} className="border border-[#B43F3F]/10 rounded-xl md:rounded-2xl p-4 md:p-6 hover:border-[#FF8225] transition-all">
-                      <div
-                        className="flex flex-col gap-3 md:gap-0 cursor-pointer md:cursor-default"
-                        onClick={() => setExpandedOrder(expandedOrder === order._id ? null : order._id)}
-                      >
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4">
-                          <div>
-                            <p className="text-xs md:text-sm text-[#173B45]/70 mb-1">Order #{order._id.slice(-8)}</p>
-                            <p className="text-[10px] md:text-xs text-[#173B45]/50">Placed on {formatDate(order.createdAt)}</p>
+                  <div className="space-y-4">
+                    {orders.map(order => (
+                      <div key={order._id} className="border border-[#173B45]/10 p-5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div className="flex gap-4 items-center">
+                          <div className="w-14 h-18 bg-[#F8EDED] overflow-hidden flex-shrink-0 border border-[#173B45]/10">
+                            <img
+                              src={order.orderItems?.[0]?.product?.images?.[0]?.url || 'https://picsum.photos/id/1011/300/400'}
+                              alt={order.orderItems?.[0]?.product?.name || 'Saree'}
+                              className="w-full h-full object-cover"
+                            />
                           </div>
-                          <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-between md:justify-end">
-                            <span className={`px-2 py-1 rounded-full text-[8px] md:text-xs font-medium ${getStatusColor(order.orderStatus)}`}>
-                              {order.orderStatus}
-                            </span>
-                            <span className="font-medium text-[#B43F3F] text-sm md:text-base">{formatPrice(order.totalPrice)}</span>
-                            <button className="md:hidden">
-                              {expandedOrder === order._id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                            </button>
+                          <div>
+                            <p className="text-[10px] text-[#173B45]/50 tracking-wider">ORDER #{order._id.slice(-8)}</p>
+                            <h4 className="font-semibold text-sm text-[#173B45] mt-0.5" style={{ fontFamily: "'Playfair Display', serif" }}>
+                              {order.orderItems?.[0]?.product?.name || 'Sambalpuri Ikat Saree'}
+                            </h4>
+                            <p className="text-[10px] text-[#173B45]/60 mt-0.5">Placed on {formatDate(order.createdAt)}</p>
                           </div>
                         </div>
 
-                        {/* Mobile Expandable Content */}
-                        <AnimatePresence>
-                          {(expandedOrder === order._id || window.innerWidth >= 768) && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              className="mt-4 overflow-hidden"
-                            >
-                              <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                                {order.orderItems?.slice(0, 3).map((item, idx) => (
-                                  <div key={idx} className="flex items-center gap-2 bg-[#F8EDED] p-2 rounded-lg flex-shrink-0">
-                                    <img
-                                      src={item.product?.images?.[0]?.url || ''}
-                                      alt={item.product?.name}
-                                      className="w-8 h-8 md:w-10 md:h-10 object-cover rounded"
-                                    />
-                                    <span className="text-[10px] md:text-xs font-medium">x{item.quantity}</span>
-                                  </div>
-                                ))}
-                                {(order.orderItems?.length || 0) > 3 && (
-                                  <span className="text-[10px] md:text-xs text-[#173B45]/50 flex-shrink-0">
-                                    +{order.orderItems!.length - 3} more
-                                  </span>
-                                )}
-                              </div>
-
-                              <Link
-                                to={`/orders/${order._id}`}
-                                className="inline-block mt-3 text-xs font-medium text-[#FF8225] hover:underline"
-                              >
-                                View Details →
-                              </Link>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                        <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-3 md:pt-0">
+                          <span className={`px-2.5 py-0.5 text-[9px] font-bold tracking-wider uppercase ${getStatusColor(order.orderStatus)}`}>
+                            {order.orderStatus}
+                          </span>
+                          <span className="font-semibold text-[#173B45] text-sm">{formatPrice(order.totalPrice)}</span>
+                          <Link
+                            to={`/orders/${order._id}`}
+                            className="px-4 py-2 border border-[#173B45] text-[#173B45] hover:bg-[#173B45] hover:text-white text-[10px] tracking-wider uppercase font-semibold transition-all"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            Details
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  ))
+                    ))}
+                  </div>
                 ) : (
-                  <div className="text-center py-12 md:py-20">
-                    <Package size={32} className="md:size-48 mx-auto text-[#B43F3F]/30 mb-4" />
-                    <p className="text-[#173B45]/70 font-medium mb-4">No orders yet</p>
-                    <Link to="/shop" className="btn-primary text-xs md:text-sm">
-                      Start Shopping
+                  <div className="text-center py-16 border border-dashed border-[#173B45]/20 bg-[#F8EDED]/20">
+                    <Package size={36} className="mx-auto text-[#B43F3F]/30 mb-3" />
+                    <p className="text-xs text-[#173B45]/50 italic mb-4">You haven't placed any orders yet.</p>
+                    <Link to="/shop" className="inline-block border border-[#C9A84C] text-[#173B45] px-6 py-2.5 text-xs tracking-wider uppercase font-semibold hover:bg-[#C9A84C] hover:text-white transition-all">
+                      Explore Traditional Sarees
                     </Link>
                   </div>
                 )}
               </div>
             )}
 
+            {/* MY SAREE COLLECTION TAB */}
+            {activeTab === 'sarees' && (
+              <div className="space-y-6">
+                <h2 className="text-xl md:text-2xl font-light text-[#173B45] border-b border-[#173B45]/10 pb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  My Saree Collection
+                </h2>
+                {getDeliveredSarees().length > 0 ? (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    {getDeliveredSarees().map((saree, idx) => (
+                      <div key={idx} className="group flex flex-col gap-3">
+                        <div className="aspect-[3/4] bg-[#F8EDED] overflow-hidden border border-[#173B45]/10 relative">
+                          <img
+                            src={saree.images?.[0]?.url || 'https://picsum.photos/id/1011/300/400'}
+                            alt={saree.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
+                          <div className="absolute top-2 left-2 bg-[#C9A84C] text-white text-[8px] px-2 py-0.5 tracking-wider uppercase font-semibold">
+                            Collected
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-sm text-[#173B45] mt-1" style={{ fontFamily: "'Playfair Display', serif" }}>
+                            {saree.name}
+                          </h4>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-16 border border-dashed border-[#173B45]/20 bg-[#F8EDED]/20">
+                    <Award size={36} className="mx-auto text-[#B43F3F]/30 mb-3" />
+                    <p className="text-xs text-[#173B45]/50 italic mb-4">No collected sarees yet.</p>
+                    <p className="text-[11px] text-[#173B45]/40 mb-6">
+                      Sarees from your delivered orders will automatically showcase in your personal boutique closet.
+                    </p>
+                    <Link to="/shop" className="inline-block border border-[#C9A84C] text-[#173B45] px-6 py-2.5 text-xs tracking-wider uppercase font-semibold hover:bg-[#C9A84C] hover:text-white transition-all">
+                      Start Your Journey
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* SAVED ITEMS (WISHLIST) TAB */}
             {activeTab === 'wishlist' && (
-              <div className="space-y-4 md:space-y-6">
-                <h2 className="text-2xl md:text-3xl font-display font-medium text-[#173B45] mb-4 md:mb-8">My Wishlist</h2>
+              <div className="space-y-6">
+                <h2 className="text-xl md:text-2xl font-light text-[#173B45] border-b border-[#173B45]/10 pb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Saved Items
+                </h2>
                 {wishlistItems.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-3 md:gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                     {wishlistItems.map(item => (
                       <Link
                         key={item._id}
                         to={`/product/${item._id}`}
-                        className="flex items-center gap-3 md:gap-4 p-3 md:p-4 border border-[#B43F3F]/10 rounded-xl hover:border-[#FF8225] transition-all group"
+                        className="group flex flex-col gap-3"
                       >
-                        <img
-                          src={item.images?.[0]?.url || ''}
-                          alt={item.name}
-                          className="w-12 h-12 md:w-16 md:h-16 object-cover rounded-lg"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-sm md:text-base group-hover:text-[#B43F3F] transition-colors line-clamp-2">
+                        <div className="aspect-[3/4] bg-[#F8EDED] overflow-hidden border border-[#173B45]/10 relative">
+                          <img
+                            src={item.images?.[0]?.url || 'https://picsum.photos/id/1011/300/400'}
+                            alt={item.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-sm text-[#173B45] group-hover:text-[#B43F3F] transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>
                             {item.name}
-                          </h3>
-                          <p className="text-sm md:text-base font-medium text-[#FF8225] mt-1">{formatPrice(item.price)}</p>
+                          </h4>
+                          <p className="text-xs font-semibold text-[#B43F3F] mt-0.5">{formatPrice(item.price)}</p>
                         </div>
                       </Link>
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12 md:py-20">
-                    <Heart size={32} className="md:size-48 mx-auto text-[#B43F3F]/30 mb-4" />
-                    <p className="text-[#173B45]/70 font-medium mb-4">Your wishlist is empty</p>
-                    <Link to="/shop" className="btn-primary text-xs md:text-sm">
-                      Explore Products
+                  <div className="text-center py-16 border border-dashed border-[#173B45]/20 bg-[#F8EDED]/20">
+                    <Heart size={36} className="mx-auto text-[#B43F3F]/30 mb-3" />
+                    <h3 className="text-base text-[#173B45] mb-2 font-medium" style={{ fontFamily: "'Playfair Display', serif" }}>
+                      Your Saree Collection is waiting
+                    </h3>
+                    <p className="text-xs text-[#173B45]/50 italic mb-6">
+                      Save pieces you love to build your personal closet.
+                    </p>
+                    <Link to="/shop" className="inline-block border border-[#C9A84C] text-[#173B45] px-6 py-2.5 text-xs tracking-wider uppercase font-semibold hover:bg-[#C9A84C] hover:text-white transition-all">
+                      Explore Sarees
                     </Link>
                   </div>
                 )}
               </div>
             )}
 
+            {/* ADDRESSES TAB */}
             {activeTab === 'addresses' && (
-              <div className="space-y-4 md:space-y-6">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 md:mb-8">
-                  <h2 className="text-2xl md:text-3xl font-display font-medium text-[#173B45]">Addresses</h2>
+              <div className="space-y-6">
+                <div className="flex justify-between items-baseline border-b border-[#173B45]/10 pb-4">
+                  <h2 className="text-xl md:text-2xl font-light text-[#173B45]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    Delivery Addresses
+                  </h2>
                   <button
                     onClick={() => setShowAddressForm(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#B43F3F] text-white rounded-xl text-xs font-medium hover:bg-[#FF8225] transition-colors w-full md:w-auto justify-center"
+                    className="flex items-center gap-2 px-4 py-2 border border-[#B43F3F] text-[#B43F3F] hover:bg-[#B43F3F] hover:text-white text-xs font-semibold tracking-wider uppercase transition-all"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
                   >
-                    <Plus size={16} /> Add New
+                    <Plus size={14} /> Add New
                   </button>
                 </div>
 
                 <AnimatePresence>
                   {showAddressForm && (
                     <motion.div
-                      initial={{ opacity: 0, y: -20 }}
+                      initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      className="border border-[#B43F3F]/10 rounded-xl md:rounded-2xl p-4 md:p-6 space-y-4"
+                      exit={{ opacity: 0, y: -10 }}
+                      className="border border-[#173B45]/10 p-5 space-y-4 bg-[#F8EDED]/25"
                     >
-                      <h3 className="font-medium text-base md:text-lg mb-4">Add New Address</h3>
-                      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
+                      <h3 className="text-sm font-semibold tracking-wider text-[#173B45]/60 uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        New Address Details
+                      </h3>
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <select
                           value={newAddress.type}
                           onChange={(e) => setNewAddress({ ...newAddress, type: e.target.value as any })}
-                          className="p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                         >
                           <option value="home">Home</option>
                           <option value="work">Work</option>
@@ -634,7 +696,7 @@ const UserProfile: React.FC = () => {
                           placeholder="Phone Number"
                           value={newAddress.phone}
                           onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
-                          className="p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                         />
 
                         <input
@@ -642,7 +704,7 @@ const UserProfile: React.FC = () => {
                           placeholder="Address Line 1"
                           value={newAddress.addressLine1}
                           onChange={(e) => setNewAddress({ ...newAddress, addressLine1: e.target.value })}
-                          className="md:col-span-2 p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="md:col-span-2 p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                         />
 
                         <input
@@ -650,7 +712,7 @@ const UserProfile: React.FC = () => {
                           placeholder="Address Line 2 (Optional)"
                           value={newAddress.addressLine2}
                           onChange={(e) => setNewAddress({ ...newAddress, addressLine2: e.target.value })}
-                          className="md:col-span-2 p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="md:col-span-2 p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                         />
 
                         <input
@@ -658,13 +720,13 @@ const UserProfile: React.FC = () => {
                           placeholder="City"
                           value={newAddress.city}
                           onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                          className="p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                         />
 
                         <select
                           value={newAddress.state}
                           onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                          className="p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                         >
                           <option value="Odisha">Odisha</option>
                           <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -678,32 +740,32 @@ const UserProfile: React.FC = () => {
                           placeholder="Pincode"
                           value={newAddress.pincode}
                           onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
-                          className="p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                           maxLength={6}
                         />
 
-                        <label className="flex items-center gap-2 col-span-2">
+                        <label className="flex items-center gap-2 col-span-2 cursor-pointer">
                           <input
                             type="checkbox"
                             checked={newAddress.isDefault}
                             onChange={(e) => setNewAddress({ ...newAddress, isDefault: e.target.checked })}
-                            className="rounded border-[#B43F3F]/20 text-[#FF8225] focus:ring-[#FF8225]"
+                            className="rounded text-[#B43F3F] border-[#173B45]/15 focus:ring-[#B43F3F]"
                           />
-                          <span className="text-xs md:text-sm">Set as default address</span>
+                          <span className="text-xs text-[#173B45]/70">Set as default address</span>
                         </label>
                       </div>
 
-                      <div className="flex flex-col md:flex-row gap-3 pt-4">
+                      <div className="flex gap-3 pt-2">
                         <button
                           onClick={handleAddAddress}
                           disabled={loading}
-                          className="px-6 py-3 bg-[#B43F3F] text-white font-medium rounded-xl hover:bg-[#FF8225] transition-all disabled:opacity-50 text-sm"
+                          className="px-6 py-2.5 bg-[#B43F3F] text-white hover:bg-[#780000] text-xs font-semibold tracking-wider uppercase transition-colors"
                         >
                           {loading ? 'Saving...' : 'Save Address'}
                         </button>
                         <button
                           onClick={() => setShowAddressForm(false)}
-                          className="px-6 py-3 border border-[#B43F3F]/10 text-[#173B45] font-medium rounded-xl hover:bg-[#F8EDED] transition-all text-sm"
+                          className="px-6 py-2.5 border border-[#173B45]/20 text-[#173B45] hover:bg-white text-xs font-semibold tracking-wider uppercase transition-colors"
                         >
                           Cancel
                         </button>
@@ -712,150 +774,177 @@ const UserProfile: React.FC = () => {
                   )}
                 </AnimatePresence>
 
-                <div className="space-y-3 md:space-y-4">
+                <div className="space-y-4">
                   {addresses.map(addr => (
-                    <motion.div
+                    <div
                       key={addr._id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="p-4 md:p-6 border border-[#B43F3F]/10 rounded-xl md:rounded-2xl hover:border-[#FF8225] transition-all group"
+                      className="p-5 border border-[#173B45]/10 bg-white flex justify-between items-start"
                     >
-                      <div className="flex flex-col md:flex-row justify-between items-start gap-3">
-                        <div className="flex-1 w-full md:w-auto">
-                          <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-2">
-                            <span className="text-xs md:text-sm font-medium text-[#173B45] uppercase tracking-wider bg-[#F8EDED] px-2 py-0.5 rounded">
-                              {addr.type}
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-[9px] tracking-wider bg-[#F8EDED] px-2.5 py-0.5 font-bold text-[#173B45] uppercase">
+                            {addr.type}
+                          </span>
+                          {addr.isDefault && (
+                            <span className="text-[8px] tracking-wider bg-[#C9A84C]/10 border border-[#C9A84C]/30 text-[#C9A84C] px-2 py-0.5 font-bold uppercase">
+                              DEFAULT
                             </span>
-                            {addr.isDefault && (
-                              <span className="text-[8px] md:text-[10px] font-medium bg-[#FF8225] px-2 py-0.5 rounded text-white">
-                                DEFAULT
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-xs md:text-sm text-[#173B45]/80 break-words">{addr.addressLine1}</p>
-                          {addr.addressLine2 && <p className="text-xs md:text-sm text-[#173B45]/80 break-words">{addr.addressLine2}</p>}
-                          <p className="text-xs md:text-sm text-[#173B45]/80">{addr.city}, {addr.state} - {addr.pincode}</p>
-                          <p className="text-xs md:text-sm text-[#173B45]/60 mt-2">Phone: {addr.phone}</p>
-                        </div>
-
-                        <div className="flex items-center gap-2 self-end md:self-start ml-auto">
-                          {!addr.isDefault && (
-                            <button
-                              onClick={() => handleSetDefaultAddress(addr._id)}
-                              className="p-2 text-[#173B45]/40 hover:text-[#FF8225] transition-colors"
-                              title="Set as default"
-                            >
-                              <Shield size={14} className="md:size-16" />
-                            </button>
                           )}
-                          <button
-                            onClick={() => setEditingAddress(addr)}
-                            className="p-2 text-[#173B45]/40 group-hover:text-[#B43F3F] transition-colors"
-                          >
-                            <Edit2 size={14} className="md:size-16" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteAddress(addr._id)}
-                            className="p-2 text-[#173B45]/40 group-hover:text-red-600 transition-colors"
-                          >
-                            <Trash2 size={14} className="md:size-16" />
-                          </button>
                         </div>
+                        <p className="text-sm text-[#173B45]">{addr.addressLine1}</p>
+                        {addr.addressLine2 && <p className="text-sm text-[#173B45]">{addr.addressLine2}</p>}
+                        <p className="text-sm text-[#173B45]">{addr.city}, {addr.state} - {addr.pincode}</p>
+                        <p className="text-xs text-[#173B45]/60 mt-2">Phone: {addr.phone}</p>
                       </div>
-                    </motion.div>
+
+                      <div className="flex items-center gap-1">
+                        {!addr.isDefault && (
+                          <button
+                            onClick={() => handleSetDefaultAddress(addr._id)}
+                            className="p-2 text-[#173B45]/40 hover:text-[#C9A84C] transition-colors"
+                            title="Set as default"
+                          >
+                            <Shield size={14} />
+                          </button>
+                        )}
+                        <button
+                          onClick={() => setEditingAddress(addr)}
+                          className="p-2 text-[#173B45]/40 hover:text-[#B43F3F] transition-colors"
+                        >
+                          <Edit2 size={14} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteAddress(addr._id)}
+                          className="p-2 text-[#173B45]/40 hover:text-red-600 transition-colors"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
                   ))}
 
                   {addresses.length === 0 && !showAddressForm && (
-                    <div className="text-center py-8 md:py-12 bg-[#F8EDED] rounded-xl md:rounded-2xl">
-                      <MapPin size={32} className="md:size-48 mx-auto text-[#B43F3F]/30 mb-4" />
-                      <p className="text-[#173B45]/70">No addresses saved yet</p>
+                    <div className="text-center py-16 border border-dashed border-[#173B45]/20 bg-[#F8EDED]/20">
+                      <MapPin size={36} className="mx-auto text-[#B43F3F]/30 mb-3" />
+                      <p className="text-xs text-[#173B45]/50 italic">No addresses saved yet.</p>
                     </div>
                   )}
                 </div>
               </div>
             )}
 
+            {/* ACCOUNT SETTINGS TAB */}
             {activeTab === 'settings' && (
-              <div className="space-y-4 md:space-y-8">
-                <h2 className="text-2xl md:text-3xl font-display font-medium text-[#173B45] mb-4 md:mb-8">Account Settings</h2>
+              <div className="space-y-12">
+                <h2 className="text-xl md:text-2xl font-light text-[#173B45] border-b border-[#173B45]/10 pb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Account Settings
+                </h2>
 
-                <div className="space-y-4 md:space-y-6">
-                  {/* Personal Information */}
-                  <div className="border border-[#B43F3F]/10 rounded-xl md:rounded-2xl p-4 md:p-6">
-                    <h3 className="font-medium text-base md:text-lg mb-4">Personal Information</h3>
-                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
+                <div className="space-y-10">
+                  {/* Profile Information */}
+                  <div className="space-y-4">
+                    <h3 className="text-xs tracking-wider uppercase font-semibold text-[#173B45]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      Profile Information
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="text-[10px] md:text-xs text-[#173B45]/60 block mb-1">Full Name</label>
+                        <label className="text-xs text-[#173B45]/60 block mb-1">Full Name</label>
                         <input
                           type="text"
                           defaultValue={user?.name}
-                          className="w-full p-2.5 md:p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="w-full p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] md:text-xs text-[#173B45]/60 block mb-1">Email Address</label>
+                        <label className="text-xs text-[#173B45]/60 block mb-1">Email Address</label>
                         <input
                           type="email"
                           defaultValue={user?.email}
-                          className="w-full p-2.5 md:p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="w-full p-3 border border-[#173B45]/15 bg-gray-50 text-[#173B45]/60 text-sm cursor-not-allowed"
                           readOnly
                         />
                       </div>
                       <div className="md:col-span-2">
-                        <label className="text-[10px] md:text-xs text-[#173B45]/60 block mb-1">Phone Number</label>
+                        <label className="text-xs text-[#173B45]/60 block mb-1">Phone Number</label>
                         <input
                           type="tel"
                           defaultValue={user?.phone}
-                          className="w-full p-2.5 md:p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                          className="w-full p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                         />
                       </div>
                     </div>
-                    <button className="mt-4 px-4 md:px-6 py-2.5 bg-[#B43F3F] text-white rounded-xl text-xs font-medium hover:bg-[#FF8225] transition-colors">
-                      Update Information
+                    <button className="px-6 py-2.5 bg-[#B43F3F] text-white hover:bg-[#780000] text-xs tracking-wider uppercase transition-colors font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      Update Profile
                     </button>
                   </div>
 
-                  {/* Preferences */}
-                  <div className="border border-[#B43F3F]/10 rounded-xl md:rounded-2xl p-4 md:p-6">
-                    <h3 className="font-medium text-base md:text-lg mb-4">Preferences</h3>
-                    <div className="space-y-3 md:space-y-4">
-                      <label className="flex items-center justify-between cursor-pointer">
-                        <span className="text-xs md:text-sm">Email Notifications</span>
-                        <input type="checkbox" className="w-4 h-4 md:w-5 md:h-5 rounded border-[#B43F3F]/20 text-[#FF8225] focus:ring-[#FF8225]" defaultChecked />
+                  {/* Communication Preferences */}
+                  <div className="space-y-4">
+                    <h3 className="text-xs tracking-wider uppercase font-semibold text-[#173B45]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      Communication Preferences
+                    </h3>
+                    <div className="space-y-3">
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" className="w-4 h-4 text-[#B43F3F] border-[#173B45]/15 focus:ring-[#B43F3F]" defaultChecked />
+                        <span className="text-xs text-[#173B45]/80">Order updates (SMS & Email)</span>
                       </label>
-                      <label className="flex items-center justify-between cursor-pointer">
-                        <span className="text-xs md:text-sm">SMS Updates for Orders</span>
-                        <input type="checkbox" className="w-4 h-4 md:w-5 md:h-5 rounded border-[#B43F3F]/20 text-[#FF8225] focus:ring-[#FF8225]" defaultChecked />
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" className="w-4 h-4 text-[#B43F3F] border-[#173B45]/15 focus:ring-[#B43F3F]" defaultChecked />
+                        <span className="text-xs text-[#173B45]/80">New collection updates</span>
                       </label>
-                      <label className="flex items-center justify-between cursor-pointer">
-                        <span className="text-xs md:text-sm">Marketing Communications</span>
-                        <input type="checkbox" className="w-4 h-4 md:w-5 md:h-5 rounded border-[#B43F3F]/20 text-[#FF8225] focus:ring-[#FF8225]" />
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" className="w-4 h-4 text-[#B43F3F] border-[#173B45]/15 focus:ring-[#B43F3F]" />
+                        <span className="text-xs text-[#173B45]/80">Exclusive offers and promotions</span>
                       </label>
                     </div>
                   </div>
 
-                  {/* Change Password */}
-                  <div className="border border-[#B43F3F]/10 rounded-xl md:rounded-2xl p-4 md:p-6">
-                    <h3 className="font-medium text-base md:text-lg mb-4">Change Password</h3>
-                    <div className="grid grid-cols-1 gap-3">
+                  {/* Security */}
+                  <div className="space-y-4">
+                    <h3 className="text-xs tracking-wider uppercase font-semibold text-[#173B45]/60" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      Security
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <input
                         type="password"
                         placeholder="Current Password"
-                        className="w-full p-2.5 md:p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                        className="p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                       />
                       <input
                         type="password"
                         placeholder="New Password"
-                        className="w-full p-2.5 md:p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                        className="p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                       />
                       <input
                         type="password"
                         placeholder="Confirm New Password"
-                        className="w-full p-2.5 md:p-3 border border-[#B43F3F]/10 rounded-xl text-sm focus:outline-none focus:border-[#FF8225]"
+                        className="p-3 border border-[#173B45]/15 focus:outline-none focus:border-[#B43F3F] text-sm bg-transparent"
                       />
                     </div>
-                    <button className="mt-4 px-4 md:px-6 py-2.5 bg-[#B43F3F] text-white rounded-xl text-xs font-medium hover:bg-[#FF8225] transition-colors">
-                      Update Password
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                      <button className="px-6 py-2.5 bg-[#B43F3F] text-white hover:bg-[#780000] text-xs tracking-wider uppercase transition-colors font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        Change Password
+                      </button>
+                      <div className="text-[10px] text-[#173B45]/50 font-medium">
+                        Last login activity: {formatDate(new Date().toString())}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Danger Zone */}
+                  <div className="border-t border-[#173B45]/10 pt-8 space-y-4">
+                    <h3 className="text-xs tracking-wider uppercase font-semibold text-[#B43F3F]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      Danger Zone
+                    </h3>
+                    <p className="text-xs text-[#173B45]/60 italic">
+                      For account deletion requests, please contact customer support directly.
+                    </p>
+                    <button
+                      onClick={logout}
+                      className="px-6 py-2.5 border border-[#B43F3F] text-[#B43F3F] hover:bg-[#B43F3F] hover:text-white transition-all text-xs tracking-wider uppercase font-semibold"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      Logout Account
                     </button>
                   </div>
                 </div>
@@ -864,6 +953,75 @@ const UserProfile: React.FC = () => {
           </main>
         </div>
       </div>
+
+      {/* Elegant Mobile Bottom Sheet Navigation */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Overlay Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-[#0D0B0A] z-40 md:hidden animate-fade-in"
+            />
+            
+            {/* Drawer Sheet */}
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 220 }}
+              className="fixed bottom-0 left-0 right-0 bg-[#F8EDED] z-50 rounded-t-[1.5rem] border-t border-[#173B45]/15 max-h-[80vh] overflow-y-auto pb-8 md:hidden px-6 pt-4"
+            >
+              <div className="w-12 h-1 bg-[#173B45]/15 rounded-full mx-auto mb-6" />
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-light text-[#173B45]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Account Menu
+                </h3>
+                <button onClick={() => setMobileMenuOpen(false)} className="p-1">
+                  <X size={18} className="text-[#173B45]/70" />
+                </button>
+              </div>
+              
+              <div className="space-y-1">
+                {tabs.map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center gap-4 py-4 border-b border-[#173B45]/5 text-left font-medium text-sm transition-all ${
+                      activeTab === tab.id
+                        ? 'text-[#B43F3F] font-semibold'
+                        : 'text-[#173B45]/80'
+                    }`}
+                    style={{ fontFamily: "'Raleway', sans-serif" }}
+                  >
+                    <tab.icon size={16} className={activeTab === tab.id ? 'text-[#B43F3F]' : 'text-[#173B45]/40'} />
+                    <span className="flex-1">{tab.label}</span>
+                    {activeTab === tab.id && <Check size={14} className="text-[#B43F3F]" />}
+                  </button>
+                ))}
+                
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    logout();
+                  }}
+                  className="w-full flex items-center gap-4 py-4 text-left font-medium text-sm text-[#173B45]/60 hover:text-red-700 transition-colors"
+                  style={{ fontFamily: "'Raleway', sans-serif" }}
+                >
+                  <LogOut size={16} className="text-[#173B45]/40" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
