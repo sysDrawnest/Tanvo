@@ -613,27 +613,31 @@
 //     colors: ['Sage Green', 'Cream']
 //   }
 // ];
-// constants.tsx - Simplified version
 export const HERO_SLIDES = [
   {
     desktop: '/luxury_saree_macro.png',
-    mobile: '/luxury_saree_macro.png'
+    mobile: '/luxury_saree_macro.png',
+    position: 'center',
   },
   {
-    desktop: '/hero section image/tanvo-couture-heritage-duo.jpeg',
-    mobile: '/hero section image/tanvo-couture-heritage-duo_mobile.jpeg'
-  },
-  {
-    desktop: '/hero section image/tanvo-heritage-lake-elegance.jpeg',
-    mobile: '/hero section image/tanvo-heritage-lake-elegance_mobile.jpeg'
+    desktop: '/hero section image/A_cinematic_luxury_202604051034.png',
+    mobile: '/hero section image/Whisk_ec4d14e37ea16d380e848126b16a158ddr.png',
+    position: 'top center',
   },
   {
     desktop: '/hero section image/tanvo-royal-heritage-palace.jpeg',
-    mobile: '/hero section image/tanvo-royal-heritage-palace_mobile.jpeg'
+    mobile: '/hero section image/tanvo-royal-heritage-palace_mobile.jpeg',
+    position: 'top center',
   },
   {
     desktop: '/hero section image/tanvo-silk-duet-editorial.jpeg',
-    mobile: '/hero section image/tanvo-silk-duet-editorial_mobile.jpeg'
+    mobile: '/hero section image/tanvo-silk-duet-editorial_mobile.jpeg',
+    position: 'top center',
+  },
+  {
+    desktop: '/hero section image/tanvo-couture-heritage-duo.jpeg',
+    mobile: '/hero section image/tanvo-heritage-lake-elegance_mobile.jpeg',
+    position: 'top center',
   }
 ];
 

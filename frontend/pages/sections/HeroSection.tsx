@@ -453,9 +453,7 @@ const HeroSection: React.FC = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -488,9 +486,9 @@ const HeroSection: React.FC = () => {
                         style={{
                             position: 'absolute',
                             inset: 0,
-                            backgroundImage: `url("${imgUrl}")`,
+                            backgroundImage: `url(${imgUrl})`,
                             backgroundSize: 'cover',
-                            backgroundPosition: 'center',
+                            backgroundPosition: slide.position || 'center',
                             backgroundRepeat: 'no-repeat',
                             opacity: index === currentIndex ? 1 : 0,
                             transition: 'opacity 1.5s ease-in-out',
