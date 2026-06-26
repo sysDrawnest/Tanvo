@@ -614,11 +614,27 @@
 //   }
 // ];
 // constants.tsx - Simplified version
-export const HERO_IMAGES = [
-  '/images/hero section 1.webp',
-  '/images/hero section 2.webp',
-  '/images/hero section  3.webp',
-  '/images/hero section  4.webp'
+export const HERO_SLIDES = [
+  {
+    desktop: '/luxury_saree_macro.png',
+    mobile: '/luxury_saree_macro.png'
+  },
+  {
+    desktop: '/hero section image/tanvo-couture-heritage-duo.jpeg',
+    mobile: '/hero section image/tanvo-couture-heritage-duo_mobile.jpeg'
+  },
+  {
+    desktop: '/hero section image/tanvo-heritage-lake-elegance.jpeg',
+    mobile: '/hero section image/tanvo-heritage-lake-elegance_mobile.jpeg'
+  },
+  {
+    desktop: '/hero section image/tanvo-royal-heritage-palace.jpeg',
+    mobile: '/hero section image/tanvo-royal-heritage-palace_mobile.jpeg'
+  },
+  {
+    desktop: '/hero section image/tanvo-silk-duet-editorial.jpeg',
+    mobile: '/hero section image/tanvo-silk-duet-editorial_mobile.jpeg'
+  }
 ];
 
 // Keep only static data that won't come from database

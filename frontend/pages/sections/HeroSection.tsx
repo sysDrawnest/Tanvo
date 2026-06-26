@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Star, Award, Users } from 'lucide-react';
-import { HERO_IMAGES } from '../../constants';
+import { HERO_SLIDES } from '../../constants';
 
 /*
 =====================================================
@@ -450,10 +450,19 @@ NEW LUXURY HERO SECTION
 */
 const HeroSection: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+            setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
         }, 5000);
         return () => clearInterval(timer);
     }, []);
@@ -471,22 +480,25 @@ const HeroSection: React.FC = () => {
             overflow: 'hidden',
         }}>
             {/* Background Slideshow */}
-            {HERO_IMAGES.map((img, index) => (
-                <div
-                    key={img}
-                    style={{
-                        position: 'absolute',
-                        inset: 0,
-                        backgroundImage: `url(${img})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                        opacity: index === currentIndex ? 1 : 0,
-                        transition: 'opacity 1.5s ease-in-out',
-                        zIndex: 0,
-                    }}
-                />
-            ))}
+            {HERO_SLIDES.map((slide, index) => {
+                const imgUrl = isMobile ? slide.mobile : slide.desktop;
+                return (
+                    <div
+                        key={index}
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            backgroundImage: `url("${imgUrl}")`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            opacity: index === currentIndex ? 1 : 0,
+                            transition: 'opacity 1.5s ease-in-out',
+                            zIndex: 0,
+                        }}
+                    />
+                );
+            })}
 
             {/* Elegant dark overlay */}
             <div style={{
@@ -599,7 +611,7 @@ const HeroSection: React.FC = () => {
                 display: 'flex',
                 gap: '8px',
             }}>
-                {HERO_IMAGES.map((_, index) => (
+                {HERO_SLIDES.map((_, index) => (
                     <button
                         key={index}
                         onClick={() => setCurrentIndex(index)}
