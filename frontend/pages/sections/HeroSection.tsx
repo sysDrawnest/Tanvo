@@ -486,7 +486,7 @@ const HeroSection: React.FC = () => {
                         style={{
                             position: 'absolute',
                             inset: 0,
-                            backgroundImage: `url(${imgUrl})`,
+                            backgroundImage: `url("${imgUrl}")`,
                             backgroundSize: 'cover',
                             backgroundPosition: slide.position || 'center',
                             backgroundRepeat: 'no-repeat',
