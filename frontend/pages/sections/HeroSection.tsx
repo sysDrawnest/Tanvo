@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Star, Award, Users } from 'lucide-react';
+import { HERO_IMAGES } from '../../constants';
 
 /*
 =====================================================
@@ -448,6 +449,15 @@ NEW LUXURY HERO SECTION
 =====================================================
 */
 const HeroSection: React.FC = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []);
+
     return (
         <section style={{
             minHeight: '100vh',
@@ -457,12 +467,27 @@ const HeroSection: React.FC = () => {
             flexDirection: 'column',
             justifyContent: 'space-between',
             padding: '4vw 6vw',
-            backgroundImage: 'url(/luxury_saree_macro.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
             backgroundColor: '#0A0A0A',
+            overflow: 'hidden',
         }}>
+            {/* Background Slideshow */}
+            {HERO_IMAGES.map((img, index) => (
+                <div
+                    key={img}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        backgroundImage: `url(${img})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        opacity: index === currentIndex ? 1 : 0,
+                        transition: 'opacity 1.5s ease-in-out',
+                        zIndex: 0,
+                    }}
+                />
+            ))}
+
             {/* Elegant dark overlay */}
             <div style={{
                 position: 'absolute',
@@ -563,6 +588,33 @@ const HeroSection: React.FC = () => {
                 >
                     Discover the Collection
                 </Link>
+            </div>
+
+            {/* Slide Indicators */}
+            <div style={{
+                position: 'absolute',
+                bottom: '4vh',
+                left: '6vw',
+                zIndex: 2,
+                display: 'flex',
+                gap: '8px',
+            }}>
+                {HERO_IMAGES.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => setCurrentIndex(index)}
+                        style={{
+                            width: index === currentIndex ? '24px' : '8px',
+                            height: '2px',
+                            background: index === currentIndex ? '#D4AF37' : 'rgba(234, 230, 223, 0.4)',
+                            border: 'none',
+                            padding: 0,
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                        }}
+                        aria-label={`Go to slide ${index + 1}`}
+                    />
+                ))}
             </div>
 
             <div style={{

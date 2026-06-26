@@ -618,8 +618,7 @@ export const HERO_IMAGES = [
   '/images/hero section 1.webp',
   '/images/hero section 2.webp',
   '/images/hero section  3.webp',
-  '/images/hero section  4.webp',
-  '/images/hero section  5.webp'
+  '/images/hero section  4.webp'
 ];
 
 // Keep only static data that won't come from database
