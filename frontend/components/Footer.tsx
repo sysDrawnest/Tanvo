@@ -125,6 +125,32 @@ const Footer: React.FC = () => {
           height: auto;
           display: block;
         }
+
+        .policies-container {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .policies-divider {
+          height: 1px;
+          background: rgba(249,245,238,0.05);
+          margin: 4px 0;
+        }
+
+        @media (max-width: 768px) {
+          .policies-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px 24px;
+          }
+          .policies-full-row {
+            grid-column: span 2;
+          }
+          .policies-divider {
+            display: none;
+          }
+        }
       `}</style>
 
       {/* Subtle warm radial glow */}
@@ -267,15 +293,15 @@ const Footer: React.FC = () => {
               textTransform: 'uppercase',
               fontFamily: "'Cinzel',serif"
             }}>Our Policies</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div className="policies-container">
               <Link to="/terms" className="footer-link">Terms of Service</Link>
               <Link to="/privacy" className="footer-link">Privacy Policy</Link>
               <Link to="/cookies" className="footer-link">Cookie Policy</Link>
-              <div className="divider" style={{ height: '1px', background: 'rgba(249,245,238,0.05)', margin: '4px 0' }} />
+              <div className="policies-divider" />
               <Link to="/shipping" className="footer-link">Shipping Policy</Link>
               <Link to="/returns" className="footer-link">Returns & Refunds</Link>
               <Link to="/contact" className="footer-link">Support Hub</Link>
-              <Link to="/report-bug" className="footer-link" style={{ color: 'var(--terra)', fontWeight: 500 }}>Report a Problem</Link>
+              <Link to="/report-bug" className="footer-link policies-full-row" style={{ color: 'var(--terra)', fontWeight: 500 }}>Report a Problem</Link>
             </div>
           </div>
 
