@@ -381,6 +381,7 @@ const Navbar: React.FC = () => {
         }}
       >
         {/* Announcement bar */}
+        {/* 
         <div
           className="textile-overlay"
           style={{
@@ -400,6 +401,7 @@ const Navbar: React.FC = () => {
         >
           FESTIVE OFFER: BUY 1 GET 1. ADD 2 SAREES TO THE CART TO AVAIL THE OFFER.
         </div>
+        */}
 
         {/* Main navigation content */}
         <div style={{

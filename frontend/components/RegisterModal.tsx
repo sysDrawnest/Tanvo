@@ -12,31 +12,37 @@ const RegisterModal: React.FC = () => {
 
         let triggered = false;
 
-        const handleScroll = () => {
+        const triggerModal = () => {
             if (triggered) return;
+            setIsOpen(true);
+            triggered = true;
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('mouseout', handleMouseOut);
+        };
+
+        const handleScroll = () => {
             const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
             if (scrollPercent > 60) {
-                setIsOpen(true);
-                triggered = true;
-                window.removeEventListener('scroll', handleScroll);
-                document.removeEventListener('mouseout', handleMouseOut);
+                triggerModal();
             }
         };
 
         const handleMouseOut = (e: MouseEvent) => {
-            if (triggered) return;
             if (e.clientY <= 0) {
-                setIsOpen(true);
-                triggered = true;
-                window.removeEventListener('scroll', handleScroll);
-                document.removeEventListener('mouseout', handleMouseOut);
+                triggerModal();
             }
         };
+
+        // Automatically open the modal 4 seconds after landing on the site
+        const timer = setTimeout(() => {
+            triggerModal();
+        }, 4000);
 
         window.addEventListener('scroll', handleScroll);
         document.addEventListener('mouseout', handleMouseOut);
 
         return () => {
+            clearTimeout(timer);
             window.removeEventListener('scroll', handleScroll);
             document.removeEventListener('mouseout', handleMouseOut);
         };
