@@ -514,16 +514,7 @@ const HeroSection: React.FC = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center'
             }}>
-                <div style={{
-                    color: '#EAE6DF',
-                    fontSize: '15px',
-                    letterSpacing: '0.25em',
-                    fontWeight: 300,
-                    textTransform: 'uppercase',
-                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
-                }}>
-                    Tanvo
-                </div>
+                <div />
                 <Link to="/shop" style={{
                     color: '#EAE6DF',
                     fontSize: '11px',
