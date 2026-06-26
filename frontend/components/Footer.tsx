@@ -281,7 +281,7 @@ const Footer: React.FC = () => {
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: 48,
           paddingBottom: 60,
-          borderBottom: '1px solid rgba(249,245,238,0.07)'
+          borderBottom: 'none'
         }}>
           <div>
             <p style={{
