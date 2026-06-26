@@ -342,18 +342,18 @@ const Footer: React.FC = () => {
           {/* Mobile image - for screens up to 768px */}
           <source
             media="(max-width: 768px)"
-            srcSet="/footer mobile.png"
+            srcSet="/footer%20mobile.png"
             type="image/png"
           />
           {/* Desktop image - for screens 769px and above */}
           <source
             media="(min-width: 769px)"
-            srcSet="/footer pc.png"
+            srcSet="/footer%20pc.png"
             type="image/png"
           />
           {/* Fallback image */}
           <img
-            src="/footer pc.png"
+            src="/footer%20pc.png"
             alt="Tanvo Artisanal Heritage - Handwoven Elegance"
             className="responsive-art-image"
             style={{
@@ -372,10 +372,9 @@ const Footer: React.FC = () => {
                 const isMobileView = window.innerWidth <= 768;
                 const images = document.querySelectorAll('.responsive-art-image');
                 images.forEach(img => {
-                  if (isMobileView && img.src !== '/footer mobile.png') {
-                    img.src = '/footer mobile.png';
-                  } else if (!isMobileView && img.src !== '/footer pc.png') {
-                    img.src = '/footer pc.png';
+                  const target = isMobileView ? '/footer%20mobile.png' : '/footer%20pc.png';
+                  if (!img.src.endsWith(target)) {
+                    img.src = target;
                   }
                 });
               }
