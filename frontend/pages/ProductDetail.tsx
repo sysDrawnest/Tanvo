@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSwipeable } from 'react-swipeable';
 import { Helmet } from 'react-helmet-async';
 import { ProductHeritageAccordion } from '../components/ProductHeritageAccordion';
+import WhatsAppConcierge from '../components/WhatsAppConcierge';
 
 interface Product {
   _id: string;
@@ -222,6 +223,10 @@ const ProductDetail: React.FC = () => {
     // Add to cart and go to checkout
     addToCart(product._id, quantity, selectedColor || undefined, selectedSize || undefined);
     navigate('/checkout');
+  };
+
+  const getProductURL = () => {
+    return window.location.href;
   };
 
   const handlePincodeCheck = async () => {
@@ -999,6 +1004,20 @@ const ProductDetail: React.FC = () => {
                   BUY NOW
                 </motion.button>
               </div>
+
+              {/* WhatsApp Order */}
+              <WhatsAppConcierge
+                productName={product.name}
+                productPrice={product.price}
+                productURL={getProductURL()}
+                variant="outline"
+                size="md"
+                label="Order via WhatsApp"
+                className="w-full justify-center"
+              />
+              <p className="text-xs text-[#0D0B0A]/40 text-center font-light tracking-wide -mt-1">
+                Share screenshot · Ask questions · Buy on call or chat
+              </p>
             </div>
 
             {/* Delivery Check */}

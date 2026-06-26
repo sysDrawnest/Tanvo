@@ -109,7 +109,14 @@ const orderSchema = new mongoose.Schema({
   shiprocketShipmentId: String,
   awbNumber: String,
   trackingStatus: String,
-  trackingHistory: [Object]
+  trackingHistory: [Object],
+
+  // Order source tracking — enables admin revenue analytics per channel
+  orderSource: {
+    type: String,
+    enum: ['website', 'whatsapp', 'instagram', 'offline', 'other'],
+    default: 'website'
+  }
 }, {
   timestamps: true
 });

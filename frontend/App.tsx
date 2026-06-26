@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import RegisterModal from './components/RegisterModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import WelcomeScreen from './components/WelcomeScreen';
+import WhatsAppConcierge from './components/WhatsAppConcierge';
 
 
 // Pages
@@ -174,6 +175,32 @@ const AppContent: React.FC = () => {
         </Routes>
       </main>
       {!isAuthPage && <Footer />}
+
+      {/* Floating WhatsApp Button */}
+      {!isAuthPage && (
+        <div style={{
+          position: 'fixed',
+          bottom: '28px',
+          right: '24px',
+          zIndex: 1000,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          gap: '6px'
+        }}>
+          <p style={{
+            fontSize: '10px',
+            color: '#1A6634',
+            fontFamily: "'Raleway', sans-serif",
+            fontWeight: 500,
+            letterSpacing: '0.05em',
+            opacity: 0.8
+          }}>
+            Personal assistance
+          </p>
+          <WhatsAppConcierge size="md" label="Order via WhatsApp" />
+        </div>
+      )}
     </div>
   );
 };
