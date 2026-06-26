@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Star, Award, Users } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 /*
 =====================================================
@@ -448,63 +447,7 @@ OLD HERO SECTION (Archived)
 NEW LUXURY HERO SECTION
 =====================================================
 */
-const SLIDES = [
-    {
-        desktopBg: '/luxury_saree_macro.png',
-        mobileBg: '/silk-mobile.png',
-        title: (
-            <>
-                The silent poetry <br />
-                <i style={{ fontWeight: 400, color: '#D4AF37', opacity: 0.9 }}>of pure silk.</i>
-            </>
-        ),
-        sub: "Handwoven sarees carrying generations of Indian craftsmanship."
-    },
-    {
-        desktopBg: '/images/hero section 2.webp',
-        mobileBg: '/Sambalpuri-mobile.png',
-        title: (
-            <>
-                Tradition, <br />
-                <i style={{ fontWeight: 400, color: '#D4AF37', opacity: 0.9 }}>Draped Differently.</i>
-            </>
-        ),
-        sub: "Contemporary styling meets timeless handloom heritage."
-    },
-    {
-        desktopBg: '/images/hero section  3.webp',
-        mobileBg: '/Ikat-mobile.png',
-        title: (
-            <>
-                From the hands <br />
-                <i style={{ fontWeight: 400, color: '#D4AF37', opacity: 0.9 }}>of master weavers.</i>
-            </>
-        ),
-        sub: "Authentic handloom. Made with patience."
-    },
-    {
-        desktopBg: '/images/hero section  4.webp',
-        mobileBg: '/Khandua-mobile.png',
-        title: (
-            <>
-                Discover <br />
-                <i style={{ fontWeight: 400, color: '#D4AF37', opacity: 0.9 }}>your next heirloom.</i>
-            </>
-        ),
-        sub: "Curated collections directly sourced from regional weaver cooperatives."
-    }
-];
-
 const HeroSection: React.FC = () => {
-    const [currentSlide, setCurrentSlide] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
-        }, 7000); // Rotate every 7 seconds
-        return () => clearInterval(interval);
-    }, []);
-
     return (
         <section style={{
             minHeight: '100vh',
@@ -514,63 +457,18 @@ const HeroSection: React.FC = () => {
             flexDirection: 'column',
             justifyContent: 'space-between',
             padding: '4vw 6vw',
+            backgroundImage: 'url(/luxury_saree_macro.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
             backgroundColor: '#0A0A0A',
-            overflow: 'hidden',
         }}>
-            <style dangerouslySetInnerHTML={{__html: `
-                @keyframes kenburns {
-                    0% { transform: scale(1); }
-                    100% { transform: scale(1.08); }
-                }
-                .kenburns-bg {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    transform-origin: center center;
-                }
-                .kenburns-bg.active {
-                    animation: kenburns 8s ease-out forwards;
-                }
-            `}} />
-
-            {/* Cinematic background image sequence */}
-            <div style={{
-                position: 'absolute',
-                top: 0, left: 0, right: 0, bottom: 0,
-                zIndex: 0,
-            }}>
-                {SLIDES.map((slide, index) => {
-                    const isActive = index === currentSlide;
-                    return (
-                        <div
-                            key={index}
-                            style={{
-                                position: 'absolute',
-                                top: 0, left: 0, right: 0, bottom: 0,
-                                opacity: isActive ? 1 : 0,
-                                transition: 'opacity 1.5s ease-in-out',
-                            }}
-                        >
-                            <picture>
-                                <source media="(max-w: 768px)" srcSet={slide.mobileBg} />
-                                <img
-                                    src={slide.desktopBg}
-                                    alt={`TANVO Heritage Campaign ${index + 1}`}
-                                    className={`kenburns-bg ${isActive ? 'active' : ''}`}
-                                />
-                            </picture>
-                        </div>
-                    );
-                })}
-            </div>
-
             {/* Elegant dark overlay */}
             <div style={{
                 position: 'absolute',
                 top: 0, left: 0, right: 0, bottom: 0,
-                background: 'linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.85) 100%)',
+                background: 'linear-gradient(180deg, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.85) 100%)',
                 zIndex: 1,
-                pointerEvents: 'none',
             }} />
 
             {/* Top row: Brand */}
@@ -613,43 +511,31 @@ const HeroSection: React.FC = () => {
                 maxWidth: '650px',
                 marginBottom: '4vh'
             }}>
-                {/* Fixed height container to prevent layout shifts during cross-fade */}
-                <div style={{ minHeight: '260px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={currentSlide}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.8, ease: 'easeInOut' }}
-                        >
-                            <h1 style={{
-                                color: '#FFFFFF',
-                                fontSize: 'clamp(40px, 6vw, 76px)',
-                                fontWeight: 200,
-                                letterSpacing: '0.02em',
-                                lineHeight: 1.1,
-                                marginBottom: '24px',
-                                fontFamily: '"Playfair Display", "Times New Roman", serif',
-                            }}>
-                                {SLIDES[currentSlide].title}
-                            </h1>
+                <h1 style={{
+                    color: '#FFFFFF',
+                    fontSize: 'clamp(42px, 6vw, 76px)',
+                    fontWeight: 200,
+                    letterSpacing: '0.02em',
+                    lineHeight: 1.1,
+                    marginBottom: '24px',
+                    fontFamily: '"Playfair Display", "Times New Roman", serif',
+                }}>
+                    The silent poetry <br />
+                    <i style={{ fontWeight: 400, color: '#D4AF37', opacity: 0.9 }}>of pure silk.</i>
+                </h1>
 
-                            <p style={{
-                                color: 'rgba(234, 230, 223, 0.75)',
-                                fontSize: '15px',
-                                letterSpacing: '0.05em',
-                                lineHeight: 1.6,
-                                marginBottom: '48px',
-                                fontWeight: 300,
-                                maxWidth: '450px',
-                                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
-                            }}>
-                                {SLIDES[currentSlide].sub}
-                            </p>
-                        </motion.div>
-                    </AnimatePresence>
-                </div>
+                <p style={{
+                    color: 'rgba(234, 230, 223, 0.75)',
+                    fontSize: '15px',
+                    letterSpacing: '0.05em',
+                    lineHeight: 1.6,
+                    marginBottom: '48px',
+                    fontWeight: 300,
+                    maxWidth: '450px',
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
+                }}>
+                    Experience the timeless elegance and intricate craftsmanship woven into every thread.
+                </p>
 
                 <Link
                     to="/shop"
@@ -675,55 +561,33 @@ const HeroSection: React.FC = () => {
                         e.currentTarget.style.color = '#FFFFFF';
                     }}
                 >
-                    Explore Collection
+                    Discover the Collection
                 </Link>
             </div>
 
-            {/* Bottom elements */}
             <div style={{
-                position: 'relative',
+                position: 'absolute',
+                bottom: '4vh',
+                right: '6vw',
                 zIndex: 2,
                 display: 'flex',
-                justifyContent: 'space-between',
                 alignItems: 'center',
-                width: '100%',
+                gap: '16px'
             }}>
-                {/* Editorial Progress Indicator */}
                 <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    color: 'rgba(234, 230, 223, 0.5)',
-                    fontSize: '11px',
-                    fontFamily: '"Playfair Display", serif',
-                    letterSpacing: '0.1em'
+                    width: '40px',
+                    height: '1px',
+                    background: 'rgba(234, 230, 223, 0.4)',
+                }} />
+                <span style={{
+                    color: 'rgba(234, 230, 223, 0.6)',
+                    fontSize: '10px',
+                    letterSpacing: '0.25em',
+                    textTransform: 'uppercase',
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
                 }}>
-                    <span style={{ color: '#FFFFFF' }}>0{currentSlide + 1}</span>
-                    <span style={{ opacity: 0.3 }}>/</span>
-                    <span>04</span>
-                </div>
-
-                {/* Scroll Indicator */}
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px'
-                }}>
-                    <div style={{
-                        width: '40px',
-                        height: '1px',
-                        background: 'rgba(234, 230, 223, 0.4)',
-                    }} />
-                    <span style={{
-                        color: 'rgba(234, 230, 223, 0.6)',
-                        fontSize: '10px',
-                        letterSpacing: '0.25em',
-                        textTransform: 'uppercase',
-                        fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
-                    }}>
-                        Scroll
-                    </span>
-                </div>
+                    Scroll
+                </span>
             </div>
         </section>
     );
