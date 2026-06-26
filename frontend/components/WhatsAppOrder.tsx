@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const WhatsAppOrder: React.FC = () => {
   const handleWhatsAppClick = () => {
-    const defaultMessage = "Namaste! 🙏 I'd love to find the perfect saree for my special occasion. Can you please help me with a personal consultation?";
+    const defaultMessage = "Namaste! 🙏 I want to buy a handloom saree directly on WhatsApp. Here is my screenshot/inquiry.";
     const encodedMessage = encodeURIComponent(defaultMessage);
     const yourNumber = "919876543210";
     window.open(`https://wa.me/${yourNumber}?text=${encodedMessage}`, '_blank');
@@ -11,10 +11,10 @@ const WhatsAppOrder: React.FC = () => {
 
   const handleConsultation = (occasion: string) => {
     const messages = {
-      wedding: "Namaste! 🙏 I'm getting married and need a premium bridal saree. Can you help me find the perfect one?",
-      engagement: "Namaste! 🙏 I'm looking for an engagement saree. I'd love your expert guidance.",
-      festivals: "Namaste! 🙏 I need a beautiful saree for an upcoming festival celebration.",
-      gifting: "Namaste! 🙏 I'm looking to gift a handloom saree. Can you help me choose something special?"
+      wedding: "Namaste! 🙏 I want to buy a wedding saree directly on WhatsApp. Can you please share the options?",
+      engagement: "Namaste! 🙏 I want to buy an engagement saree directly on WhatsApp. Can you please share the options?",
+      festivals: "Namaste! 🙏 I want to buy a festive saree directly on WhatsApp. Can you please share the options?",
+      gifting: "Namaste! 🙏 I want to buy a handloom saree for gifting on WhatsApp. Can you please share the options?"
     };
 
     const encodedMessage = encodeURIComponent(messages[occasion as keyof typeof messages]);
@@ -38,7 +38,7 @@ const WhatsAppOrder: React.FC = () => {
             <div className="relative overflow-hidden bg-[#F9F5EE] aspect-[3/4] max-h-[700px] group">
               <img
                 src="/saree-consultation-hero.jpg"
-                alt="TANVO Saree Consultation"
+                alt="TANVO WhatsApp Ordering"
                 className="w-full h-full object-cover object-[center_30%] transition-transform duration-700 ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#F9F5EE]/20 pointer-events-none" />
@@ -66,20 +66,20 @@ const WhatsAppOrder: React.FC = () => {
             <div className="flex items-center gap-4">
               <span className="w-8 h-[1px] bg-[#C9A84C]" />
               <span className="font-sans text-[11px] tracking-[0.3em] font-medium text-[#C9A84C] uppercase">
-                PERSONAL SAREE CONSULTATION
+                EASY WHATSAPP SHOPPING
               </span>
             </div>
 
             <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-[#0D0B0A] leading-tight font-light tracking-tight">
-              Find the Saree<br />
+              Buy Directly<br />
               <span className="font-normal text-[#1C1612] relative inline-block mt-2">
-                That Tells Your Story
+                On WhatsApp
                 <span className="absolute bottom-1 left-0 right-0 h-[1px] bg-[#C9A84C]/40" />
               </span>
             </h2>
 
             <p className="font-sans text-base md:text-lg text-[#0D0B0A]/70 font-light leading-relaxed max-w-md">
-              Our stylists help you choose the perfect saree for weddings, celebrations, gifting, and special occasions.
+              Perfect for a simple, personal experience. Just send us a screenshot of the saree you like, share your address, and complete your purchase directly over chat or call.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -89,7 +89,7 @@ const WhatsAppOrder: React.FC = () => {
                     onClick={() => handleConsultation(type)}
                     className="font-sans text-sm text-[#0D0B0A]/60 hover:text-[#1C1612] transition-colors capitalize relative group pb-1"
                   >
-                    {type}
+                    {type} Saree
                     <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#C9A84C] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
                   </button>
                   {index < 3 && <span className="text-[#0D0B0A]/20 text-xs">·</span>}
@@ -104,22 +104,22 @@ const WhatsAppOrder: React.FC = () => {
               className="group relative inline-flex items-center gap-4 bg-[#1C1612] text-[#F9F5EE] px-8 py-4 font-sans text-sm font-medium tracking-widest uppercase overflow-hidden"
             >
               <div className="absolute inset-0 bg-[#0D0B0A] -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-              <span className="relative z-10">Chat with TANVO Stylist</span>
+              <span className="relative z-10">Buy on WhatsApp</span>
               <span className="relative z-10 text-lg group-hover:translate-x-1 transition-transform">→</span>
             </motion.button>
 
             <div className="flex flex-wrap items-center gap-3 mt-2">
-              <span className="font-sans text-xs text-[#0D0B0A]/50 tracking-wide">Personal guidance</span>
+              <span className="font-sans text-xs text-[#0D0B0A]/50 tracking-wide font-medium">1. Send Screenshot</span>
               <span className="text-[#0D0B0A]/20 text-[10px]">•</span>
-              <span className="font-sans text-xs text-[#0D0B0A]/50 tracking-wide">Authentic handloom</span>
+              <span className="font-sans text-xs text-[#0D0B0A]/50 tracking-wide font-medium">2. Share Address</span>
               <span className="text-[#0D0B0A]/20 text-[10px]">•</span>
-              <span className="font-sans text-xs text-[#0D0B0A]/50 tracking-wide">Direct support</span>
+              <span className="font-sans text-xs text-[#0D0B0A]/50 tracking-wide font-medium">3. Buy on Call or Chat</span>
             </div>
 
             <div className="flex items-center gap-3 pt-4 border-t border-[#0D0B0A]/10 w-full max-w-sm">
               <span className="text-[#C9A84C] text-sm">✦</span>
               <span className="font-sans text-xs italic text-[#0D0B0A]/50 tracking-wide">
-                Trusted by families choosing handcrafted heritage sarees
+                Simple and safe ordering for all our customers
               </span>
             </div>
           </motion.div>

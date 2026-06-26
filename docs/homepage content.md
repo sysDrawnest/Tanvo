@@ -25,9 +25,14 @@ This document serves as the absolute visual and code structure map for the **TAN
 *   **Filename**: `frontend/pages/sections/HeroSection.tsx`
 *   **UI/Design Description**:
     *   Full-viewport, high-impact immersive layout.
-    *   Uses a macro close-up of a luxurious raw silk saree weave (`/luxury_saree_macro.png`) as a background image.
-    *   Features a dark gradient overlay that fades into deep black at the bottom to secure text readability.
-    *   Top navigation overlays displaying the "Tanvo" wordmark in a thin serif layout.
+    *   Features an auto-slideshow image carousel with responsive images mapped for PC and Mobile layouts.
+    *   The slide sequence is configured as:
+        - Slide 1: Primary luxury banner image (current default).
+        - Slide 2: `A_cinematic_luxury_202604051034.png` (PC) / `Whisk_ec4d14e37ea16d380e848126b16a158ddr.png` (Mobile).
+    *   Images are carefully positioned to prevent cropping and header/navbar overlaps.
+    *   Left-side top "Tanvo" brand wordmark overlay has been removed to preserve spacing.
+    *   The "Buy 1 Get 1" announcement banner at the top of the navbar is temporarily commented out.
+    *   Includes a "Join the Tanvo Circle" registration modal with a 4-second auto-trigger timer.
 *   **Content**: 
     *   Main Headline: *"The silent poetry of pure silk"* (set in a light serif with custom gold italics).
     *   Supporting description emphasizing authentic handlooms.
@@ -238,8 +243,14 @@ This document serves as the absolute visual and code structure map for the **TAN
 *   **UI/Design Description**:
     *   Asymmetric, staggered vertical cards with 9:16 aspect ratios.
 *   **Content**:
-    *   Occasions: Wedding Elegance (Bridal Collection), Golden Beginnings (Celebration), Effortless Grace (Daily Heritage), A Gift Of Tradition (Thoughtful Gifts).
-*   **Interactions**: Hovering on a card zooms the image, fades in the detailed description, and reveals the occasion details.
+    *   Occasions and specific asset images:
+        - Wedding: `/The Art of Occasion Wedding .jpeg`
+        - Ring Ceremony: `/The Art of Occasion Ring Ceremony .jpeg`
+        - Celebration / Daily Use: `/The Art of Occasion Daily Use .jpeg`
+        - Effortless Grace: `/The Art of Occasion Efferlatly garce .jpeg`
+*   **Interactions**: 
+    - Hovering on a card zooms the image, fades in the detailed description, and reveals the occasion details.
+    - Clicking on a card navigates to `/shop` with the respective `occasion` parameter (e.g. `?occasion=wedding`, `?occasion=ring-ceremony`, `?occasion=celebration`, `?occasion=effortless-grace`) to trigger dynamic shop filtering.
 
 ---
 
@@ -256,14 +267,13 @@ This document serves as the absolute visual and code structure map for the **TAN
 ### 19. Premium WhatsApp Commerce Section
 *   **Filename**: `frontend/components/WhatsAppOrder.tsx`
 *   **UI/Design Description**:
-    *   Centered, spacious single-column layouts over a premium soft red-cream backdrop.
-    *   Uses a classic highlight badge and a premium dark-gradient pill background containing the WhatsApp logo.
+    *   Immersive two-column layout with a decorative corner photo panel on the left and a rich typography panel on the right.
 *   **Content**:
-    *   Heading: *"Connect with Our Master Weavers"*
-    *   Value points: Direct weaver chat, customized recommendations, and bridal styling assistance.
+    *   Heading: *"Buy Directly on WhatsApp"*
+    *   Value points: Perfect for a simple, personal experience. Buy by sending a screenshot, sharing delivery address, and confirming on chat/call.
 *   **Interactions**:
-    *   "Chat with Artisan" opens a direct, pre-filled WhatsApp conversation.
-    *   Bottom row outlines trust stats (e.g. 20 min average response time, 7th Gen weaver families).
+    *   "Buy on WhatsApp" button opens a direct, pre-filled WhatsApp ordering conversation.
+    *   Bottom labels guide non-technical customers through a simple 3-step order flow: "1. Send Screenshot", "2. Share Address", "3. Buy on Call or Chat".
 
 ---
 
