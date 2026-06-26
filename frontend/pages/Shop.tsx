@@ -21,6 +21,7 @@ const Shop: React.FC = () => {
   const activeCategory = searchParams.get('category');
   const activeWeave = searchParams.get('weave');
   const activeFabric = searchParams.get('fabric');
+  const activeOccasion = searchParams.get('occasion');
   const activePriceRange = searchParams.get('price');
   const maxPriceParam = searchParams.get('maxPrice');
   const isPremiumParam = searchParams.get('isPremium');
@@ -68,6 +69,7 @@ const Shop: React.FC = () => {
       if (activeCategory) params.category = activeCategory;
       if (activeWeave) params.weave = activeWeave;
       if (activeFabric) params.fabric = activeFabric;
+      if (activeOccasion) params.occasion = activeOccasion;
       if (maxPriceParam) params.maxPrice = Number(maxPriceParam);
       if (isPremiumParam) params.isPremium = isPremiumParam === 'true';
       if (activePriceRange) {
@@ -103,7 +105,7 @@ const Shop: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const activeFilterCount = [activeCategory, activeWeave, activeFabric, activePriceRange, searchQuery, maxPriceParam, isPremiumParam].filter(Boolean).length;
+  const activeFilterCount = [activeCategory, activeWeave, activeFabric, activeOccasion, activePriceRange, searchQuery, maxPriceParam, isPremiumParam].filter(Boolean).length;
 
   // ─── Filter Dropdown ───────────────────────────────────────────────────────
   const FilterDropdown = ({
@@ -715,6 +717,12 @@ const Shop: React.FC = () => {
                   <span className="shop-tag">
                     {activeFabric}
                     <button className="shop-tag-x" onClick={() => updateFilter('fabric', null)}><X size={9} /></button>
+                  </span>
+                )}
+                {activeOccasion && (
+                  <span className="shop-tag">
+                    {activeOccasion}
+                    <button className="shop-tag-x" onClick={() => updateFilter('occasion', null)}><X size={9} /></button>
                   </span>
                 )}
                 {activePriceRange && (

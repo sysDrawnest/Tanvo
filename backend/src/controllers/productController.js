@@ -31,6 +31,11 @@ export const getProducts = async (req, res) => {
       query.fabric = req.query.fabric;
     }
 
+    // Filter by occasion
+    if (req.query.occasion) {
+      query.occasion = { $regex: new RegExp(req.query.occasion, 'i') };
+    }
+
     // Filter by price range
     if (req.query.minPrice || req.query.maxPrice) {
       query.price = {};

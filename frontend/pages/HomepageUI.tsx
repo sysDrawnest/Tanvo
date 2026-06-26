@@ -3135,36 +3135,43 @@ export default JournalHint;
 // --- FILE: DrapedEveryMoment.tsx ---
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const DrapedEveryMoment: React.FC = () => {
+    const navigate = useNavigate();
+
     const occasions = [
         {
-            image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800',
+            image: '/The Art of Occasion Wedding .jpeg',
             label: 'BRIDAL COLLECTION',
             title: 'Wedding Elegance',
             description: 'Timeless silks for your most cherished celebration.',
             stagger: false,
+            query: 'wedding',
         },
         {
-            image: 'https://images.unsplash.com/photo-1610030469668-935142b9cdd0?w=800',
+            image: '/The Art of Occasion Ring Ceremony .jpeg',
             label: 'CELEBRATION',
             title: 'Golden Beginnings',
             description: 'Graceful weaves for moments worth remembering.',
             stagger: true,
+            query: 'celebration',
         },
         {
-            image: 'https://images.unsplash.com/photo-1605697040720-18df82424b9a?w=800',
+            image: '/The Art of Occasion Efferlatly garce .jpeg',
             label: 'DAILY HERITAGE',
             title: 'Effortless Grace',
             description: 'Comfort meets traditional craftsmanship.',
             stagger: false,
+            query: 'daily',
         },
         {
-            image: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800',
+            image: '/The Art of Occasion Daily Use .jpeg',
             label: 'THOUGHTFUL GIFTS',
             title: 'A Gift Of Tradition',
             description: "Share a piece of India's weaving legacy.",
             stagger: true,
+            query: 'gifting',
         }
     ];
 
@@ -3179,6 +3186,7 @@ const DrapedEveryMoment: React.FC = () => {
                     {occasions.map((item, idx) => (
                         <div
                             key={idx}
+                            onClick={() => navigate(`/shop?occasion=${item.query}`)}
                             className={`aspect-[9/16] bg-gray-50 relative group overflow-hidden cursor-pointer ${
                                 item.stagger ? 'md:mt-8' : ''
                             }`}
