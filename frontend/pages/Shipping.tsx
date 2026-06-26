@@ -40,9 +40,9 @@ const Shipping: React.FC = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="p-8 md:p-10 bg-white rounded-2xl md:rounded-[2.5rem] border border-[#B43F3F]/10 flex flex-col gap-6 hover:shadow-xl transition-shadow"
+            className="p-8 md:p-10 bg-white rounded md:rounded-md border border-[#B43F3F]/10 flex flex-col gap-6 hover:shadow-xl transition-shadow"
           >
-            <div className="w-14 h-14 bg-[#F8EDED] rounded-2xl flex items-center justify-center text-[#B43F3F]">
+            <div className="w-14 h-14 bg-[#F8EDED] rounded flex items-center justify-center text-[#B43F3F]">
               <Truck size={28} />
             </div>
             <h3 className="text-2xl md:text-3xl font-display font-medium text-[#173B45]">Domestic Shipping</h3>
@@ -64,12 +64,12 @@ const Shipping: React.FC = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="p-8 md:p-10 bg-[#173B45] rounded-2xl md:rounded-[2.5rem] text-[#F8EDED] flex flex-col gap-6 relative overflow-hidden group hover:shadow-xl transition-shadow"
+            className="p-8 md:p-10 bg-[#173B45] rounded md:rounded-md text-[#F8EDED] flex flex-col gap-6 relative overflow-hidden group hover:shadow-xl transition-shadow"
           >
             <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF8225]/10 rounded-full blur-3xl -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-700"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#B43F3F]/10 rounded-full blur-2xl -ml-16 -mb-16"></div>
 
-            <div className="w-14 h-14 bg-[#F8EDED]/10 rounded-2xl flex items-center justify-center text-[#FF8225] relative z-10">
+            <div className="w-14 h-14 bg-[#F8EDED]/10 rounded flex items-center justify-center text-[#FF8225] relative z-10">
               <Globe size={28} />
             </div>
             <h3 className="text-2xl md:text-3xl font-display font-medium text-[#F8EDED] relative z-10">International</h3>
@@ -94,9 +94,9 @@ const Shipping: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="flex flex-col md:flex-row items-start gap-6 md:gap-10 p-8 md:p-12 bg-white rounded-2xl md:rounded-[3rem] border border-[#B43F3F]/10 hover:shadow-xl transition-all"
+            className="flex flex-col md:flex-row items-start gap-6 md:gap-10 p-8 md:p-12 bg-white rounded md:rounded-md border border-[#B43F3F]/10 hover:shadow-xl transition-all"
           >
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-[#F8EDED] rounded-2xl flex items-center justify-center text-[#FF8225] shrink-0">
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-[#F8EDED] rounded flex items-center justify-center text-[#FF8225] shrink-0">
               <Clock size={36} className="md:w-10 md:h-10" />
             </div>
             <div>
@@ -117,9 +117,9 @@ const Shipping: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="flex flex-col md:flex-row items-start gap-6 md:gap-10 p-8 md:p-12 bg-white rounded-2xl md:rounded-[3rem] border border-[#B43F3F]/10 hover:shadow-xl transition-all"
+            className="flex flex-col md:flex-row items-start gap-6 md:gap-10 p-8 md:p-12 bg-white rounded md:rounded-md border border-[#B43F3F]/10 hover:shadow-xl transition-all"
           >
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-[#F8EDED] rounded-2xl flex items-center justify-center text-[#B43F3F] shrink-0">
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-[#F8EDED] rounded flex items-center justify-center text-[#B43F3F] shrink-0">
               <ShieldCheck size={36} className="md:w-10 md:h-10" />
             </div>
             <div>
@@ -140,9 +140,9 @@ const Shipping: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-col md:flex-row items-start gap-6 md:gap-10 p-8 md:p-12 bg-white rounded-2xl md:rounded-[3rem] border border-[#B43F3F]/10 hover:shadow-xl transition-all"
+            className="flex flex-col md:flex-row items-start gap-6 md:gap-10 p-8 md:p-12 bg-white rounded md:rounded-md border border-[#B43F3F]/10 hover:shadow-xl transition-all"
           >
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-[#F8EDED] rounded-2xl flex items-center justify-center text-[#FF8225] shrink-0">
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-[#F8EDED] rounded flex items-center justify-center text-[#FF8225] shrink-0">
               <MapPin size={36} className="md:w-10 md:h-10" />
             </div>
             <div>

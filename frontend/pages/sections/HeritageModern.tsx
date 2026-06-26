@@ -6,7 +6,7 @@ const HeritageModern: React.FC = () => {
         <section className="py-24" style={{ background: 'var(--ivory)' }} data-purpose="heritage-modern">
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                 <div className="relative group">
-                    <div className="absolute -inset-4 rounded-2xl -z-10 group-hover:scale-105 transition-transform duration-700" style={{ background: 'var(--ivory-warm)' }}></div>
+                    <div className="absolute -inset-4 rounded -z-10 group-hover:scale-105 transition-transform duration-700" style={{ background: 'var(--ivory-warm)' }}></div>
                     <img
                         src={img}
                         alt="Heritage meets Modern"

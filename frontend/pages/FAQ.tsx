@@ -84,7 +84,7 @@ const FAQ: React.FC = () => {
             placeholder="Search questions..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-white border border-[#B43F3F]/10 focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 rounded-xl md:rounded-2xl py-4 md:py-5 pl-12 md:pl-16 pr-4 text-sm md:text-base outline-none transition-all shadow-sm"
+            className="w-full bg-white border border-[#B43F3F]/10 focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 rounded py-4 md:py-5 pl-12 md:pl-16 pr-4 text-sm md:text-base outline-none transition-all shadow-sm"
           />
         </div>
 
@@ -100,7 +100,7 @@ const FAQ: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.2 }}
-                  className="bg-white rounded-xl md:rounded-2xl border border-[#B43F3F]/10 overflow-hidden transition-all hover:shadow-md"
+                  className="bg-white rounded border border-[#B43F3F]/10 overflow-hidden transition-all hover:shadow-md"
                 >
                   <button
                     onClick={() => setActiveId(activeId === faq.id ? null : faq.id)}
@@ -134,7 +134,7 @@ const FAQ: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-center py-12 bg-white rounded-xl md:rounded-2xl border border-[#B43F3F]/10"
+                className="text-center py-12 bg-white rounded border border-[#B43F3F]/10"
               >
                 <HelpCircle className="w-12 h-12 mx-auto mb-3 text-[#173B45]/20" />
                 <p className="text-[#173B45]/60 mb-2">No questions found matching "{search}"</p>
@@ -154,7 +154,7 @@ const FAQ: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="mt-12 md:mt-16 p-6 md:p-10 bg-gradient-to-br from-[#173B45] to-[#0f2a33] rounded-xl md:rounded-2xl text-center text-[#F8EDED] relative overflow-hidden"
+          className="mt-12 md:mt-16 p-6 md:p-10 bg-gradient-to-br from-[#173B45] to-[#0f2a33] rounded text-center text-[#F8EDED] relative overflow-hidden"
         >
           {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-48 h-48 bg-[#B43F3F]/20 rounded-full blur-3xl -mr-20 -mt-20" />
@@ -171,13 +171,13 @@ const FAQ: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 to="/contact"
-                className="px-5 py-2.5 md:px-6 md:py-3 bg-[#FF8225] text-[#F8EDED] rounded-lg font-medium text-xs md:text-sm hover:bg-[#B43F3F] transition-colors flex items-center gap-2 justify-center"
+                className="px-5 py-2.5 md:px-6 md:py-3 bg-[#FF8225] text-[#F8EDED] rounded-sm font-medium text-xs md:text-sm hover:bg-[#B43F3F] transition-colors flex items-center gap-2 justify-center"
               >
                 <MessageCircle size={16} /> Chat with Artisan
               </Link>
               <Link
                 to="/contact"
-                className="px-5 py-2.5 md:px-6 md:py-3 border border-[#F8EDED]/20 text-[#F8EDED] rounded-lg font-medium text-xs md:text-sm hover:bg-[#F8EDED]/10 transition-colors flex items-center gap-2 justify-center"
+                className="px-5 py-2.5 md:px-6 md:py-3 border border-[#F8EDED]/20 text-[#F8EDED] rounded-sm font-medium text-xs md:text-sm hover:bg-[#F8EDED]/10 transition-colors flex items-center gap-2 justify-center"
               >
                 <Mail size={16} /> Email Support
               </Link>

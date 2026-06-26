@@ -221,8 +221,8 @@ const OrderConfirmation: React.FC = () => {
         />
 
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
-          <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl p-8 md:p-12 text-center border border-[#B43F3F]/10">
-            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="bg-white rounded shadow-xl p-8 md:p-12 text-center border border-[#B43F3F]/10">
+            <div className="w-20 h-20 bg-red-100 rounded-sm flex items-center justify-center mx-auto mb-6">
               <AlertCircle className="w-10 h-10 text-red-600" />
             </div>
             <h1 className="text-2xl md:text-3xl font-display font-medium mb-3 text-[#173B45]">
@@ -233,7 +233,7 @@ const OrderConfirmation: React.FC = () => {
             </p>
             <Link
               to="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-lg font-medium text-sm hover:bg-[#FF8225] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-sm font-medium text-sm hover:bg-[#FF8225] transition-colors"
             >
               Continue Shopping <ChevronRight size={16} />
             </Link>
@@ -258,14 +258,14 @@ const OrderConfirmation: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-2xl md:rounded-3xl shadow-xl p-4 md:p-8 lg:p-12 border border-[#B43F3F]/10"
+          className="bg-white rounded shadow-xl p-4 md:p-8 lg:p-12 border border-[#B43F3F]/10"
         >
           {/* Status Icon */}
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="w-20 h-20 bg-[#F8EDED] rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6"
+            className="w-20 h-20 bg-[#F8EDED] rounded-sm flex items-center justify-center mx-auto mb-4 md:mb-6"
           >
             {getStatusIcon()}
           </motion.div>
@@ -280,7 +280,7 @@ const OrderConfirmation: React.FC = () => {
           </p>
 
           {/* Order Status Bar */}
-          <div className="bg-[#F8EDED] rounded-xl p-4 md:p-6 mb-6 border border-[#B43F3F]/10">
+          <div className="bg-[#F8EDED] rounded-sm p-4 md:p-6 mb-6 border border-[#B43F3F]/10">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div className="flex items-center gap-3">
                 <div className={`w-2 h-2 rounded-full ${order.orderStatus === 'Pending' ? 'bg-[#FF8225] animate-pulse' :
@@ -317,7 +317,7 @@ const OrderConfirmation: React.FC = () => {
 
           {/* Order Details Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div className="bg-[#F8EDED] rounded-xl p-4 border border-[#B43F3F]/10">
+            <div className="bg-[#F8EDED] rounded-sm p-4 border border-[#B43F3F]/10">
               <div className="flex items-start gap-3">
                 <Package className="w-4 h-4 text-[#B43F3F] mt-0.5 flex-shrink-0" />
                 <div>
@@ -327,7 +327,7 @@ const OrderConfirmation: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-[#F8EDED] rounded-xl p-4 border border-[#B43F3F]/10">
+            <div className="bg-[#F8EDED] rounded-sm p-4 border border-[#B43F3F]/10">
               <div className="flex items-start gap-3">
                 <Calendar className="w-4 h-4 text-[#FF8225] mt-0.5 flex-shrink-0" />
                 <div>
@@ -337,7 +337,7 @@ const OrderConfirmation: React.FC = () => {
               </div>
             </div>
 
-            <div className="md:col-span-2 bg-[#F8EDED] rounded-xl p-4 border border-[#B43F3F]/10">
+            <div className="md:col-span-2 bg-[#F8EDED] rounded-sm p-4 border border-[#B43F3F]/10">
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#173B45] mt-0.5 flex-shrink-0" />
                 <div>
@@ -352,7 +352,7 @@ const OrderConfirmation: React.FC = () => {
               </div>
             </div>
 
-            <div className="md:col-span-2 bg-[#F8EDED] rounded-xl p-4 border border-[#B43F3F]/10">
+            <div className="md:col-span-2 bg-[#F8EDED] rounded-sm p-4 border border-[#B43F3F]/10">
               <div className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-[#B43F3F] mt-0.5 flex-shrink-0" />
                 <div>
@@ -370,8 +370,8 @@ const OrderConfirmation: React.FC = () => {
             {/* Product List - Mobile */}
             <div className="block md:hidden space-y-3 mb-4">
               {order.orderItems.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3 p-3 bg-[#F8EDED] rounded-lg">
-                  <div className="w-12 h-14 bg-white rounded-md overflow-hidden flex-shrink-0">
+                <div key={idx} className="flex items-center gap-3 p-3 bg-[#F8EDED] rounded-sm">
+                  <div className="w-12 h-14 bg-white rounded-sm overflow-hidden flex-shrink-0">
                     <img
                       src={item.product?.images[0]?.url || ''}
                       alt={item.product?.name}
@@ -406,7 +406,7 @@ const OrderConfirmation: React.FC = () => {
             </div>
 
             {/* Totals */}
-            <div className="space-y-2 bg-[#F8EDED] rounded-xl p-4">
+            <div className="space-y-2 bg-[#F8EDED] rounded-sm p-4">
               <div className="flex justify-between text-sm">
                 <span className="text-[#173B45]">Subtotal</span>
                 <span className="font-medium text-[#173B45]">{formatPrice(order.itemsPrice)}</span>
@@ -432,13 +432,13 @@ const OrderConfirmation: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               to={`/orders/${order._id}`}
-              className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-lg font-medium text-sm hover:bg-[#FF8225] transition-colors text-center"
+              className="px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-sm font-medium text-sm hover:bg-[#FF8225] transition-colors text-center"
             >
               View Order Details
             </Link>
             <Link
               to="/shop"
-              className="px-6 py-3 border-2 border-[#B43F3F] text-[#B43F3F] rounded-lg font-medium text-sm hover:bg-[#B43F3F] hover:text-[#F8EDED] transition-colors text-center"
+              className="px-6 py-3 border-2 border-[#B43F3F] text-[#B43F3F] rounded-sm font-medium text-sm hover:bg-[#B43F3F] hover:text-[#F8EDED] transition-colors text-center"
             >
               Continue Shopping
             </Link>

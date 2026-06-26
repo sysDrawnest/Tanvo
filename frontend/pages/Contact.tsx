@@ -65,7 +65,7 @@ const Contact: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto text-center mb-12 md:mb-16 space-y-4"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-full border border-[#FF8225]/20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-sm border border-[#FF8225]/20">
             <MessageCircle className="w-4 h-4 text-[#FF8225]" />
             <span className="text-[#FF8225] font-medium uppercase tracking-[0.2em] text-xs">Connect with Artisans</span>
           </div>
@@ -73,7 +73,7 @@ const Contact: React.FC = () => {
             Weave Your{' '}
             <span className="text-[#B43F3F]">Query</span>
           </h1>
-          <p className="text-base md:text-lg text-[#173B45]/70 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-[#173B45]/70 max-w-2xl mx-auto font-light">
             Connect directly with master weavers and heritage experts. Every thread tells a story—let's weave yours together.
           </p>
           <div className="w-20 h-1 bg-gradient-to-r from-[#B43F3F] to-[#FF8225] mx-auto mt-4"></div>
@@ -89,8 +89,8 @@ const Contact: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="grid grid-cols-1 sm:grid-cols-2 gap-4"
             >
-              <div className="group bg-white p-6 rounded-xl border border-[#B43F3F]/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-12 h-12 bg-[#F8EDED] rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="group bg-white p-6 rounded border border-[#B43F3F]/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="w-12 h-12 bg-[#F8EDED] rounded-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Phone className="w-5 h-5 text-[#B43F3F]" />
                 </div>
                 <h3 className="text-lg font-display font-medium text-[#173B45] mb-2">Call Us</h3>
@@ -104,8 +104,8 @@ const Contact: React.FC = () => {
                 </a>
               </div>
 
-              <div className="group bg-white p-6 rounded-xl border border-[#B43F3F]/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-12 h-12 bg-[#F8EDED] rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="group bg-white p-6 rounded border border-[#B43F3F]/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="w-12 h-12 bg-[#F8EDED] rounded-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Mail className="w-5 h-5 text-[#FF8225]" />
                 </div>
                 <h3 className="text-lg font-display font-medium text-[#173B45] mb-2">Email Us</h3>
@@ -125,19 +125,19 @@ const Contact: React.FC = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-white p-6 md:p-8 rounded-xl md:rounded-2xl border border-[#B43F3F]/10 shadow-md relative overflow-hidden"
+              className="bg-white p-6 md:p-8 rounded border border-[#B43F3F]/10 shadow-md relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#B43F3F]/5 to-transparent rounded-full -translate-y-16 translate-x-16" />
 
               <div className="flex items-start gap-4 relative z-10">
-                <div className="w-12 h-12 bg-[#F8EDED] rounded-xl flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 bg-[#F8EDED] rounded-sm flex items-center justify-center shrink-0">
                   <MapPin className="w-5 h-5 text-[#173B45]" />
                 </div>
                 <div>
                   <h4 className="text-lg font-display font-medium text-[#173B45] mb-2">
                     Tanvo Hub
                   </h4>
-                  <p className="text-sm text-[#173B45]/70 leading-relaxed">
+                  <p className="text-sm text-[#173B45]/70 leading-relaxed font-light">
                     Patia, Bhubaneswar<br />
                     Odisha, India - 751024
                   </p>
@@ -164,7 +164,7 @@ const Contact: React.FC = () => {
                       The Tanvo Atelier
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#B43F3F] to-[#FF8225] rounded-xl flex items-center justify-center text-[#F8EDED] font-medium text-sm">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#B43F3F] to-[#FF8225] rounded-sm flex items-center justify-center text-[#F8EDED] font-medium text-sm">
                     T
                   </div>
                 </div>
@@ -178,8 +178,8 @@ const Contact: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap gap-3"
             >
-              <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-[#B43F3F]/10 shadow-sm">
-                <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+              <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-sm border border-[#B43F3F]/10 shadow-sm">
+                <div className="w-8 h-8 bg-green-50 rounded-sm flex items-center justify-center">
                   <ShieldCheck className="w-4 h-4 text-green-600" />
                 </div>
                 <div>
@@ -188,8 +188,8 @@ const Contact: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-[#B43F3F]/10 shadow-sm">
-                <div className="w-8 h-8 bg-[#F8EDED] rounded-lg flex items-center justify-center">
+              <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-sm border border-[#B43F3F]/10 shadow-sm">
+                <div className="w-8 h-8 bg-[#F8EDED] rounded-sm flex items-center justify-center">
                   <Clock className="w-4 h-4 text-[#FF8225]" />
                 </div>
                 <div>
@@ -206,7 +206,7 @@ const Contact: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="pt-6 border-t border-[#B43F3F]/10"
             >
-              <p className="text-sm font-medium text-[#173B45] mb-3">Follow Our Journey</p>
+              <p className="text-sm font-medium text-[#173B45] mb-3 font-display">Follow Our Journey</p>
               <div className="flex gap-3">
                 {[
                   { icon: Instagram, href: '#', label: 'Instagram', color: '#E1306C' },
@@ -216,7 +216,7 @@ const Contact: React.FC = () => {
                   <a
                     key={social.label}
                     href={social.href}
-                    className="group w-10 h-10 bg-white rounded-lg border border-[#B43F3F]/10 shadow-sm flex items-center justify-center hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+                    className="group w-10 h-10 bg-white rounded-sm border border-[#B43F3F]/10 shadow-sm flex items-center justify-center hover:shadow-md transition-all duration-300 hover:-translate-y-1"
                     aria-label={social.label}
                   >
                     <social.icon className="w-4 h-4 text-[#173B45] group-hover:text-[#FF8225] transition-colors" />
@@ -231,13 +231,13 @@ const Contact: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-white p-6 md:p-8 border border-[#B43F3F]/10 shadow-xl rounded-xl md:rounded-2xl relative overflow-hidden"
+            className="bg-white p-6 md:p-8 border border-[#B43F3F]/10 shadow-xl rounded relative overflow-hidden"
           >
             {/* Top gradient bar */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#B43F3F] via-[#FF8225] to-[#B43F3F]" />
 
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-[#F8EDED] rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-[#F8EDED] rounded-sm flex items-center justify-center">
                 <MessageSquare className="w-5 h-5 text-[#B43F3F]" />
               </div>
               <h2 className="text-xl md:text-2xl font-display font-medium text-[#173B45]">
@@ -251,14 +251,14 @@ const Contact: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-12"
               >
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-20 h-20 bg-green-100 rounded-sm flex items-center justify-center mx-auto mb-6">
                   <CheckCircle className="w-10 h-10 text-green-600" />
                 </div>
                 <h3 className="text-2xl font-display text-[#173B45] mb-2">Message Sent!</h3>
-                <p className="text-[#173B45]/70 mb-8">Thank you for reaching out. Our team will get back to you within 2 hours.</p>
+                <p className="text-[#173B45]/70 mb-8 font-light">Thank you for reaching out. Our team will get back to you within 2 hours.</p>
                 <button 
                   onClick={() => setIsSuccess(false)}
-                  className="px-8 py-3 bg-[#B43F3F] text-white rounded-lg hover:bg-[#FF8225] transition-colors"
+                  className="px-8 py-3 bg-[#B43F3F] text-white rounded-sm hover:bg-[#FF8225] transition-colors text-sm font-medium"
                 >
                   Send Another Message
                 </button>
@@ -276,7 +276,7 @@ const Contact: React.FC = () => {
                       value={formData.name}
                       onChange={handleChange}
                       type="text"
-                      className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
+                      className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-sm py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
                       placeholder="e.g., Arjun Meher"
                       required
                     />
@@ -292,7 +292,7 @@ const Contact: React.FC = () => {
                       value={formData.email}
                       onChange={handleChange}
                       type="email"
-                      className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
+                      className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-sm py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40"
                       placeholder="e.g., hello@example.com"
                       required
                     />
@@ -308,7 +308,7 @@ const Contact: React.FC = () => {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm appearance-none"
+                    className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-sm py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm appearance-none"
                     required
                   >
                     <option value="General Inquiry">General Inquiry</option>
@@ -329,7 +329,7 @@ const Contact: React.FC = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-lg py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40 resize-none"
+                    className="w-full bg-[#F8EDED] border border-[#B43F3F]/10 rounded-sm py-3 px-4 outline-none focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 transition-all text-sm placeholder-[#173B45]/40 resize-none font-light"
                     placeholder="Share your thoughts, questions, or custom requirements..."
                     required
                   />
@@ -345,7 +345,7 @@ const Contact: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="group w-full py-3 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-lg shadow-md hover:bg-[#FF8225] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="group w-full py-3 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-sm shadow-md hover:bg-[#FF8225] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isLoading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -357,7 +357,7 @@ const Contact: React.FC = () => {
                   )}
                 </button>
 
-                <p className="text-xs text-center text-[#173B45]/40 pt-2">
+                <p className="text-xs text-center text-[#173B45]/40 pt-2 font-light">
                   We typically respond within 2 hours during business hours
                 </p>
               </form>
@@ -370,19 +370,19 @@ const Contact: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-8 bg-white rounded-xl border border-[#B43F3F]/10 overflow-hidden shadow-md"
+          className="mt-8 bg-white rounded border border-[#B43F3F]/10 overflow-hidden shadow-md"
         >
           <div className="p-4 border-b border-[#B43F3F]/10">
             <div className="flex items-center gap-2">
               <MapPin className="w-4 h-4 text-[#B43F3F]" />
-              <h3 className="text-sm font-medium text-[#173B45]">Visit Our Hub</h3>
+              <h3 className="text-sm font-medium text-[#173B45] font-display">Visit Our Hub</h3>
             </div>
           </div>
 
           <div className="relative h-64 bg-[#F8EDED]">
             {/* Map placeholder with coordinates */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-48 h-48 bg-white rounded-lg shadow-lg border border-[#B43F3F]/10 overflow-hidden">
+              <div className="relative w-48 h-48 bg-white rounded shadow-lg border border-[#B43F3F]/10 overflow-hidden">
                 {/* Decorative grid pattern */}
                 <div className="absolute inset-0" style={{
                   backgroundImage: 'linear-gradient(#B43F3F10 1px, transparent 1px), linear-gradient(90deg, #B43F3F10 1px, transparent 1px)',
@@ -422,7 +422,7 @@ const Contact: React.FC = () => {
                 href="https://www.google.com/maps?q=Patia+Bhubaneswar+Odisha+751024"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-[#B43F3F] text-[#F8EDED] text-xs font-medium rounded-lg hover:bg-[#FF8225] transition-colors"
+                className="px-4 py-2 bg-[#B43F3F] text-[#F8EDED] text-xs font-medium rounded hover:bg-[#FF8225] transition-colors"
               >
                 Open in Maps
               </a>
@@ -439,7 +439,7 @@ const Contact: React.FC = () => {
         >
           <Link
             to="/whatsapp-order"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white rounded-lg font-medium text-sm hover:bg-[#128C7E] transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white rounded hover:bg-[#128C7E] transition-colors text-sm font-medium"
           >
             <MessageCircle size={18} />
             Chat on WhatsApp

@@ -101,7 +101,7 @@ const FabricShowcase: React.FC = () => {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/90 backdrop-blur-sm" onClick={() => setIsOpen(false)}>
-                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative w-full max-w-6xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative w-full max-w-6xl aspect-video bg-black rounded-sm overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
                             <video className="w-full h-full object-contain" controls autoPlay src="/EditorialBanner.mp4" />
                             <button className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors" onClick={() => setIsOpen(false)}>
                                 <X className="w-8 h-8" />
@@ -165,7 +165,7 @@ const ZariDetail: React.FC = () => {
     return (
         <section className="max-w-7xl mx-auto px-6 py-32 grid grid-cols-1 md:grid-cols-12 gap-16 items-center">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="md:col-span-5 order-2 md:order-1">
-                <div className="bg-[#f0eee9] p-12 rounded-lg relative">
+                <div className="bg-[#f0eee9] p-12 rounded-sm relative">
                     <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-[#C9A84C] font-bold mb-6 block">Detail & Contrast</span>
                     <h3 className="font-serif text-3xl md:text-4xl mb-6 text-[#1a120b] leading-tight">Zari Work & Pure Silk</h3>
                     <p className="font-sans text-[13px] text-stone-500 mb-8 leading-relaxed">

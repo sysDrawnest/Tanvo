@@ -60,10 +60,10 @@ const Admin: React.FC = () => {
             <span className="text-2xl font-display font-medium text-[#173B45]">
               Tan<span className="text-[#B43F3F]">vo</span>
             </span>
-            <span className="text-[10px] bg-[#FF8225]/10 text-[#FF8225] font-medium px-2 py-0.5 rounded border border-[#FF8225]/20 uppercase">Admin</span>
+            <span className="text-[10px] bg-[#FF8225]/10 text-[#FF8225] font-medium px-2 py-0.5 rounded-sm border border-[#FF8225]/20 uppercase">Admin</span>
           </Link>
 
-          <div className="flex items-center gap-3 p-4 bg-[#F8EDED] rounded-xl mb-6 border border-[#B43F3F]/10">
+          <div className="flex items-center gap-3 p-4 bg-[#F8EDED] rounded mb-6 border border-[#B43F3F]/10">
             <div className="w-10 h-10 bg-[#B43F3F] text-[#F8EDED] rounded-full flex items-center justify-center font-medium">
               {user?.name?.charAt(0) || 'A'}
             </div>
@@ -79,7 +79,7 @@ const Admin: React.FC = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all group ${isActive(item.path)
+              className={`flex items-center justify-between px-4 py-3 rounded transition-all group ${isActive(item.path)
                 ? 'bg-[#B43F3F] text-[#F8EDED] shadow-md shadow-[#B43F3F]/20'
                 : 'text-[#173B45]/70 hover:bg-[#F8EDED] hover:text-[#B43F3F]'
                 }`}
@@ -96,7 +96,7 @@ const Admin: React.FC = () => {
         <div className="p-4 mt-auto">
           <button
             onClick={logout}
-            className="flex items-center gap-3 w-full px-4 py-3 text-[#173B45]/70 hover:text-[#B43F3F] hover:bg-[#F8EDED] rounded-xl transition-all border border-transparent hover:border-[#B43F3F]/20"
+            className="flex items-center gap-3 w-full px-4 py-3 text-[#173B45]/70 hover:text-[#B43F3F] hover:bg-[#F8EDED] rounded transition-all border border-transparent hover:border-[#B43F3F]/20"
           >
             <LogOut size={20} />
             <span className="font-medium text-sm">Logout</span>
@@ -107,7 +107,7 @@ const Admin: React.FC = () => {
         <div className="p-4 pt-2">
           <Link
             to="/"
-            className="flex items-center gap-3 w-full px-4 py-3 text-[#173B45]/50 hover:text-[#FF8225] rounded-xl transition-all border border-[#B43F3F]/10 hover:border-[#FF8225]/30 text-sm"
+            className="flex items-center gap-3 w-full px-4 py-3 text-[#173B45]/50 hover:text-[#FF8225] rounded transition-all border border-[#B43F3F]/10 hover:border-[#FF8225]/30 text-sm"
           >
             <Home size={16} />
             <span>Back to Site</span>
@@ -120,7 +120,7 @@ const Admin: React.FC = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 hover:bg-[#F8EDED] rounded-lg transition-colors"
+            className="p-2 hover:bg-[#F8EDED] rounded-sm transition-colors"
           >
             {mobileMenuOpen ? <X size={20} className="text-[#173B45]" /> : <Menu size={20} className="text-[#173B45]" />}
           </button>
@@ -129,7 +129,7 @@ const Admin: React.FC = () => {
           </Link>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[10px] bg-[#FF8225]/10 text-[#FF8225] font-medium px-2 py-1 rounded border border-[#FF8225]/20">
+          <span className="text-[10px] bg-[#FF8225]/10 text-[#FF8225] font-medium px-2 py-1 rounded-sm border border-[#FF8225]/20">
             Admin
           </span>
         </div>
@@ -161,13 +161,13 @@ const Admin: React.FC = () => {
                   </Link>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="p-2 hover:bg-[#F8EDED] rounded-lg transition-colors"
+                    className="p-2 hover:bg-[#F8EDED] rounded-sm transition-colors"
                   >
                     <X size={18} className="text-[#173B45]" />
                   </button>
                 </div>
 
-                <div className="flex items-center gap-3 p-4 bg-[#F8EDED] rounded-xl mb-6 border border-[#B43F3F]/10">
+                <div className="flex items-center gap-3 p-4 bg-[#F8EDED] rounded mb-6 border border-[#B43F3F]/10">
                   <div className="w-10 h-10 bg-[#B43F3F] text-[#F8EDED] rounded-full flex items-center justify-center font-medium">
                     {user?.name?.charAt(0) || 'A'}
                   </div>
@@ -183,7 +183,7 @@ const Admin: React.FC = () => {
                       key={item.path}
                       to={item.path}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive(item.path)
+                      className={`flex items-center gap-3 px-4 py-3 rounded transition-all ${isActive(item.path)
                         ? 'bg-[#B43F3F] text-[#F8EDED]'
                         : 'text-[#173B45]/70 hover:bg-[#F8EDED] hover:text-[#B43F3F]'
                         }`}
@@ -198,7 +198,7 @@ const Admin: React.FC = () => {
                   <Link
                     to="/"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 text-[#173B45]/50 hover:text-[#FF8225] rounded-xl transition-all text-sm"
+                    className="flex items-center gap-3 px-4 py-3 text-[#173B45]/50 hover:text-[#FF8225] rounded transition-all text-sm"
                   >
                     <Home size={16} />
                     <span>Back to Site</span>
@@ -209,7 +209,7 @@ const Admin: React.FC = () => {
                       logout();
                       setMobileMenuOpen(false);
                     }}
-                    className="flex items-center gap-3 w-full px-4 py-3 text-[#173B45]/70 hover:text-[#B43F3F] hover:bg-[#F8EDED] rounded-xl transition-all text-sm"
+                    className="flex items-center gap-3 w-full px-4 py-3 text-[#173B45]/70 hover:text-[#B43F3F] hover:bg-[#F8EDED] rounded transition-all text-sm"
                   >
                     <LogOut size={16} />
                     <span>Logout</span>
@@ -227,7 +227,7 @@ const Admin: React.FC = () => {
           <Link
             key={item.path}
             to={item.path}
-            className={`flex flex-col items-center px-3 py-2 rounded-lg transition-all ${isActive(item.path)
+            className={`flex flex-col items-center px-3 py-2 rounded-sm transition-all ${isActive(item.path)
               ? 'text-[#B43F3F]'
               : 'text-[#173B45]/50 hover:text-[#FF8225]'
               }`}

@@ -327,14 +327,14 @@ const Checkout: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl md:rounded-2xl shadow-lg p-8 md:p-12 max-w-md mx-auto border border-[#B43F3F]/10"
+            className="bg-white rounded md:rounded-md shadow-lg p-8 md:p-12 max-w-md mx-auto border border-[#B43F3F]/10"
           >
-            <div className="w-20 h-20 bg-[#F8EDED] rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-20 h-20 bg-[#F8EDED] rounded-sm flex items-center justify-center mx-auto mb-4">
               <ShoppingBag className="w-10 h-10 text-[#173B45]/30" />
             </div>
             <h2 className="text-xl md:text-2xl font-display font-medium text-[#173B45] mb-2">Your cart is empty</h2>
             <p className="text-sm text-[#173B45]/60 mb-6">Add some beautiful handlooms to your cart before checkout.</p>
-            <Link to="/shop" className="inline-block bg-[#B43F3F] text-[#F8EDED] px-6 py-3 rounded-lg font-medium hover:bg-[#FF8225] transition-all">
+            <Link to="/shop" className="inline-block bg-[#B43F3F] text-[#F8EDED] px-6 py-3 rounded-sm font-medium hover:bg-[#FF8225] transition-all">
               Continue Shopping
             </Link>
           </motion.div>
@@ -394,7 +394,7 @@ const Checkout: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-xl md:rounded-2xl shadow-md p-4 md:p-6 border border-[#B43F3F]/10"
+              className="bg-white rounded md:rounded-md shadow-md p-4 md:p-6 border border-[#B43F3F]/10"
             >
               <h2 className="text-lg md:text-xl font-display font-medium text-[#173B45] mb-4 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-[#B43F3F]" />
@@ -407,7 +407,7 @@ const Checkout: React.FC = () => {
                     {addresses.map((addr) => (
                       <label
                         key={addr._id}
-                        className={`relative block p-4 md:p-5 border-2 rounded-xl cursor-pointer transition-all ${selectedAddress?._id === addr._id
+                        className={`relative block p-4 md:p-5 border-2 rounded cursor-pointer transition-all ${selectedAddress?._id === addr._id
                           ? 'border-[#B43F3F] bg-[#B43F3F]/5 ring-1 ring-[#B43F3F]/30'
                           : 'border-[#B43F3F]/5 hover:border-[#B43F3F]/20 bg-white shadow-sm'
                           }`}
@@ -429,14 +429,14 @@ const Checkout: React.FC = () => {
                           />
                           <div className="flex-1">
                             <div className="flex items-center justify-between gap-2 mb-2">
-                              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#F8EDED] rounded-lg border border-[#B43F3F]/10">
+                              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#F8EDED] rounded-sm border border-[#B43F3F]/10">
                                 {addr.type === 'home' && <Home size={12} className="text-[#B43F3F]" />}
                                 {addr.type === 'work' && <Building2 size={12} className="text-[#B43F3F]" />}
                                 {addr.type === 'other' && <MapPin size={12} className="text-[#B43F3F]" />}
                                 <span className="text-[10px] font-bold text-[#173B45] uppercase tracking-wider">{addr.type}</span>
                               </div>
                               {addr.isDefault && (
-                                <span className="text-[10px] font-bold text-green-600 uppercase tracking-widest bg-green-50 px-2 py-1 rounded-md border border-green-100 italic">
+                                <span className="text-[10px] font-bold text-green-600 uppercase tracking-widest bg-green-50 px-2 py-1 rounded-sm border border-green-100 italic">
                                   Default
                                 </span>
                               )}
@@ -446,7 +446,7 @@ const Checkout: React.FC = () => {
                               {addr.addressLine2 && <p className="text-xs text-[#173B45]/60 line-clamp-1">{addr.addressLine2}</p>}
                               <p className="text-xs text-[#173B45]/60">{addr.city}, {addr.state} - {addr.pincode}</p>
                             </div>
-                            <div className="flex items-center gap-1.5 py-1.5 px-3 bg-[#F8EDED]/40 rounded-lg border border-[#B43F3F]/5 w-fit">
+                            <div className="flex items-center gap-1.5 py-1.5 px-3 bg-[#F8EDED]/40 rounded-sm border border-[#B43F3F]/5 w-fit">
                               <Phone size={12} className="text-[#B43F3F]/60" />
                               <span className="text-xs font-medium text-[#173B45]/80 font-mono">{addr.phone}</span>
                             </div>
@@ -457,9 +457,9 @@ const Checkout: React.FC = () => {
 
                     <button
                       onClick={() => setShowAddressForm(true)}
-                      className="group relative flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#B43F3F]/20 rounded-xl hover:border-[#B43F3F]/40 hover:bg-[#B43F3F]/5 transition-all h-full min-h-[160px]"
+                      className="group relative flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#B43F3F]/20 rounded hover:border-[#B43F3F]/40 hover:bg-[#B43F3F]/5 transition-all h-full min-h-[160px]"
                     >
-                      <div className="w-10 h-10 rounded-full bg-[#F8EDED] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                      <div className="w-10 h-10 rounded-sm bg-[#F8EDED] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                         <Plus className="w-5 h-5 text-[#B43F3F]" />
                       </div>
                       <span className="text-sm font-medium text-[#173B45]">Add New Address</span>
@@ -483,7 +483,7 @@ const Checkout: React.FC = () => {
                   {/* Section 1: Address Categorization */}
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="p-1.5 bg-[#B43F3F]/10 rounded-lg text-[#B43F3F]">
+                      <div className="p-1.5 bg-[#B43F3F]/10 rounded-sm text-[#B43F3F]">
                         <Package size={16} />
                       </div>
                       <h3 className="text-sm font-bold text-[#173B45] uppercase tracking-wide">1. Tag this address</h3>
@@ -493,12 +493,12 @@ const Checkout: React.FC = () => {
                         <button
                           key={t}
                           onClick={() => setNewAddress({ ...newAddress, type: t })}
-                          className={`flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all ${newAddress.type === t
+                          className={`flex flex-col items-center justify-center gap-2 p-3 rounded border-2 transition-all ${newAddress.type === t
                             ? 'border-[#B43F3F] bg-[#B43F3F]/5 ring-1 ring-[#B43F3F]/30 shadow-md'
                             : 'border-gray-100 bg-white hover:border-[#B43F3F]/20'
                             }`}
                         >
-                          <div className={`p-2 rounded-lg ${newAddress.type === t ? 'bg-[#B43F3F] text-white' : 'bg-gray-50 text-gray-400'}`}>
+                          <div className={`p-2 rounded-sm ${newAddress.type === t ? 'bg-[#B43F3F] text-white' : 'bg-gray-50 text-gray-400'}`}>
                             {t === 'home' && <Home size={18} />}
                             {t === 'work' && <Building2 size={18} />}
                             {t === 'other' && <MapPin size={18} />}
@@ -514,7 +514,7 @@ const Checkout: React.FC = () => {
                   {/* Section 2: Contact Info */}
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="p-1.5 bg-[#B43F3F]/10 rounded-lg text-[#B43F3F]">
+                      <div className="p-1.5 bg-[#B43F3F]/10 rounded-sm text-[#B43F3F]">
                         <Phone size={16} />
                       </div>
                       <h3 className="text-sm font-bold text-[#173B45] uppercase tracking-wide">2. Contact Details</h3>
@@ -528,7 +528,7 @@ const Checkout: React.FC = () => {
                         placeholder="Mobile Number *"
                         value={newAddress.phone}
                         onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
-                        className={`w-full pl-11 pr-4 py-3.5 bg-gray-50/50 border-2 rounded-xl focus:border-[#B43F3F] focus:ring-4 focus:ring-[#B43F3F]/5 outline-none transition-all text-sm font-medium ${errors.phone ? 'border-red-500' : 'border-gray-100'}`}
+                        className={`w-full pl-11 pr-4 py-3.5 bg-gray-50/50 border-2 rounded focus:border-[#B43F3F] focus:ring-4 focus:ring-[#B43F3F]/5 outline-none transition-all text-sm font-medium ${errors.phone ? 'border-red-500' : 'border-gray-100'}`}
                       />
                       {errors.phone && <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-bold mt-1.5 ml-1 uppercase">{errors.phone}</motion.p>}
                     </div>
@@ -537,7 +537,7 @@ const Checkout: React.FC = () => {
                   {/* Section 3: Delivery Address */}
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="p-1.5 bg-[#B43F3F]/10 rounded-lg text-[#B43F3F]">
+                      <div className="p-1.5 bg-[#B43F3F]/10 rounded-sm text-[#B43F3F]">
                         <MapPin size={16} />
                       </div>
                       <h3 className="text-sm font-bold text-[#173B45] uppercase tracking-wide">3. Delivery Information</h3>
@@ -551,7 +551,7 @@ const Checkout: React.FC = () => {
                           placeholder="House No., Building Name, Street * "
                           value={newAddress.addressLine1}
                           onChange={(e) => setNewAddress({ ...newAddress, addressLine1: e.target.value })}
-                          className={`w-full px-4 py-3.5 bg-gray-50/50 border-2 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-medium ${errors.addressLine1 ? 'border-red-500' : 'border-gray-100'}`}
+                          className={`w-full px-4 py-3.5 bg-gray-50/50 border-2 rounded focus:border-[#B43F3F] outline-none transition-all text-sm font-medium ${errors.addressLine1 ? 'border-red-500' : 'border-gray-100'}`}
                         />
                         {errors.addressLine1 && <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-bold mt-1.5 ml-1 uppercase">{errors.addressLine1}</motion.p>}
                       </div>
@@ -562,7 +562,7 @@ const Checkout: React.FC = () => {
                         placeholder="Area, Colony, Landmark (Optional)"
                         value={newAddress.addressLine2}
                         onChange={(e) => setNewAddress({ ...newAddress, addressLine2: e.target.value })}
-                        className="w-full px-4 py-3.5 bg-gray-50/50 border-2 border-gray-100 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-medium"
+                        className="w-full px-4 py-3.5 bg-gray-50/50 border-2 border-gray-100 rounded focus:border-[#B43F3F] outline-none transition-all text-sm font-medium"
                       />
 
                       {/* Grid for City, State, Pin */}
@@ -573,7 +573,7 @@ const Checkout: React.FC = () => {
                             placeholder="City *"
                             value={newAddress.city}
                             onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                            className={`w-full px-4 py-3.5 bg-gray-50/50 border-2 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-medium ${errors.city ? 'border-red-500' : 'border-gray-100'}`}
+                            className={`w-full px-4 py-3.5 bg-gray-50/50 border-2 rounded focus:border-[#B43F3F] outline-none transition-all text-sm font-medium ${errors.city ? 'border-red-500' : 'border-gray-100'}`}
                           />
                           {errors.city && <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-bold mt-1.5 ml-1 uppercase">{errors.city}</motion.p>}
                         </div>
@@ -581,7 +581,7 @@ const Checkout: React.FC = () => {
                         <select
                           value={newAddress.state}
                           onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                          className="w-full px-4 py-3.5 bg-gray-50/50 border-2 border-gray-100 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-bold text-[#173B45]"
+                          className="w-full px-4 py-3.5 bg-gray-50/50 border-2 border-gray-100 rounded focus:border-[#B43F3F] outline-none transition-all text-sm font-bold text-[#173B45]"
                         >
                           <option value="Odisha">Odisha</option>
                           <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -600,18 +600,18 @@ const Checkout: React.FC = () => {
                             placeholder="Pincode *"
                             value={newAddress.pincode}
                             onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
-                            className={`w-full px-4 py-3.5 bg-gray-50/50 border-2 rounded-xl focus:border-[#B43F3F] outline-none transition-all text-sm font-mono tracking-widest font-bold ${errors.pincode ? 'border-red-500' : 'border-gray-100'}`}
+                            className={`w-full px-4 py-3.5 bg-gray-50/50 border-2 rounded focus:border-[#B43F3F] outline-none transition-all text-sm font-mono tracking-widest font-bold ${errors.pincode ? 'border-red-500' : 'border-gray-100'}`}
                             maxLength={6}
                           />
                           {errors.pincode && <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-bold mt-1.5 ml-1 uppercase">{errors.pincode}</motion.p>}
                         </div>
 
-                        <label className="flex items-center gap-3 p-3.5 bg-white border-2 border-gray-100 rounded-xl cursor-pointer hover:border-[#B43F3F]/10 transition-colors self-start">
+                        <label className="flex items-center gap-3 p-3.5 bg-white border-2 border-gray-100 rounded cursor-pointer hover:border-[#B43F3F]/10 transition-colors self-start">
                           <input
                             type="checkbox"
                             checked={newAddress.isDefault}
                             onChange={(e) => setNewAddress({ ...newAddress, isDefault: e.target.checked })}
-                            className="w-5 h-5 rounded-md border-gray-300 text-[#B43F3F] focus:ring-[#B43F3F]"
+                            className="w-5 h-5 rounded-sm border-gray-300 text-[#B43F3F] focus:ring-[#B43F3F]"
                           />
                           <span className="text-xs font-bold text-[#173B45]/60 uppercase tracking-wider">Set as default</span>
                         </label>
@@ -624,7 +624,7 @@ const Checkout: React.FC = () => {
                     <button
                       onClick={handleAddAddress}
                       disabled={loading}
-                      className="flex-1 py-4 bg-[#173B45] text-white font-bold rounded-xl hover:bg-[#B43F3F] transition-all shadow-lg shadow-[#173B45]/10 active:scale-[0.98] disabled:opacity-50 text-sm uppercase tracking-widest"
+                      className="flex-1 py-4 bg-[#173B45] text-white font-bold rounded hover:bg-[#B43F3F] transition-all shadow-lg shadow-[#173B45]/10 active:scale-[0.98] disabled:opacity-50 text-sm uppercase tracking-widest"
                     >
                       {loading ? (
                         <div className="flex items-center justify-center gap-2">
@@ -637,7 +637,7 @@ const Checkout: React.FC = () => {
                     {addresses.length > 0 && (
                       <button
                         onClick={() => setShowAddressForm(false)}
-                        className="px-6 py-4 border-2 border-gray-100 text-[#173B45]/60 font-bold rounded-xl hover:bg-gray-50 transition-all text-sm uppercase tracking-widest"
+                        className="px-6 py-4 border-2 border-gray-100 text-[#173B45]/60 font-bold rounded hover:bg-gray-50 transition-all text-sm uppercase tracking-widest"
                       >
                         Cancel
                       </button>
@@ -652,7 +652,7 @@ const Checkout: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-xl md:rounded-2xl shadow-md p-4 md:p-6 border border-[#B43F3F]/10"
+              className="bg-white rounded md:rounded-md shadow-md p-4 md:p-6 border border-[#B43F3F]/10"
             >
               <h2 className="text-lg md:text-xl font-display font-medium text-[#173B45] mb-4 flex items-center gap-2">
                 <CreditCard className="w-5 h-5 text-[#B43F3F]" />
@@ -666,7 +666,7 @@ const Checkout: React.FC = () => {
                 ].map((method) => (
                   <label
                     key={method.id}
-                    className={`flex items-center gap-4 p-4 border rounded-xl cursor-pointer transition-all ${paymentMethod === method.id
+                    className={`flex items-center gap-4 p-4 border rounded cursor-pointer transition-all ${paymentMethod === method.id
                       ? 'border-[#B43F3F] bg-[#B43F3F]/5'
                       : 'border-[#B43F3F]/10 hover:border-[#B43F3F]/30'
                       }`}
@@ -697,7 +697,7 @@ const Checkout: React.FC = () => {
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
-                  className="mt-6 p-4 bg-orange-50 border-2 border-orange-200 rounded-xl space-y-4"
+                  className="mt-6 p-4 bg-orange-50 border-2 border-orange-200 rounded space-y-4"
                 >
                   <h3 className="text-xs font-bold text-orange-800 uppercase tracking-wider">
                     High-Value COD Verification (Orders above ₹5,000)
@@ -707,7 +707,7 @@ const Checkout: React.FC = () => {
                   </p>
 
                   <div className="space-y-3">
-                    <label className={`flex items-start gap-3 p-3 bg-white border-2 rounded-lg cursor-pointer transition-all ${codOption === 'ADVANCE' ? 'border-[#B43F3F]' : 'border-gray-100 hover:border-orange-300'}`}>
+                    <label className={`flex items-start gap-3 p-3 bg-white border-2 rounded-sm cursor-pointer transition-all ${codOption === 'ADVANCE' ? 'border-[#B43F3F]' : 'border-gray-100 hover:border-orange-300'}`}>
                       <input
                         type="radio"
                         name="codOption"
@@ -724,7 +724,7 @@ const Checkout: React.FC = () => {
                       </div>
                     </label>
 
-                    <label className={`flex items-start gap-3 p-3 bg-white border-2 rounded-lg cursor-pointer transition-all ${codOption === 'FULL_COD' ? 'border-[#B43F3F]' : 'border-gray-100 hover:border-orange-300'}`}>
+                    <label className={`flex items-start gap-3 p-3 bg-white border-2 rounded-sm cursor-pointer transition-all ${codOption === 'FULL_COD' ? 'border-[#B43F3F]' : 'border-gray-100 hover:border-orange-300'}`}>
                       <input
                         type="radio"
                         name="codOption"
@@ -750,7 +750,7 @@ const Checkout: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white rounded-xl md:rounded-2xl shadow-md p-4 md:p-6 border border-[#B43F3F]/10"
+              className="bg-white rounded md:rounded-md shadow-md p-4 md:p-6 border border-[#B43F3F]/10"
             >
               <h2 className="text-lg md:text-xl font-display font-medium text-[#173B45] mb-4">Additional Options</h2>
 
@@ -776,7 +776,7 @@ const Checkout: React.FC = () => {
                         placeholder="Enter gift message..."
                         value={giftMessage}
                         onChange={(e) => setGiftMessage(e.target.value)}
-                        className="w-full p-3 border border-[#B43F3F]/10 rounded-lg focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm h-20"
+                        className="w-full p-3 border border-[#B43F3F]/10 rounded-sm focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm h-20"
                         maxLength={200}
                       />
                     </motion.div>
@@ -787,7 +787,7 @@ const Checkout: React.FC = () => {
                   placeholder="Order notes (optional)"
                   value={orderNotes}
                   onChange={(e) => setOrderNotes(e.target.value)}
-                  className="w-full p-3 border border-[#B43F3F]/10 rounded-lg focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm h-20"
+                  className="w-full p-3 border border-[#B43F3F]/10 rounded-sm focus:border-[#FF8225] focus:ring-2 focus:ring-[#FF8225]/20 outline-none text-sm h-20"
                 />
               </div>
             </motion.div>
@@ -800,7 +800,7 @@ const Checkout: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="lg:col-span-1"
           >
-            <div className="bg-white rounded-xl md:rounded-2xl shadow-md p-4 md:p-6 border border-[#B43F3F]/10 sticky top-24">
+            <div className="bg-white rounded md:rounded-md shadow-md p-4 md:p-6 border border-[#B43F3F]/10 sticky top-24">
               <h2 className="text-lg md:text-xl font-display font-medium text-[#173B45] mb-4">Order Summary</h2>
 
               <div className="space-y-3 mb-4">
@@ -844,7 +844,7 @@ const Checkout: React.FC = () => {
 
                 {/* Secure partial COD payment summary details */}
                 {needsCODRules && codOption === 'ADVANCE' && (
-                  <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-xl space-y-1.5 text-xs text-green-800">
+                  <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded space-y-1.5 text-xs text-green-800">
                     <div className="flex justify-between font-bold">
                       <span>Pay Online Now (10% Advance):</span>
                       <span>₹{advancePaymentAmount.toLocaleString()}</span>
@@ -857,7 +857,7 @@ const Checkout: React.FC = () => {
                 )}
 
                 {needsCODRules && codOption === 'FULL_COD' && (
-                  <div className="mt-3 p-3 bg-orange-50 border border-orange-200 rounded-xl space-y-1.5 text-xs text-orange-800">
+                  <div className="mt-3 p-3 bg-orange-50 border border-orange-200 rounded space-y-1.5 text-xs text-orange-800">
                     <div className="flex justify-between font-bold">
                       <span>Pay Online Now:</span>
                       <span>₹0</span>
@@ -877,7 +877,7 @@ const Checkout: React.FC = () => {
                     <img
                       src={getProductImageUrl(item)}
                       alt={item.product.name}
-                      className="w-10 h-12 object-cover rounded border border-[#B43F3F]/10"
+                      className="w-10 h-12 object-cover rounded-sm border border-[#B43F3F]/10"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = '/placeholder.jpg';
                       }}
@@ -895,7 +895,7 @@ const Checkout: React.FC = () => {
               <button
                 onClick={handlePlaceOrder}
                 disabled={placingOrder || !selectedAddress}
-                className="w-full py-3.5 bg-[#B43F3F] text-[#F8EDED] font-bold rounded-xl hover:bg-[#FF8225] transition-all duration-300 mb-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-[#B43F3F]/20 uppercase tracking-widest text-xs"
+                className="w-full py-3.5 bg-[#B43F3F] text-[#F8EDED] font-bold rounded hover:bg-[#FF8225] transition-all duration-300 mb-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-[#B43F3F]/20 uppercase tracking-widest text-xs"
               >
                 {placingOrder ? (
                   <div className="flex items-center justify-center gap-2">

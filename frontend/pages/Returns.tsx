@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { RotateCcw, ShieldAlert, Truck, Mail } from 'lucide-react';
 
@@ -12,9 +11,9 @@ const Returns: React.FC = () => {
         </div>
 
         <div className="prose prose-lg max-w-none space-y-12">
-          <section className="bg-gray-50 p-12 rounded-[3rem] border border-gray-100">
+          <section className="bg-gray-50 p-12 rounded border border-gray-100">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[#C9A84C] shadow-sm"><RotateCcw /></div>
+              <div className="w-12 h-12 bg-white rounded-sm flex items-center justify-center text-[#C9A84C] shadow-sm"><RotateCcw /></div>
               <h2 className="text-3xl font-display font-bold !m-0">7-Day Return Policy</h2>
             </div>
             <p className="text-gray-600 text-lg leading-relaxed font-medium">
@@ -28,12 +27,12 @@ const Returns: React.FC = () => {
           </section>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="p-10 border border-gray-100 rounded-[2.5rem] space-y-6">
+            <div className="p-10 border border-gray-100 rounded space-y-6">
               <ShieldAlert className="text-[#C9A84C]" size={40} />
               <h3 className="text-2xl font-display font-bold">Exceptions</h3>
               <p className="text-gray-500 font-medium">Custom-stitched blouses, products on final clearance, and used items cannot be returned. Handloom irregularities are hallmarks of authenticity, not defects.</p>
             </div>
-            <div className="p-10 border border-gray-100 rounded-[2.5rem] space-y-6">
+            <div className="p-10 border border-gray-100 rounded space-y-6">
               <Truck className="text-[#E8C97A]" size={40} />
               <h3 className="text-2xl font-display font-bold">Process</h3>
               <p className="text-gray-500 font-medium">Log in to your profile, select the order, and click 'Return'. We will arrange a reverse pickup within 48 hours for most locations.</p>

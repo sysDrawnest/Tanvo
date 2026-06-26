@@ -40,10 +40,10 @@ const ResetPassword: React.FC = () => {
   if (!token) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-[#fdfbf7]">
-        <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-red-100 text-center">
+        <div className="max-w-md w-full bg-white p-8 rounded shadow-xl border border-red-100 text-center">
           <h1 className="text-2xl font-display text-red-500 mb-4">Invalid Reset Link</h1>
           <p className="text-[#666] mb-6">This password reset link is invalid or missing a token.</p>
-          <button onClick={() => navigate('/auth')} className="btn-gold w-full">Back to Login</button>
+          <button onClick={() => navigate('/auth')} className="btn-gold w-full rounded-sm">Back to Login</button>
         </div>
       </div>
     );
@@ -54,7 +54,7 @@ const ResetPassword: React.FC = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-[#c9a84c]/20"
+        className="max-w-md w-full bg-white p-8 rounded shadow-xl border border-[#c9a84c]/20"
       >
         {!isSuccess ? (
           <>
@@ -71,7 +71,7 @@ const ResetPassword: React.FC = () => {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-12 py-3 border border-[#eee] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c9a84c] transition-all"
+                    className="w-full pl-10 pr-12 py-3 border border-[#eee] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c] transition-all"
                     placeholder="••••••••"
                   />
                   <button
@@ -93,7 +93,7 @@ const ResetPassword: React.FC = () => {
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-[#eee] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c9a84c] transition-all"
+                    className="w-full pl-10 pr-4 py-3 border border-[#eee] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c] transition-all"
                     placeholder="••••••••"
                   />
                 </div>
@@ -104,7 +104,7 @@ const ResetPassword: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 bg-[#1a362d] text-white rounded-xl font-bold hover:bg-[#254d40] transition-all disabled:opacity-50 flex items-center justify-center"
+                className="w-full py-4 bg-[#1a362d] text-white rounded-sm font-bold hover:bg-[#254d40] transition-all disabled:opacity-50 flex items-center justify-center"
               >
                 {isLoading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                 Reset Password
@@ -115,7 +115,7 @@ const ResetPassword: React.FC = () => {
           <div className="text-center py-4">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
             <h2 className="text-2xl font-display text-[#1a362d] mb-2">Password Reset!</h2>
-            <p className="text-[#666] mb-8">
+            <p className="text-[#666] mb-8 font-light">
               Your password has been successfully updated. You can now log in with your new password.
             </p>
             <p className="text-sm text-[#999]">Redirecting to login...</p>

@@ -37,7 +37,7 @@ const About: React.FC = () => {
         <div className="max-w-screen-2xl w-full flex flex-col lg:flex-row-reverse items-center justify-between px-10 py-10 lg:py-16 gap-8 lg:gap-12">
 
           {/* Right Image Column (Top on mobile) */}
-          <div className="lg:w-1/2 w-full aspect-[4/3] lg:aspect-auto flex justify-center items-center relative rounded-xl overflow-hidden lg:p-0">
+          <div className="lg:w-1/2 w-full aspect-[4/3] lg:aspect-auto flex justify-center items-center relative rounded overflow-hidden lg:p-0">
             <div className="w-full h-full lg:bg-transparent flex justify-center items-center">
               <img
                 src="/about.png"
@@ -104,7 +104,7 @@ const About: React.FC = () => {
       <section className="w-full py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-full mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-sm mb-4">
               <MapPin className="w-4 h-4 text-[#FF8225]" />
               <span className="text-[#FF8225] font-medium uppercase tracking-[0.2em] text-xs">Our Roots</span>
             </div>
@@ -122,7 +122,7 @@ const About: React.FC = () => {
             {featuredClusters.map((cluster, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 relative overflow-hidden group"
+                className="bg-white p-6 rounded shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 relative overflow-hidden group"
                 style={{ borderLeftColor: cluster.color }}
               >
                 <div className="absolute top-0 right-0 w-24 h-24 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -155,7 +155,7 @@ const About: React.FC = () => {
 
           {/* Map Container */}
           <div className="relative max-w-4xl mx-auto">
-            <div className="bg-[#F8EDED] rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg border border-[#B43F3F]/10">
+            <div className="bg-[#F8EDED] rounded md:rounded-md p-4 md:p-6 shadow-lg border border-[#B43F3F]/10">
               {/* Map Legend */}
               <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
                 <div className="flex items-center gap-2">
@@ -169,7 +169,7 @@ const About: React.FC = () => {
               </div>
 
               {/* Map Visualization with Actual Odisha Map */}
-              <div className="relative aspect-[4/3] w-full bg-gradient-to-b from-[#E8D5B5] to-[#D9C8A8] rounded-lg overflow-hidden border border-[#B43F3F]/20">
+              <div className="relative aspect-[4/3] w-full bg-gradient-to-b from-[#E8D5B5] to-[#D9C8A8] rounded-sm overflow-hidden border border-[#B43F3F]/20">
                 {/* Odisha Map SVG */}
                 <img
                   src={OdishaMap}
@@ -217,7 +217,7 @@ const About: React.FC = () => {
                     >
                       {/* Tooltip */}
                       <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20">
-                        <div className="bg-[#173B45] text-[#F8EDED] text-[10px] p-2 rounded-lg whitespace-nowrap shadow-lg">
+                        <div className="bg-[#173B45] text-[#F8EDED] text-[10px] p-2 rounded-sm whitespace-nowrap shadow-lg">
                           <p className="font-medium">{cluster.name}</p>
                           <p className="text-[8px] opacity-75">{cluster.artisans} artisans</p>
                         </div>
@@ -225,7 +225,7 @@ const About: React.FC = () => {
                     </div>
 
                     {/* Label */}
-                    <span className="absolute top-4 left-1/2 transform -translate-x-1/2 text-[8px] font-medium text-[#173B45] whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity bg-white/80 px-1 rounded">
+                    <span className="absolute top-4 left-1/2 transform -translate-x-1/2 text-[8px] font-medium text-[#173B45] whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity bg-white/80 px-1 rounded-sm">
                       {cluster.name}
                     </span>
                   </div>
@@ -278,8 +278,8 @@ const About: React.FC = () => {
                 description: "From Odisha villages to your doorstep anywhere in the world."
               }
             ].map((item, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-[#B43F3F]/10 group">
-                <div className="w-12 h-12 bg-[#F8EDED] rounded-lg flex items-center justify-center mb-4 text-[#B43F3F] group-hover:scale-110 transition-transform duration-300 border border-[#B43F3F]/10">
+              <div key={index} className="bg-white p-6 rounded shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-[#B43F3F]/10 group">
+                <div className="w-12 h-12 bg-[#F8EDED] rounded-sm flex items-center justify-center mb-4 text-[#B43F3F] group-hover:scale-110 transition-transform duration-300 border border-[#B43F3F]/10">
                   {item.icon}
                 </div>
                 <h3 className="text-lg font-display font-medium text-[#173B45] mb-2">{item.title}</h3>
@@ -296,8 +296,8 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-5xl mx-auto">
             {/* Image */}
             <div className="relative group">
-              <div className="absolute -inset-2 bg-gradient-to-r from-[#B43F3F] to-[#FF8225] rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
-              <div className="relative aspect-[4/5] rounded-xl overflow-hidden shadow-lg">
+              <div className="absolute -inset-2 bg-gradient-to-r from-[#B43F3F] to-[#FF8225] rounded blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+              <div className="relative aspect-[4/5] rounded overflow-hidden shadow-lg">
                 <img
                   src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200"
                   alt="Master weaver at work"
@@ -313,7 +313,7 @@ const About: React.FC = () => {
 
             {/* Content */}
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-full">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF8225]/10 rounded-sm">
                 <Sparkles className="w-4 h-4 text-[#FF8225]" />
                 <span className="text-[#FF8225] font-medium uppercase tracking-[0.2em] text-xs">The Art of Precision</span>
               </div>
@@ -338,7 +338,7 @@ const About: React.FC = () => {
                   { icon: <Shield className="w-4 h-4" />, title: "GI Certified", color: "red" }
                 ].map((feature, index) => (
                   <div key={index} className="flex items-start gap-2">
-                    <div className={`w-8 h-8 bg-[#F8EDED] rounded-lg flex items-center justify-center text-[#B43F3F]`}>
+                    <div className={`w-8 h-8 bg-[#F8EDED] rounded-sm flex items-center justify-center text-[#B43F3F]`}>
                       {feature.icon}
                     </div>
                     <div>
@@ -349,7 +349,7 @@ const About: React.FC = () => {
               </div>
 
               {/* Sustainability badge */}
-              <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg border border-green-100">
+              <div className="flex items-center gap-3 p-4 bg-green-50 rounded border border-green-100">
                 <Leaf className="w-5 h-5 text-green-600" />
                 <div>
                   <p className="text-xs font-medium text-[#173B45]">100% Sustainable Practice</p>
@@ -368,7 +368,7 @@ const About: React.FC = () => {
         <div className="max-w-2xl mx-auto space-y-8">
           <h2 className="font-serif text-3xl md:text-5xl text-tanvoDark">Want to learn more about our process?</h2>
           <p className="text-gray-500">Dive into the mathematical precision of the loom and the heritage of Odisha's weavers.</p>
-          <Link to="/journal" className="inline-flex items-center gap-3 px-10 py-4 border border-tanvoDark text-tanvoDark uppercase text-xs tracking-widest hover:bg-tanvoDark hover:text-white transition-all duration-500">
+          <Link to="/journal" className="inline-flex items-center gap-3 px-10 py-4 border border-tanvoDark text-tanvoDark uppercase text-xs tracking-widest hover:bg-tanvoDark hover:text-white transition-all duration-500 font-sans font-bold">
             Explore Craft Chronicles <ArrowRight size={14} />
           </Link>
         </div>
@@ -376,7 +376,7 @@ const About: React.FC = () => {
 
       {/* Existing Footer Call to Action */}
       <section className="container mx-auto px-4 mt-12 md:mt-16">
-        <div className="bg-gradient-to-r from-[#173B45] to-[#0f2a33] rounded-xl md:rounded-2xl p-8 md:p-12 text-center text-[#F8EDED] relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#173B45] to-[#0f2a33] rounded md:rounded-md p-8 md:p-12 text-center text-[#F8EDED] relative overflow-hidden">
           <div className="absolute top-0 right-0 w-48 h-48 bg-[#B43F3F]/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#FF8225]/20 rounded-full blur-2xl -ml-16 -mb-16"></div>
 
@@ -390,13 +390,13 @@ const About: React.FC = () => {
           <div className="flex flex-wrap gap-3 justify-center relative z-10">
             <Link
               to="/shop"
-              className="px-5 py-2.5 bg-[#FF8225] text-[#F8EDED] rounded-lg font-medium text-sm hover:bg-[#B43F3F] transition-all duration-300"
+              className="px-5 py-2.5 bg-[#FF8225] text-[#F8EDED] rounded-sm font-medium text-sm hover:bg-[#B43F3F] transition-all duration-300"
             >
               Shop Now
             </Link>
             <Link
               to="/contact"
-              className="px-5 py-2.5 border border-[#F8EDED]/20 text-[#F8EDED] rounded-lg font-medium text-sm hover:bg-[#F8EDED]/10 transition-all duration-300"
+              className="px-5 py-2.5 border border-[#F8EDED]/20 text-[#F8EDED] rounded-sm font-medium text-sm hover:bg-[#F8EDED]/10 transition-all duration-300"
             >
               Partner With Us
             </Link>

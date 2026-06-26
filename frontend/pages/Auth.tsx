@@ -74,7 +74,7 @@ const Auth: React.FC = () => {
   if (merging) {
     return (
       <div className="min-h-screen w-full bg-[#F9F5EE] flex justify-center items-center">
-        <div className="text-center p-8 bg-white border border-[#E2D9C8] rounded-xl max-w-sm mx-auto shadow-sm">
+        <div className="text-center p-8 bg-white border border-[#E2D9C8] rounded max-w-sm mx-auto shadow-sm">
           <div className="w-12 h-12 border-4 border-[#780000] border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
           <h2 className="text-xl font-headline-lg font-bold text-[#261816] mb-2 font-serif">Saving Your Items</h2>
           <p className="text-sm font-body-md text-[#59413d]">Syncing your cart and wishlist to your account...</p>
@@ -146,11 +146,11 @@ const Auth: React.FC = () => {
 
         {/* Form Container */}
         <div className="flex-grow flex items-center justify-center p-6 lg:p-12">
-          <div className="w-full max-w-[420px] bg-white p-8 lg:p-10 rounded-[1.5rem] shadow-[0px_4px_40px_rgba(13,11,10,0.04)] border border-[#E2D9C8]/50 relative">
+          <div className="w-full max-w-[420px] bg-white p-8 lg:p-10 rounded shadow-[0px_4px_40px_rgba(13,11,10,0.04)] border border-[#E2D9C8]/50 relative">
             
             {/* Guest data notice */}
             {hasGuestData && (
-              <div className="mb-6 flex items-start gap-3 p-4 bg-[#780000]/5 border border-[#780000]/20 rounded-lg">
+              <div className="mb-6 flex items-start gap-3 p-4 bg-[#780000]/5 border border-[#780000]/20 rounded-sm">
                 <CheckCircle size={18} className="text-[#780000] shrink-0 mt-0.5" />
                 <p className="text-xs text-[#261816] leading-relaxed">
                   You have <strong>{guestCart.length > 0 ? `${guestCart.length} item${guestCart.length > 1 ? 's' : ''} in cart` : ''}{guestCart.length > 0 && guestWishlist.length > 0 ? ' and ' : ''}{guestWishlist.length > 0 ? `${guestWishlist.length} item${guestWishlist.length > 1 ? 's' : ''} in wishlist` : ''}</strong> saved locally. Sign in to sync them permanently! ❤️
@@ -170,7 +170,7 @@ const Auth: React.FC = () => {
             </div>
 
             {authError && (
-              <div className="mb-6 p-4 bg-red-50 text-red-700 font-medium text-xs border border-red-200 rounded-lg text-center">
+              <div className="mb-6 p-4 bg-red-50 text-red-700 font-medium text-xs border border-red-200 rounded-sm text-center">
                 {authError}
               </div>
             )}
@@ -184,7 +184,7 @@ const Auth: React.FC = () => {
                   <div className="relative">
                     <UserIcon size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#59413d]/60" />
                     <input
-                      className="w-full bg-[#fff8f6] border border-[#E2D9C8] rounded-lg pl-11 pr-4 py-3 font-body-md text-sm text-[#261816] focus:border-[#780000] focus:ring-0 transition-colors outline-none placeholder-[#D2C7B1]"
+                      className="w-full bg-[#fff8f6] border border-[#E2D9C8] rounded-sm pl-11 pr-4 py-3 font-body-md text-sm text-[#261816] focus:border-[#780000] focus:ring-0 transition-colors outline-none placeholder-[#D2C7B1]"
                       id="full_name"
                       placeholder="Arjun Meher"
                       type="text"
@@ -203,7 +203,7 @@ const Auth: React.FC = () => {
                 <div className="relative">
                   <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#59413d]/60" />
                   <input
-                    className="w-full bg-[#fff8f6] border border-[#E2D9C8] rounded-lg pl-11 pr-4 py-3 font-body-md text-sm text-[#261816] focus:border-[#780000] focus:ring-0 transition-colors outline-none placeholder-[#D2C7B1]"
+                    className="w-full bg-[#fff8f6] border border-[#E2D9C8] rounded-sm pl-11 pr-4 py-3 font-body-md text-sm text-[#261816] focus:border-[#780000] focus:ring-0 transition-colors outline-none placeholder-[#D2C7B1]"
                     id="email"
                     placeholder="e.g. name@heritage.com"
                     type="email"
@@ -228,7 +228,7 @@ const Auth: React.FC = () => {
                 <div className="relative">
                   <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#59413d]/60" />
                   <input
-                    className="w-full bg-[#fff8f6] border border-[#E2D9C8] rounded-lg pl-11 pr-4 py-3 font-body-md text-sm text-[#261816] focus:border-[#780000] focus:ring-0 transition-colors outline-none placeholder-[#D2C7B1]"
+                    className="w-full bg-[#fff8f6] border border-[#E2D9C8] rounded-sm pl-11 pr-4 py-3 font-body-md text-sm text-[#261816] focus:border-[#780000] focus:ring-0 transition-colors outline-none placeholder-[#D2C7B1]"
                     id="password"
                     placeholder="••••••••"
                     type={showPassword ? 'text' : 'password'}
@@ -273,7 +273,7 @@ const Auth: React.FC = () => {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-gradient-to-r from-[#780000] to-[#C1121F] text-white font-label-sm text-xs py-4 rounded-lg uppercase tracking-[0.2em] shadow-lg shadow-[#780000]/10 hover:shadow-[#780000]/20 hover:opacity-95 transform active:scale-[0.98] transition-all duration-200 mt-4 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-[#780000] to-[#C1121F] text-white font-label-sm text-xs py-4 rounded-sm uppercase tracking-[0.2em] shadow-lg shadow-[#780000]/10 hover:shadow-[#780000]/20 hover:opacity-95 transform active:scale-[0.98] transition-all duration-200 mt-4 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {submitting ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -299,7 +299,7 @@ const Auth: React.FC = () => {
             </div>
 
             {/* Admin preset credential notes */}
-            <div className="mt-5 p-3.5 bg-amber-50/70 border border-amber-200/50 rounded-lg text-[10px] text-amber-800 leading-relaxed font-medium">
+            <div className="mt-5 p-3.5 bg-amber-50/70 border border-amber-200/50 rounded-sm text-[10px] text-amber-800 leading-relaxed font-medium">
               <span className="font-bold">ADMIN PRESET:</span> Use <strong>admin@tanvo.com</strong> / <strong>Admin@123</strong> to explore the fulfillment dashboard.
             </div>
           </div>

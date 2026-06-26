@@ -34,7 +34,7 @@ export const ProductHeritageAccordion: React.FC<ProductHeritageAccordionProps> =
           <p>
             This masterwork originates from the rich handloom belts of Odisha, India. The {product.weave || 'Traditional'} weave features historic motifs crafted using techniques dating back centuries, reflecting the soul of regional craftsmanship.
           </p>
-          <div className="mt-2 p-3 bg-[#B43F3F]/5 rounded-xl border border-[#B43F3F]/10 flex items-center gap-2">
+          <div className="mt-2 p-3 bg-[#B43F3F]/5 rounded-sm border border-[#B43F3F]/10 flex items-center gap-2">
             <span className="text-xs font-semibold text-[#B43F3F]">Authentic Odisha Handloom Guaranteed</span>
           </div>
         </div>
@@ -67,7 +67,7 @@ export const ProductHeritageAccordion: React.FC<ProductHeritageAccordionProps> =
       content: (
         <div className="space-y-2 text-sm text-[#173B45]/80">
           <p className="font-medium text-[#173B45]">To preserve the luxury texture and gold/silver thread shine:</p>
-          <ul className="list-disc pl-5 space-y-1">
+          <ul className="list-disc pl-5 space-y-1 font-light">
             <li>{product.careInstructions || 'Dry clean recommended for the first wash to lock colors.'}</li>
             <li>Always store wrapped gently inside a soft muslin or cotton cloth.</li>
             <li>Avoid hanging on metal hangers; refold periodically to prevent crease wear.</li>
@@ -102,14 +102,14 @@ export const ProductHeritageAccordion: React.FC<ProductHeritageAccordionProps> =
         return (
           <div
             key={section.id}
-            className="border border-[#B43F3F]/10 rounded-2xl overflow-hidden bg-white hover:border-[#B43F3F]/20 transition-all duration-300 shadow-sm"
+            className="border border-[#B43F3F]/10 rounded overflow-hidden bg-white hover:border-[#B43F3F]/20 transition-all duration-300 shadow-sm"
           >
             <button
               onClick={() => toggleSection(section.id)}
               className="w-full flex items-center justify-between p-4 text-left transition-colors hover:bg-[#F8EDED]/40"
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-[#B43F3F]/10 rounded-lg text-[#B43F3F]">
+                <div className="p-2 bg-[#B43F3F]/10 rounded-sm text-[#B43F3F]">
                   <IconComponent size={18} />
                 </div>
                 <span className="font-display font-medium text-[#173B45] text-sm sm:text-base">

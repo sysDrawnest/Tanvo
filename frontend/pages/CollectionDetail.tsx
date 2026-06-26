@@ -64,12 +64,12 @@ export const CollectionDetail: React.FC = () => {
   if (error || !collection) {
     return (
       <div className="min-h-screen pt-32 pb-24 flex items-center justify-center bg-[#F8EDED]">
-        <div className="text-center max-w-md p-6 bg-white rounded-3xl border border-[#B43F3F]/10 shadow-sm space-y-4">
+        <div className="text-center max-w-md p-6 bg-white rounded border border-[#B43F3F]/10 shadow-sm space-y-4">
           <h2 className="text-2xl font-display font-medium text-[#B43F3F]">Collection Not Found</h2>
           <p className="text-[#173B45]/70">{error || 'The requested collection could not be loaded.'}</p>
           <Link
             to="/shop"
-            className="inline-block px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-xl hover:bg-[#FF8225] transition-colors"
+            className="inline-block px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-sm hover:bg-[#FF8225] transition-colors text-sm font-medium"
           >
             Explore Store
           </Link>
@@ -107,7 +107,7 @@ export const CollectionDetail: React.FC = () => {
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-medium text-[#F8EDED] tracking-wide">
                 {collection.name}
               </h1>
-              <p className="text-sm sm:text-base md:text-lg text-[#F8EDED]/90 max-w-2xl leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg text-[#F8EDED]/90 max-w-2xl leading-relaxed font-light">
                 {collection.description}
               </p>
             </div>
@@ -116,9 +116,9 @@ export const CollectionDetail: React.FC = () => {
 
         {/* Collection Story Card */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#B43F3F]/10 shadow-sm mb-12 flex flex-col sm:flex-row gap-6 items-center justify-between">
+          <div className="bg-white p-6 sm:p-8 rounded border border-[#B43F3F]/10 shadow-sm mb-12 flex flex-col sm:flex-row gap-6 items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-[#B43F3F]/10 text-[#B43F3F] rounded-2xl">
+              <div className="p-3 bg-[#B43F3F]/10 text-[#B43F3F] rounded-sm">
                 <Sparkles size={28} />
               </div>
               <div>
@@ -128,18 +128,18 @@ export const CollectionDetail: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#FF8225]/10 text-[#FF8225] text-xs font-semibold uppercase tracking-wider">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-sm bg-[#FF8225]/10 text-[#FF8225] text-xs font-semibold uppercase tracking-wider">
               {products.length} Masterpieces
             </div>
           </div>
 
           {/* Product Grid */}
           {products.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-3xl border border-[#B43F3F]/10 shadow-sm space-y-4">
+            <div className="text-center py-20 bg-white rounded border border-[#B43F3F]/10 shadow-sm space-y-4">
               <p className="text-[#173B45]/60 text-lg">No products found matching this collection's criteria.</p>
               <Link
                 to="/shop"
-                className="inline-block px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-xl hover:bg-[#FF8225] transition-colors"
+                className="inline-block px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-sm hover:bg-[#FF8225] transition-colors text-sm font-medium"
               >
                 Browse All Products
               </Link>

@@ -39,7 +39,7 @@ const VerifyEmail: React.FC = () => {
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-[#c9a84c]/20 text-center"
+        className="max-w-md w-full bg-white p-8 rounded shadow-xl border border-[#c9a84c]/20 text-center"
       >
         {status === 'loading' && (
           <>
@@ -65,7 +65,7 @@ const VerifyEmail: React.FC = () => {
             <p className="text-[#666] mb-6">{message}</p>
             <button 
               onClick={() => navigate('/auth')}
-              className="px-6 py-2 bg-[#1a362d] text-white rounded-lg hover:bg-[#254d40] transition-colors"
+              className="px-6 py-2 bg-[#1a362d] text-white rounded-sm hover:bg-[#254d40] transition-colors"
             >
               Back to Login
             </button>

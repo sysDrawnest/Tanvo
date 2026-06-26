@@ -30,7 +30,7 @@ const ForgotPassword: React.FC = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-[#c9a84c]/20"
+        className="max-w-md w-full bg-white p-8 rounded shadow-xl border border-[#c9a84c]/20"
       >
         <Link to="/auth" className="inline-flex items-center text-sm text-[#c9a84c] hover:underline mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -40,7 +40,7 @@ const ForgotPassword: React.FC = () => {
         {!isSent ? (
           <>
             <h1 className="text-3xl font-display text-[#1a362d] mb-2">Forgot Password?</h1>
-            <p className="text-[#666] mb-8">Enter your email address and we'll send you a link to reset your password.</p>
+            <p className="text-[#666] mb-8 font-light">Enter your email address and we'll send you a link to reset your password.</p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -52,7 +52,7 @@ const ForgotPassword: React.FC = () => {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-[#eee] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c9a84c] transition-all"
+                    className="w-full pl-10 pr-4 py-3 border border-[#eee] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c] transition-all"
                     placeholder="example@email.com"
                   />
                 </div>
@@ -63,7 +63,7 @@ const ForgotPassword: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 bg-[#1a362d] text-white rounded-xl font-bold hover:bg-[#254d40] transition-all disabled:opacity-50 flex items-center justify-center"
+                className="w-full py-4 bg-[#1a362d] text-white rounded-sm font-bold hover:bg-[#254d40] transition-all disabled:opacity-50 flex items-center justify-center"
               >
                 {isLoading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                 Send Reset Link

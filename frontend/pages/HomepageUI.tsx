@@ -775,7 +775,7 @@ const HandwovenHeritage: React.FC = () => {
                             </div>
                         </div>
                         <div className="pt-4">
-                            <Link to="/shop" className="group relative px-7 py-3.5 bg-gradient-to-r from-[#780000] to-[#C1121F] text-white font-label text-xs rounded-lg overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-[#780000]/10 inline-flex items-center justify-center uppercase tracking-[0.2em] font-bold h-[48px]">
+                            <Link to="/shop" className="group relative px-7 py-3.5 bg-gradient-to-r from-[#780000] to-[#C1121F] text-white font-label text-xs rounded-sm overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-[#780000]/10 inline-flex items-center justify-center uppercase tracking-[0.2em] font-bold h-[48px]">
                                 <span className="relative z-10 font-label uppercase tracking-[0.2em] text-[11px] font-bold">Explore Handwoven Collection</span>
                                 <div className="absolute inset-0 bg-[#780000] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
                             </Link>
@@ -786,7 +786,7 @@ const HandwovenHeritage: React.FC = () => {
                 <div className="w-full md:w-1/2 relative min-h-[320px] md:min-h-full">
                     <img alt="Traditional Weaver" className="absolute inset-0 w-full h-full object-cover" data-alt="Close-up of an elderly Indian artisan weaving silk on a traditional wooden handloom, warm morning sunlight highlighting fine threads and complex textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdg7Ev_2hzinZ3ELEiaInm85FF5cZlgC3vjDdz0dNR_5uT4IiQNlFThWx02_8d06i2loTg_isOhanjJ-XgBXwD-7k3DYSXsQ0sK299Dac6LbvjJmC1kxyaGNcHjfKqM2ha6jBHoYHFtoC01UMM9aZuUX9eFXnAZmP-cpSPrKM2hmNjOcawJFf_SRb7nmoR1VqIFZtR3wRMta_51owM7im8pFVUJIkDcyqlH5ayYK0PtWIo3z1HxUK-4v3km41dOKv787phEhTaww" />
                     {/* Decorative Element */}
-                    <div className="absolute bottom-12 left-12 p-6 bg-white rounded-xl shadow-lg hidden lg:block max-w-xs border-l-4 border-[#780000]">
+                    <div className="absolute bottom-12 left-12 p-6 bg-white rounded-sm shadow-lg hidden lg:block max-w-xs border-l-4 border-[#780000]">
                         <p className="font-headline italic text-[#0D0B0A] leading-relaxed text-sm font-serif">
                             "The rhythm of the loom is the heartbeat of our village. Every thread we cross is a story we preserve."
                         </p>

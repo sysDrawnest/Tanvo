@@ -95,7 +95,7 @@ const Cart: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 py-32 text-center">
         <div className="mb-8 flex justify-center">
-          <div className="p-8 bg-slate-100 rounded-full text-slate-400">
+          <div className="p-8 bg-slate-100 rounded text-slate-400">
             <ShoppingBag size={64} strokeWidth={1} />
           </div>
         </div>
@@ -127,7 +127,7 @@ const Cart: React.FC = () => {
 
       {/* Guest save banner */}
       {!isAuthenticated && (
-        <div className="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gradient-to-r from-[#B43F3F]/5 to-[#FF8225]/5 border border-[#B43F3F]/20 rounded-xl">
+        <div className="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gradient-to-r from-[#B43F3F]/5 to-[#FF8225]/5 border border-[#B43F3F]/20 rounded">
           <div className="flex items-center gap-3">
             <Heart className="w-5 h-5 text-[#B43F3F] shrink-0" />
             <p className="text-sm text-[#173B45] font-medium">
@@ -136,7 +136,7 @@ const Cart: React.FC = () => {
           </div>
           <Link
             to={`/auth?redirect=/cart`}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-lg hover:bg-[#FF8225] transition-all whitespace-nowrap shrink-0"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-sm hover:bg-[#FF8225] transition-all whitespace-nowrap shrink-0"
           >
             <LogIn size={16} />
             Login to Save
@@ -151,9 +151,9 @@ const Cart: React.FC = () => {
           {!isAuthenticated && guestCart.map((item) => (
             <div
               key={item.productId}
-              className="flex flex-col sm:flex-row gap-6 p-6 border border-slate-100 bg-white shadow-sm hover:shadow-md transition-all rounded-xl"
+              className="flex flex-col sm:flex-row gap-6 p-6 border border-slate-100 bg-white shadow-sm hover:shadow-md transition-all rounded"
             >
-              <Link to={`/product/${item.productId}`} className="w-32 aspect-[4/5] bg-slate-100 overflow-hidden shrink-0 rounded-lg">
+              <Link to={`/product/${item.productId}`} className="w-32 aspect-[4/5] bg-slate-100 overflow-hidden shrink-0 rounded-sm">
                 {item.image ? (
                   <img
                     src={item.image}
@@ -191,10 +191,10 @@ const Cart: React.FC = () => {
                 </div>
 
                 <div className="flex items-center justify-between mt-6">
-                  <div className="flex items-center border border-slate-200 rounded-lg">
+                  <div className="flex items-center border border-slate-200 rounded-sm">
                     <button
                       onClick={() => updateGuestCartQuantity(item.productId, item.quantity - 1)}
-                      className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-l-lg"
+                      className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-l-sm"
                       disabled={item.quantity <= 1}
                     >
                       <Minus size={14} />
@@ -202,7 +202,7 @@ const Cart: React.FC = () => {
                     <span className="px-4 text-sm font-bold min-w-[40px] text-center">{item.quantity}</span>
                     <button
                       onClick={() => updateGuestCartQuantity(item.productId, item.quantity + 1)}
-                      className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-r-lg"
+                      className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-r-sm"
                       disabled={item.stock !== undefined && item.quantity >= item.stock}
                     >
                       <Plus size={14} />
@@ -233,9 +233,9 @@ const Cart: React.FC = () => {
             return (
               <div
                 key={item._id}
-                className="flex flex-col sm:flex-row gap-6 p-6 border border-slate-100 bg-white shadow-sm hover:shadow-md transition-all rounded-xl"
+                className="flex flex-col sm:flex-row gap-6 p-6 border border-slate-100 bg-white shadow-sm hover:shadow-md transition-all rounded"
               >
-                <Link to={`/product/${productId}`} className="w-32 aspect-[4/5] bg-slate-100 overflow-hidden shrink-0 rounded-lg">
+                <Link to={`/product/${productId}`} className="w-32 aspect-[4/5] bg-slate-100 overflow-hidden shrink-0 rounded-sm">
                   <img
                     src={productImage}
                     alt={productName}
@@ -272,10 +272,10 @@ const Cart: React.FC = () => {
                   </div>
 
                   <div className="flex items-center justify-between mt-6">
-                    <div className="flex items-center border border-slate-200 rounded-lg">
+                    <div className="flex items-center border border-slate-200 rounded-sm">
                       <button
                         onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
-                        className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-l-lg"
+                        className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-l-sm"
                         disabled={item.quantity <= 1}
                       >
                         <Minus size={14} />
@@ -283,7 +283,7 @@ const Cart: React.FC = () => {
                       <span className="px-4 text-sm font-bold min-w-[40px] text-center">{item.quantity}</span>
                       <button
                         onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
-                        className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-r-lg"
+                        className="p-2 hover:bg-slate-50 disabled:opacity-30 rounded-r-sm"
                         disabled={item.quantity >= productStock}
                       >
                         <Plus size={14} />
@@ -305,7 +305,7 @@ const Cart: React.FC = () => {
 
         {/* Order Summary */}
         <div className="space-y-6">
-          <div className="bg-white border border-slate-100 p-8 shadow-sm rounded-xl sticky top-28">
+          <div className="bg-white border border-slate-100 p-8 shadow-sm rounded sticky top-28">
             <h2 className="text-xl font-display font-bold mb-6 pb-4 border-b border-slate-100">
               Order Summary
             </h2>
@@ -343,7 +343,7 @@ const Cart: React.FC = () => {
 
             <button
               onClick={handleCheckout}
-              className="w-full bg-gradient-to-r from-[#C9A84C] to-[#E8C97A] text-white py-5 font-bold uppercase tracking-widest hover:shadow-xl transition-all rounded-xl flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-[#C9A84C] to-[#E8C97A] text-white py-5 font-bold uppercase tracking-widest hover:shadow-xl transition-all rounded flex items-center justify-center gap-2"
             >
               {!isAuthenticated ? <><LogIn size={18} /> Login to Checkout</> : 'Proceed to Checkout'}
             </button>
@@ -366,7 +366,7 @@ const Cart: React.FC = () => {
 
           {/* Coupon — only for logged in users */}
           {isAuthenticated && (
-            <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/20 p-6 rounded-xl">
+            <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/20 p-6 rounded">
               <h3 className="text-sm font-bold text-[#0D0B0A] uppercase tracking-widest mb-3">Apply Coupon</h3>
               <div className="flex flex-col gap-3">
                 <div className="flex gap-2">
@@ -375,13 +375,13 @@ const Cart: React.FC = () => {
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                     placeholder="Enter code"
-                    className="flex-1 px-4 py-3 text-sm border border-slate-200 rounded-xl outline-none focus:border-[#C9A84C] transition-all"
+                    className="flex-1 px-4 py-3 text-sm border border-slate-200 rounded-sm outline-none focus:border-[#C9A84C] transition-all"
                     disabled={applyingCoupon}
                   />
                   <button
                     onClick={handleApplyCoupon}
                     disabled={applyingCoupon}
-                    className="bg-[#0D0B0A] text-white px-6 py-3 text-xs font-bold uppercase rounded-xl hover:bg-[#C9A84C] transition-all disabled:opacity-50 min-w-[100px]"
+                    className="bg-[#0D0B0A] text-white px-6 py-3 text-xs font-bold uppercase rounded-sm hover:bg-[#C9A84C] transition-all disabled:opacity-50 min-w-[100px]"
                   >
                     {applyingCoupon ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div> : 'Apply'}
                   </button>

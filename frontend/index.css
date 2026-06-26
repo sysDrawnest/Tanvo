@@ -37,40 +37,40 @@ body {
 @layer components {
   /* Buttons */
   .btn-primary {
-    @apply bg-gradient-to-r from-[#780000] to-[#C1121F] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest
+    @apply bg-gradient-to-r from-[#780000] to-[#C1121F] text-white px-8 py-4 rounded font-bold uppercase tracking-widest
            hover:shadow-glow hover:scale-105 transition-all duration-300 
            focus:outline-none focus:ring-2 focus:ring-[#C1121F]/50 focus:ring-offset-2
            active:scale-95 text-xs;
   }
 
   .btn-secondary {
-    @apply border-2 border-[#780000] text-[#780000] px-8 py-4 rounded-full font-bold uppercase tracking-widest
+    @apply border-2 border-[#780000] text-[#780000] px-8 py-4 rounded font-bold uppercase tracking-widest
            hover:bg-[#780000] hover:text-white transition-all duration-300 
            focus:outline-none focus:ring-2 focus:ring-[#780000]/50 focus:ring-offset-2
            active:scale-95 text-xs;
   }
 
   .btn-accent {
-    @apply bg-[#669BBC] text-[#C1121F] px-8 py-4 rounded-full font-bold uppercase tracking-widest
+    @apply bg-[#669BBC] text-[#C1121F] px-8 py-4 rounded font-bold uppercase tracking-widest
            hover:bg-[#669BBC]/90 hover:shadow-lg transition-all duration-300
            focus:outline-none focus:ring-2 focus:ring-[#669BBC]/50 focus:ring-offset-2 text-xs;
   }
 
   /* Cards */
   .product-card {
-    @apply bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500
+    @apply bg-white rounded shadow-lg hover:shadow-2xl transition-all duration-500
            overflow-hidden hover:-translate-y-2 border border-gray-100;
   }
 
   .category-card {
-    @apply bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 text-center
+    @apply bg-gradient-to-br from-white to-gray-50 rounded-md p-8 text-center
            shadow-lg hover:shadow-2xl transition-all duration-500
            hover:scale-105 border border-gray-200;
   }
 
   /* Inputs */
   .input-field {
-    @apply w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50
+    @apply w-full px-4 py-3 border border-gray-200 rounded bg-gray-50
            focus:outline-none focus:ring-2 focus:ring-[#C1121F]/30 focus:border-[#C1121F] focus:bg-white
            transition-all duration-200 placeholder-gray-400;
   }
@@ -78,13 +78,13 @@ body {
   /* Badges */
   .badge-new {
     @apply absolute top-4 left-4 bg-[#669BBC] text-[#C1121F] px-3 py-1.5 
-           rounded-full text-[10px] font-black uppercase tracking-widest z-10
+           rounded-sm text-[10px] font-black uppercase tracking-widest z-10
            animate-pulse-gentle shadow-lg;
   }
 
   .badge-sale {
     @apply absolute top-4 right-4 bg-gradient-to-r from-[#780000] to-[#C1121F] text-white px-3 py-1.5 
-           rounded-full text-[10px] font-black uppercase tracking-widest z-10 shadow-lg;
+           rounded-sm text-[10px] font-black uppercase tracking-widest z-10 shadow-lg;
   }
 
   /* Layout */
@@ -164,10 +164,10 @@ body {
   }
 
   .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-  .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 2px; }
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: linear-gradient(to bottom, #C1121F, #780000);
-    border-radius: 10px;
+    border-radius: 2px;
   }
 
   .glass-morphism {

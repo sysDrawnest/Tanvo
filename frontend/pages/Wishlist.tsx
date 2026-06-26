@@ -74,7 +74,7 @@ const Wishlist: React.FC = () => {
 
       // Show success message
       const toast = document.createElement('div');
-      toast.className = 'fixed top-24 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slideIn';
+      toast.className = 'fixed top-24 right-4 bg-green-500 text-white px-6 py-3 rounded-sm shadow-lg z-50 animate-slideIn';
       toast.textContent = 'Added to cart successfully!';
       document.body.appendChild(toast);
       setTimeout(() => toast.remove(), 3000);
@@ -100,7 +100,7 @@ const Wishlist: React.FC = () => {
 
       // Show success message
       const toast = document.createElement('div');
-      toast.className = 'fixed top-24 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slideIn';
+      toast.className = 'fixed top-24 right-4 bg-green-500 text-white px-6 py-3 rounded-sm shadow-lg z-50 animate-slideIn';
       toast.textContent = `Added ${inStockProducts.length} items to cart!`;
       document.body.appendChild(toast);
       setTimeout(() => toast.remove(), 3000);
@@ -141,7 +141,7 @@ const Wishlist: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gradient-to-r from-[#B43F3F]/5 to-[#FF8225]/5 border border-[#B43F3F]/20 rounded-xl"
+            className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gradient-to-r from-[#B43F3F]/5 to-[#FF8225]/5 border border-[#B43F3F]/20 rounded"
           >
             <div className="flex items-center gap-3">
               <Heart className="w-5 h-5 text-[#B43F3F] shrink-0" />
@@ -151,7 +151,7 @@ const Wishlist: React.FC = () => {
             </div>
             <Link
               to="/auth?redirect=/wishlist"
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-lg hover:bg-[#FF8225] transition-all whitespace-nowrap shrink-0"
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#B43F3F] text-[#F8EDED] text-sm font-medium rounded-sm hover:bg-[#FF8225] transition-all whitespace-nowrap shrink-0"
             >
               <LogIn size={16} />
               Login to Save
@@ -180,7 +180,7 @@ const Wishlist: React.FC = () => {
             {products.length > 0 && (
               <button
                 onClick={handleAddAllToCart}
-                className="px-6 py-3 bg-black text-white text-xs font-black uppercase tracking-widest hover:bg-[#C9A84C] transition-colors rounded-full"
+                className="px-6 py-3 bg-black text-white text-xs font-black uppercase tracking-widest hover:bg-[#C9A84C] transition-colors rounded-sm"
               >
                 Add All to Cart
               </button>
@@ -214,12 +214,12 @@ const Wishlist: React.FC = () => {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                       {product.isBestSeller && (
-                        <span className="absolute top-3 left-3 px-2 py-1 bg-gradient-to-r from-[#C9A84C] to-[#E8C97A] text-white text-[10px] font-bold rounded-full">
+                        <span className="absolute top-3 left-3 px-2 py-1 bg-gradient-to-r from-[#C9A84C] to-[#E8C97A] text-white text-[10px] font-bold rounded-sm">
                           Best Seller
                         </span>
                       )}
                       {product.stock <= 0 && (
-                        <span className="absolute top-3 right-3 px-2 py-1 bg-black/80 text-white text-[10px] font-bold rounded-full">
+                        <span className="absolute top-3 right-3 px-2 py-1 bg-black/80 text-white text-[10px] font-bold rounded-sm">
                           Out of Stock
                         </span>
                       )}
@@ -284,7 +284,7 @@ const Wishlist: React.FC = () => {
 
                     <button
                       onClick={() => handleRemoveFromWishlist(product._id)}
-                      className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                      className="w-12 h-12 bg-gray-100 rounded-sm flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
                       title="Remove from Wishlist"
                     >
                       <Trash2 size={16} />
@@ -302,7 +302,7 @@ const Wishlist: React.FC = () => {
               className="py-32 text-center"
             >
               <div className="mb-10 flex justify-center">
-                <div className="p-12 bg-gray-50 rounded-full relative">
+                <div className="p-12 bg-gray-50 rounded-sm relative">
                   <Heart size={64} className="text-slate-200" strokeWidth={1} />
                   <div className="absolute inset-0 flex items-center justify-center animate-pulse">
                     <Heart size={32} className="text-[#C9A84C]/20" strokeWidth={1} />
@@ -329,7 +329,7 @@ const Wishlist: React.FC = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mt-32 p-12 bg-gray-50 rounded-[3rem] text-center"
+            className="mt-32 p-12 bg-gray-50 rounded text-center"
           >
             <p className="text-xs font-black uppercase tracking-[0.4em] text-[#C9A84C] mb-4">Pro Tip</p>
             <h3 className="text-3xl font-display font-bold mb-6 italic">"A handloom saree is an investment in art."</h3>

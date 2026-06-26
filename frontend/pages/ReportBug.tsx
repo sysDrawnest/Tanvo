@@ -67,10 +67,10 @@ const ReportBug: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-8 rounded-2xl shadow-xl border border-[#c9a84c]/20"
+          className="bg-white p-8 rounded shadow-xl border border-[#c9a84c]/20"
         >
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-red-50 rounded flex items-center justify-center">
               <Bug className="w-6 h-6 text-red-600" />
             </div>
             <div>
@@ -86,7 +86,7 @@ const ReportBug: React.FC = () => {
               <p className="text-[#666] mb-8">Your report has been received. Our technical team will investigate it.</p>
               <button 
                 onClick={() => setIsSuccess(false)}
-                className="btn-gold"
+                className="btn-gold rounded-sm"
               >
                 Report Another Issue
               </button>
@@ -100,7 +100,7 @@ const ReportBug: React.FC = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={5}
-                  className="w-full p-4 border border-[#eee] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c9a84c] transition-all"
+                  className="w-full p-4 border border-[#eee] rounded focus:outline-none focus:ring-2 focus:ring-[#c9a84c] transition-all text-sm"
                   placeholder="Describe the issue in detail..."
                 />
               </div>
@@ -109,7 +109,7 @@ const ReportBug: React.FC = () => {
                 <label className="block text-sm font-medium text-[#1a362d]">Screenshot (Optional)</label>
                 
                 {screenshot ? (
-                  <div className="relative group rounded-xl overflow-hidden border border-[#eee]">
+                  <div className="relative group rounded overflow-hidden border border-[#eee]">
                     <img src={screenshot} alt="Preview" className="w-full h-auto max-h-64 object-cover" />
                     <button 
                       type="button"
@@ -125,7 +125,7 @@ const ReportBug: React.FC = () => {
                       type="button"
                       onClick={captureScreen}
                       disabled={isCapturing}
-                      className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#eee] rounded-xl hover:border-[#c9a84c] hover:bg-[#c9a84c]/5 transition-all group"
+                      className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#eee] rounded hover:border-[#c9a84c] hover:bg-[#c9a84c]/5 transition-all group"
                     >
                       {isCapturing ? (
                         <Loader2 className="w-6 h-6 animate-spin text-[#c9a84c]" />
@@ -138,7 +138,7 @@ const ReportBug: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
-                      className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#eee] rounded-xl hover:border-[#c9a84c] hover:bg-[#c9a84c]/5 transition-all group"
+                      className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#eee] rounded hover:border-[#c9a84c] hover:bg-[#c9a84c]/5 transition-all group"
                     >
                       <Upload className="w-6 h-6 text-[#999] group-hover:text-[#c9a84c]" />
                       <span className="text-xs mt-2 text-[#999] group-hover:text-[#c9a84c]">Upload Image</span>
@@ -154,7 +154,7 @@ const ReportBug: React.FC = () => {
                 />
               </div>
 
-              <div className="bg-blue-50 p-4 rounded-xl flex gap-3 items-start">
+              <div className="bg-blue-50 p-4 rounded flex gap-3 items-start">
                 <AlertCircle className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                 <div className="text-xs text-blue-700">
                   <p className="font-bold mb-1">Context Captured</p>
@@ -168,7 +168,7 @@ const ReportBug: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 bg-[#1a362d] text-white rounded-xl font-bold hover:bg-[#254d40] transition-all disabled:opacity-50 flex items-center justify-center"
+                className="w-full py-4 bg-[#1a362d] text-white rounded-sm font-bold hover:bg-[#254d40] transition-all disabled:opacity-50 flex items-center justify-center"
               >
                 {isLoading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                 Submit Report

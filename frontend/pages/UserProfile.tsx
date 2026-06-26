@@ -337,7 +337,7 @@ const UserProfile: React.FC = () => {
           className="bg-white rounded-none border border-[#173B45]/10 overflow-hidden mb-12 p-6 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6"
         >
           <div className="flex items-center gap-6">
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#F8EDED] border border-[#173B45]/10 flex items-center justify-center overflow-hidden relative group flex-shrink-0">
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded bg-[#F8EDED] border border-[#173B45]/10 flex items-center justify-center overflow-hidden relative group flex-shrink-0">
               {profileImage ? (
                 <img src={profileImage} alt={user?.name} className="w-full h-full object-cover" />
               ) : (

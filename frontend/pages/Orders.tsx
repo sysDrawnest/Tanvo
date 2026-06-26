@@ -176,7 +176,7 @@ const Orders: React.FC = () => {
             </h1>
           </div>
           <div className="flex items-center gap-3">
-            <div className="px-4 py-2 bg-white rounded-xl border border-[#B43F3F]/10">
+            <div className="px-4 py-2 bg-white rounded border border-[#B43F3F]/10">
               <p className="text-sm text-[#173B45]">
                 <span className="font-medium text-[#B43F3F]">{totalOrders}</span> total orders
               </p>
@@ -190,7 +190,7 @@ const Orders: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setFilter(tab.id as any)}
-              className={`px-5 py-2.5 rounded-xl font-medium text-xs uppercase tracking-wider transition-all whitespace-nowrap flex items-center gap-2 ${filter === tab.id
+              className={`px-5 py-2.5 rounded-sm font-medium text-xs uppercase tracking-wider transition-all whitespace-nowrap flex items-center gap-2 ${filter === tab.id
                 ? 'bg-[#B43F3F] text-[#F8EDED] shadow-md'
                 : 'bg-white text-[#173B45] hover:bg-[#F8EDED] border border-[#B43F3F]/10'
                 }`}
@@ -214,12 +214,12 @@ const Orders: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-md border border-[#B43F3F]/10 hover:shadow-lg transition-all"
+                className="bg-white rounded p-4 md:p-6 shadow-md border border-[#B43F3F]/10 hover:shadow-lg transition-all"
               >
                 {/* Mobile View */}
                 <div className="block md:hidden">
                   <div className="flex items-start gap-3 mb-3">
-                    <div className="w-16 h-20 bg-[#F8EDED] rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="w-16 h-20 bg-[#F8EDED] rounded-sm overflow-hidden flex-shrink-0">
                       <img
                         src={order.orderItems[0]?.product?.images[0]?.url || 'https://via.placeholder.com/200'}
                         className="w-full h-full object-cover"
@@ -247,7 +247,7 @@ const Orders: React.FC = () => {
                   <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#B43F3F]/10">
                     <Link
                       to={`/orders/${order._id}`}
-                      className="flex-1 py-2.5 bg-[#B43F3F] text-[#F8EDED] rounded-lg text-xs font-medium text-center hover:bg-[#FF8225] transition-colors"
+                      className="flex-1 py-2.5 bg-[#B43F3F] text-[#F8EDED] rounded-sm text-xs font-medium text-center hover:bg-[#FF8225] transition-colors"
                     >
                       View Details
                     </Link>
@@ -256,7 +256,7 @@ const Orders: React.FC = () => {
                         href={`https://track.shiprocket.in/${order.trackingNumber}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 py-2.5 bg-white border border-[#B43F3F]/20 text-[#173B45] rounded-lg text-xs font-medium text-center hover:border-[#FF8225] hover:text-[#FF8225] transition-all"
+                        className="flex-1 py-2.5 bg-white border border-[#B43F3F]/20 text-[#173B45] rounded-sm text-xs font-medium text-center hover:border-[#FF8225] hover:text-[#FF8225] transition-all"
                       >
                         Track
                       </a>
@@ -267,7 +267,7 @@ const Orders: React.FC = () => {
                 {/* Desktop View */}
                 <div className="hidden md:flex gap-6">
                   {/* Product Image */}
-                  <div className="w-24 h-32 bg-[#F8EDED] rounded-xl overflow-hidden flex-shrink-0 border border-[#B43F3F]/10">
+                  <div className="w-24 h-32 bg-[#F8EDED] rounded overflow-hidden flex-shrink-0 border border-[#B43F3F]/10">
                     <img
                       src={order.orderItems[0]?.product?.images[0]?.url || 'https://via.placeholder.com/200'}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
@@ -320,7 +320,7 @@ const Orders: React.FC = () => {
                     {/* Product Preview */}
                     <div className="flex items-center gap-2 mb-3">
                       {order.orderItems.slice(0, 3).map((item, i) => (
-                        <div key={i} className="flex items-center gap-2 bg-[#F8EDED] p-1.5 rounded-lg">
+                        <div key={i} className="flex items-center gap-2 bg-[#F8EDED] p-1.5 rounded-sm">
                           <img
                             src={item.product?.images[0]?.url || ''}
                             alt={item.product?.name}
@@ -343,7 +343,7 @@ const Orders: React.FC = () => {
                     <div className="flex gap-3">
                       <Link
                         to={`/orders/${order._id}`}
-                        className="px-5 py-2 bg-[#B43F3F] text-[#F8EDED] rounded-lg text-xs font-medium hover:bg-[#FF8225] transition-colors"
+                        className="px-5 py-2 bg-[#B43F3F] text-[#F8EDED] rounded-sm text-xs font-medium hover:bg-[#FF8225] transition-colors"
                       >
                         View Details
                       </Link>
@@ -352,13 +352,13 @@ const Orders: React.FC = () => {
                           href={`https://track.shiprocket.in/${order.trackingNumber}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-5 py-2 bg-white border border-[#B43F3F]/20 text-[#173B45] rounded-lg text-xs font-medium hover:border-[#FF8225] hover:text-[#FF8225] transition-all flex items-center gap-2"
+                          className="px-5 py-2 bg-white border border-[#B43F3F]/20 text-[#173B45] rounded-sm text-xs font-medium hover:border-[#FF8225] hover:text-[#FF8225] transition-all flex items-center gap-2"
                         >
                           <Truck size={14} /> Track Order
                         </a>
                       )}
                       {order.orderStatus === 'Delivered' && (
-                        <button className="px-5 py-2 bg-white border border-[#B43F3F]/20 text-[#173B45] rounded-lg text-xs font-medium hover:border-[#FF8225] hover:text-[#FF8225] transition-all flex items-center gap-2">
+                        <button className="px-5 py-2 bg-white border border-[#B43F3F]/20 text-[#173B45] rounded-sm text-xs font-medium hover:border-[#FF8225] hover:text-[#FF8225] transition-all flex items-center gap-2">
                           <Package size={14} /> Write Review
                         </button>
                       )}
@@ -372,7 +372,7 @@ const Orders: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-xl md:rounded-2xl p-8 md:p-16 text-center shadow-md border border-[#B43F3F]/10"
+              className="bg-white rounded p-8 md:p-16 text-center shadow-md border border-[#B43F3F]/10"
             >
               <div className="w-16 h-16 md:w-20 md:h-20 bg-[#F8EDED] rounded-full flex items-center justify-center mx-auto mb-4">
                 <Package size={32} className="md:size-40 text-[#B43F3F]/30" />
@@ -385,7 +385,7 @@ const Orders: React.FC = () => {
               </p>
               <Link
                 to="/shop"
-                className="inline-block px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-lg font-medium text-sm hover:bg-[#FF8225] transition-colors"
+                className="inline-block px-6 py-3 bg-[#B43F3F] text-[#F8EDED] rounded-sm font-medium text-sm hover:bg-[#FF8225] transition-colors"
               >
                 Browse Collection
               </Link>
@@ -399,7 +399,7 @@ const Orders: React.FC = () => {
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-4 py-2 bg-white border border-[#B43F3F]/10 rounded-lg disabled:opacity-50 hover:border-[#FF8225] transition-all text-sm text-[#173B45]"
+              className="px-4 py-2 bg-white border border-[#B43F3F]/10 rounded-sm disabled:opacity-50 hover:border-[#FF8225] transition-all text-sm text-[#173B45]"
             >
               Previous
             </button>
@@ -411,7 +411,7 @@ const Orders: React.FC = () => {
                   <button
                     key={i}
                     onClick={() => setPage(pageNum)}
-                    className={`w-8 h-8 rounded-lg text-sm font-medium transition-all ${page === pageNum
+                    className={`w-8 h-8 rounded-sm text-sm font-medium transition-all ${page === pageNum
                       ? 'bg-[#B43F3F] text-[#F8EDED]'
                       : 'bg-white border border-[#B43F3F]/10 text-[#173B45] hover:border-[#FF8225]'
                       }`}
@@ -424,7 +424,7 @@ const Orders: React.FC = () => {
             <button
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="px-4 py-2 bg-white border border-[#B43F3F]/10 rounded-lg disabled:opacity-50 hover:border-[#FF8225] transition-all text-sm text-[#173B45]"
+              className="px-4 py-2 bg-white border border-[#B43F3F]/10 rounded-sm disabled:opacity-50 hover:border-[#FF8225] transition-all text-sm text-[#173B45]"
             >
               Next
             </button>
@@ -436,7 +436,7 @@ const Orders: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-12 md:mt-16 bg-gradient-to-r from-[#173B45] to-[#0f2a33] rounded-xl md:rounded-2xl p-6 md:p-8 text-center"
+          className="mt-12 md:mt-16 bg-gradient-to-r from-[#173B45] to-[#0f2a33] rounded p-6 md:p-8 text-center"
         >
           <h3 className="text-lg md:text-xl font-display font-medium text-[#F8EDED] mb-2">Need help with an order?</h3>
           <p className="text-sm text-[#F8EDED]/70 mb-4 max-w-lg mx-auto">
@@ -444,7 +444,7 @@ const Orders: React.FC = () => {
           </p>
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF8225] text-[#F8EDED] rounded-lg font-medium text-sm hover:bg-[#B43F3F] transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF8225] text-[#F8EDED] rounded-sm font-medium text-sm hover:bg-[#B43F3F] transition-colors"
           >
             Contact Support <ChevronRight size={14} />
           </Link>
