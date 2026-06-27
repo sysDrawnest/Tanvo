@@ -615,28 +615,28 @@
 // ];
 export const HERO_SLIDES = [
   {
-    desktop: '/luxury_saree_macro.png',
-    mobile: '/luxury_saree_macro.png',
+    desktop: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_1920/v1782527432/tanvo/hero/luxury_saree_macro.jpg',
+    mobile: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_900/v1782527432/tanvo/hero/luxury_saree_macro.jpg',
     position: 'center',
   },
   {
-    desktop: '/hero section image/A_cinematic_luxury_202604051034.png',
-    mobile: '/hero section image/Whisk_ec4d14e37ea16d380e848126b16a158ddr.png',
+    desktop: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_1920/v1782527460/tanvo/hero/A_cinematic_luxury_202604051034.jpg',
+    mobile: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_900/v1782527486/tanvo/hero/Whisk_ec4d14e37ea16d380e848126b16a158ddr.png',
     position: 'top center',
   },
   {
-    desktop: '/hero section image/tanvo-royal-heritage-palace.jpeg',
-    mobile: '/hero section image/tanvo-royal-heritage-palace_mobile.jpeg',
+    desktop: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_1920/v1782527530/tanvo/hero/tanvo-royal-heritage-palace.jpg',
+    mobile: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_900/v1782527565/tanvo/hero/tanvo-royal-heritage-palace_mobile.jpg',
     position: 'top center',
   },
   {
-    desktop: '/hero section image/tanvo-silk-duet-editorial.jpeg',
-    mobile: '/hero section image/tanvo-silk-duet-editorial_mobile.jpeg',
+    desktop: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_1920/v1782527608/tanvo/hero/tanvo-silk-duet-editorial.jpg',
+    mobile: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_900/v1782527643/tanvo/hero/tanvo-silk-duet-editorial_mobile.jpg',
     position: 'top center',
   },
   {
-    desktop: '/hero section image/tanvo-couture-heritage-duo.jpeg',
-    mobile: '/hero section image/tanvo-heritage-lake-elegance_mobile.jpeg',
+    desktop: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_1920/v1782527677/tanvo/hero/tanvo-couture-heritage-duo.jpg',
+    mobile: 'https://res.cloudinary.com/dge8tpbzj/image/upload/q_auto,f_auto,w_900/v1782527725/tanvo/hero/tanvo-heritage-lake-elegance_mobile.jpg',
     position: 'top center',
   }
 ];
