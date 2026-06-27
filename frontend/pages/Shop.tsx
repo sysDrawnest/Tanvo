@@ -649,7 +649,7 @@ const Shop: React.FC = () => {
       <div className="shop-page">
         {/* ── HERO ── */}
         <div className="shop-hero">
-          <img src="/shop_hero.png" alt="Artisanal handloom heritage" />
+          <img src="/shop_hero.jpeg" alt="Artisanal handloom heritage" />
           <div className="shop-hero-overlay" />
           <div className="shop-hero-text">
             <p className="shop-hero-eyebrow">The Archive</p>
