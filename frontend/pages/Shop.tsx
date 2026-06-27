@@ -177,7 +177,7 @@ const Shop: React.FC = () => {
         .shop-hero {
           position: relative;
           width: 100%;
-          height: clamp(320px, 45vw, 580px);
+          height: clamp(320px, 45vw, 680px);
           overflow: hidden;
         }
         .shop-hero img {
