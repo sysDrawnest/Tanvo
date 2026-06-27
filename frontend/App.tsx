@@ -188,7 +188,7 @@ const AppContent: React.FC = () => {
           alignItems: 'flex-end',
           gap: '6px'
         }}>
-          <p style={{
+          <p className="hidden md:block" style={{
             fontSize: '10px',
             color: '#1A6634',
             fontFamily: "'Raleway', sans-serif",
@@ -198,7 +198,7 @@ const AppContent: React.FC = () => {
           }}>
             Personal assistance
           </p>
-          <WhatsAppConcierge size="md" label="Order via WhatsApp" />
+          <WhatsAppConcierge size="md" label="Order via WhatsApp" iconOnlyOnMobile={true} className="shadow-lg shadow-[#1A6634]/20" />
         </div>
       )}
     </div>
