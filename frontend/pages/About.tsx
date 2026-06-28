@@ -299,7 +299,7 @@ const About: React.FC = () => {
               <div className="absolute -inset-2 bg-gradient-to-r from-[#B43F3F] to-[#FF8225] rounded blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
               <div className="relative aspect-[4/5] rounded overflow-hidden shadow-lg">
                 <img
-                  src="/Master-weaver.jpeg"
+                  src="/About Master Weaver.jpeg"
                   alt="Master weaver at work"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
