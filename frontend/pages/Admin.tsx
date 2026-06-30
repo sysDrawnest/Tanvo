@@ -12,7 +12,9 @@ import {
   X,
   Home,
   Receipt,
-  MessageCircle
+  MessageCircle,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 import { Navigate, Link, Outlet, useLocation } from "react-router-dom";
@@ -21,7 +23,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Admin: React.FC = () => {
   const { isAdmin, logout, user } = useStore();
   const location = useLocation();
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('admin-theme') === 'dark';
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(prev => {
+      const next = !prev;
+      localStorage.setItem('admin-theme', next ? 'dark' : 'light');
+      return next;
+    });
+  };
 
   // Redirect if not admin
   if (!isAdmin) return <Navigate to="/" />;
@@ -45,7 +58,7 @@ const Admin: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-[#F8EDED]">
+    <div className={`flex flex-col lg:flex-row min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark-theme bg-[#0b0f19]' : 'bg-[#F8EDED]'}`}>
       {/* Textile overlay */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -58,12 +71,22 @@ const Admin: React.FC = () => {
       {/* Sidebar - Desktop */}
       <aside className="hidden lg:flex flex-col w-72 bg-white border-r border-[#B43F3F]/10 sticky top-0 h-screen overflow-y-auto">
         <div className="p-8 pb-4">
-          <Link to="/" className="flex items-center gap-2 mb-8">
-            <span className="text-2xl font-display font-medium text-[#173B45]">
-              Tan<span className="text-[#B43F3F]">vo</span>
-            </span>
-            <span className="text-[10px] bg-[#FF8225]/10 text-[#FF8225] font-medium px-2 py-0.5 rounded-sm border border-[#FF8225]/20 uppercase">Admin</span>
-          </Link>
+          <div className="flex items-center justify-between mb-8">
+            <Link to="/" className="flex items-center gap-2">
+              <span className="text-2xl font-display font-medium text-[#173B45]">
+                Tan<span className="text-[#B43F3F]">vo</span>
+              </span>
+              <span className="text-[10px] bg-[#FF8225]/10 text-[#FF8225] font-medium px-2 py-0.5 rounded-sm border border-[#FF8225]/20 uppercase">Admin</span>
+            </Link>
+            
+            <button 
+              onClick={toggleDarkMode}
+              className="p-2 rounded-full hover:bg-[#F8EDED] text-[#173B45] transition-colors"
+              title={isDarkMode ? "Switch to Light Mode" : "Switch to Night Mode"}
+            >
+              {isDarkMode ? <Sun size={18} className="text-[#FF8225]" /> : <Moon size={18} />}
+            </button>
+          </div>
 
           <div className="flex items-center gap-3 p-4 bg-[#F8EDED] rounded mb-6 border border-[#B43F3F]/10">
             <div className="w-10 h-10 bg-[#B43F3F] text-[#F8EDED] rounded-full flex items-center justify-center font-medium">
@@ -131,6 +154,13 @@ const Admin: React.FC = () => {
           </Link>
         </div>
         <div className="flex items-center gap-2">
+          <button 
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full hover:bg-[#F8EDED] text-[#173B45] transition-colors"
+            title={isDarkMode ? "Switch to Light Mode" : "Switch to Night Mode"}
+          >
+            {isDarkMode ? <Sun size={18} className="text-[#FF8225]" /> : <Moon size={18} />}
+          </button>
           <span className="text-[10px] bg-[#FF8225]/10 text-[#FF8225] font-medium px-2 py-1 rounded-sm border border-[#FF8225]/20">
             Admin
           </span>

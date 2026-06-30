@@ -185,3 +185,94 @@ body {
     scrollbar-width: none;
   }
 }
+
+/* Night Mode / Dark Theme Overrides for Admin Panel */
+.dark-theme {
+  background-color: #0b0f19 !important;
+  color: #f1f5f9 !important;
+  --bg-main: #0b0f19;
+  --bg-card: #111827;
+  --bg-input: #1f2937;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .bg-white,
+.dark-theme aside,
+.dark-theme header,
+.dark-theme .bg-white\/95 {
+  background-color: #111827 !important;
+  color: #f1f5f9 !important;
+}
+
+.dark-theme .bg-\[\#F8EDED\],
+.dark-theme .bg-gray-50,
+.dark-theme .bg-gray-100,
+.dark-theme tr.hover\:bg-gray-50:hover,
+.dark-theme .hover\:bg-gray-50:hover {
+  background-color: #1f2937 !important;
+}
+
+.dark-theme .text-\[\#173B45\],
+.dark-theme .text-gray-800,
+.dark-theme .text-gray-900,
+.dark-theme th,
+.dark-theme td,
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme h4,
+.dark-theme label {
+  color: #f1f5f9 !important;
+}
+
+.dark-theme .text-\[\#173B45\]\/60,
+.dark-theme .text-gray-600,
+.dark-theme .text-gray-500,
+.dark-theme .text-gray-400 {
+  color: #94a3b8 !important;
+}
+
+.dark-theme .border,
+.dark-theme .border-t,
+.dark-theme .border-b,
+.dark-theme .border-r,
+.dark-theme .border-l,
+.dark-theme .border-gray-200,
+.dark-theme .border-\[\#B43F3F\]\/10 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea {
+  background-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.dark-theme input:focus,
+.dark-theme select:focus,
+.dark-theme textarea:focus {
+  border-color: #B43F3F !important;
+  outline: none;
+}
+
+/* Modals and Overlays in dark mode */
+.dark-theme .bg-black\/50 {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+/* Specific elements like tags */
+.dark-theme .bg-gray-100 {
+  background-color: #374151 !important;
+  color: #e5e7eb !important;
+}
+
+.dark-theme .bg-blue-50,
+.dark-theme .bg-green-50,
+.dark-theme .bg-red-50 {
+  background-color: #1f2937 !important;
+}
+
