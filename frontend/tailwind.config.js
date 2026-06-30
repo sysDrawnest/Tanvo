@@ -61,25 +61,6 @@ export default {
         "on-tertiary-fixed-variant": "#474746",
         "on-secondary-fixed": "#261900",
         "tertiary": "#504f4f",
-        "tanvo-raw-cotton": "#F9F5EE",
-        "tanvo-madder-red": "#780000",
-        "tanvo-charcoal": "#0D0B0A"
-      },
-      spacing: {
-        "section-gap": "120px",
-        "margin-edge": "48px",
-        "container-max": "1440px",
-        "gutter": "32px",
-        "unit": "10px"
-      },
-      fontSize: {
-        "body-lg": ["18px", {"lineHeight": "160%", "letterSpacing": "0.01em", "fontWeight": "400"}],
-        "headline-md": ["32px", {"lineHeight": "130%", "letterSpacing": "0em", "fontWeight": "700"}],
-        "headline-lg": ["48px", {"lineHeight": "120%", "letterSpacing": "-0.01em", "fontWeight": "700"}],
-        "label-sm": ["12px", {"lineHeight": "120%", "letterSpacing": "0.2em", "fontWeight": "700"}],
-        "display-xl": ["84px", {"lineHeight": "110%", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-        "body-md": ["16px", {"lineHeight": "165%", "letterSpacing": "0.01em", "fontWeight": "400"}],
-        "display-xl-mobile": ["56px", {"lineHeight": "110%", "letterSpacing": "-0.02em", "fontWeight": "700"}]
       },
       fontFamily: {
         serif: ['Playfair Display', 'serif'],
@@ -87,13 +68,6 @@ export default {
         headline: ['Noto Serif', 'serif'],
         body: ['Inter', 'sans-serif'],
         label: ['Inter', 'sans-serif'],
-        "body-lg": ["Raleway"],
-        "headline-md": ["Playfair Display"],
-        "headline-lg": ["Playfair Display"],
-        "label-sm": ["Inter"],
-        "display-xl": ["Playfair Display"],
-        "body-md": ["Raleway"],
-        "display-xl-mobile": ["Playfair Display"]
       },
     },
   },

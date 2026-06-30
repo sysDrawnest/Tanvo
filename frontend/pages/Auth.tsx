@@ -11,6 +11,7 @@ const Auth: React.FC = () => {
   const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState('');
+  const [authSuccess, setAuthSuccess] = useState('');
   const [merging, setMerging] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const { login, register, mergeGuestData, guestCart, guestWishlist } = useStore();
@@ -28,6 +29,7 @@ const Auth: React.FC = () => {
     if (submitting) return;
     setSubmitting(true);
     setAuthError('');
+    setAuthSuccess('');
 
     try {
       if (isLogin) {
@@ -59,7 +61,9 @@ const Auth: React.FC = () => {
             await mergeGuestData();
             setMerging(false);
           }
-          navigate(redirectPath);
+          setAuthSuccess('Account created successfully. Please login.');
+          setIsLogin(true);
+          setPassword(''); // clear password for security
         } else {
           setAuthError(res.error || 'Registration failed.');
         }
@@ -172,6 +176,12 @@ const Auth: React.FC = () => {
             {authError && (
               <div className="mb-6 p-4 bg-red-50 text-red-700 font-medium text-xs border border-red-200 rounded-sm text-center">
                 {authError}
+              </div>
+            )}
+
+            {authSuccess && (
+              <div className="mb-6 p-4 bg-green-50 text-green-700 font-medium text-xs border border-green-200 rounded-sm text-center">
+                {authSuccess}
               </div>
             )}
 

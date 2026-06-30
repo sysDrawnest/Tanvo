@@ -38,12 +38,10 @@ export const registerUser = async (req, res) => {
       .digest('hex');
     await user.save();
 
-    // Send verification email instead of welcome email directly
-    try {
-      await sendVerificationEmail(user, verificationToken);
-    } catch (err) {
+    // Send verification email instead of welcome email directly (fire and forget to prevent timeouts)
+    sendVerificationEmail(user, verificationToken).catch((err) => {
       console.error('Verification email failed:', err);
-    }
+    });
 
     res.status(201).json({
       _id: user._id,
