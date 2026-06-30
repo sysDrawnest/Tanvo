@@ -50,7 +50,7 @@ const whatsAppOrderSchema = new mongoose.Schema({
     },
     status: {
       type: String,
-      enum: ['Pending', 'Partial', 'Paid'],
+      enum: ['Pending', 'Advance Paid', 'Partially Paid', 'Paid', 'Refunded'],
       default: 'Pending'
     },
     advance: { type: Number, default: 0 },
@@ -75,7 +75,12 @@ const whatsAppOrderSchema = new mongoose.Schema({
     default: 'New Inquiry'
   },
 
-  trackingNumber: { type: String, trim: true },
+  trackingInfo: {
+    courierName: { type: String, trim: true },
+    trackingNumber: { type: String, trim: true },
+    trackingUrl: { type: String, trim: true },
+    shippingDate: { type: Date }
+  },
   notes: { type: String, trim: true },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

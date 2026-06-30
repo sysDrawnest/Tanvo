@@ -199,11 +199,17 @@ const AdminDashboard: React.FC = () => {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
         <StatCard
-          title="Total Revenue"
+          title="Total Business Revenue"
+          value={formatCurrency((stats?.totalRevenue || 0) + (waStats?.totalRevenue || 0))}
+          icon={<DollarSign className="w-5 h-5 md:w-6 md:h-6" />}
+          color="bg-[#173B45]"
+          trend={+12.5}
+        />
+        <StatCard
+          title="Website Sales Revenue"
           value={formatCurrency(stats?.totalRevenue || 0)}
           icon={<DollarSign className="w-5 h-5 md:w-6 md:h-6" />}
           color="bg-[#B43F3F]"
-          trend={+12.5}
         />
         <StatCard
           title="Total Orders"
@@ -267,7 +273,7 @@ const AdminDashboard: React.FC = () => {
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
         <StatCard
-          title="WA Revenue"
+          title="WhatsApp Sales Revenue"
           value={formatCurrency(waStats?.totalRevenue || 0)}
           icon={<DollarSign className="w-5 h-5 md:w-6 md:h-6" />}
           color="bg-[#25D366]"

@@ -82,24 +82,41 @@ export const updateWhatsAppOrder = async (req, res) => {
     const { id } = req.params;
     const updates = req.body;
 
-    // Recalculate remaining if total or advance changed
-    if (updates.totalAmount !== undefined || updates.payment?.advance !== undefined) {
-      const existing = await WhatsAppOrder.findById(id);
-      if (!existing) return res.status(404).json({ success: false, message: 'Order not found' });
+    const order = await WhatsAppOrder.findById(id);
+    if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
 
-      const total = updates.totalAmount ?? existing.totalAmount;
-      const advance = updates.payment?.advance ?? existing.payment?.advance ?? 0;
-      if (!updates.payment) updates.payment = {};
-      updates.payment.remaining = Math.max(0, total - advance);
+    // Handle payment updates carefully to not overwrite screenshot
+    if (updates.payment) {
+      if (updates.payment.method) order.payment.method = updates.payment.method;
+      if (updates.payment.status) order.payment.status = updates.payment.status;
+      if (updates.payment.advance !== undefined) {
+        order.payment.advance = updates.payment.advance;
+      }
     }
 
-    const order = await WhatsAppOrder.findByIdAndUpdate(
-      id,
-      { $set: updates },
-      { new: true, runValidators: true }
-    ).populate('products.productId', 'name images price');
+    // Handle totalAmount
+    if (updates.totalAmount !== undefined) {
+      order.totalAmount = updates.totalAmount;
+    }
 
-    if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
+    // Handle tracking info
+    if (updates.trackingInfo) {
+      order.trackingInfo = {
+        ...order.trackingInfo,
+        ...updates.trackingInfo
+      };
+    }
+
+    // Handle other scalar updates
+    if (updates.status) order.status = updates.status;
+    if (updates.source) order.source = updates.source;
+    if (updates.notes !== undefined) order.notes = updates.notes;
+    if (updates.customer) order.customer = { ...order.customer, ...updates.customer };
+    if (updates.products) order.products = updates.products;
+
+    await order.save(); // This triggers the pre('save') middleware to calc remaining
+
+    await order.populate('products.productId', 'name images price');
 
     res.json({ success: true, order });
   } catch (error) {
