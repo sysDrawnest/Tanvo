@@ -185,3 +185,186 @@ body {
     scrollbar-width: none;
   }
 }
+
+/* ==========================================================================
+   TANVO Admin Dashboard Premium Editorial UI Design System & Dark Theme
+   ========================================================================== */
+
+/* 1. Sharp Corners & Structured Rectangular Layouts */
+.tanvo-admin,
+.tanvo-admin * {
+  border-radius: 0px !important;
+}
+
+/* Retain roundness for specific visual indicators and icons */
+.tanvo-admin .rounded-full,
+.tanvo-admin .rounded-full *,
+.tanvo-admin svg,
+.tanvo-admin circle,
+.tanvo-admin [class*="avatar"] {
+  border-radius: 9999px !important;
+}
+
+/* Allow very small elegant border radius for custom tags/inputs when needed */
+.tanvo-admin .rounded-sm {
+  border-radius: 2px !important;
+}
+.tanvo-admin .rounded-md {
+  border-radius: 4px !important;
+}
+
+/* 2. Premium Theme System Config */
+:root {
+  --admin-bg: #F8EDED;
+  --admin-card: #ffffff;
+  --admin-surface: #F8EDED;
+  --admin-border: rgba(180, 63, 63, 0.15);
+  --admin-text-primary: #173B45;
+  --admin-text-secondary: rgba(23, 59, 69, 0.65);
+  --admin-input-bg: #ffffff;
+  --admin-input-border: rgba(23, 59, 69, 0.2);
+}
+
+.dark {
+  --admin-bg: #111111;
+  --admin-card: #1C1C1C;
+  --admin-surface: #151515;
+  --admin-border: rgba(255, 255, 255, 0.1);
+  --admin-text-primary: #fbf9f4; /* Warm white */
+  --admin-text-secondary: rgba(251, 249, 244, 0.6);
+  --admin-input-bg: #151515;
+  --admin-input-border: rgba(255, 255, 255, 0.15);
+}
+
+/* Apply Dark / Light variables to classes dynamically */
+.tanvo-admin {
+  background-color: var(--admin-bg) !important;
+  color: var(--admin-text-primary) !important;
+}
+
+.tanvo-admin aside,
+.tanvo-admin header,
+.tanvo-admin nav {
+  background-color: var(--admin-card) !important;
+  border-color: var(--admin-border) !important;
+}
+
+/* Card components */
+.tanvo-admin .bg-white {
+  background-color: var(--admin-card) !important;
+  color: var(--admin-text-primary) !important;
+  border-color: var(--admin-border) !important;
+}
+
+.tanvo-admin .bg-gray-50 {
+  background-color: var(--admin-surface) !important;
+  color: var(--admin-text-primary) !important;
+}
+
+.tanvo-admin .bg-\[\#F8EDED\] {
+  background-color: var(--admin-surface) !important;
+}
+
+.tanvo-admin .bg-white\/80 {
+  background-color: var(--admin-card) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Text Colors */
+.tanvo-admin .text-\[\#173B45\] {
+  color: var(--admin-text-primary) !important;
+}
+
+.tanvo-admin .text-\[\#173B45\]\/70,
+.tanvo-admin .text-\[\#173B45\]\/60,
+.tanvo-admin .text-gray-500,
+.tanvo-admin .text-gray-600 {
+  color: var(--admin-text-secondary) !important;
+}
+
+.tanvo-admin .text-gray-800,
+.tanvo-admin .text-gray-900 {
+  color: var(--admin-text-primary) !important;
+}
+
+/* Border overrides */
+.tanvo-admin .border,
+.tanvo-admin .border-b,
+.tanvo-admin .border-t,
+.tanvo-admin .border-r,
+.tanvo-admin .border-l,
+.tanvo-admin .border-gray-100,
+.tanvo-admin .border-gray-200,
+.tanvo-admin .border-\[\#B43F3F\]\/10 {
+  border-color: var(--admin-border) !important;
+}
+
+/* Tables */
+.tanvo-admin table {
+  border-collapse: collapse;
+}
+
+.tanvo-admin table th,
+.tanvo-admin table thead {
+  background-color: var(--admin-surface) !important;
+  color: var(--admin-text-primary) !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+}
+
+.tanvo-admin table tr {
+  border-bottom: 1px solid var(--admin-border) !important;
+}
+
+.tanvo-admin table tr:hover {
+  background-color: var(--admin-surface) !important;
+}
+
+.tanvo-admin table td {
+  color: var(--admin-text-primary) !important;
+}
+
+/* Modals & Dialogs */
+.tanvo-admin .fixed.inset-0 .bg-white,
+.tanvo-admin .fixed.inset-0 [class*="bg-white"] {
+  background-color: var(--admin-card) !important;
+  border: 1px solid var(--admin-border) !important;
+  color: var(--admin-text-primary) !important;
+}
+
+/* Inputs & Forms */
+.tanvo-admin input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),
+.tanvo-admin select,
+.tanvo-admin textarea {
+  background-color: var(--admin-input-bg) !important;
+  color: var(--admin-text-primary) !important;
+  border: 1px solid var(--admin-input-border) !important;
+}
+
+.tanvo-admin input:focus,
+.tanvo-admin select:focus,
+.tanvo-admin textarea:focus {
+  border-color: #B43F3F !important;
+  outline: none !important;
+}
+
+.tanvo-admin label {
+  color: var(--admin-text-secondary) !important;
+}
+
+/* Dropdowns & Selects options */
+.tanvo-admin select option {
+  background-color: var(--admin-card) !important;
+  color: var(--admin-text-primary) !important;
+}
+
+/* Timeline history elements */
+.tanvo-admin .bg-gray-100 {
+  background-color: var(--admin-surface) !important;
+}
+
+/* Ensure canvas or barcodes remain white backgrounds */
+.tanvo-admin canvas,
+.tanvo-admin svg[id*="barcode"] {
+  background-color: #ffffff !important;
+}
+
