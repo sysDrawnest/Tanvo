@@ -1,6 +1,8 @@
 import WhatsAppOrder from '../models/WhatsAppOrder.js';
 import { v2 as cloudinary } from 'cloudinary';
 import { uploadToCloudinary } from '../middleware/upload.js';
+import { findOrCreateCustomer, syncCustomerStats } from './waCustomerController.js';
+import WACustomer from '../models/WACustomer.js';
 
 // ── List all WA orders ───────────────────────────────────────────────────────
 export const getWhatsAppOrders = async (req, res) => {
@@ -25,7 +27,8 @@ export const getWhatsAppOrders = async (req, res) => {
         .skip(skip)
         .limit(parseInt(limit))
         .populate('products.productId', 'name images price')
-        .populate('createdBy', 'name'),
+        .populate('createdBy', 'name')
+        .populate('customerId', 'totalOrders tags'),
       WhatsAppOrder.countDocuments(filter)
     ]);
 
@@ -49,30 +52,84 @@ export const getWhatsAppOrderById = async (req, res) => {
   try {
     const order = await WhatsAppOrder.findById(req.params.id)
       .populate('products.productId', 'name images price category')
-      .populate('createdBy', 'name email');
+      .populate('createdBy', 'name email')
+      .populate('customerId', 'name phone totalOrders totalSpent tags');
 
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
-
     res.json({ success: true, order });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// ── Create WA order ──────────────────────────────────────────────────────────
+// ── Create WA order (with CRM customer linking) ──────────────────────────────
 export const createWhatsAppOrder = async (req, res) => {
   try {
+    // Check for returning customer by phone
+    const phone = req.body.customer?.phone?.trim();
+    let existingCustomer = null;
+    let isReturning = false;
+
+    if (phone) {
+      existingCustomer = await WACustomer.findOne({ phone }).select('_id name totalOrders');
+      if (existingCustomer) {
+        isReturning = true;
+      }
+    }
+
     const orderData = {
       ...req.body,
       createdBy: req.user._id
     };
 
+    // If returning customer confirmed linking (sent customerId in body), use it
+    // Otherwise create/find customer
+    let customer = null;
+    if (req.body.customerId) {
+      customer = await WACustomer.findById(req.body.customerId);
+    } else if (req.body.customer) {
+      customer = await findOrCreateCustomer(req.body.customer, req.user._id);
+    }
+
+    if (customer) {
+      orderData.customerId = customer._id;
+      // If no source set and returning customer, tag as Returning
+      if (isReturning && !req.body.source) {
+        orderData.source = 'Returning Customer';
+      }
+    }
+
     const order = new WhatsAppOrder(orderData);
     await order.save();
 
-    res.status(201).json({ success: true, order });
+    // Link order to customer and sync stats
+    if (customer) {
+      await WACustomer.findByIdAndUpdate(customer._id, {
+        $addToSet: { orders: order._id }
+      });
+      await syncCustomerStats(customer._id);
+    }
+
+    res.status(201).json({
+      success: true,
+      order,
+      returningCustomer: isReturning ? existingCustomer : null
+    });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// ── Check if customer exists by phone (for returning customer prompt) ─────────
+export const checkCustomerByPhone = async (req, res) => {
+  try {
+    const { phone } = req.params;
+    const customer = await WACustomer.findOne({ phone: phone.trim() })
+      .select('name phone totalOrders totalSpent lastPurchaseDate tags city');
+
+    res.json({ success: true, customer: customer || null });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -89,49 +146,77 @@ export const updateWhatsAppOrder = async (req, res) => {
     if (updates.payment) {
       if (updates.payment.method) order.payment.method = updates.payment.method;
       if (updates.payment.status) order.payment.status = updates.payment.status;
-      if (updates.payment.advance !== undefined) {
-        order.payment.advance = updates.payment.advance;
-      }
+      if (updates.payment.advance !== undefined) order.payment.advance = updates.payment.advance;
     }
 
-    // Handle totalAmount
-    if (updates.totalAmount !== undefined) {
-      order.totalAmount = updates.totalAmount;
-    }
+    if (updates.totalAmount !== undefined) order.totalAmount = updates.totalAmount;
 
     // Handle tracking info safely
     if (updates.trackingInfo) {
       if (!order.trackingInfo) order.trackingInfo = {};
-      if (updates.trackingInfo.courierName !== undefined) order.trackingInfo.courierName = updates.trackingInfo.courierName;
+      if (updates.trackingInfo.courierName  !== undefined) order.trackingInfo.courierName  = updates.trackingInfo.courierName;
       if (updates.trackingInfo.trackingNumber !== undefined) order.trackingInfo.trackingNumber = updates.trackingInfo.trackingNumber;
-      if (updates.trackingInfo.trackingUrl !== undefined) order.trackingInfo.trackingUrl = updates.trackingInfo.trackingUrl;
-      if (updates.trackingInfo.shippingDate !== undefined) {
-        order.trackingInfo.shippingDate = updates.trackingInfo.shippingDate || null;
-      }
+      if (updates.trackingInfo.trackingUrl  !== undefined) order.trackingInfo.trackingUrl  = updates.trackingInfo.trackingUrl;
+      if (updates.trackingInfo.shippingDate !== undefined) order.trackingInfo.shippingDate = updates.trackingInfo.shippingDate || null;
     }
 
-    // Handle other scalar updates
-    if (updates.status) order.status = updates.status;
+    // Handle cost updates
+    if (updates.costs) {
+      if (!order.costs) order.costs = {};
+      if (updates.costs.shipping  !== undefined) order.costs.shipping  = updates.costs.shipping;
+      if (updates.costs.packaging !== undefined) order.costs.packaging = updates.costs.packaging;
+      if (updates.costs.other     !== undefined) order.costs.other     = updates.costs.other;
+    }
+
+    // Handle other scalar updates (NOT status - use updateOrderStatus for that)
     if (updates.source) order.source = updates.source;
-    if (updates.notes !== undefined) order.notes = updates.notes;
-    
+    if (updates.notes  !== undefined) order.notes = updates.notes;
+
     // Handle customer info safely
     if (updates.customer) {
       if (!order.customer) order.customer = {};
-      if (updates.customer.name !== undefined) order.customer.name = updates.customer.name;
-      if (updates.customer.phone !== undefined) order.customer.phone = updates.customer.phone;
-      if (updates.customer.address !== undefined) order.customer.address = updates.customer.address;
-      if (updates.customer.city !== undefined) order.customer.city = updates.customer.city;
-      if (updates.customer.state !== undefined) order.customer.state = updates.customer.state;
-      if (updates.customer.pincode !== undefined) order.customer.pincode = updates.customer.pincode;
+      ['name','phone','address','city','state','pincode'].forEach(f => {
+        if (updates.customer[f] !== undefined) order.customer[f] = updates.customer[f];
+      });
     }
-    
+
     if (updates.products) order.products = updates.products;
 
-    await order.save(); // This triggers the pre('save') middleware to calc remaining
+    await order.save(); // triggers pre-save: recalculates profit + remaining
+
+    // Sync customer stats if cost/total changed
+    if (order.customerId && (updates.totalAmount !== undefined || updates.costs)) {
+      await syncCustomerStats(order.customerId);
+    }
 
     await order.populate('products.productId', 'name images price');
+    res.json({ success: true, order });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
 
+// ── Update order status WITH history append ──────────────────────────────────
+export const updateOrderStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, note } = req.body;
+
+    const order = await WhatsAppOrder.findById(id);
+    if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
+
+    const oldStatus = order.status;
+    order.status = status;
+
+    // Append to history timeline
+    if (!order.statusHistory) order.statusHistory = [];
+    order.statusHistory.push({
+      status,
+      changedAt: new Date(),
+      note: note || `Status changed from ${oldStatus} to ${status}`
+    });
+
+    await order.save();
     res.json({ success: true, order });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -144,9 +229,16 @@ export const deleteWhatsAppOrder = async (req, res) => {
     const order = await WhatsAppOrder.findById(req.params.id);
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
 
-    // Delete payment screenshot from Cloudinary if exists
     if (order.payment?.screenshot?.publicId) {
       await cloudinary.uploader.destroy(order.payment.screenshot.publicId);
+    }
+
+    // Unlink from customer and re-sync stats
+    if (order.customerId) {
+      await WACustomer.findByIdAndUpdate(order.customerId, {
+        $pull: { orders: order._id }
+      });
+      await syncCustomerStats(order.customerId);
     }
 
     await order.deleteOne();
@@ -164,12 +256,10 @@ export const uploadPaymentScreenshot = async (req, res) => {
     const order = await WhatsAppOrder.findById(req.params.id);
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
 
-    // Delete old screenshot from Cloudinary if exists
     if (order.payment?.screenshot?.publicId) {
       await cloudinary.uploader.destroy(order.payment.screenshot.publicId);
     }
 
-    // Upload new screenshot to Cloudinary
     const result = await uploadToCloudinary(req.file.buffer, {
       folder: 'tanvo/payment-proofs',
       resource_type: 'image',
@@ -183,7 +273,6 @@ export const uploadPaymentScreenshot = async (req, res) => {
       uploadedAt: new Date()
     };
     await order.save();
-
     res.json({ success: true, screenshot: order.payment.screenshot });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -199,17 +288,15 @@ export const deletePaymentScreenshot = async (req, res) => {
     if (order.payment?.screenshot?.publicId) {
       await cloudinary.uploader.destroy(order.payment.screenshot.publicId);
     }
-
     order.payment.screenshot = { url: '', publicId: '', uploadedAt: undefined };
     await order.save();
-
     res.json({ success: true, message: 'Screenshot deleted' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// ── Analytics / Stats ────────────────────────────────────────────────────────
+// ── Analytics / Stats (with profit) ─────────────────────────────────────────
 export const getWhatsAppOrderStats = async (req, res) => {
   try {
     const { range = 'all' } = req.query;
@@ -217,32 +304,35 @@ export const getWhatsAppOrderStats = async (req, res) => {
     let dateFilter = {};
     const now = new Date();
     if (range === 'today') {
-      dateFilter = { createdAt: { $gte: new Date(now.setHours(0, 0, 0, 0)) } };
+      dateFilter = { createdAt: { $gte: new Date(now.setHours(0,0,0,0)) } };
     } else if (range === 'week') {
-      const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
-      dateFilter = { createdAt: { $gte: weekAgo } };
+      const w = new Date(); w.setDate(w.getDate() - 7);
+      dateFilter = { createdAt: { $gte: w } };
     } else if (range === 'month') {
-      const monthAgo = new Date(); monthAgo.setMonth(monthAgo.getMonth() - 1);
-      dateFilter = { createdAt: { $gte: monthAgo } };
+      const m = new Date(); m.setMonth(m.getMonth() - 1);
+      dateFilter = { createdAt: { $gte: m } };
     } else if (range === 'year') {
-      const yearAgo = new Date(); yearAgo.setFullYear(yearAgo.getFullYear() - 1);
-      dateFilter = { createdAt: { $gte: yearAgo } };
+      const y = new Date(); y.setFullYear(y.getFullYear() - 1);
+      dateFilter = { createdAt: { $gte: y } };
     }
 
     const activeFilter = { ...dateFilter, status: { $nin: ['Cancelled'] } };
 
-    const [overview, byStatus, bySource, monthly] = await Promise.all([
-      // Overview aggregation
+    const [overview, byStatus, bySource, monthly, topProducts] = await Promise.all([
+      // Overview with profit
       WhatsAppOrder.aggregate([
         { $match: activeFilter },
         {
           $group: {
             _id: null,
-            totalRevenue: { $sum: '$totalAmount' },
-            totalOrders: { $sum: 1 },
-            avgOrderValue: { $avg: '$totalAmount' },
-            totalAdvance: { $sum: '$payment.advance' },
-            totalPending: { $sum: '$payment.remaining' }
+            totalRevenue:   { $sum: '$totalAmount' },
+            totalProfit:    { $sum: '$profit.netProfit' },
+            totalCost:      { $sum: '$profit.totalCost' },
+            totalOrders:    { $sum: 1 },
+            avgOrderValue:  { $avg: '$totalAmount' },
+            avgProfit:      { $avg: '$profit.netProfit' },
+            totalAdvance:   { $sum: '$payment.advance' },
+            totalPending:   { $sum: '$payment.remaining' },
           }
         }
       ]),
@@ -253,13 +343,14 @@ export const getWhatsAppOrderStats = async (req, res) => {
         { $group: { _id: '$status', count: { $sum: 1 } } }
       ]),
 
-      // Orders by source
+      // Orders by source (with revenue)
       WhatsAppOrder.aggregate([
         { $match: dateFilter },
-        { $group: { _id: '$source', count: { $sum: 1 }, revenue: { $sum: '$totalAmount' } } }
+        { $group: { _id: '$source', count: { $sum: 1 }, revenue: { $sum: '$totalAmount' }, profit: { $sum: '$profit.netProfit' } } },
+        { $sort: { revenue: -1 } }
       ]),
 
-      // Monthly revenue (last 6 months)
+      // Monthly revenue + profit (last 6 months)
       WhatsAppOrder.aggregate([
         {
           $match: {
@@ -271,26 +362,42 @@ export const getWhatsAppOrderStats = async (req, res) => {
           $group: {
             _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
             revenue: { $sum: '$totalAmount' },
-            orders: { $sum: 1 }
+            profit:  { $sum: '$profit.netProfit' },
+            orders:  { $sum: 1 }
           }
         },
         { $sort: { '_id.year': 1, '_id.month': 1 } }
+      ]),
+
+      // Top products by sales
+      WhatsAppOrder.aggregate([
+        { $match: activeFilter },
+        { $unwind: '$products' },
+        {
+          $group: {
+            _id: '$products.name',
+            totalQuantity: { $sum: '$products.quantity' },
+            totalRevenue:  { $sum: { $multiply: ['$products.price', '$products.quantity'] } }
+          }
+        },
+        { $sort: { totalRevenue: -1 } },
+        { $limit: 5 }
       ])
     ]);
 
     const stats = overview[0] || {
-      totalRevenue: 0, totalOrders: 0,
-      avgOrderValue: 0, totalAdvance: 0, totalPending: 0
+      totalRevenue: 0, totalProfit: 0, totalCost: 0, totalOrders: 0,
+      avgOrderValue: 0, avgProfit: 0, totalAdvance: 0, totalPending: 0
     };
+
+    // Add profit margin %
+    stats.profitMargin = stats.totalRevenue > 0
+      ? Math.round((stats.totalProfit / stats.totalRevenue) * 100 * 100) / 100
+      : 0;
 
     res.json({
       success: true,
-      stats: {
-        overview: stats,
-        byStatus,
-        bySource,
-        monthly
-      }
+      stats: { overview: stats, byStatus, bySource, monthly, topProducts }
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

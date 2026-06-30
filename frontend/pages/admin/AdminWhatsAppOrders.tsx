@@ -20,6 +20,7 @@ interface WhatsAppOrder {
     name: string;
     image: string;
     price: number;
+    costPrice: number;
     quantity: number;
     isManual: boolean;
   }[];
@@ -39,8 +40,29 @@ interface WhatsAppOrder {
   };
   source: string;
   status: string;
+  statusHistory?: {
+    status: string;
+    changedAt: string;
+    note: string;
+  }[];
   createdAt: string;
   notes?: string;
+  costs?: {
+    shipping: number;
+    packaging: number;
+    other: number;
+  };
+  profit?: {
+    totalCost: number;
+    netProfit: number;
+    margin: number;
+  };
+  customerId?: {
+    _id: string;
+    name: string;
+    totalOrders: number;
+    tags: string[];
+  };
 }
 
 const AdminWhatsAppOrders: React.FC = () => {
@@ -64,7 +86,8 @@ const AdminWhatsAppOrders: React.FC = () => {
   const initialFormState = {
     customerName: '', phone: '', email: '',
     address: '', city: '', state: '', pincode: '',
-    products: [{ name: '', price: 0, quantity: 1, image: '', isManual: true }],
+    products: [{ productId: undefined as string | undefined, name: '', price: 0, costPrice: 0, quantity: 1, image: '', isManual: true }],
+    costs: { shipping: 0, packaging: 0, other: 0 },
     totalAmount: 0, advance: 0, paymentMethod: 'UPI', source: 'WhatsApp', status: 'New Inquiry',
     notes: ''
   };
@@ -80,7 +103,8 @@ const AdminWhatsAppOrders: React.FC = () => {
     courierName: '',
     trackingNumber: '',
     trackingUrl: '',
-    shippingDate: ''
+    shippingDate: '',
+    note: '' // For status history
   });
 
   const fetchOrders = async () => {
@@ -114,7 +138,7 @@ const AdminWhatsAppOrders: React.FC = () => {
   const addProductRow = () => {
     setFormData({
       ...formData,
-      products: [...formData.products, { name: '', price: 0, quantity: 1, image: '', isManual: true }]
+      products: [...formData.products, { productId: undefined, name: '', price: 0, costPrice: 0, quantity: 1, image: '', isManual: true }]
     });
   };
 
@@ -145,6 +169,7 @@ const AdminWhatsAppOrders: React.FC = () => {
       productId: product._id,
       name: product.name,
       price: product.price,
+      costPrice: product.costPrice || 0,
       quantity: 1,
       image: product.images?.[0]?.url || '',
       isManual: false
@@ -176,6 +201,7 @@ const AdminWhatsAppOrders: React.FC = () => {
           state: formData.state, pincode: formData.pincode
         },
         products: formData.products,
+        costs: formData.costs,
         totalAmount: formData.totalAmount,
         payment: { method: formData.paymentMethod, advance: formData.advance },
         source: formData.source,
@@ -216,7 +242,8 @@ const AdminWhatsAppOrders: React.FC = () => {
       courierName: order.trackingInfo?.courierName || '',
       trackingNumber: order.trackingInfo?.trackingNumber || '',
       trackingUrl: order.trackingInfo?.trackingUrl || '',
-      shippingDate: order.trackingInfo?.shippingDate ? new Date(order.trackingInfo.shippingDate).toISOString().split('T')[0] : ''
+      shippingDate: order.trackingInfo?.shippingDate ? new Date(order.trackingInfo.shippingDate).toISOString().split('T')[0] : '',
+      note: ''
     });
     setIsEditModalOpen(true);
   };
@@ -228,8 +255,8 @@ const AdminWhatsAppOrders: React.FC = () => {
     if (!editingOrder) return;
     
     try {
+      // 1. Update basic fields
       await API.put(`/admin/whatsapp-orders/${editingOrder._id}`, {
-        status: editData.status,
         payment: { status: editData.paymentStatus },
         trackingInfo: {
           courierName: editData.courierName,
@@ -238,6 +265,14 @@ const AdminWhatsAppOrders: React.FC = () => {
           shippingDate: editData.shippingDate
         }
       });
+      
+      // 2. Update status separately to trigger history tracking
+      if (editData.status !== editingOrder.status) {
+        await API.put(`/admin/whatsapp-orders/${editingOrder._id}/status`, {
+          status: editData.status,
+          note: editData.note
+        });
+      }
       
       setSuccessMsg('Order updated successfully!');
       setIsEditModalOpen(false);
@@ -296,7 +331,7 @@ const AdminWhatsAppOrders: React.FC = () => {
       {/* Analytics Strip */}
       <div className="grid grid-cols-4 gap-4">
         {[{ label: 'WA Revenue', value: `₹${stats?.totalRevenue || 0}` },
-          { label: 'Total WA Orders', value: stats?.totalOrders || 0 },
+          { label: 'WA Profit', value: `₹${stats?.totalProfit || 0}` },
           { label: 'Avg Order Value', value: `₹${Math.round(stats?.avgOrderValue || 0)}` },
           { label: 'Pending Payments', value: `₹${stats?.totalPending || 0}` }
         ].map((stat, i) => (
@@ -315,7 +350,7 @@ const AdminWhatsAppOrders: React.FC = () => {
               <tr>
                 <th className="p-4 font-medium">Order Details</th>
                 <th className="p-4 font-medium">Customer</th>
-                <th className="p-4 font-medium">Payment</th>
+                <th className="p-4 font-medium">Payment & Profit</th>
                 <th className="p-4 font-medium">Status</th>
                 <th className="p-4 font-medium text-right">Actions</th>
               </tr>
@@ -331,12 +366,27 @@ const AdminWhatsAppOrders: React.FC = () => {
                     </div>
                   </td>
                   <td className="p-4">
-                    <p className="font-medium">{order.customer.name}</p>
+                    <p className="font-medium">
+                      {order.customer.name}
+                      {order.customerId && (
+                        <span className="ml-2 text-[10px] bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">
+                          Returning
+                        </span>
+                      )}
+                    </p>
                     <p className="text-xs text-[#173B45]/60">{order.customer.phone}</p>
+                    {order.customerId && order.customerId.tags?.length > 0 && (
+                      <p className="text-[10px] mt-1 text-gray-500">Tags: {order.customerId.tags.join(', ')}</p>
+                    )}
                   </td>
                   <td className="p-4">
                     <p className="font-medium text-[#B43F3F]">₹{order.totalAmount}</p>
-                    <p className="text-xs mt-1">
+                    {order.profit !== undefined && (
+                      <p className={`text-[11px] font-medium mt-0.5 ${order.profit.netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        Profit: ₹{order.profit.netProfit} ({order.profit.margin}%)
+                      </p>
+                    )}
+                    <p className="text-xs mt-1.5">
                       <span className={getPaymentStatusColor(order.payment.status)}>{order.payment.status}</span>
                     </p>
                     <p className="text-xs text-[#173B45]/60 mt-1">Adv: ₹{order.payment.advance} | Rem: ₹{order.payment.remaining}</p>
@@ -352,9 +402,17 @@ const AdminWhatsAppOrders: React.FC = () => {
                     )}
                   </td>
                   <td className="p-4 text-right">
-                    <button onClick={() => openEditModal(order)} className="text-[#173B45]/60 hover:text-[#B43F3F] p-2 bg-gray-100 rounded" title="Manage Order">
-                      <Edit size={16}/>
-                    </button>
+                    <div className="flex justify-end gap-2">
+                      <a href={`https://wa.me/${order.customer.phone}?text=Hello ${order.customer.name}, your TANVO order ${order.orderNumber} is confirmed. We will update you with shipping details soon.`} target="_blank" rel="noreferrer" className="text-green-600 hover:text-green-700 p-2 bg-green-50 rounded" title="WhatsApp Chat">
+                        <MessageCircle size={16}/>
+                      </a>
+                      <button onClick={() => window.open(`/admin/invoice/${order._id}`, '_blank')} className="text-blue-600 hover:text-blue-700 p-2 bg-blue-50 rounded" title="Print Invoice">
+                        <Package size={16}/>
+                      </button>
+                      <button onClick={() => openEditModal(order)} className="text-[#173B45]/60 hover:text-[#B43F3F] p-2 bg-gray-100 rounded" title="Manage Order">
+                        <Edit size={16}/>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -463,13 +521,36 @@ const AdminWhatsAppOrders: React.FC = () => {
                       <input type="number" min="1" required className="w-full border p-2 rounded" value={p.quantity} onChange={e => handleProductChange(i, 'quantity', Number(e.target.value))} />
                     </div>
                     <div className="w-32">
-                      <label className="block text-sm text-gray-600 mb-1">Unit Price *</label>
+                      <label className="block text-sm text-gray-600 mb-1">Selling Price *</label>
                       <input type="number" min="0" required className="w-full border p-2 rounded" value={p.price} onChange={e => handleProductChange(i, 'price', Number(e.target.value))} />
+                    </div>
+                    <div className="w-32">
+                      <label className="block text-sm text-gray-600 mb-1">Cost Price</label>
+                      <input type="number" min="0" className="w-full border p-2 rounded" value={p.costPrice || 0} onChange={e => handleProductChange(i, 'costPrice', Number(e.target.value))} />
                     </div>
                     <button type="button" onClick={() => removeProductRow(i)} className="p-2 bg-red-100 text-red-600 rounded hover:bg-red-200 mb-0.5"><X size={20}/></button>
                   </div>
                 ))}
                 <button type="button" onClick={addProductRow} className="text-sm text-[#B43F3F] flex items-center gap-1 font-medium bg-[#F8EDED] px-3 py-1.5 rounded"><Plus size={16}/> Add Another Product</button>
+              </div>
+
+              {/* 3.5 Costs */}
+              <div>
+                <h3 className="font-medium text-[#173B45] mb-4 border-b pb-2">Costs (For Profit Tracking)</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-1">Shipping Cost</label>
+                    <input type="number" min="0" className="w-full border p-2 rounded" value={formData.costs.shipping} onChange={e => setFormData({...formData, costs: {...formData.costs, shipping: Number(e.target.value)}})} />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-1">Packaging Cost</label>
+                    <input type="number" min="0" className="w-full border p-2 rounded" value={formData.costs.packaging} onChange={e => setFormData({...formData, costs: {...formData.costs, packaging: Number(e.target.value)}})} />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-1">Other Expenses</label>
+                    <input type="number" min="0" className="w-full border p-2 rounded" value={formData.costs.other} onChange={e => setFormData({...formData, costs: {...formData.costs, other: Number(e.target.value)}})} />
+                  </div>
+                </div>
               </div>
 
               {/* 4. Payment */}
@@ -516,16 +597,25 @@ const AdminWhatsAppOrders: React.FC = () => {
                     <select className="w-full border p-2 rounded" value={formData.source} onChange={e => setFormData({...formData, source: e.target.value})}>
                       <option value="WhatsApp">WhatsApp (Website click)</option>
                       <option value="Direct WhatsApp">Direct WhatsApp</option>
-                      <option value="Instagram">Instagram</option>
-                      <option value="Offline">Offline/Store</option>
+                      <option value="Instagram DM">Instagram DM</option>
+                      <option value="Facebook">Facebook</option>
+                      <option value="Offline Store">Offline Store</option>
+                      <option value="Exhibition">Exhibition</option>
+                      <option value="Referral">Referral</option>
+                      <option value="Returning Customer">Returning Customer</option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm text-gray-600 mb-1">Initial Status</label>
                     <select className="w-full border p-2 rounded" value={formData.status} onChange={e => setFormData({...formData, status: e.target.value})}>
                       <option value="New Inquiry">New Inquiry</option>
-                      <option value="Chat Started">Chat Started</option>
-                      <option value="Confirmed">Confirmed</option>
+                      <option value="Customer Confirmed">Customer Confirmed</option>
+                      <option value="Advance Received">Advance Received</option>
+                      <option value="Processing">Processing</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Completed">Completed</option>
+                      <option value="Cancelled">Cancelled</option>
                     </select>
                   </div>
                   <div className="md:col-span-2">
@@ -564,13 +654,21 @@ const AdminWhatsAppOrders: React.FC = () => {
                   <label className="block text-sm text-gray-600 mb-1">Fulfillment Status</label>
                   <select className="w-full border p-2 rounded" value={editData.status} onChange={e => setEditData({...editData, status: e.target.value})}>
                     <option value="New Inquiry">New Inquiry</option>
-                    <option value="Chat Started">Chat Started</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Packed">Packed</option>
+                    <option value="Customer Confirmed">Customer Confirmed</option>
+                    <option value="Advance Received">Advance Received</option>
+                    <option value="Processing">Processing</option>
                     <option value="Shipped">Shipped</option>
                     <option value="Delivered">Delivered</option>
+                    <option value="Completed">Completed</option>
                     <option value="Cancelled">Cancelled</option>
                   </select>
+                  
+                  {editData.status !== editingOrder.status && (
+                    <div className="mt-2">
+                      <label className="block text-[11px] text-gray-500 mb-1">Status Update Note (Optional)</label>
+                      <input type="text" className="w-full border p-1.5 rounded text-sm bg-yellow-50" value={editData.note} onChange={e => setEditData({...editData, note: e.target.value})} placeholder="Why was the status changed?" />
+                    </div>
+                  )}
 
                   <label className="block text-sm text-gray-600 mb-1 mt-4">Payment Status</label>
                   <select className="w-full border p-2 rounded" value={editData.paymentStatus} onChange={e => setEditData({...editData, paymentStatus: e.target.value})}>
@@ -597,6 +695,28 @@ const AdminWhatsAppOrders: React.FC = () => {
                   <input type="date" className="w-full border p-2 rounded" value={editData.shippingDate} onChange={e => setEditData({...editData, shippingDate: e.target.value})} />
                 </div>
               </div>
+
+              {/* Status History Timeline */}
+              {editingOrder.statusHistory && editingOrder.statusHistory.length > 0 && (
+                <div className="pt-4 border-t">
+                  <h3 className="font-medium text-[#173B45] mb-3">Status History</h3>
+                  <div className="space-y-3 max-h-40 overflow-y-auto pr-2">
+                    {editingOrder.statusHistory.map((history, idx) => (
+                      <div key={idx} className="flex gap-3 text-sm">
+                        <div className="flex flex-col items-center">
+                          <div className="w-2 h-2 rounded-full bg-[#B43F3F] mt-1.5"></div>
+                          {idx !== editingOrder.statusHistory!.length - 1 && <div className="w-px h-full bg-gray-200 my-1"></div>}
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-800">{history.status}</p>
+                          <p className="text-[11px] text-gray-500">{new Date(history.changedAt).toLocaleString()}</p>
+                          {history.note && <p className="text-xs text-gray-600 mt-0.5">{history.note}</p>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="flex justify-end gap-3 pt-4 border-t">
                 <button type="button" onClick={() => setIsEditModalOpen(false)} className="px-6 py-2 border rounded text-gray-600 font-medium">Cancel</button>

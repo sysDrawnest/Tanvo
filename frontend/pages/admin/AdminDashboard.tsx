@@ -269,29 +269,29 @@ const AdminDashboard: React.FC = () => {
 
       {/* WhatsApp Orders Overview */}
       <h2 className="text-lg font-medium text-[#173B45] mb-3 flex items-center gap-2">
-        <MessageCircle size={20} className="text-[#25D366]" /> WhatsApp Channel
+        <MessageCircle size={20} className="text-[#25D366]" /> WhatsApp CRM Performance
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
         <StatCard
-          title="WhatsApp Sales Revenue"
+          title="WA Sales Revenue"
           value={formatCurrency(waStats?.totalRevenue || 0)}
           icon={<DollarSign className="w-5 h-5 md:w-6 md:h-6" />}
           color="bg-[#25D366]"
         />
         <StatCard
-          title="Total WA Orders"
-          value={waStats?.totalOrders || 0}
-          icon={<ShoppingBag className="w-5 h-5 md:w-6 md:h-6" />}
-          color="bg-[#25D366]"
-        />
-        <StatCard
-          title="Avg Order Value"
-          value={formatCurrency(waStats?.avgOrderValue || 0)}
+          title="WA Net Profit"
+          value={formatCurrency(waStats?.totalProfit || 0)}
           icon={<TrendingUp className="w-5 h-5 md:w-6 md:h-6" />}
           color="bg-[#25D366]"
         />
         <StatCard
-          title="Pending Payment"
+          title="Avg Margin"
+          value={`${waStats?.avgMargin || 0}%`}
+          icon={<DollarSign className="w-5 h-5 md:w-6 md:h-6" />}
+          color="bg-[#25D366]"
+        />
+        <StatCard
+          title="Pending Collection"
           value={formatCurrency(waStats?.totalPending || 0)}
           icon={<Clock className="w-5 h-5 md:w-6 md:h-6" />}
           color="bg-[#FF8225]"

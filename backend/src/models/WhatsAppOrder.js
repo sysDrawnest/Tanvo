@@ -8,12 +8,16 @@ const counterSchema = new mongoose.Schema({
 const Counter = mongoose.models.WACounter || mongoose.model('WACounter', counterSchema);
 
 const whatsAppOrderSchema = new mongoose.Schema({
-  orderNumber: {
-    type: String,
-    unique: true
+  orderNumber: { type: String, unique: true },
+
+  // ── Customer Reference (CRM link) ────────────────
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'WACustomer',
+    default: null
   },
 
-  // ── Customer Details ────────────────────────────
+  // ── Customer Details (snapshot at order time) ────
   customer: {
     name: { type: String, required: true, trim: true },
     phone: { type: String, required: true, trim: true },
@@ -24,7 +28,7 @@ const whatsAppOrderSchema = new mongoose.Schema({
     pincode: { type: String, trim: true }
   },
 
-  // ── Products ────────────────────────────────────
+  // ── Products ─────────────────────────────────────
   products: [{
     productId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -33,65 +37,85 @@ const whatsAppOrderSchema = new mongoose.Schema({
     },
     name: { type: String, required: true },
     image: { type: String, default: '' },
-    price: { type: Number, required: true, min: 0 },
+    price: { type: Number, required: true, min: 0 },     // selling price
+    costPrice: { type: Number, default: 0, min: 0 },     // cost / purchase price
     quantity: { type: Number, required: true, min: 1, default: 1 },
-    isManual: { type: Boolean, default: false } // true = not linked to catalog
+    isManual: { type: Boolean, default: false }
   }],
 
-  // ── Financials ──────────────────────────────────
+  // ── Financials ────────────────────────────────────
   totalAmount: { type: Number, required: true, min: 0 },
 
-  // ── Payment ─────────────────────────────────────
+  // ── Cost Breakdown (for profit tracking) ─────────
+  costs: {
+    shipping:  { type: Number, default: 0 },
+    packaging: { type: Number, default: 0 },
+    other:     { type: Number, default: 0 }
+  },
+
+  // ── Auto-calculated Profit ───────────────────────
+  profit: {
+    totalCost:  { type: Number, default: 0 },  // sum of all costs
+    netProfit:  { type: Number, default: 0 },  // revenue - totalCost
+    margin:     { type: Number, default: 0 }   // (netProfit / totalAmount) * 100
+  },
+
+  // ── Payment ──────────────────────────────────────
   payment: {
     method: {
       type: String,
       enum: ['COD', 'UPI', 'Bank Transfer', 'Cash', 'Partial Advance'],
-      default: 'COD'
+      default: 'UPI'
     },
     status: {
       type: String,
       enum: ['Pending', 'Advance Paid', 'Partially Paid', 'Paid', 'Refunded'],
       default: 'Pending'
     },
-    advance: { type: Number, default: 0 },
+    advance:   { type: Number, default: 0 },
     remaining: { type: Number, default: 0 }, // auto-calculated
     screenshot: {
-      url: { type: String, default: '' },
-      publicId: { type: String, default: '' },
+      url:        { type: String, default: '' },
+      publicId:   { type: String, default: '' },
       uploadedAt: { type: Date }
     }
   },
 
-  // ── Order Meta ──────────────────────────────────
+  // ── Order Meta ────────────────────────────────────
   source: {
     type: String,
-    enum: ['WhatsApp', 'Direct WhatsApp', 'Instagram', 'Offline'],
+    enum: ['WhatsApp', 'Direct WhatsApp', 'Instagram DM', 'Facebook', 'Offline Store', 'Exhibition', 'Referral', 'Returning Customer'],
     default: 'WhatsApp'
   },
 
   status: {
     type: String,
-    enum: ['New Inquiry', 'Chat Started', 'Confirmed', 'Packed', 'Shipped', 'Delivered', 'Cancelled'],
+    enum: ['New Inquiry', 'Customer Confirmed', 'Advance Received', 'Processing', 'Shipped', 'Delivered', 'Completed', 'Cancelled'],
     default: 'New Inquiry'
   },
 
-  trackingInfo: {
-    courierName: { type: String, trim: true },
-    trackingNumber: { type: String, trim: true },
-    trackingUrl: { type: String, trim: true },
-    shippingDate: { type: Date }
-  },
-  notes: { type: String, trim: true },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
-}, {
-  timestamps: true
-});
+  // ── Status History Timeline ───────────────────────
+  statusHistory: [{
+    status:    { type: String },
+    changedAt: { type: Date, default: Date.now },
+    note:      { type: String, default: '' }
+  }],
 
-// Auto-generate WA order number before save
+  // ── Tracking ──────────────────────────────────────
+  trackingInfo: {
+    courierName:    { type: String, trim: true },
+    trackingNumber: { type: String, trim: true },
+    trackingUrl:    { type: String, trim: true },
+    shippingDate:   { type: Date }
+  },
+
+  notes: { type: String, trim: true },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+}, { timestamps: true });
+
+// ── Pre-save: order number + profit + remaining ───────────────────────────────
 whatsAppOrderSchema.pre('save', async function (next) {
+  // Auto-generate WA order number
   if (!this.orderNumber) {
     const counter = await Counter.findByIdAndUpdate(
       'wa_order_seq',
@@ -101,24 +125,31 @@ whatsAppOrderSchema.pre('save', async function (next) {
     this.orderNumber = `WA-${counter.seq}`;
   }
 
-  // Auto-calculate remaining amount
+  // Auto-set initial status history
+  if (this.isNew && (!this.statusHistory || this.statusHistory.length === 0)) {
+    this.statusHistory = [{ status: this.status, changedAt: new Date(), note: 'Order created' }];
+  }
+
+  // Auto-calculate remaining payment
   if (this.payment) {
     this.payment.remaining = Math.max(0, this.totalAmount - (this.payment.advance || 0));
   }
 
-  next();
-});
+  // Auto-calculate profit
+  const productCost = (this.products || []).reduce(
+    (sum, p) => sum + ((p.costPrice || 0) * (p.quantity || 1)), 0
+  );
+  const extraCosts = (this.costs?.shipping || 0) + (this.costs?.packaging || 0) + (this.costs?.other || 0);
+  const totalCost = productCost + extraCosts;
+  const netProfit = this.totalAmount - totalCost;
+  const margin = this.totalAmount > 0 ? (netProfit / this.totalAmount) * 100 : 0;
 
-// Also recalculate remaining on update
-whatsAppOrderSchema.pre('findOneAndUpdate', function (next) {
-  const update = this.getUpdate();
-  if (update && update.$set) {
-    const total = update.$set.totalAmount;
-    const advance = update.$set['payment.advance'];
-    if (total !== undefined && advance !== undefined) {
-      update.$set['payment.remaining'] = Math.max(0, total - advance);
-    }
-  }
+  this.profit = {
+    totalCost: Math.round(totalCost),
+    netProfit:  Math.round(netProfit),
+    margin:     Math.round(margin * 100) / 100
+  };
+
   next();
 });
 

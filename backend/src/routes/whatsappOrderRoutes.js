@@ -5,11 +5,19 @@ import {
   getWhatsAppOrderById,
   createWhatsAppOrder,
   updateWhatsAppOrder,
+  updateOrderStatus,
   deleteWhatsAppOrder,
   uploadPaymentScreenshot,
   deletePaymentScreenshot,
-  getWhatsAppOrderStats
+  getWhatsAppOrderStats,
+  checkCustomerByPhone
 } from '../controllers/whatsappOrderController.js';
+import {
+  getCustomers,
+  getCustomerById,
+  updateCustomer,
+  getCustomerStats
+} from '../controllers/waCustomerController.js';
 import { uploadProfileImage, handleUploadError } from '../middleware/upload.js';
 
 const router = express.Router();
@@ -17,17 +25,29 @@ const router = express.Router();
 // All routes require admin authentication
 router.use(protect, admin);
 
-// Analytics (must come before /:id to avoid route conflicts)
+// ── Analytics (before /:id to avoid route conflict) ─────────────────────────
 router.get('/stats', getWhatsAppOrderStats);
 
-// CRUD
+// ── CRM - Customer Routes ────────────────────────────────────────────────────
+router.get('/customers', getCustomers);
+router.get('/customers/stats', getCustomerStats);
+router.get('/customers/:id', getCustomerById);
+router.put('/customers/:id', updateCustomer);
+
+// ── Customer phone lookup (for returning customer prompt) ────────────────────
+router.get('/check-customer/:phone', checkCustomerByPhone);
+
+// ── Order CRUD ───────────────────────────────────────────────────────────────
 router.get('/', getWhatsAppOrders);
 router.post('/', createWhatsAppOrder);
 router.get('/:id', getWhatsAppOrderById);
 router.put('/:id', updateWhatsAppOrder);
 router.delete('/:id', deleteWhatsAppOrder);
 
-// Payment screenshot
+// ── Status update (with history append) ──────────────────────────────────────
+router.put('/:id/status', updateOrderStatus);
+
+// ── Payment screenshot ────────────────────────────────────────────────────────
 router.post(
   '/:id/screenshot',
   uploadProfileImage.single('screenshot'),
