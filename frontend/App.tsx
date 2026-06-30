@@ -72,12 +72,14 @@ const ScrollToTop = () => {
 const AppContent: React.FC = () => {
   const location = useLocation();
   const isAuthPage = location.pathname.startsWith('/auth');
+  const isAdminPage = location.pathname.startsWith('/admin');
+  const hideGlobalLayout = isAuthPage || isAdminPage;
 
   return (
     <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--bg-main)' }}>
-      {!isAuthPage && <Navbar />}
+      {!hideGlobalLayout && <Navbar />}
       <RegisterModal />
-      <main className={`flex-grow ${isAuthPage ? '' : 'pt-[116px] md:pt-[136px]'}`}>
+      <main className={`flex-grow ${hideGlobalLayout ? '' : 'pt-[116px] md:pt-[136px]'}`}>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
@@ -174,10 +176,10 @@ const AppContent: React.FC = () => {
           } />
         </Routes>
       </main>
-      {!isAuthPage && <Footer />}
+      {!hideGlobalLayout && <Footer />}
 
       {/* Floating WhatsApp Button */}
-      {!isAuthPage && (
+      {!hideGlobalLayout && (
         <div style={{
           position: 'fixed',
           bottom: '28px',
