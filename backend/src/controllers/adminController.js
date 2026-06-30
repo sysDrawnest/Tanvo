@@ -666,6 +666,62 @@ export const updateOrderStatus = async (req, res) => {
   }
 };
 
+// @desc    Update order payment status
+// @route   PUT /api/admin/orders/:id/payment
+// @access  Private/Admin
+export const updateOrderPayment = async (req, res) => {
+  try {
+    const { paymentStatus } = req.body;
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
+    
+    order.paymentStatus = paymentStatus;
+    await order.save();
+    
+    res.json({ success: true, message: 'Payment status updated', order });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Update order tracking info
+// @route   PUT /api/admin/orders/:id/tracking
+// @access  Private/Admin
+export const updateOrderTracking = async (req, res) => {
+  try {
+    const { trackingNumber, estimatedDelivery } = req.body;
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
+    
+    if (trackingNumber !== undefined) order.trackingNumber = trackingNumber;
+    if (estimatedDelivery) order.estimatedDelivery = new Date(estimatedDelivery);
+    
+    await order.save();
+    
+    res.json({ success: true, message: 'Tracking updated', order });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Update order notes
+// @route   PUT /api/admin/orders/:id/notes
+// @access  Private/Admin
+export const updateOrderNotes = async (req, res) => {
+  try {
+    const { notes } = req.body;
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
+    
+    if (notes !== undefined) order.notes = notes;
+    await order.save();
+    
+    res.json({ success: true, message: 'Notes updated', order });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 // @desc    Get single order details (Admin)
 // @route   GET /api/admin/orders/:id
 // @access  Private/Admin

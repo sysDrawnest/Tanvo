@@ -15,6 +15,9 @@ import {
   getAdminOrders,
   getAdminOrderDetails,
   updateOrderStatus,
+  updateOrderPayment,
+  updateOrderTracking,
+  updateOrderNotes,
   
   // User management
   getAdminUsers,
@@ -58,6 +61,9 @@ router.route('/products/:id')
 router.get('/orders', getAdminOrders);
 router.get('/orders/:id', getAdminOrderDetails);
 router.put('/orders/:id/status', updateOrderStatus);
+router.put('/orders/:id/payment', updateOrderPayment);
+router.put('/orders/:id/tracking', updateOrderTracking);
+router.put('/orders/:id/notes', updateOrderNotes);
 
 // ===========================================
 // User Management

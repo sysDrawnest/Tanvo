@@ -99,19 +99,33 @@ export const updateWhatsAppOrder = async (req, res) => {
       order.totalAmount = updates.totalAmount;
     }
 
-    // Handle tracking info
+    // Handle tracking info safely
     if (updates.trackingInfo) {
-      order.trackingInfo = {
-        ...order.trackingInfo,
-        ...updates.trackingInfo
-      };
+      if (!order.trackingInfo) order.trackingInfo = {};
+      if (updates.trackingInfo.courierName !== undefined) order.trackingInfo.courierName = updates.trackingInfo.courierName;
+      if (updates.trackingInfo.trackingNumber !== undefined) order.trackingInfo.trackingNumber = updates.trackingInfo.trackingNumber;
+      if (updates.trackingInfo.trackingUrl !== undefined) order.trackingInfo.trackingUrl = updates.trackingInfo.trackingUrl;
+      if (updates.trackingInfo.shippingDate !== undefined) {
+        order.trackingInfo.shippingDate = updates.trackingInfo.shippingDate || null;
+      }
     }
 
     // Handle other scalar updates
     if (updates.status) order.status = updates.status;
     if (updates.source) order.source = updates.source;
     if (updates.notes !== undefined) order.notes = updates.notes;
-    if (updates.customer) order.customer = { ...order.customer, ...updates.customer };
+    
+    // Handle customer info safely
+    if (updates.customer) {
+      if (!order.customer) order.customer = {};
+      if (updates.customer.name !== undefined) order.customer.name = updates.customer.name;
+      if (updates.customer.phone !== undefined) order.customer.phone = updates.customer.phone;
+      if (updates.customer.address !== undefined) order.customer.address = updates.customer.address;
+      if (updates.customer.city !== undefined) order.customer.city = updates.customer.city;
+      if (updates.customer.state !== undefined) order.customer.state = updates.customer.state;
+      if (updates.customer.pincode !== undefined) order.customer.pincode = updates.customer.pincode;
+    }
+    
     if (updates.products) order.products = updates.products;
 
     await order.save(); // This triggers the pre('save') middleware to calc remaining
