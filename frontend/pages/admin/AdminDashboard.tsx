@@ -1,9 +1,9 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Package, ShoppingBag, Users, TrendingUp, DollarSign,
   Clock, CheckCircle, XCircle, Eye, ArrowUp, ArrowDown,
-  Calendar, Filter, Download, Plus, AlertCircle
+  Calendar, Filter, Download, Plus, AlertCircle, MessageCircle
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import API from '../../services/api';
@@ -57,6 +57,7 @@ interface DashboardStats {
 const AdminDashboard: React.FC = () => {
   const { user } = useStore();
   const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [waStats, setWaStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState('week');
   const [error, setError] = useState<string | null>(null);
@@ -69,9 +70,11 @@ const AdminDashboard: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const { data } = await API.get('/admin/stats', {
-        params: { range: dateRange }
-      });
+      const [{ data }, { data: waData }] = await Promise.all([
+        API.get('/admin/stats', { params: { range: dateRange } }),
+        API.get('/admin/whatsapp-orders/stats', { params: { range: dateRange } }).catch(() => ({ data: { success: false } }))
+      ]);
+      
       if (data.success && data.stats) {
         setStats({
           ...data.stats.overview,
@@ -80,6 +83,10 @@ const AdminDashboard: React.FC = () => {
           topProducts: data.stats.topProducts,
           recentUsers: data.stats.recentUsers
         });
+      }
+      
+      if (waData?.success && waData.stats) {
+        setWaStats(waData.stats.overview);
       }
     } catch (error: any) {
       console.error('Error fetching dashboard stats:', error);
@@ -251,6 +258,37 @@ const AdminDashboard: React.FC = () => {
           count={stats?.cancelledOrders || 0}
           color="bg-red-100 text-red-700"
           icon={<XCircle size={16} />}
+        />
+      </div>
+
+      {/* WhatsApp Orders Overview */}
+      <h2 className="text-lg font-medium text-[#173B45] mb-3 flex items-center gap-2">
+        <MessageCircle size={20} className="text-[#25D366]" /> WhatsApp Channel
+      </h2>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
+        <StatCard
+          title="WA Revenue"
+          value={formatCurrency(waStats?.totalRevenue || 0)}
+          icon={<DollarSign className="w-5 h-5 md:w-6 md:h-6" />}
+          color="bg-[#25D366]"
+        />
+        <StatCard
+          title="Total WA Orders"
+          value={waStats?.totalOrders || 0}
+          icon={<ShoppingBag className="w-5 h-5 md:w-6 md:h-6" />}
+          color="bg-[#25D366]"
+        />
+        <StatCard
+          title="Avg Order Value"
+          value={formatCurrency(waStats?.avgOrderValue || 0)}
+          icon={<TrendingUp className="w-5 h-5 md:w-6 md:h-6" />}
+          color="bg-[#25D366]"
+        />
+        <StatCard
+          title="Pending Payment"
+          value={formatCurrency(waStats?.totalPending || 0)}
+          icon={<Clock className="w-5 h-5 md:w-6 md:h-6" />}
+          color="bg-[#FF8225]"
         />
       </div>
 

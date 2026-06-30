@@ -11,7 +11,8 @@ import {
   Menu,
   X,
   Home,
-  Receipt
+  Receipt,
+  MessageCircle
 } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 import { Navigate, Link, Outlet, useLocation } from "react-router-dom";
@@ -29,6 +30,7 @@ const Admin: React.FC = () => {
     { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/admin' },
     { label: 'Products', icon: <Package size={20} />, path: '/admin/products' },
     { label: 'Orders', icon: <ShoppingBag size={20} />, path: '/admin/orders' },
+    { label: 'WhatsApp', icon: <MessageCircle size={20} />, path: '/admin/whatsapp-orders' },
     { label: 'Customers', icon: <Users size={20} />, path: '/admin/users' },
     { label: 'Reviews', icon: <Star size={20} />, path: '/admin/reviews' },
     { label: 'Billing', icon: <Receipt size={20} />, path: '/admin/billing' },
