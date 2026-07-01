@@ -3,6 +3,12 @@ import { v2 as cloudinary } from 'cloudinary';
 import { uploadToCloudinary } from '../middleware/upload.js';
 import { findOrCreateCustomer, syncCustomerStats } from './waCustomerController.js';
 import WACustomer from '../models/WACustomer.js';
+import {
+  deductStockBatch,
+  restoreStockBatch,
+  WA_DEDUCT_STATUSES,
+  WA_RESTORE_STATUSES
+} from '../services/inventoryService.js';
 
 // ── List all WA orders ───────────────────────────────────────────────────────
 export const getWhatsAppOrders = async (req, res) => {
@@ -101,6 +107,26 @@ export const createWhatsAppOrder = async (req, res) => {
 
     const order = new WhatsAppOrder(orderData);
     await order.save();
+
+    // ── Inventory: deduct stock if order is created in a confirming status ──
+    if (WA_DEDUCT_STATUSES.has(order.status)) {
+      const catalogItems = (order.products || []).filter(p => p.productId);
+      if (catalogItems.length > 0) {
+        try {
+          await deductStockBatch(
+            catalogItems.map(p => ({ productId: p.productId, quantity: p.quantity })),
+            'WhatsApp',
+            order.orderNumber || order._id.toString(),
+            req.user._id
+          );
+          order.stockDeducted = true;
+          await order.save();
+        } catch (stockErr) {
+          // Non-fatal: log the error, order still saved
+          console.error('[Inventory] createWhatsAppOrder stock deduction failed:', stockErr.message);
+        }
+      }
+    }
 
     // Link order to customer and sync stats
     if (customer) {
@@ -206,6 +232,41 @@ export const updateOrderStatus = async (req, res) => {
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
 
     const oldStatus = order.status;
+    const wasDeducted = order.stockDeducted;
+    const isNewDeductStatus = WA_DEDUCT_STATUSES.has(status);
+    const isRestoreStatus  = WA_RESTORE_STATUSES.has(status);
+    const wasDeductStatus  = WA_DEDUCT_STATUSES.has(oldStatus);
+
+    // Catalog products only (isManual products have no productId)
+    const catalogItems = (order.products || []).filter(p => p.productId);
+
+    // ── Inventory transitions ───────────────────────────────────────────────
+    if (catalogItems.length > 0) {
+      if (isNewDeductStatus && !wasDeducted) {
+        // Transition into a confirming status → deduct stock
+        try {
+          await deductStockBatch(
+            catalogItems.map(p => ({ productId: p.productId, quantity: p.quantity })),
+            'WhatsApp',
+            order.orderNumber || id,
+            req.user._id
+          );
+          order.stockDeducted = true;
+        } catch (stockErr) {
+          return res.status(400).json({ success: false, message: stockErr.message });
+        }
+      } else if (isRestoreStatus && wasDeducted) {
+        // Transition to Cancelled → restore stock
+        await restoreStockBatch(
+          catalogItems.map(p => ({ productId: p.productId, quantity: p.quantity })),
+          'WhatsApp',
+          order.orderNumber || id,
+          req.user._id
+        );
+        order.stockDeducted = false;
+      }
+    }
+
     order.status = status;
 
     // Append to history timeline
@@ -231,6 +292,19 @@ export const deleteWhatsAppOrder = async (req, res) => {
 
     if (order.payment?.screenshot?.publicId) {
       await cloudinary.uploader.destroy(order.payment.screenshot.publicId);
+    }
+
+    // ── Restore stock if it had been deducted ───────────────────────────────
+    if (order.stockDeducted) {
+      const catalogItems = (order.products || []).filter(p => p.productId);
+      if (catalogItems.length > 0) {
+        await restoreStockBatch(
+          catalogItems.map(p => ({ productId: p.productId, quantity: p.quantity })),
+          'WhatsApp',
+          order.orderNumber || order._id.toString(),
+          req.user?._id || null
+        );
+      }
     }
 
     // Unlink from customer and re-sync stats

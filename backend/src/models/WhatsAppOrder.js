@@ -109,6 +109,10 @@ const whatsAppOrderSchema = new mongoose.Schema({
     shippingDate:   { type: Date }
   },
 
+  // ── Inventory Tracking ───────────────────────────────────
+  // Prevents double-deduction when status changes multiple times
+  stockDeducted: { type: Boolean, default: false },
+
   notes: { type: String, trim: true },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });

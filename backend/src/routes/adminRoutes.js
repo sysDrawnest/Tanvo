@@ -30,7 +30,12 @@ import {
   deleteReview,
   
   // Coupon management
-  createCoupon
+  createCoupon,
+
+  // Inventory management
+  logPOSSale,
+  restockProduct,
+  getInventoryHistory
 } from '../controllers/adminController.js';
 
 const router = express.Router();
@@ -84,5 +89,12 @@ router.delete('/reviews/:id', deleteReview);
 // Coupon Management
 // ===========================================
 router.post('/coupons', createCoupon);
+
+// ===========================================
+// Inventory Management
+// ===========================================
+router.get('/inventory/history', getInventoryHistory);
+router.post('/inventory/pos-sale', logPOSSale);
+router.post('/inventory/restock', restockProduct);
 
 export default router;

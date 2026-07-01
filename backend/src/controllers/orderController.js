@@ -4,6 +4,7 @@ import Product from '../models/Product.js';
 import User from '../models/User.js';
 import { sendOrderConfirmation } from '../utils/sendEmail.js';
 import { createShiprocketOrder } from '../services/shiprocket.js';
+import { deductStockBatch, restoreStockBatch } from '../services/inventoryService.js';
 
 
 // @desc    Create new order
@@ -137,11 +138,13 @@ export const createOrder = async (req, res) => {
       paymentStatus: 'Pending'
     });
 
-    // 4. Atomic Updates (Stock and Cart)
-    // Update product stock
-    await Promise.all(orderItems.map(item =>
-      Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.quantity } })
-    ));
+    // 4. Atomic stock deduction via unified inventory service
+    await deductStockBatch(
+      orderItems.map(item => ({ productId: item.product, quantity: item.quantity })),
+      'Website',
+      order._id.toString(),
+      req.user._id
+    );
 
     // Clear user's cart if it was used for this order
     if (dbCart && dbCart.items.length > 0) {
@@ -300,12 +303,13 @@ export const updateOrderStatus = async (req, res) => {
 
     if (orderStatus === 'Cancelled') {
       order.cancelledAt = Date.now();
-      // Restore stock
-      for (const item of order.orderItems) {
-        await Product.findByIdAndUpdate(item.product, {
-          $inc: { stock: item.quantity }
-        });
-      }
+      // Restore stock via unified inventory service
+      await restoreStockBatch(
+        order.orderItems.map(item => ({ productId: item.product, quantity: item.quantity })),
+        'Website',
+        order._id.toString(),
+        req.user?._id || null
+      );
     }
 
     const updatedOrder = await order.save();
@@ -339,12 +343,13 @@ export const cancelOrder = async (req, res) => {
     order.cancelledAt = Date.now();
     order.cancellationReason = cancellationReason;
 
-    // Restore stock
-    for (const item of order.orderItems) {
-      await Product.findByIdAndUpdate(item.product, {
-        $inc: { stock: item.quantity }
-      });
-    }
+    // Restore stock via unified inventory service
+    await restoreStockBatch(
+      order.orderItems.map(item => ({ productId: item.product, quantity: item.quantity })),
+      'Website',
+      order._id.toString(),
+      req.user?._id || null
+    );
 
     const updatedOrder = await order.save();
     res.json(updatedOrder);

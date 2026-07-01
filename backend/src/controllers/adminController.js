@@ -4,6 +4,8 @@ import Order from '../models/Order.js';
 import Review from '../models/Review.js';
 import cloudinary from '../config/cloudinary.js';
 import { uploadToCloudinary } from '../middleware/upload.js'; // Added import
+import { deductStock, restoreStockBatch, addStock } from '../services/inventoryService.js';
+import InventoryLog from '../models/InventoryLog.js';
 
 // ===========================================
 // DASHBOARD STATS
@@ -632,20 +634,23 @@ export const updateOrderStatus = async (req, res) => {
 
     if (orderStatus === 'Cancelled' && previousStatus !== 'Cancelled') {
       order.cancelledAt = Date.now();
-      // Restore stock
-      for (const item of order.orderItems) {
-        await Product.findByIdAndUpdate(item.product, {
-          $inc: { stock: item.quantity }
-        });
-      }
+      // Restore stock via unified inventory service
+      await restoreStockBatch(
+        order.orderItems.map(item => ({ productId: item.product, quantity: item.quantity })),
+        'Website',
+        order._id.toString(),
+        req.user._id
+      );
     }
 
-    // If order was cancelled and now being processed again, reduce stock
+    // If order was cancelled and now being reactivated, deduct stock again
     if (previousStatus === 'Cancelled' && orderStatus !== 'Cancelled') {
       for (const item of order.orderItems) {
-        await Product.findByIdAndUpdate(item.product, {
-          $inc: { stock: -item.quantity }
-        });
+        try {
+          await deductStock(item.product, item.quantity, 'Website', order._id.toString(), req.user._id);
+        } catch (stockErr) {
+          console.error(`[Inventory] Re-activation deduction failed for ${item.product}:`, stockErr.message);
+        }
       }
     }
 
@@ -1139,5 +1144,113 @@ export const createCoupon = async (req, res) => {
       success: false,
       message: error.message
     });
+  }
+};
+
+// ===========================================
+// INVENTORY MANAGEMENT
+// ===========================================
+
+/**
+ * @desc   Log an Offline POS sale and deduct inventory
+ * @route  POST /api/admin/inventory/pos-sale
+ * @access Private/Admin
+ */
+export const logPOSSale = async (req, res) => {
+  try {
+    const { productId, quantity, orderReference, note } = req.body;
+
+    if (!productId || !quantity || quantity < 1) {
+      return res.status(400).json({ success: false, message: 'productId and quantity (≥1) are required' });
+    }
+
+    const updatedProduct = await deductStock(
+      productId,
+      Number(quantity),
+      'Offline',
+      orderReference || `POS-${Date.now()}`,
+      req.user._id
+    );
+
+    res.json({
+      success: true,
+      message: `Stock deducted. New stock: ${updatedProduct.stock}`,
+      product: { _id: updatedProduct._id, name: updatedProduct.name, stock: updatedProduct.stock }
+    });
+  } catch (error) {
+    const status = error.message.includes('Insufficient') ? 400 : 500;
+    res.status(status).json({ success: false, message: error.message });
+  }
+};
+
+/**
+ * @desc   Add stock (restock) to a product
+ * @route  POST /api/admin/inventory/restock
+ * @access Private/Admin
+ */
+export const restockProduct = async (req, res) => {
+  try {
+    const { productId, quantity, orderReference, note } = req.body;
+
+    if (!productId || !quantity || quantity < 1) {
+      return res.status(400).json({ success: false, message: 'productId and quantity (≥1) are required' });
+    }
+
+    const updatedProduct = await addStock(
+      productId,
+      Number(quantity),
+      orderReference || `RESTOCK-${Date.now()}`,
+      req.user._id,
+      'RESTOCK'
+    );
+
+    res.json({
+      success: true,
+      message: `Stock added. New stock: ${updatedProduct.stock}`,
+      product: { _id: updatedProduct._id, name: updatedProduct.name, stock: updatedProduct.stock }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+/**
+ * @desc   Get inventory transaction history (with filters)
+ * @route  GET /api/admin/inventory/history
+ * @access Private/Admin
+ */
+export const getInventoryHistory = async (req, res) => {
+  try {
+    const { productId, channel, type, page = 1, limit = 50 } = req.query;
+
+    const filter = {};
+    if (productId) filter.productId = productId;
+    if (channel)   filter.channel   = channel;
+    if (type)      filter.type      = type;
+
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const [logs, total] = await Promise.all([
+      InventoryLog.find(filter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(parseInt(limit))
+        .populate('productId', 'name images price')
+        .populate('createdBy', 'name email'),
+      InventoryLog.countDocuments(filter)
+    ]);
+
+    res.json({
+      success: true,
+      logs,
+      pagination: {
+        total,
+        page: parseInt(page),
+        pages: Math.ceil(total / parseInt(limit)),
+        limit: parseInt(limit)
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
