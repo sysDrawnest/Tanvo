@@ -220,23 +220,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
         .pc-price-wrap {
           text-align: right;
           flex-shrink: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 2px;
         }
         .pc-price {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(15px, 1.5vw, 19px);
-          font-weight: 400;
-          font-style: italic;
+          font-family: 'Inter', sans-serif;
+          font-size: clamp(15px, 1.5vw, 17px);
+          font-weight: 700;
           color: ${inverse ? 'var(--ivory)' : 'var(--ink)'};
           display: block;
+          letter-spacing: 0.02em;
         }
         .pc-price-original {
-          font-family: 'Raleway', sans-serif;
-          font-size: 10px;
-          font-weight: 400;
-          color: var(--stone);
+          font-family: 'Inter', sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          color: ${inverse ? 'rgba(255,255,255,0.6)' : 'var(--ink-muted)'};
           text-decoration: line-through;
           display: block;
-          margin-top: 1px;
         }
 
         .pc-rating-wrap {
@@ -275,7 +278,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
             overflow: hidden !important;
           }
           .pc-price {
-            font-size: 13.5px !important;
+            font-size: 14px !important;
+          }
+          .pc-price-original {
+            font-size: 11px !important;
+            margin-top: 0 !important;
           }
           .pc-info {
             flex-direction: column !important;
@@ -284,7 +291,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           }
           .pc-price-wrap {
             text-align: left !important;
-            margin-top: 1px !important;
+            margin-top: 3px !important;
+            flex-direction: row !important;
+            align-items: baseline !important;
+            gap: 6px !important;
           }
           .pc-badge {
             top: 8px !important;
