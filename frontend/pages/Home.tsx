@@ -75,6 +75,18 @@ const Home: React.FC = () => {
 
         <MarqueeTicker />
         <PillarsSection />
+
+        {/* New Arrivals Section */}
+        <ProductsGrid
+          products={newArrivals}
+          label="Just Arrived"
+          title="New"
+          titleEm="Arrivals"
+          viewAllLink="/shop?sort=-createdAt"
+          viewAllText="View Newest Drops"
+          background="transparent"
+        />
+
         <VideoBanner />
         <CategoryGrid />
         <HandwovenHeritage />
@@ -92,17 +104,6 @@ const Home: React.FC = () => {
         />
 
         <EditorialBanner />
-
-        {/* New Arrivals Section */}
-        <ProductsGrid
-          products={newArrivals}
-          label="Just Arrived"
-          title="New"
-          titleEm="Arrivals"
-          viewAllLink="/shop?sort=-createdAt"
-          viewAllText="View Newest Drops"
-          background="transparent"
-        />
 
         <MensTraditionalAttireBanner />
         <ModernMuse />

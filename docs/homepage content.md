@@ -82,7 +82,19 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 5. Atmospheric Video Loop Banner
+### 5. New Arrivals Grid
+*   **Filename**: `frontend/pages/sections/ProductsGrid.tsx`
+*   **UI/Design Description**:
+    *   Transparent background.
+    *   Responsive 4-column display showcasing the newest 4 catalog additions.
+*   **Content**:
+    *   Label: "Just Arrived"
+    *   Title: "New Arrivals"
+    *   CTA Link: "View Newest Drops" (redirects to `/shop?sort=-createdAt`)
+
+---
+
+### 6. Atmospheric Video Loop Banner
 *   **Filename**: `frontend/pages/sections/VideoBanner.tsx`
 *   **UI/Design Description**:
     *   Full-width, low-height video strip (`40vh` height, capped between `300px` and `450px`).
@@ -92,7 +104,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 6. Weave Traditions Category Grid
+### 7. Weave Traditions Category Grid
 *   **Filename**: `frontend/pages/sections/CategoryGrid.tsx`
 *   **UI/Design Description**:
     *   Warm Ivory (`#F9F5EE`) background.
@@ -103,7 +115,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 7. Handwoven Heritage Story
+### 8. Handwoven Heritage Story
 *   **Filename**: `frontend/pages/sections/HandwovenHeritage.tsx`
 *   **UI/Design Description**:
     *   Side-by-side editorial row layout.
@@ -122,7 +134,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 8. Curated Selection Grid
+### 9. Curated Selection Grid
 *   **Filename**: `frontend/pages/sections/ProductsGrid.tsx`
 *   **UI/Design Description**:
     *   Immersive dark Obsidian/Charcoal backdrop (`#0D0B0A` background) with `inverse={true}` styling.
@@ -134,7 +146,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 9. Ambient Editorial Video Banner
+### 10. Ambient Editorial Video Banner
 *   **Filename**: `frontend/pages/sections/EditorialBanner.tsx`
 *   **UI/Design Description**:
     *   Cinematic video background (`/EditorialBanner.mp4`) with a left-oriented dark gradient overlay for optimal text contrast.
@@ -143,18 +155,6 @@ This document serves as the absolute visual and code structure map for the **TAN
     *   Headline: *"See our collection"* in a large display serif font.
     *   "Explore Collection" button with an arrow icon.
     *   Vertical side banner text: *"100% HANDWOVEN HERITAGE"* anchored next to a gold separator line.
-
----
-
-### 10. New Arrivals Grid
-*   **Filename**: `frontend/pages/sections/ProductsGrid.tsx`
-*   **UI/Design Description**:
-    *   Transparent background.
-    *   Responsive 4-column display showcasing the newest 4 catalog additions.
-*   **Content**:
-    *   Label: "Just Arrived"
-    *   Title: "New Arrivals"
-    *   CTA Link: "View Newest Drops" (redirects to `/shop?sort=-createdAt`)
 
 ---
 
