@@ -15,6 +15,7 @@ const AddProduct: React.FC = () => {
     shortDescription: '',
     price: '',
     originalPrice: '',
+    costPrice: '',
     category: 'Women',
     subCategory: 'Sarees',
     weave: 'Sambalpuri',
@@ -92,7 +93,7 @@ const AddProduct: React.FC = () => {
       return;
     }
 
-    if (!formData.name || !formData.price || !formData.stock) {
+    if (!formData.name || !formData.price || !formData.costPrice || !formData.stock) {
       alert('Please fill in all required fields');
       return;
     }
@@ -273,7 +274,7 @@ const AddProduct: React.FC = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-xl font-bold mb-6 pb-4 border-b">Pricing & Stock</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Price (₹) <span className="text-red-500">*</span>
@@ -302,6 +303,22 @@ const AddProduct: React.FC = () => {
                 min="0"
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
                 placeholder="e.g., 15000"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Cost Price (₹) <span className="text-red-500">*</span> <span className="text-xs text-gray-400 font-normal">(Internal)</span>
+              </label>
+              <input
+                type="number"
+                name="costPrice"
+                value={formData.costPrice}
+                onChange={handleChange}
+                required
+                min="0"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
+                placeholder="e.g., 7000"
               />
             </div>
 

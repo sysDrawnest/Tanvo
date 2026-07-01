@@ -30,6 +30,12 @@ const productSchema = new mongoose.Schema({
     type: Number,
     min: [0, 'Original price cannot be negative']
   },
+  costPrice: {
+    type: Number,
+    required: [true, 'Please provide product cost price'],
+    min: [0, 'Cost price cannot be negative'],
+    default: 0
+  },
   category: {
     type: String,
     required: [true, 'Please select a category'],

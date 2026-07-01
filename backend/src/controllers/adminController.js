@@ -163,6 +163,7 @@ export const createProduct = async (req, res) => {
       shortDescription,
       price,
       originalPrice,
+      costPrice,
       category,
       subCategory,
       weave,
@@ -235,6 +236,7 @@ export const createProduct = async (req, res) => {
       shortDescription,
       price: Number(price),
       originalPrice: originalPrice ? Number(originalPrice) : undefined,
+      costPrice: costPrice ? Number(costPrice) : 0,
       category,
       subCategory,
       weave,
@@ -379,7 +381,7 @@ export const updateProduct = async (req, res) => {
     });
 
     // Parse numeric fields
-    ['price', 'originalPrice', 'stock'].forEach(field => {
+    ['price', 'originalPrice', 'costPrice', 'stock'].forEach(field => {
       if (req.body[field] !== undefined) {
         req.body[field] = Number(req.body[field]);
       }

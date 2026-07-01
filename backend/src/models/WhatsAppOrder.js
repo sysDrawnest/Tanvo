@@ -122,7 +122,8 @@ whatsAppOrderSchema.pre('save', async function (next) {
       { $inc: { seq: 1 } },
       { new: true, upsert: true }
     );
-    this.orderNumber = `WA-${counter.seq}`;
+    const seqNum = counter.seq < 1000 ? counter.seq + 1000 : counter.seq;
+    this.orderNumber = `WA-${seqNum}`;
   }
 
   // Auto-set initial status history

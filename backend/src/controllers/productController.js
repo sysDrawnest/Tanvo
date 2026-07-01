@@ -1,12 +1,30 @@
+import jwt from 'jsonwebtoken';
 import Product from '../models/Product.js';
 import Review from '../models/Review.js';
+import User from '../models/User.js';
+
+// Helper to check if request is from an authenticated admin
+const isAdminRequest = async (req) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer')) {
+      const token = authHeader.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.id);
+      return user && user.role === 'admin';
+    }
+  } catch (error) {
+    // Ignore verification errors, treat as non-admin
+  }
+  return false;
+};
 
 // @desc    Get all products
 // @route   GET /api/products
 // @access  Public
 export const getProducts = async (req, res) => {
   try {
-    const pageSize = 12;
+    const pageSize = Number(req.query.limit) || 12;
     const page = Number(req.query.page) || 1;
 
     const query = {};
@@ -43,9 +61,10 @@ export const getProducts = async (req, res) => {
       if (req.query.maxPrice) query.price.$lte = Number(req.query.maxPrice);
     }
 
-    // Search by name
-    if (req.query.search) {
-      query.name = { $regex: req.query.search, $options: 'i' };
+    // Search by name (supports search or keyword)
+    const searchVal = req.query.search || req.query.keyword;
+    if (searchVal) {
+      query.name = { $regex: searchVal, $options: 'i' };
     }
 
     // Filter by tags
@@ -97,8 +116,17 @@ export const getProducts = async (req, res) => {
       .limit(pageSize)
       .skip(pageSize * (page - 1));
 
+    const isAdmin = await isAdminRequest(req);
+    const sanitizedProducts = products.map(product => {
+      const p = product.toJSON();
+      if (!isAdmin) {
+        delete p.costPrice;
+      }
+      return p;
+    });
+
     res.json({
-      products,
+      products: sanitizedProducts,
       page,
       pages: Math.ceil(count / pageSize),
       total: count
@@ -134,8 +162,14 @@ export const getProductById = async (req, res) => {
         .limit(4)
         .select('name price originalPrice images ratings numReviews isBestSeller');
 
+      const isAdmin = await isAdminRequest(req);
+      const productJson = product.toJSON();
+      if (!isAdmin) {
+        delete productJson.costPrice;
+      }
+
       res.json({
-        ...product.toJSON(),
+        ...productJson,
         reviews,
         relatedProducts
       });
@@ -254,7 +288,17 @@ export const getTopProducts = async (req, res) => {
     const products = await Product.find({})
       .sort({ ratings: -1 })
       .limit(10);
-    res.json(products);
+
+    const isAdmin = await isAdminRequest(req);
+    const sanitizedProducts = products.map(product => {
+      const p = product.toJSON();
+      if (!isAdmin) {
+        delete p.costPrice;
+      }
+      return p;
+    });
+
+    res.json(sanitizedProducts);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

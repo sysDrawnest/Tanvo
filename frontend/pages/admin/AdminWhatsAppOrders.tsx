@@ -126,6 +126,23 @@ const AdminWhatsAppOrders: React.FC = () => {
     fetchOrders();
   }, []);
 
+  const calculateLiveProfit = () => {
+    const productCost = formData.products.reduce(
+      (sum, p) => sum + ((p.costPrice || 0) * (p.quantity || 1)), 0
+    );
+    const extraCosts = (formData.costs.shipping || 0) + (formData.costs.packaging || 0) + (formData.costs.other || 0);
+    const totalCost = productCost + extraCosts;
+    const netProfit = formData.totalAmount - totalCost;
+    const margin = formData.totalAmount > 0 ? (netProfit / formData.totalAmount) * 100 : 0;
+    return {
+      totalCost,
+      netProfit,
+      margin: Math.round(margin * 100) / 100
+    };
+  };
+
+  const liveProfit = calculateLiveProfit();
+
   // --- Create Order Handlers ---
   
   const handleProductChange = (index: number, field: string, value: any) => {
@@ -550,6 +567,22 @@ const AdminWhatsAppOrders: React.FC = () => {
                     <label className="block text-sm text-gray-600 mb-1">Other Expenses</label>
                     <input type="number" min="0" className="w-full border p-2 rounded" value={formData.costs.other} onChange={e => setFormData({...formData, costs: {...formData.costs, other: Number(e.target.value)}})} />
                   </div>
+                </div>
+              </div>
+
+              {/* Live Profit Preview */}
+              <div className="bg-[#F8EDED]/50 p-4 rounded-lg border border-[#B43F3F]/10 grid grid-cols-3 gap-4">
+                <div>
+                  <p className="text-xs text-gray-500 uppercase font-medium">Estimated Total Cost</p>
+                  <p className="text-lg font-semibold text-gray-800">₹{liveProfit.totalCost}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase font-medium">Estimated Net Profit</p>
+                  <p className={`text-lg font-semibold ${liveProfit.netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>₹{liveProfit.netProfit}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase font-medium">Profit Margin</p>
+                  <p className={`text-lg font-semibold ${liveProfit.netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>{liveProfit.margin}%</p>
                 </div>
               </div>
 
