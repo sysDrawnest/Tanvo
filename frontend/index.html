@@ -10,6 +10,22 @@
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
     rel="stylesheet" />
+  <script>
+    (function() {
+      // Dynamic preload of the initial hero image
+      var isMobile = window.innerWidth <= 768;
+      var heroImgUrl = isMobile 
+        ? '/hero section image/tanvo-herosection-first.png' 
+        : '/hero section image/tanvo-herosection-first.png';
+        
+      var link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = heroImgUrl;
+      link.fetchPriority = 'high';
+      document.head.appendChild(link);
+    })();
+  </script>
   <script type="importmap">
 {
   "imports": {

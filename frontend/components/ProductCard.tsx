@@ -329,6 +329,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
               src={productImage}
               alt={product.name}
               onLoad={() => setImageLoaded(true)}
+              loading="lazy"
+              decoding="async"
               className={`pc-img ${imageLoaded ? 'loaded' : ''}`}
             />
           </Link>
