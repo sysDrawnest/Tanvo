@@ -1,15 +1,16 @@
 # TANVO Homepage Content & UI Specification
 
-This document serves as the absolute visual and code structure map for the **TANVO Homepage** (`Home.tsx`). It outlines every section, its corresponding React component filename, its design aesthetics, content details, and interactive capabilities.
+This document serves as the absolute visual and code structure map for the **TANVO Homepage** (`Home.tsx`). It outlines every section, its corresponding React component filename, its design aesthetics, content details, and interactive capabilities in their exact render order.
 
 ---
 
 ## Global Design Guidelines
+
 *   **Palette**: Calm Luxury & Heritage Handloom
     *   *Primary background*: Warm Ivory (`#F9F5EE`)
     *   *Alternative light background*: Clean White (`#FFFFFF`)
-    *   *Contrast / Dark Accent*: Deep Charcoal / Ink (`#1C1612`)
-    *   *Earthy / Heritage Accent*: Terracotta (`#B5502B`)
+    *   *Alternative dark/ink background*: Deep Obsidian/Charcoal (`#0D0B0A` / `#1C1612`)
+    *   *Earthy/Heritage accent*: Terracotta (`#B5502B` / `#780000` / `#C1121F`)
     *   *Luxury accent*: Soft Muted Gold (`#C9A84C`)
 *   **Typography**:
     *   *Display Serif*: Playfair Display / Cormorant Garamond (Used for headlines)
@@ -19,7 +20,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-## Section Map & Design Specifications
+## Active Section Map & Design Specifications (Render Order)
 
 ### 1. Hero Section
 *   **Filename**: `frontend/pages/sections/HeroSection.tsx`
@@ -42,17 +43,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 2. Atmospheric Video Loop Banner
-*   **Filename**: `frontend/pages/sections/VideoBanner.tsx`
-*   **UI/Design Description**:
-    *   Full-width, low-height video strip (`40vh` height, capped between `300px` and `450px`).
-    *   Designed as a visual breathing space/pacing break directly after the high-energy hero section.
-    *   Features a slow-motion video close-up of a shuttle moving through a loom (`/saree quality 2.mp4`).
-*   **Content**: No text or overlays; purely ambient motion loop.
-
----
-
-### 3. Bestsellers Product Grid
+### 2. Bestsellers Product Grid
 *   **Filename**: `frontend/pages/sections/ProductsGrid.tsx`
 *   **UI/Design Description**:
     *   Set against the unified Warm Ivory (`#F9F5EE`) background.
@@ -62,36 +53,12 @@ This document serves as the absolute visual and code structure map for the **TAN
     *   Label: "Most Loved"
     *   Title: "Bestsellers"
     *   Dynamic listing of the top 4 products marked with `isBestSeller`.
+    *   Redirection link: `/shop?isBestSeller=true`
 *   **Interactions**: Hover scale-up and subtle drop shadow elevation on individual product cards.
 
 ---
 
-### 4. Handwoven Heritage Story
-*   **Filename**: `frontend/pages/sections/HandwovenHeritage.tsx`
-*   **UI/Design Description**:
-    *   Side-by-side editorial row layout.
-    *   Desktop height is locked strictly to `580px`–`640px` to eliminate empty vertical space and keep rhythm.
-    *   Mobile layout stacks vertically and caps the image width at `320px` to prevent layout breaking.
-*   **Content**:
-    *   Main statement: *"Every Saree is Handwoven, Not Manufactured..."*
-    *   Artisan certification checklists (e.g. 100% Handmade by Master Weavers, GI Certified Authentic) accompanied by custom icon badges.
-*   **Interactions**: Clean "Explore the Collections" button.
-
----
-
-### 5. Curated Selection Grid
-*   **Filename**: `frontend/pages/sections/ProductsGrid.tsx`
-*   **UI/Design Description**:
-    *   Clean White (`#FFFFFF`) background.
-    *   Displays 4 handpicked sarees immediately available in the catalog.
-*   **Content**:
-    *   Label: "Direct from the Loom"
-    *   Title: "Curated Selection"
-    *   CTA Link: "Explore All Sarees" (Black underline)
-
----
-
-### 6. Infinitely Moving Marquee Ticker
+### 3. Infinitely Moving Marquee Ticker
 *   **Filename**: `frontend/pages/sections/MarqueeTicker.tsx`
 *   **UI/Design Description**:
     *   Full-bleed horizontal bar in solid gold background (`#C9A84C`).
@@ -101,7 +68,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 7. Brand Metrics & Pillars
+### 4. Brand Metrics & Pillars
 *   **Filename**: `frontend/pages/sections/PillarsSection.tsx`
 *   **UI/Design Description**:
     *   Rich deep charcoal background (`#1C1612`).
@@ -115,31 +82,59 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 8. New Arrivals Grid
+### 5. Atmospheric Video Loop Banner
+*   **Filename**: `frontend/pages/sections/VideoBanner.tsx`
+*   **UI/Design Description**:
+    *   Full-width, low-height video strip (`40vh` height, capped between `300px` and `450px`).
+    *   Designed as a visual breathing space/pacing break directly after the pillars.
+    *   Features a slow-motion video close-up of a shuttle moving through a loom (`/saree quality 2.mp4`).
+*   **Content**: No text or overlays; purely ambient motion loop.
+
+---
+
+### 6. Weave Traditions Category Grid
+*   **Filename**: `frontend/pages/sections/CategoryGrid.tsx`
+*   **UI/Design Description**:
+    *   Warm Ivory (`#F9F5EE`) background.
+    *   Custom layout: features a broad wide banner at the top for modern "Fancy" collections, followed by an asymmetric 3-column traditional block grid.
+*   **Content**:
+    *   Navigates direct into categories: Sambalpuri, Bomkai, Ikat, Silk, Cotton, Fancy, Khandua.
+*   **Interactions**: Hovering over any card smoothly scales the background image, slides open a terracotta top border line, and reveals an arrow link.
+
+---
+
+### 7. Handwoven Heritage Story
+*   **Filename**: `frontend/pages/sections/HandwovenHeritage.tsx`
+*   **UI/Design Description**:
+    *   Side-by-side editorial row layout.
+    *   Desktop height is locked strictly to `580px`–`640px` to eliminate empty vertical space and keep rhythm.
+    *   Mobile layout stacks vertically and caps the image width at `320px` to prevent layout breaking.
+    *   Includes a bottom "Process Strip" outlining the steps of production.
+*   **Content**:
+    *   Main statement: *"Every Saree is Handwoven, Not Manufactured"*
+    *   Artisan certification checklists (100% Handmade by Master Weavers, GI Certified Authentic Handloom, Supports 7th Gen Artisans, No Mass Production) accompanied by custom icon badges.
+    *   Process Steps:
+        1. Thread Dyeing (Organic pigments & sun drying)
+        2. Handloom Setup (Drafting the warp patterns)
+        3. Weaving (Intricate weft insertion)
+        4. Finished Saree (A masterpiece is ready)
+*   **Interactions**: Clean "Explore Handwoven Collection" button.
+
+---
+
+### 8. Curated Selection Grid
 *   **Filename**: `frontend/pages/sections/ProductsGrid.tsx`
 *   **UI/Design Description**:
-    *   Transparent background.
-    *   Responsive 4-column display showcasing the newest 4 catalog additions.
+    *   Immersive dark Obsidian/Charcoal backdrop (`#0D0B0A` background) with `inverse={true}` styling.
+    *   Displays 4 handpicked sarees from the catalog with high contrast.
 *   **Content**:
-    *   Label: "Just Arrived"
-    *   Title: "New Arrivals"
-    *   CTA Link: "View Newest Drops"
+    *   Label: "Direct from the Loom"
+    *   Title: "Curated Selection"
+    *   CTA Link: "Explore All Sarees" (White underline)
 
 ---
 
-### 9. Interactive Ikat Deep-Dive
-*   **Filename**: `frontend/pages/sections/IkatDeepDive.tsx`
-*   **UI/Design Description**:
-    *   Dark, heritage-focused split panel (`#1C1612` background).
-    *   *Left side*: Detail image of an Ikat weave with floating numerical hotspots.
-    *   *Right side*: High-end vertical typography detailing double-Ikat techniques and historical references.
-*   **Interactions**:
-    *   Hovering over hotspot circles (`1` and `2`) pops up elegant detail boxes describing the tie-and-dye warp/weft preparation.
-    *   "Learn More" arrow link.
-
----
-
-### 10. Ambient Editorial Video Banner
+### 9. Ambient Editorial Video Banner
 *   **Filename**: `frontend/pages/sections/EditorialBanner.tsx`
 *   **UI/Design Description**:
     *   Cinematic video background (`/EditorialBanner.mp4`) with a left-oriented dark gradient overlay for optimal text contrast.
@@ -151,29 +146,19 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 11. Weave Traditions Category Grid
-*   **Filename**: `frontend/pages/sections/CategoryGrid.tsx`
+### 10. New Arrivals Grid
+*   **Filename**: `frontend/pages/sections/ProductsGrid.tsx`
 *   **UI/Design Description**:
-    *   Warm Ivory (`#F9F5EE`) background.
-    *   Custom layout: features a broad wide banner at the top for modern "Fancy" collections, followed by an asymmetric 3-column traditional block grid.
+    *   Transparent background.
+    *   Responsive 4-column display showcasing the newest 4 catalog additions.
 *   **Content**:
-    *   Navigates direct into categories: Sambalpuri, Bomkai, Ikat, Silk, Cotton, Fancy, Khandua.
-*   **Interactions**: Hovering over any card smoothly scales the background image, slides open a terracotta top border line, and reveals an arrow link.
+    *   Label: "Just Arrived"
+    *   Title: "New Arrivals"
+    *   CTA Link: "View Newest Drops" (redirects to `/shop?sort=-createdAt`)
 
 ---
 
-### 12. "Why Choose Us" Trust Grid
-*   **Filename**: `frontend/pages/sections/WhyChooseUs.tsx`
-*   **UI/Design Description**:
-    *   Clean white background.
-    *   4-column cards framed with light gold borders.
-*   **Content**:
-    *   Features: Direct from Weavers, 30% Cheaper than Retail, GI Certified Fabrics, Authentic Handloom.
-*   **Interactions**: Cards lift up by `10px` on hover and gain a soft drop shadow.
-
----
-
-### 13. Men's Traditional Attire Campaign Banner
+### 11. Men's Traditional Attire Campaign Banner
 *   **Filename**: `frontend/pages/sections/MensTraditionalAttireBanner.tsx`
 *   **UI/Design Description**:
     *   Asymmetrical horizontal container set on a clean Warm Ivory (`#F9F5EE`) background.
@@ -186,7 +171,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 14. Modern Muse
+### 12. Modern Muse
 *   **Filename**: `frontend/pages/sections/ModernMuse.tsx`
 *   **UI/Design Description**:
     *   Full-width edge-to-edge section (or container-bound on large screens) set on a clean Warm Ivory (`#F9F5EE`) background.
@@ -198,6 +183,33 @@ This document serves as the absolute visual and code structure map for the **TAN
     *   Description: *"Where heritage weaving meets contemporary elegance. A curated dialogue between ancestral craft and modern silhouette."*
     *   Floating detail: *"HERITAGE HOUSE"* (vertical text on the right)
 *   **Interactions**: Framer Motion scroll-reveal animations for text fading up and image scaling from 1.1 to 1.0 smoothly. CTA button features a left-to-right dark hover sweep.
+
+---
+
+### 13. Draped For Every Moment (The Art of Occasion)
+*   **Filename**: `frontend/pages/sections/DrapedEveryMoment.tsx`
+*   **UI/Design Description**:
+    *   Asymmetric, staggered vertical cards with 9:16 aspect ratios.
+*   **Content**:
+    *   Occasions and specific asset images:
+        - Wedding: `/The Art of Occasion Wedding .jpeg`
+        - Ring Ceremony: `/The Art of Occasion Ring Ceremony .jpeg`
+        - Celebration / Daily Use: `/The Art of Occasion Daily Use .jpeg`
+        - Effortless Grace: `/The Art of Occasion Efferlatly garce .jpeg`
+*   **Interactions**: 
+    - Hovering on a card zooms the image, fades in the detailed description, and reveals the occasion details.
+    - Clicking on a card navigates to `/shop` with the respective `occasion` parameter (e.g. `?occasion=wedding`, `?occasion=ring-ceremony`, `?occasion=celebration`, `?occasion=effortless-grace`) to trigger dynamic shop filtering.
+
+---
+
+### 14. "Why Choose Us" Trust Grid
+*   **Filename**: `frontend/pages/sections/WhyChooseUs.tsx`
+*   **UI/Design Description**:
+    *   Clean white background.
+    *   4-column cards framed with light gold borders.
+*   **Content**:
+    *   Features: Direct from Weavers, 30% Cheaper than Retail, GI Certified Fabrics, Authentic Handloom.
+*   **Interactions**: Cards lift up by `10px` on hover and gain a soft drop shadow.
 
 ---
 
@@ -219,8 +231,70 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 16. Journal Hint (The TANVO Chronicles)
+### 16. Brand Story Section
+*   **Filename**: `frontend/pages/sections/BrandStorySection.tsx`
+*   **UI/Design Description**:
+    *   Full-width editorial segment with a low-opacity autoplay video background (`/VID02606251815.mp4`).
+    *   Left-oriented dark gradient overlay for optimal readability.
+*   **Content**:
+    *   Label: *"THE TANVO STORY"*
+    *   Headline: *"The Real Stories Behind Our Brand"*
+    *   Description: *"Every saree carries the hands, heritage, and patience of the artisans who create it."*
+    *   CTA Button: "Discover Our Heritage" linking to `/story`.
+*   **Interactions**: Button border and background transition to deep red (`#780000`) on hover.
+
+---
+
+### 17. Premium WhatsApp Commerce Section
+*   **Filename**: `frontend/components/WhatsAppOrder.tsx`
+*   **UI/Design Description**:
+    *   Immersive two-column layout with a decorative corner photo panel on the left and a rich typography panel on the right.
+*   **Content**:
+    *   Heading: *"Buy Directly on WhatsApp"*
+    *   Value points: Perfect for a simple, personal experience. Buy by sending a screenshot, sharing delivery address, and confirming on chat/call.
+*   **Interactions**:
+    *   "Buy on WhatsApp" button opens a direct, pre-filled WhatsApp ordering conversation.
+    *   Bottom labels guide non-technical customers through a simple 3-step order flow: "1. Send Screenshot", "2. Share Address", "3. Buy on Call or Chat".
+
+---
+
+### 18. Instagram Social Grid
+*   **Filename**: `frontend/pages/sections/InstagramSection.tsx`
+*   **UI/Design Description**:
+    *   Full-width 6-column image strip with dark overlays.
+*   **Content**:
+    *   Showcases social photos tagged with `#Tanvo`.
+*   **Interactions**: Hovering reveals a transparent gold tint overlay and the Instagram icon.
+
+---
+
+### 19. Trust Bar
+*   **Filename**: `frontend/pages/sections/TrustBar.tsx`
+*   **UI/Design Description**:
+    *   Horizontal gold strip right above the site footer divided into 4 columns by fine borders.
+*   **Content**:
+    *   Brief icons and guarantees: 100% Authentic, Global Shipping, Premium Fabrics, 7-Day Returns.
+
+---
+
+## Draft & Inactive Sections (Not Rendered in Home.tsx)
+
+### A. Interactive Ikat Deep-Dive
+*   **Filename**: `frontend/pages/sections/IkatDeepDive.tsx`
+*   **Status**: Draft (Imported but not active in rendering tree)
+*   **UI/Design Description**:
+    *   Dark, heritage-focused split panel (`#1C1612` background).
+    *   *Left side*: Detail image of an Ikat weave with floating numerical hotspots.
+    *   *Right side*: High-end vertical typography detailing double-Ikat techniques and historical references.
+*   **Interactions**:
+    *   Hovering over hotspot circles (`1` and `2`) pops up elegant detail boxes describing the tie-and-dye warp/weft preparation.
+    *   "Learn More" arrow link.
+
+---
+
+### B. Journal Hint (The TANVO Chronicles)
 *   **Filename**: `frontend/pages/sections/JournalHint.tsx`
+*   **Status**: Inactive (Not imported in `Home.tsx`)
 *   **UI/Design Description**:
     *   Magazine-inspired split layout on a solid ink backdrop (`#0D0B0A`).
     *   *Left Column*: Immersive masthead block showing the issue tags, title, sub-summary, and CTA button.
@@ -238,48 +312,26 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 17. Draped For Every Moment (The Art of Occasion)
-*   **Filename**: `frontend/pages/sections/DrapedEveryMoment.tsx`
+### C. Heritage Meets Modern
+*   **Filename**: `frontend/pages/sections/HeritageModern.tsx`
+*   **Status**: Inactive (Not imported in `Home.tsx`)
 *   **UI/Design Description**:
-    *   Asymmetric, staggered vertical cards with 9:16 aspect ratios.
+    *   Two-column philosophy grid.
+    *   *Left side*: Grayscale-to-color transition image (`Heritage Meets Modern.png`) with an absolute positioned banner on the bottom-right.
+    *   *Right side*: Text explaining the brand vision, featuring a Cormorant Garamond serif header.
 *   **Content**:
-    *   Occasions and specific asset images:
-        - Wedding: `/The Art of Occasion Wedding .jpeg`
-        - Ring Ceremony: `/The Art of Occasion Ring Ceremony .jpeg`
-        - Celebration / Daily Use: `/The Art of Occasion Daily Use .jpeg`
-        - Effortless Grace: `/The Art of Occasion Efferlatly garce .jpeg`
-*   **Interactions**: 
-    - Hovering on a card zooms the image, fades in the detailed description, and reveals the occasion details.
-    - Clicking on a card navigates to `/shop` with the respective `occasion` parameter (e.g. `?occasion=wedding`, `?occasion=ring-ceremony`, `?occasion=celebration`, `?occasion=effortless-grace`) to trigger dynamic shop filtering.
+    *   Title: "Heritage Meets Modern"
+    *   Quote: *"We believe that tradition is not about preserving ashes, but about keeping the fire of craft alive in modern silhouettes."*
+    *   CTA Button: "Read Our Vision"
 
 ---
 
-### 18. Instagram Social Grid
-*   **Filename**: `frontend/pages/sections/InstagramSection.tsx`
+### D. Six Ancient Traditions
+*   **Filename**: `frontend/pages/sections/SixTraditions.tsx`
+*   **Status**: Inactive (Not imported in `Home.tsx`)
 *   **UI/Design Description**:
-    *   Full-width 6-column image strip with dark overlays.
+    *   Curated legacy overview on a Warm Ivory (`var(--ivory)`) background with a textile mesh grain overlay.
+    *   Displays a structured grid of six traditions with large numbered indexes (`01` through `06`).
 *   **Content**:
-    *   Showcases social photos tagged with `#Tanvo`.
-*   **Interactions**: Hovering reveals a transparent gold tint overlay and the Instagram icon.
-
----
-
-### 19. Premium WhatsApp Commerce Section
-*   **Filename**: `frontend/components/WhatsAppOrder.tsx`
-*   **UI/Design Description**:
-    *   Immersive two-column layout with a decorative corner photo panel on the left and a rich typography panel on the right.
-*   **Content**:
-    *   Heading: *"Buy Directly on WhatsApp"*
-    *   Value points: Perfect for a simple, personal experience. Buy by sending a screenshot, sharing delivery address, and confirming on chat/call.
-*   **Interactions**:
-    *   "Buy on WhatsApp" button opens a direct, pre-filled WhatsApp ordering conversation.
-    *   Bottom labels guide non-technical customers through a simple 3-step order flow: "1. Send Screenshot", "2. Share Address", "3. Buy on Call or Chat".
-
----
-
-### 20. Trust Bar
-*   **Filename**: `frontend/pages/sections/TrustBar.tsx`
-*   **UI/Design Description**:
-    *   Horizontal gold strip right above the site footer divided into 4 columns by fine borders.
-*   **Content**:
-    *   Brief icons and guarantees: 100% Authentic, Global Shipping, Premium Fabrics, 7-Day Returns.
+    *   Covers: Sambalpuri Ikat, Bomkai Silk, Khandua Patta, Kotpad Weave, Dongria Kondh, and Berhampuri Patta.
+*   **Interactions**: Smooth staggered scroll-reveals using `IntersectionObserver`. Hovering over numbers highlights them in terracotta.
