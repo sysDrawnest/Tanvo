@@ -17,7 +17,6 @@ import WhyChooseUs from './sections/WhyChooseUs';
 import TrustSignals from './sections/TrustSignals';
 import WhatsAppOrder from '../components/WhatsAppOrder';
 import RegisterModal from '../components/RegisterModal';
-import Preloader from '../components/Preloader';
 
 // ── New Components ──
 import HandwovenHeritage from './sections/HandwovenHeritage';
@@ -26,13 +25,11 @@ import BrandStorySection from './sections/BrandStorySection';
 import MensTraditionalAttireBanner from './sections/MensTraditionalAttireBanner';
 import ModernMuse from './sections/ModernMuse';
 import VideoBanner from './sections/VideoBanner';
-import { HERO_SLIDES } from '../constants';
 
 const Home: React.FC = () => {
   const { products, fetchProducts, loading } = useStore();
   const [newArrivals, setNewArrivals] = useState<any[]>([]);
   const [bestsellers, setBestsellers] = useState<any[]>([]);
-  const [isPreloading, setIsPreloading] = useState(true);
 
   useEffect(() => {
     fetchProducts({ limit: 12, sort: '-createdAt' });
@@ -45,51 +42,20 @@ const Home: React.FC = () => {
     }
   }, [products]);
 
-  // Preloader Logic
-  useEffect(() => {
-    let isMounted = true;
-    
-    const preloadAssets = async () => {
-      try {
-        const fontPromise = document.fonts ? document.fonts.ready : Promise.resolve();
-        
-        const isMobile = window.innerWidth <= 768;
-        const heroUrl = isMobile ? HERO_SLIDES[0].mobile : HERO_SLIDES[0].desktop;
-        
-        const heroPromise = new Promise((resolve) => {
-          const img = new Image();
-          img.src = heroUrl;
-          img.onload = resolve;
-          img.onerror = resolve; // Continue even if image fails
-        });
-
-        // Timeout promise of 2000ms
-        const timeoutPromise = new Promise(resolve => setTimeout(resolve, 2000));
-        
-        // Wait for either assets to load or timeout to occur
-        await Promise.race([
-          Promise.all([fontPromise, heroPromise]), 
-          timeoutPromise
-        ]);
-        
-      } catch (e) {
-        console.error("Preloading error", e);
-      } finally {
-        if (isMounted) {
-          setIsPreloading(false);
-        }
-      }
-    };
-
-    preloadAssets();
-
-    return () => { isMounted = false; };
-  }, []);
+  if (loading && products.length === 0) {
+    return (
+      <div className="bg-tanvoBg min-h-screen flex items-center justify-center relative">
+        <div className="absolute inset-0 pointer-events-none opacity-50" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")` }} />
+        <div className="text-center relative z-10">
+          <div className="w-10 h-10 border-2 border-tanvoPrimary border-t-tanvoAccent rounded-full animate-spin mx-auto mb-6" />
+          <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-tanvoDark opacity-70">Weaving your experience</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-tanvoBg overflow-x-hidden relative font-sans">
-      <Preloader isLoading={isPreloading} />
-
       {/* textile overlay */}
       <div className="fixed inset-0 pointer-events-none opacity-50 z-1" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")` }} />
 

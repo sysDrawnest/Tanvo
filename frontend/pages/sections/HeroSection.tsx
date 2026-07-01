@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Star, Award, Users } from 'lucide-react';
 import { HERO_SLIDES } from '../../constants';
-import { getCloudinaryUrl } from '../../utils/cloudinary';
 
 /*
 =====================================================
@@ -480,24 +479,17 @@ const HeroSection: React.FC = () => {
         }}>
             {/* Background Slideshow */}
             {HERO_SLIDES.map((slide, index) => {
-                const originalUrl = isMobile ? slide.mobile : slide.desktop;
-                const imgUrl = getCloudinaryUrl(originalUrl, { isHero: true });
-                const isFirstSlide = index === 0;
-
+                const imgUrl = isMobile ? slide.mobile : slide.desktop;
                 return (
-                    <img
+                    <div
                         key={index}
-                        src={imgUrl}
-                        alt={`Tanvo Hero Slide ${index + 1}`}
-                        fetchPriority={isFirstSlide ? "high" : "auto"}
-                        loading={isFirstSlide ? "eager" : "lazy"}
                         style={{
                             position: 'absolute',
                             inset: 0,
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: slide.position || 'center',
+                            backgroundImage: `url("${imgUrl}")`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: slide.position || 'center',
+                            backgroundRepeat: 'no-repeat',
                             opacity: index === currentIndex ? 1 : 0,
                             transition: 'opacity 1.5s ease-in-out',
                             zIndex: 0,
