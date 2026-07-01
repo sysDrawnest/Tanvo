@@ -209,7 +209,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           font-family: 'Cormorant Garamond', serif;
           font-size: clamp(15px, 1.5vw, 20px);
           font-weight: 400;
-          color: ${inverse ? 'var(--ivory)' : 'var(--ink)'};
+          color: var(--pc-text-primary);
           line-height: 1.2;
           text-decoration: none;
           transition: color 0.3s ease;
@@ -229,7 +229,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           font-family: 'Inter', sans-serif;
           font-size: clamp(15px, 1.5vw, 17px);
           font-weight: 700;
-          color: ${inverse ? 'var(--ivory)' : 'var(--ink)'};
+          color: var(--pc-text-primary);
           display: block;
           letter-spacing: 0.02em;
         }
@@ -237,7 +237,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           font-family: 'Inter', sans-serif;
           font-size: 12px;
           font-weight: 500;
-          color: ${inverse ? 'rgba(255,255,255,0.6)' : 'var(--ink-muted)'};
+          color: var(--pc-text-muted);
           text-decoration: line-through;
           display: block;
         }
@@ -331,7 +331,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
         }
       `}</style>
 
-      <div className="pc-wrap">
+      <div className="pc-wrap" style={{ '--pc-text-primary': inverse ? 'var(--ivory)' : 'var(--ink)', '--pc-text-muted': inverse ? 'rgba(255,255,255,0.6)' : 'var(--stone)' } as React.CSSProperties}>
         <div className="pc-img-frame">
           <Link to={`/product/${productId}`} className="block w-full h-full">
             {!imageLoaded && <div className="pc-skeleton" />}
