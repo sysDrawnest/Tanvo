@@ -226,17 +226,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
           gap: 2px;
         }
         .pc-price {
-          font-family: 'Inter', sans-serif;
-          font-size: clamp(15px, 1.5vw, 17px);
-          font-weight: 700;
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(15px, 1.5vw, 19px);
+          font-weight: 400;
+          font-style: italic;
           color: var(--pc-text-primary);
           display: block;
-          letter-spacing: 0.02em;
         }
         .pc-price-original {
-          font-family: 'Inter', sans-serif;
-          font-size: 12px;
-          font-weight: 500;
+          font-family: 'Raleway', sans-serif;
+          font-size: 11px;
+          font-weight: 400;
           color: var(--pc-text-muted);
           text-decoration: line-through;
           display: block;
