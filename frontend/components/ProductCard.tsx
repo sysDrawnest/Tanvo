@@ -207,7 +207,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
         }
         .pc-name {
           font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(15px, 1.5vw, 20px);
+          font-size: clamp(14px, 1.4vw, 18px);
           font-weight: 400;
           color: var(--pc-text-primary);
           line-height: 1.2;
@@ -227,16 +227,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
         }
         .pc-price {
           font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(15px, 1.5vw, 19px);
-          font-weight: 400;
+          font-size: clamp(16px, 1.6vw, 21px);
+          font-weight: 600;
           font-style: italic;
           color: var(--pc-text-primary);
           display: block;
         }
         .pc-price-original {
           font-family: 'Raleway', sans-serif;
-          font-size: 11px;
-          font-weight: 400;
+          font-size: 12px;
+          font-weight: 600;
           color: var(--pc-text-muted);
           text-decoration: line-through;
           display: block;
@@ -270,7 +270,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
             margin-bottom: 2px !important;
           }
           .pc-name {
-            font-size: 13.5px !important;
+            font-size: 12.5px !important;
             line-height: 1.25 !important;
             display: -webkit-box !important;
             -webkit-line-clamp: 2 !important;
@@ -278,10 +278,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inverse = false }) =
             overflow: hidden !important;
           }
           .pc-price {
-            font-size: 14px !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
           }
           .pc-price-original {
-            font-size: 11px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
             margin-top: 0 !important;
           }
           .pc-info {
