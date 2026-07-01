@@ -102,7 +102,7 @@ app.use('/api/collections', collectionRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/webhooks', webhookRoutes);
 app.use('/api/support', supportRoutes);
-app.use('/api/whatsapp-orders', whatsappOrderRoutes);
+app.use('/api/admin/whatsapp-orders', whatsappOrderRoutes);
 
 
 // Health check
