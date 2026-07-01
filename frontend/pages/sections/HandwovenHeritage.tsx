@@ -4,39 +4,39 @@ import { Link } from 'react-router-dom';
 const HandwovenHeritage: React.FC = () => {
     return (
         <section className="relative overflow-hidden bg-[#F9F5EE]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(120, 0, 0, 0.02) 1px, transparent 0)', backgroundSize: '24px 24px' }}>
-            <div className="flex flex-col md:flex-row min-h-[580px] lg:min-h-[640px]">
+            <div className="flex flex-col md:flex-row min-h-0 md:min-h-[580px] lg:min-h-[640px]">
                 {/* Left Content Side */}
-                <div className="w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 py-12 md:py-16 z-10">
+                <div className="w-full md:w-1/2 flex flex-col justify-center px-5 md:px-16 py-8 md:py-16 z-10">
                     <div className="max-w-xl space-y-6">
-                        <h1 className="text-3xl md:text-5xl font-headline font-bold text-[#0D0B0A] leading-tight font-serif">
+                        <h1 className="text-2xl md:text-5xl font-headline font-bold text-[#0D0B0A] leading-tight font-serif">
                             Every Saree is Handwoven, Not Manufactured
                         </h1>
-                        <p className="text-lg md:text-xl font-body font-light text-[#59413d] leading-relaxed italic">
+                        <p className="text-base md:text-xl font-body font-light text-[#59413d] leading-relaxed italic">
                             Crafted by skilled artisans across Odisha, each Tanvo piece carries generations of tradition, patience, and human touch — no machines, no shortcuts.
                         </p>
                         <div className="h-px w-20 bg-[#780000]/20"></div>
                         <p className="text-sm md:text-base text-[#59413d]/90 leading-relaxed font-body">
                             Our sarees are woven thread by thread using traditional techniques like Sambalpuri Ikat, Bomkai, and Khandua. Each piece takes days — sometimes weeks — to complete, making every saree unique.
                         </p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 py-2">
-                            <div className="flex items-center gap-3">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                                <span className="text-xs font-label uppercase tracking-widest text-[#0D0B0A] font-bold">100% Handmade by Master Weavers</span>
+                        <div className="grid grid-cols-2 gap-3 py-2">
+                            <div className="flex items-center gap-2 p-3 bg-white/60 backdrop-blur-sm border border-[#E2D9C8]/40 rounded-[2px]">
+                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                                <span className="text-[10px] sm:text-xs font-label uppercase tracking-wider text-[#0D0B0A] font-bold leading-tight">100% Handmade</span>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                                <span className="text-xs font-label uppercase tracking-widest text-[#0D0B0A] font-bold">GI Certified Authentic Handloom</span>
+                            <div className="flex items-center gap-2 p-3 bg-white/60 backdrop-blur-sm border border-[#E2D9C8]/40 rounded-[2px]">
+                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                                <span className="text-[10px] sm:text-xs font-label uppercase tracking-wider text-[#0D0B0A] font-bold leading-tight">GI Certified</span>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
-                                <span className="text-xs font-label uppercase tracking-widest text-[#0D0B0A] font-bold">Supports 7th Gen Artisans</span>
+                            <div className="flex items-center gap-2 p-3 bg-white/60 backdrop-blur-sm border border-[#E2D9C8]/40 rounded-[2px]">
+                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
+                                <span className="text-[10px] sm:text-xs font-label uppercase tracking-wider text-[#0D0B0A] font-bold leading-tight">7th Gen Weavers</span>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
-                                <span className="text-xs font-label uppercase tracking-widest text-[#0D0B0A] font-bold">No Mass Production</span>
+                            <div className="flex items-center gap-2 p-3 bg-white/60 backdrop-blur-sm border border-[#E2D9C8]/40 rounded-[2px]">
+                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
+                                <span className="text-[10px] sm:text-xs font-label uppercase tracking-wider text-[#0D0B0A] font-bold leading-tight">No Machines</span>
                             </div>
                         </div>
-                        <div className="pt-4">
+                        <div className="pt-2">
                             <Link to="/shop" className="group relative px-7 py-3.5 bg-gradient-to-r from-[#780000] to-[#C1121F] text-white font-label text-xs rounded-sm overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-[#780000]/10 inline-flex items-center justify-center uppercase tracking-[0.2em] font-bold h-[48px]">
                                 <span className="relative z-10 font-label uppercase tracking-[0.2em] text-[11px] font-bold">Explore Handwoven Collection</span>
                                 <div className="absolute inset-0 bg-[#780000] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
