@@ -450,10 +450,10 @@ NEW LUXURY HERO SECTION
 */
 const HeroSection: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
     useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        const handleResize = () => setScreenWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -463,6 +463,29 @@ const HeroSection: React.FC = () => {
             setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
         }, 5000);
         return () => clearInterval(timer);
+    }, []);
+
+    // Preload first hero image for performance
+    useEffect(() => {
+        let width = 1920;
+        if (window.innerWidth <= 768) width = 900;
+        else if (window.innerWidth <= 1024) width = 1200;
+
+        const baseImg = window.innerWidth <= 768 ? HERO_SLIDES[0].mobile : HERO_SLIDES[0].desktop;
+        const optimizedUrl = baseImg.replace(
+            /\/upload\/[^/]+\//, 
+            `/upload/f_auto,q_90,w_${width},c_fill,g_auto/`
+        );
+
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = optimizedUrl;
+        document.head.appendChild(link);
+
+        return () => {
+            document.head.removeChild(link);
+        };
     }, []);
 
     return (
@@ -479,21 +502,34 @@ const HeroSection: React.FC = () => {
         }}>
             {/* Background Slideshow */}
             {HERO_SLIDES.map((slide, index) => {
-                const imgUrl = isMobile ? slide.mobile : slide.desktop;
+                let width = 1920;
+                if (screenWidth <= 768) width = 900;
+                else if (screenWidth <= 1024) width = 1200;
+                
+                const baseImg = screenWidth <= 768 ? slide.mobile : slide.desktop;
+                const optimizedUrl = baseImg.replace(
+                    /\/upload\/[^/]+\//, 
+                    `/upload/f_auto,q_90,w_${width},c_fill,g_auto/`
+                );
+
                 return (
-                    <div
+                    <img
                         key={index}
+                        src={optimizedUrl}
+                        alt={`Hero Slide ${index + 1}`}
                         style={{
                             position: 'absolute',
                             inset: 0,
-                            backgroundImage: `url("${imgUrl}")`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: slide.position || 'center',
-                            backgroundRepeat: 'no-repeat',
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: slide.position || 'center',
                             opacity: index === currentIndex ? 1 : 0,
                             transition: 'opacity 1.5s ease-in-out',
                             zIndex: 0,
                         }}
+                        loading={index === 0 ? "eager" : "lazy"}
+                        fetchPriority={index === 0 ? "high" : "auto"}
                     />
                 );
             })}
