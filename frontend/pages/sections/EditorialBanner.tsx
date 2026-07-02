@@ -142,7 +142,7 @@ const EditorialBanner: React.FC = () => {
                         left: 0,
                     }}
                 >
-                    <source src="/EditorialBanner.mp4" type="video/mp4" />
+                    <source src="/A_cinematic_couture_beauty_fil.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
                 
