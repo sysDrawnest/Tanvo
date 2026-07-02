@@ -16,7 +16,7 @@ const HandwovenHeritage: React.FC = () => {
                 <div className="w-full max-w-7xl relative group mb-10 md:mb-16">
                     <div className="aspect-[16/9] md:aspect-[2.75/1] overflow-hidden bg-[#F9F5EE]">
                         <img 
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdg7Ev_2hzinZ3ELEiaInm85FF5cZlgC3vjDdz0dNR_5uT4IiQNlFThWx02_8d06i2loTg_isOhanjJ-XgBXwD-7k3DYSXsQ0sK299Dac6LbvjJmC1kxyaGNcHjfKqM2ha6jBHoYHFtoC01UMM9aZuUX9eFXnAZmP-cpSPrKM2hmNjOcawJFf_SRb7nmoR1VqIFZtR3wRMta_51owM7im8pFVUJIkDcyqlH5ayYK0PtWIo3z1HxUK-4v3km41dOKv787phEhTaww" 
+                            src="/Master_weaver_creating_Sambalpur…_2K_202607021325.jpeg" 
                             alt="Master Weaver"
                             className="w-full h-full object-cover object-center transform transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                         />
