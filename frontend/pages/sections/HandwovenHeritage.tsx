@@ -56,57 +56,7 @@ const HandwovenHeritage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            
-            {/* Process Strip , this is the perfect and I dont want to change it */}
-            <div className="bg-[#FAF6F0] border-t border-[#E2D9C8]/40 py-8 px-6 md:px-16">
-                <div className="max-w-[1440px] mx-auto">
-                    <div className="flex flex-row justify-between items-center gap-8 md:gap-12 relative overflow-x-auto pb-4 scrollbar-hide">
-                        {/* Connecting Line (Desktop) */}
-                        <div className="absolute top-[1.35rem] left-0 w-full h-px bg-[#E2D9C8]/40 hidden md:block"></div>
-                        <div className="absolute top-[1.35rem] left-0 w-1/3 h-px bg-[#780000] hidden md:block"></div>
-                        {/* Step 1 */}
-                        <div className="flex flex-row md:flex-col items-center md:items-start relative z-10 group cursor-default flex-shrink-0 gap-3 md:gap-0">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#780000] flex items-center justify-center text-white md:mb-3 transition-transform group-hover:scale-110">
-                                <span className="material-symbols-outlined text-sm md:text-base" style={{ fontVariationSettings: "'FILL' 1" }}>palette</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] md:text-xs font-label uppercase tracking-[0.15em] text-[#780000] font-bold whitespace-nowrap">Thread Dyeing</span>
-                                <p className="text-[11px] text-[#59413d]/70 mt-0.5 hidden md:block font-body-md">Organic pigments &amp; sun drying</p>
-                            </div>
-                        </div>
-                        {/* Step 2 */}
-                        <div className="flex flex-row md:flex-col items-center md:items-start relative z-10 group cursor-default flex-shrink-0 gap-3 md:gap-0">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#E2D9C8] flex items-center justify-center text-[#59413d] md:mb-3 group-hover:border-[#780000] transition-all">
-                                <span className="material-symbols-outlined text-sm md:text-base">settings_suggest</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] md:text-xs font-label uppercase tracking-[0.15em] text-[#59413d] font-bold whitespace-nowrap">Handloom Setup</span>
-                                <p className="text-[11px] text-[#59413d]/70 mt-0.5 hidden md:block font-body-md">Drafting the warp patterns</p>
-                            </div>
-                        </div>
-                        {/* Step 3 */}
-                        <div className="flex flex-row md:flex-col items-center md:items-start relative z-10 group cursor-default flex-shrink-0 gap-3 md:gap-0">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#E2D9C8] flex items-center justify-center text-[#59413d] md:mb-3 group-hover:border-[#780000] transition-all">
-                                <span className="material-symbols-outlined text-sm md:text-base">gesture</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] md:text-xs font-label uppercase tracking-[0.15em] text-[#59413d] font-bold whitespace-nowrap">Weaving</span>
-                                <p className="text-[11px] text-[#59413d]/70 mt-0.5 hidden md:block font-body-md">Intricate weft insertion</p>
-                            </div>
-                        </div>
-                        {/* Step 4 */}
-                        <div className="flex flex-row md:flex-col items-center md:items-start relative z-10 group cursor-default flex-shrink-0 gap-3 md:gap-0">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#E2D9C8] flex items-center justify-center text-[#59413d] md:mb-3 group-hover:border-[#780000] transition-all">
-                                <span className="material-symbols-outlined text-sm md:text-base">auto_awesome</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] md:text-xs font-label uppercase tracking-[0.15em] text-[#59413d] font-bold whitespace-nowrap">Finished Saree</span>
-                                <p className="text-[11px] text-[#59413d]/70 mt-0.5 hidden md:block font-body-md">A masterpiece is ready</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
         </section>
     );
 };
