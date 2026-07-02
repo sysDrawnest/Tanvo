@@ -30,9 +30,9 @@ const NewArrivalsBanner: React.FC = () => {
                         
                         {/* Heading - big and bold with light color */}
                         <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl text-[#F9F5EE] tracking-tighter leading-[1.05] mb-4">
-                            New
+                            Men's 
                             <br />
-                            Arrivals
+                            Traditional
                         </h2>
                         
                         {/* Minimal description with light color */}
