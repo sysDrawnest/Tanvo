@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 
 const HandwovenHeritage: React.FC = () => {
     return (
-        <section className="bg-white py-24 md:py-32 overflow-hidden selection:bg-[#780000] selection:text-white">
+        <section className="bg-white py-16 md:py-24 overflow-hidden selection:bg-[#780000] selection:text-white">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col items-center text-center">
                 
                 {/* Title */}
-                <h2 className="font-headline font-normal text-5xl md:text-7xl lg:text-[7rem] tracking-tight text-[#0D0B0A] uppercase mb-12 md:mb-20 w-full" style={{ lineHeight: '1.1' }}>
+                <h2 className="font-headline font-normal text-5xl md:text-7xl lg:text-[7rem] tracking-tight text-[#0D0B0A] uppercase mb-8 md:mb-12 w-full" style={{ lineHeight: '1.1' }}>
                     <span className="block">EVERY THREAD</span>
                     <span className="block text-[#780000] italic font-serif">CARRIES A STORY</span>
                 </h2>
 
                 {/* Hero Image */}
-                <div className="w-full max-w-7xl relative group mb-16 md:mb-24">
-                    <div className="aspect-[4/3] md:aspect-[2.35/1] overflow-hidden bg-[#F9F5EE]">
+                <div className="w-full max-w-7xl relative group mb-10 md:mb-16">
+                    <div className="aspect-[16/9] md:aspect-[2.75/1] overflow-hidden bg-[#F9F5EE]">
                         <img 
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdg7Ev_2hzinZ3ELEiaInm85FF5cZlgC3vjDdz0dNR_5uT4IiQNlFThWx02_8d06i2loTg_isOhanjJ-XgBXwD-7k3DYSXsQ0sK299Dac6LbvjJmC1kxyaGNcHjfKqM2ha6jBHoYHFtoC01UMM9aZuUX9eFXnAZmP-cpSPrKM2hmNjOcawJFf_SRb7nmoR1VqIFZtR3wRMta_51owM7im8pFVUJIkDcyqlH5ayYK0PtWIo3z1HxUK-4v3km41dOKv787phEhTaww" 
                             alt="Master Weaver"
@@ -31,10 +31,10 @@ const HandwovenHeritage: React.FC = () => {
                 </div>
 
                 {/* Divider */}
-                <div className="w-32 h-[1px] bg-[#0D0B0A] mx-auto my-16 md:my-24"></div>
+                <div className="w-32 h-[1px] bg-[#0D0B0A] mx-auto my-10 md:my-16"></div>
 
                 {/* Stats */}
-                <div className="w-full max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-6 mb-20 md:mb-24">
+                <div className="w-full max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-6 mb-12 md:mb-16">
                     <div className="flex flex-col items-center justify-center">
                         <span className="font-label text-sm md:text-base uppercase tracking-[0.25em] text-[#0D0B0A] font-bold">15 Days</span>
                     </div>
