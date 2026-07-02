@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { getValidToken } from '../utils/auth';
 
 // Create Axios instance with interceptors
 export const api = axios.create({
@@ -10,7 +11,7 @@ export const api = axios.create({
 // Request interceptor to attach token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = getValidToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -27,9 +28,12 @@ api.interceptors.response.use(
     // and attempt to refresh the token, then retry the request.
     // For now, if 401 unauthorized, we log out unless it's the login endpoint itself.
     if (error.response?.status === 401 && !error.config.url?.includes('/auth/login')) {
+      const hadToken = !!getValidToken();
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      if (hadToken) {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
@@ -59,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = getValidToken();
     const storedUser = localStorage.getItem('user');
 
     if (storedToken && storedUser) {
@@ -73,7 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(userData);
     setToken(token);
     localStorage.setItem('user', JSON.stringify(userData));
-    localStorage.setItem('token', token);
+    if (token) localStorage.setItem('token', token);
   };
 
   const logout = () => {

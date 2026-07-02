@@ -2,6 +2,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import API from '../services/api';
 import { User, Product, Cart, CartItem, LoginCredentials, RegisterData } from '../types';
+import { getValidToken } from '../utils/auth';
 
 // ── Guest Types ──────────────────────────────────────────────
 interface GuestCartItem {
@@ -81,7 +82,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [cart, setCart] = useState<Cart | null>(null);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(!!localStorage.getItem('token'));
+  const [loading, setLoading] = useState(!!getValidToken());
   const [error, setError] = useState<string | null>(null);
 
   // Guest state — persisted in localStorage
@@ -109,7 +110,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Check if user is logged in on mount
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = getValidToken();
     if (token) {
       fetchUserProfile();
     }
@@ -137,7 +138,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setError(null);
       const { data } = await API.post('/auth/login', { email, password });
 
-      localStorage.setItem('token', data.token);
+      if (data.token) localStorage.setItem('token', data.token);
       setUser(data);
       await fetchCart();
       await fetchWishlist();
@@ -158,7 +159,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setError(null);
       const { data } = await API.post('/auth/register', userData);
 
-      localStorage.setItem('token', data.token);
+      if (data.token) localStorage.setItem('token', data.token);
       setUser(data);
       await fetchCart();
       await fetchWishlist();
@@ -175,6 +176,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setUser(null);
     setCart(null);
     setWishlist([]);
@@ -230,7 +232,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // ==================== CART ====================
   const fetchCart = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = getValidToken();
       if (!token) return;
 
       const { data } = await API.get('/cart');
@@ -342,7 +344,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // ==================== WISHLIST ====================
   const fetchWishlist = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = getValidToken();
       if (!token) return;
 
       const { data } = await API.get('/users/wishlist');
