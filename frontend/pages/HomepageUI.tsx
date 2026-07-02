@@ -3,11 +3,142 @@
 // ==========================================
 
 
+// --- FILE: Home.tsx ---
+
+import React, { useEffect, useState } from 'react';
+import { useStore } from '../context/StoreContext';
+import { Product } from '../types';
+import { motion } from 'framer-motion';
+
+// ── Section Components ──
+import HeroSection from './sections/HeroSection';
+import MarqueeTicker from './sections/MarqueeTicker';
+import PillarsSection from './sections/PillarsSection';
+import EditorialBanner from './sections/EditorialBanner';
+import CategoryGrid from './sections/CategoryGrid';
+import ProductsGrid from './sections/ProductsGrid';
+import IkatDeepDive from './sections/IkatDeepDive';
+import InstagramSection from './sections/InstagramSection';
+import TrustBar from './sections/TrustBar';
+import WhyChooseUs from './sections/WhyChooseUs';
+import TrustSignals from './sections/TrustSignals';
+import WhatsAppOrder from '../components/WhatsAppOrder';
+import RegisterModal from '../components/RegisterModal';
+
+// ── New Components ──
+import HandwovenHeritage from './sections/HandwovenHeritage';
+import DrapedEveryMoment from './sections/DrapedEveryMoment';
+import BrandStorySection from './sections/BrandStorySection';
+import MensTraditionalAttireBanner from './sections/MensTraditionalAttireBanner';
+import ModernMuse from './sections/ModernMuse';
+import VideoBanner from './sections/VideoBanner';
+
+const Home: React.FC = () => {
+  const { products, fetchProducts, loading } = useStore();
+  const [newArrivals, setNewArrivals] = useState<any[]>([]);
+  const [bestsellers, setBestsellers] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchProducts({ limit: 12, sort: '-createdAt' });
+  }, []);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setNewArrivals(products.slice(0, 4));
+      setBestsellers(products.filter((p: any) => p.isBestSeller).slice(0, 4));
+    }
+  }, [products]);
+
+  if (loading && products.length === 0) {
+    return (
+      <div className="bg-tanvoBg min-h-screen flex items-center justify-center relative">
+        <div className="absolute inset-0 pointer-events-none opacity-50" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")` }} />
+        <div className="text-center relative z-10">
+          <div className="w-10 h-10 border-2 border-tanvoPrimary border-t-tanvoAccent rounded-full animate-spin mx-auto mb-6" />
+          <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-tanvoDark opacity-70">Weaving your experience</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-tanvoBg overflow-x-hidden relative font-sans">
+      {/* textile overlay */}
+      <div className="fixed inset-0 pointer-events-none opacity-50 z-1" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")` }} />
+
+      <div className="relative z-10">
+        <HeroSection />
+
+        {bestsellers.length > 0 && (
+          <ProductsGrid
+            products={bestsellers}
+            label="Most Loved"
+            title="Bestsellers"
+            viewAllLink="/shop?isBestSeller=true"
+            viewAllText="All Bestsellers"
+            background="#F9F5EE"
+          />
+        )}
+
+        <MarqueeTicker />
+        <PillarsSection />
+
+        {/* New Arrivals Section */}
+        <ProductsGrid
+          products={newArrivals}
+          label="Just Arrived"
+          title="New"
+          titleEm="Arrivals"
+          viewAllLink="/shop?sort=-createdAt"
+          viewAllText="View Newest Drops"
+          background="transparent"
+        />
+
+        <VideoBanner />
+        <CategoryGrid />
+        <HandwovenHeritage />
+
+        {/* Curated Selection */}
+        <ProductsGrid
+          products={products.slice(0, 4)}
+          label="Direct from the Loom"
+          title="Curated"
+          titleEm="Selection"
+          viewAllLink="/shop"
+          viewAllText="Explore All Sarees"
+          background="#0D0B0A"
+          inverse={true}
+        />
+
+        <EditorialBanner />
+
+        <MensTraditionalAttireBanner />
+        <ModernMuse />
+        <DrapedEveryMoment />
+        <WhyChooseUs />
+        <TrustSignals />
+        <BrandStorySection />
+        <WhatsAppOrder />
+        
+        <InstagramSection
+          handle="@Tanvo"
+          profileUrl="https://instagram.com"
+        />
+        
+        <TrustBar />
+      </div>
+    </div>
+  );
+};
+
+export default Home;
+
 // --- FILE: HeroSection.tsx ---
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Star, Award, Users } from 'lucide-react';
+import { HERO_SLIDES } from '../../constants';
 
 /*
 =====================================================
@@ -455,6 +586,22 @@ NEW LUXURY HERO SECTION
 =====================================================
 */
 const HeroSection: React.FC = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []);
+
     return (
         <section style={{
             minHeight: '100vh',
@@ -464,12 +611,30 @@ const HeroSection: React.FC = () => {
             flexDirection: 'column',
             justifyContent: 'space-between',
             padding: '4vw 6vw',
-            backgroundImage: 'url(/luxury_saree_macro.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
             backgroundColor: '#0A0A0A',
+            overflow: 'hidden',
         }}>
+            {/* Background Slideshow */}
+            {HERO_SLIDES.map((slide, index) => {
+                const imgUrl = isMobile ? slide.mobile : slide.desktop;
+                return (
+                    <div
+                        key={index}
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            backgroundImage: `url("${imgUrl}")`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: slide.position || 'center',
+                            backgroundRepeat: 'no-repeat',
+                            opacity: index === currentIndex ? 1 : 0,
+                            transition: 'opacity 1.5s ease-in-out',
+                            zIndex: 0,
+                        }}
+                    />
+                );
+            })}
+
             {/* Elegant dark overlay */}
             <div style={{
                 position: 'absolute',
@@ -486,25 +651,20 @@ const HeroSection: React.FC = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center'
             }}>
-                <div style={{
-                    color: '#EAE6DF',
-                    fontSize: '15px',
-                    letterSpacing: '0.25em',
-                    fontWeight: 300,
-                    textTransform: 'uppercase',
-                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
-                }}>
-                    Tanvo
-                </div>
-                <div style={{
+                <div />
+                <Link to="/shop" style={{
                     color: '#EAE6DF',
                     fontSize: '11px',
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
                     opacity: 0.7,
-                }}>
+                    textDecoration: 'none',
+                    transition: 'opacity 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}>
                     Fine Silks
-                </div>
+                </Link>
             </div>
 
             {/* Main content */}
@@ -568,6 +728,33 @@ const HeroSection: React.FC = () => {
                 </Link>
             </div>
 
+            {/* Slide Indicators */}
+            <div style={{
+                position: 'absolute',
+                bottom: '4vh',
+                left: '6vw',
+                zIndex: 2,
+                display: 'flex',
+                gap: '8px',
+            }}>
+                {HERO_SLIDES.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => setCurrentIndex(index)}
+                        style={{
+                            width: index === currentIndex ? '24px' : '8px',
+                            height: '2px',
+                            background: index === currentIndex ? '#D4AF37' : 'rgba(234, 230, 223, 0.4)',
+                            border: 'none',
+                            padding: 0,
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                        }}
+                        aria-label={`Go to slide ${index + 1}`}
+                    />
+                ))}
+            </div>
+
             <div style={{
                 position: 'absolute',
                 bottom: '4vh',
@@ -599,258 +786,6 @@ const HeroSection: React.FC = () => {
 export default HeroSection;
 
 
-// --- FILE: VideoBanner.tsx ---
-
-import React, { useRef, useState } from 'react';
-
-const VideoBanner: React.FC = () => {
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const [isPlaying, setIsPlaying] = useState(true);
-
-    const togglePlay = () => {
-        if (videoRef.current) {
-            if (isPlaying) {
-                videoRef.current.pause();
-            } else {
-                videoRef.current.play();
-            }
-            setIsPlaying(!isPlaying);
-        }
-    };
-
-    return (
-        <section 
-            className="relative w-full overflow-hidden"
-            style={{ 
-                height: '70vh', 
-                minHeight: '500px', 
-                maxHeight: '800px',
-            }}
-        >
-            {/* Video Background */}
-            <video
-                ref={videoRef}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-                style={{
-                    objectPosition: 'center 25%',
-                    // Increased brightness from 0.45 to 0.85 for better clarity
-                    filter: 'brightness(0.85) saturate(1.1)', 
-                }}
-            >
-                <source src="/Woman_wearing_silk_saree_202606221155.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
-
-            {/* 
-               Adjusted Gradient Overlay:
-               Reduced intensity from black/60 to black/30 to ensure the video 
-               pops while still providing enough contrast for the white text.
-            */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30"></div>
-
-            {/* Content Overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center px-4 md:px-8">
-                <h1 className="text-base sm:text-xl md:text-3xl lg:text-4xl font-sans font-light tracking-[0.15em] text-white text-center uppercase whitespace-nowrap drop-shadow-lg">
-                    Timeless Heritage. <span className="text-[#C9A84C] font-normal">Modern Elegance.</span>
-                </h1>
-            </div>
-
-            {/* Play/Pause Button */}
-            <button 
-                className="absolute bottom-6 right-6 md:bottom-8 md:right-8 text-white/60 hover:text-white transition-colors duration-300 z-20"
-                aria-label="Toggle video playback"
-                onClick={togglePlay}
-            >
-                <span className="material-symbols-outlined text-xl">
-                    {isPlaying ? 'pause' : 'play_arrow'}
-                </span>
-            </button>
-        </section>
-    );
-};
-
-export default VideoBanner;
-
-// --- FILE: ProductsGrid.tsx ---
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import ProductCard from '../../components/ProductCard';
-
-interface ProductsGridProps {
-    products: any[];
-    label: string;
-    title: string;
-    titleEm?: string;
-    viewAllLink: string;
-    viewAllText?: string;
-    background?: string;
-    emptyMessage?: string;
-}
-
-const ProductsGrid: React.FC<ProductsGridProps> = ({
-    products,
-    label,
-    title,
-    titleEm,
-    viewAllLink,
-    viewAllText = 'View All',
-    background = 'var(--cream)',
-    emptyMessage = 'NEW PIECES ARRIVING SOON',
-}) => {
-    return (
-        <section style={{ padding: '100px max(48px, 6vw)', background }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 64, flexWrap: 'wrap', gap: 24 }}>
-                <div>
-                    <p className="section-label" style={{ marginBottom: 16 }}>{label}</p>
-                    <h2 className="font-display" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)', fontWeight: 300, color: 'var(--ink)', lineHeight: 1.05 }}>
-                        {title}{titleEm && <> <em>{titleEm}</em></>}
-                    </h2>
-                </div>
-                <Link
-                    to={viewAllLink}
-                    style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 9, fontWeight: 700, letterSpacing: '0.2em', color: 'var(--ink)', textDecoration: 'none', borderBottom: '1px solid var(--ink)', paddingBottom: 4 }}
-                >
-                    {viewAllText}
-                </Link>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
-                {products.map(product => <ProductCard key={product._id} product={product} />)}
-                {products.length === 0 && (
-                    <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '80px 0', color: 'rgba(13,11,10,0.35)', fontFamily: 'Montserrat, sans-serif', fontSize: 11, letterSpacing: '0.15em' }}>
-                        {emptyMessage}
-                    </div>
-                )}
-            </div>
-        </section>
-    );
-};
-
-export default ProductsGrid;
-
-
-// --- FILE: HandwovenHeritage.tsx ---
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-const HandwovenHeritage: React.FC = () => {
-    return (
-        <section className="relative overflow-hidden bg-[#F9F5EE]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(120, 0, 0, 0.02) 1px, transparent 0)', backgroundSize: '24px 24px' }}>
-            <div className="flex flex-col md:flex-row min-h-[580px] lg:min-h-[640px]">
-                {/* Left Content Side */}
-                <div className="w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 py-12 md:py-16 z-10">
-                    <div className="max-w-xl space-y-6">
-                        <h1 className="text-3xl md:text-5xl font-headline font-bold text-[#0D0B0A] leading-tight font-serif">
-                            Every Saree is Handwoven, Not Manufactured
-                        </h1>
-                        <p className="text-lg md:text-xl font-body font-light text-[#59413d] leading-relaxed italic">
-                            Crafted by skilled artisans across Odisha, each Tanvo piece carries generations of tradition, patience, and human touch — no machines, no shortcuts.
-                        </p>
-                        <div className="h-px w-20 bg-[#780000]/20"></div>
-                        <p className="text-sm md:text-base text-[#59413d]/90 leading-relaxed font-body">
-                            Our sarees are woven thread by thread using traditional techniques like Sambalpuri Ikat, Bomkai, and Khandua. Each piece takes days — sometimes weeks — to complete, making every saree unique.
-                        </p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 py-2">
-                            <div className="flex items-center gap-3">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                                <span className="text-xs font-label uppercase tracking-widest text-[#0D0B0A] font-bold">100% Handmade by Master Weavers</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                                <span className="text-xs font-label uppercase tracking-widest text-[#0D0B0A] font-bold">GI Certified Authentic Handloom</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
-                                <span className="text-xs font-label uppercase tracking-widest text-[#0D0B0A] font-bold">Supports 7th Gen Artisans</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
-                                <span className="text-xs font-label uppercase tracking-widest text-[#0D0B0A] font-bold">No Mass Production</span>
-                            </div>
-                        </div>
-                        <div className="pt-4">
-                            <Link to="/shop" className="group relative px-7 py-3.5 bg-gradient-to-r from-[#780000] to-[#C1121F] text-white font-label text-xs rounded-sm overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-[#780000]/10 inline-flex items-center justify-center uppercase tracking-[0.2em] font-bold h-[48px]">
-                                <span className="relative z-10 font-label uppercase tracking-[0.2em] text-[11px] font-bold">Explore Handwoven Collection</span>
-                                <div className="absolute inset-0 bg-[#780000] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-                {/* Right Image Side */}
-                <div className="w-full md:w-1/2 relative min-h-[320px] md:min-h-full">
-                    <img alt="Traditional Weaver" className="absolute inset-0 w-full h-full object-cover" data-alt="Close-up of an elderly Indian artisan weaving silk on a traditional wooden handloom, warm morning sunlight highlighting fine threads and complex textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdg7Ev_2hzinZ3ELEiaInm85FF5cZlgC3vjDdz0dNR_5uT4IiQNlFThWx02_8d06i2loTg_isOhanjJ-XgBXwD-7k3DYSXsQ0sK299Dac6LbvjJmC1kxyaGNcHjfKqM2ha6jBHoYHFtoC01UMM9aZuUX9eFXnAZmP-cpSPrKM2hmNjOcawJFf_SRb7nmoR1VqIFZtR3wRMta_51owM7im8pFVUJIkDcyqlH5ayYK0PtWIo3z1HxUK-4v3km41dOKv787phEhTaww" />
-                    {/* Decorative Element */}
-                    <div className="absolute bottom-12 left-12 p-6 bg-white rounded-sm shadow-lg hidden lg:block max-w-xs border-l-4 border-[#780000]">
-                        <p className="font-headline italic text-[#0D0B0A] leading-relaxed text-sm font-serif">
-                            "The rhythm of the loom is the heartbeat of our village. Every thread we cross is a story we preserve."
-                        </p>
-                        <p className="mt-2 text-[10px] font-label uppercase tracking-[0.2em] text-[#C9A84C] font-bold">— S. Mahapatra, Master Weaver</p>
-                    </div>
-                </div>
-            </div>
-            {/* Process Strip */}
-            <div className="bg-[#FAF6F0] border-t border-[#E2D9C8]/40 py-8 px-6 md:px-16">
-                <div className="max-w-[1440px] mx-auto">
-                    <div className="flex flex-row justify-between items-center gap-8 md:gap-12 relative overflow-x-auto pb-4 scrollbar-hide">
-                        {/* Connecting Line (Desktop) */}
-                        <div className="absolute top-[1.35rem] left-0 w-full h-px bg-[#E2D9C8]/40 hidden md:block"></div>
-                        <div className="absolute top-[1.35rem] left-0 w-1/3 h-px bg-[#780000] hidden md:block"></div>
-                        {/* Step 1 */}
-                        <div className="flex flex-row md:flex-col items-center md:items-start relative z-10 group cursor-default flex-shrink-0 gap-3 md:gap-0">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#780000] flex items-center justify-center text-white md:mb-3 transition-transform group-hover:scale-110">
-                                <span className="material-symbols-outlined text-sm md:text-base" style={{ fontVariationSettings: "'FILL' 1" }}>palette</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] md:text-xs font-label uppercase tracking-[0.15em] text-[#780000] font-bold whitespace-nowrap">Thread Dyeing</span>
-                                <p className="text-[11px] text-[#59413d]/70 mt-0.5 hidden md:block font-body-md">Organic pigments &amp; sun drying</p>
-                            </div>
-                        </div>
-                        {/* Step 2 */}
-                        <div className="flex flex-row md:flex-col items-center md:items-start relative z-10 group cursor-default flex-shrink-0 gap-3 md:gap-0">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#E2D9C8] flex items-center justify-center text-[#59413d] md:mb-3 group-hover:border-[#780000] transition-all">
-                                <span className="material-symbols-outlined text-sm md:text-base">settings_suggest</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] md:text-xs font-label uppercase tracking-[0.15em] text-[#59413d] font-bold whitespace-nowrap">Handloom Setup</span>
-                                <p className="text-[11px] text-[#59413d]/70 mt-0.5 hidden md:block font-body-md">Drafting the warp patterns</p>
-                            </div>
-                        </div>
-                        {/* Step 3 */}
-                        <div className="flex flex-row md:flex-col items-center md:items-start relative z-10 group cursor-default flex-shrink-0 gap-3 md:gap-0">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#E2D9C8] flex items-center justify-center text-[#59413d] md:mb-3 group-hover:border-[#780000] transition-all">
-                                <span className="material-symbols-outlined text-sm md:text-base">gesture</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] md:text-xs font-label uppercase tracking-[0.15em] text-[#59413d] font-bold whitespace-nowrap">Weaving</span>
-                                <p className="text-[11px] text-[#59413d]/70 mt-0.5 hidden md:block font-body-md">Intricate weft insertion</p>
-                            </div>
-                        </div>
-                        {/* Step 4 */}
-                        <div className="flex flex-row md:flex-col items-center md:items-start relative z-10 group cursor-default flex-shrink-0 gap-3 md:gap-0">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#E2D9C8] flex items-center justify-center text-[#59413d] md:mb-3 group-hover:border-[#780000] transition-all">
-                                <span className="material-symbols-outlined text-sm md:text-base">auto_awesome</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] md:text-xs font-label uppercase tracking-[0.15em] text-[#59413d] font-bold whitespace-nowrap">Finished Saree</span>
-                                <p className="text-[11px] text-[#59413d]/70 mt-0.5 hidden md:block font-body-md">A masterpiece is ready</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-};
-
-export default HandwovenHeritage;
-
-
 // --- FILE: MarqueeTicker.tsx ---
 
 import React from 'react';
@@ -858,10 +793,19 @@ import React from 'react';
 const MarqueeTicker: React.FC = () => {
     return (
         <div style={{ background: 'var(--gold)', padding: '14px 0', overflow: 'hidden' }}>
+            <style>{`
+                @keyframes marquee {
+                    from { transform: translateX(0); }
+                    to { transform: translateX(-50%); }
+                }
+                .marquee-inner {
+                    animation: marquee 30s linear infinite;
+                }
+            `}</style>
             <div className="marquee-inner" style={{ display: 'flex', whiteSpace: 'nowrap', width: 'max-content' }}>
                 {Array(6).fill('✦  Handwoven Sarees  ✦  GI Tagged Heritage  ✦  Direct from Master Weavers  ✦  Sambalpuri · Bomkai · Ikat  ').map((t, i) => (
                     <span key={i} style={{
-                        fontFamily: 'Montserrat, sans-serif',
+                        fontFamily: "'Inter', sans-serif",
                         fontSize: 9,
                         fontWeight: 700,
                         letterSpacing: '0.2em',
@@ -895,7 +839,7 @@ const PillarsSection: React.FC = () => {
                 {pillars.map((p, i) => (
                     <div key={i} className={`py-8 md:py-12 px-4 text-center ${i < 3 ? 'md:border-r' : ''}`} style={{ borderColor: 'rgba(237,227,208,0.05)' }}>
                         <p className="font-serif text-4xl md:text-5xl mb-2" style={{ color: 'var(--terra)' }}>{p.num}</p>
-                        <p className="font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-1" style={{ color: 'var(--ivory)', fontFamily: "'Cinzel', serif" }}>{p.label}</p>
+                        <p className="font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-1" style={{ color: 'var(--ivory)', fontFamily: "'Playfair Display', serif" }}>{p.label}</p>
                         <p className="font-sans text-[9px] md:text-[11px] tracking-wider capitalize" style={{ color: 'rgba(249,245,238,0.4)', fontFamily: "'Raleway', sans-serif" }}>{p.sub}</p>
                     </div>
                 ))}
@@ -907,73 +851,40 @@ const PillarsSection: React.FC = () => {
 export default PillarsSection;
 
 
-// --- FILE: IkatDeepDive.tsx ---
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
-import img from '../../public/Ikat Detail.png';
-
-const IkatDeepDive: React.FC = () => {
-    return (
-        <section className="relative overflow-hidden" style={{ background: 'var(--ink)' }}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[85vh]">
-
-                {/* Image side */}
-                <div className="img-zoom relative overflow-hidden min-h-[400px] lg:min-h-[500px]">
-                    <img
-                        src={img}
-                        alt="Ikat Detail"
-                        className="absolute inset-0 w-full h-full object-cover opacity-70"
-                    />
-
-                    {/* Hotspot 1 */}
-                    <div className="absolute top-[32%] right-[28%] z-10">
-                        <div className="hotspot-pulse relative w-7 h-7 rounded-full flex items-center justify-center cursor-pointer group" style={{ background: 'var(--gold)' }}>
-                            <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 9, fontWeight: 700, color: 'var(--ink)' }}>1</span>
-                            <div className="absolute top-9 right-0 md:left-1/2 md:-translate-x-1/2 md:right-auto lg:right-0 lg:left-auto lg:translate-x-0 w-[180px] md:w-[220px] p-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" style={{ background: '#F5F0E8' }}>
-                                <p style={{ fontSize: 9, fontWeight: 700, color: 'var(--red)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 6 }}>Double Ikat</p>
-                                <p style={{ fontSize: 10, color: 'var(--ink)', lineHeight: 1.6 }}>Both warp and weft tied and dyed before weaving — the rarest technique.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Hotspot 2 */}
-                    <div className="absolute top-[58%] right-[18%] z-10">
-                        <div className="hotspot-pulse relative w-7 h-7 rounded-full flex items-center justify-center cursor-pointer" style={{ background: 'var(--gold)' }}>
-                            <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 9, fontWeight: 700, color: 'var(--ink)' }}>2</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Text side */}
-                <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-20 border-t lg:border-t-0 lg:border-l" style={{ borderColor: 'rgba(201,168,76,0.15)' }}>
-                    <p className="section-label mb-6 lg:mb-8 text-xs lg:text-sm">The Art of Ikat</p>
-                    <h2 className="font-display font-light text-[#F5F0E8] leading-[1.1] mb-6 lg:mb-8 text-4xl sm:text-5xl lg:text-[clamp(40px,4vw,64px)]">
-                        Every Thread<br />Tells a<br /><em className="not-italic" style={{ color: 'var(--gold)' }}>Sacred Story</em>
-                    </h2>
-                    <div className="w-12 h-px mb-6 lg:mb-8" style={{ background: 'var(--gold)' }} />
-                    <p className="text-[13px] leading-loose mb-10 lg:mb-12 max-w-[400px]" style={{ color: 'rgba(245,240,232,0.55)' }}>
-                        A 7th-generation craft where every thread is meticulously tied and dyed by hand before a single pass of the shuttle. Motifs inspired by the Konark Sun Temple and Lord Jagannath rituals are encoded into each weave.
-                    </p>
-                    <Link to="/story" className="btn-gold self-start inline-flex items-center gap-2">Learn More <ArrowUpRight size={14} /></Link>
-                </div>
-
-            </div>
-        </section>
-    );
-};
-
-export default IkatDeepDive;
-
-
 // --- FILE: EditorialBanner.tsx ---
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 const EditorialBanner: React.FC = () => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        videoRef.current?.play().catch(() => {});
+                    } else {
+                        videoRef.current?.pause();
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        if (videoRef.current) {
+            observer.observe(videoRef.current);
+        }
+
+        return () => {
+            if (videoRef.current) {
+                observer.unobserve(videoRef.current);
+            }
+        };
+    }, []);
+
     return (
         <section style={{ 
             display: 'flex', 
@@ -982,14 +893,14 @@ const EditorialBanner: React.FC = () => {
             minHeight: '600px', 
             width: '100%', 
             overflow: 'hidden',
-            backgroundColor: '#F9F6F0' // Ivory base
+            backgroundColor: '#F9F5EE' // Ivory base
         }}>
             
             {/* Left Column: Ivory Editorial Text Panel */}
             <div style={{ 
                 flex: '1 1 50%', 
                 height: '100%', 
-                backgroundColor: '#F9F6F0', // Premium Ivory
+                backgroundColor: '#F9F5EE', // Premium Ivory
                 display: 'flex', 
                 flexDirection: 'column', 
                 justifyContent: 'center', 
@@ -1073,7 +984,7 @@ const EditorialBanner: React.FC = () => {
                 display: 'block'
             }}>
                 <video
-                    autoPlay
+                    ref={videoRef}
                     muted
                     loop
                     playsInline
@@ -1086,7 +997,7 @@ const EditorialBanner: React.FC = () => {
                         left: 0,
                     }}
                 >
-                    <source src="/EditorialBanner.mp4" type="video/mp4" />
+                    <source src="/A_cinematic_couture_beauty_fil.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
                 
@@ -2013,6 +1924,235 @@ const CategoryGrid: React.FC = () => {
 
 export default CategoryGrid;
 
+// --- FILE: ProductsGrid.tsx ---
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import ProductCard from '../../components/ProductCard';
+
+interface ProductsGridProps {
+    products: any[];
+    label: string;
+    title: string;
+    titleEm?: string;
+    viewAllLink: string;
+    viewAllText?: string;
+    background?: string;
+    emptyMessage?: string;
+    inverse?: boolean;
+}
+
+const ProductsGrid: React.FC<ProductsGridProps> = ({
+    products,
+    label,
+    title,
+    titleEm,
+    viewAllLink,
+    viewAllText = 'View All',
+    background = 'var(--cream)',
+    emptyMessage = 'NEW PIECES ARRIVING SOON',
+    inverse = false,
+}) => {
+    const textColor = inverse ? 'var(--ivory)' : 'var(--ink)';
+    
+    return (
+        <section className="px-4 py-16 md:px-[6vw] md:py-24" style={{ background }}>
+            <div className="mb-8 md:mb-16 flex justify-between items-end flex-wrap gap-6">
+                <div>
+                    <p className="section-label" style={{ marginBottom: 12, color: inverse ? 'var(--gold)' : undefined }}>{label}</p>
+                    <h2 className="font-display" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', fontWeight: 300, color: textColor, lineHeight: 1.05 }}>
+                        {title}{titleEm && <> <em style={{ color: inverse ? 'var(--gold)' : undefined }}>{titleEm}</em></>}
+                    </h2>
+                </div>
+                <Link
+                    to={viewAllLink}
+                    style={{ fontFamily: "'Inter', sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: '0.2em', color: textColor, textDecoration: 'none', borderBottom: `1px solid ${textColor}`, paddingBottom: 4 }}
+                >
+                    {viewAllText}
+                </Link>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
+                {products.length > 0 ? (
+                    products.map(product => <ProductCard key={product._id} product={product} inverse={inverse} />)
+                ) : (
+                    <>
+                        {[1, 2, 3, 4].map(i => (
+                            <div key={i} className="w-full aspect-[3/4] max-[640px]:aspect-[2/3] animate-pulse" style={{ background: inverse ? 'rgba(255,255,255,0.05)' : 'rgba(13,11,10,0.05)' }} />
+                        ))}
+                    </>
+                )}
+            </div>
+        </section>
+    );
+};
+
+export default ProductsGrid;
+
+
+// --- FILE: IkatDeepDive.tsx ---
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
+import img from '../../public/Ikat Detail.png';
+
+const IkatDeepDive: React.FC = () => {
+    return (
+        <section className="relative overflow-hidden" style={{ background: 'var(--ink)' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[85vh]">
+
+                {/* Image side */}
+                <div className="img-zoom relative overflow-hidden min-h-[400px] lg:min-h-[500px]">
+                    <img
+                        src={img}
+                        alt="Ikat Detail"
+                        className="absolute inset-0 w-full h-full object-cover opacity-70"
+                    />
+
+                    {/* Hotspot 1 */}
+                    <div className="absolute top-[32%] right-[28%] z-10">
+                        <div className="hotspot-pulse relative w-7 h-7 rounded-full flex items-center justify-center cursor-pointer group" style={{ background: 'var(--gold)' }}>
+                            <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 9, fontWeight: 700, color: 'var(--ink)' }}>1</span>
+                            <div className="absolute top-9 right-0 md:left-1/2 md:-translate-x-1/2 md:right-auto lg:right-0 lg:left-auto lg:translate-x-0 w-[180px] md:w-[220px] p-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" style={{ background: '#F5F0E8' }}>
+                                <p style={{ fontSize: 9, fontWeight: 700, color: 'var(--red)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 6 }}>Double Ikat</p>
+                                <p style={{ fontSize: 10, color: 'var(--ink)', lineHeight: 1.6 }}>Both warp and weft tied and dyed before weaving — the rarest technique.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Hotspot 2 */}
+                    <div className="absolute top-[58%] right-[18%] z-10">
+                        <div className="hotspot-pulse relative w-7 h-7 rounded-full flex items-center justify-center cursor-pointer" style={{ background: 'var(--gold)' }}>
+                            <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 9, fontWeight: 700, color: 'var(--ink)' }}>2</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Text side */}
+                <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-20 border-t lg:border-t-0 lg:border-l" style={{ borderColor: 'rgba(201,168,76,0.15)' }}>
+                    <p className="section-label mb-6 lg:mb-8 text-xs lg:text-sm">The Art of Ikat</p>
+                    <h2 className="font-display font-light text-[#F5F0E8] leading-[1.1] mb-6 lg:mb-8 text-4xl sm:text-5xl lg:text-[clamp(40px,4vw,64px)]">
+                        Every Thread<br />Tells a<br /><em className="not-italic" style={{ color: 'var(--gold)' }}>Sacred Story</em>
+                    </h2>
+                    <div className="w-12 h-px mb-6 lg:mb-8" style={{ background: 'var(--gold)' }} />
+                    <p className="text-[13px] leading-loose mb-10 lg:mb-12 max-w-[400px]" style={{ color: 'rgba(245,240,232,0.55)' }}>
+                        A 7th-generation craft where every thread is meticulously tied and dyed by hand before a single pass of the shuttle. Motifs inspired by the Konark Sun Temple and Lord Jagannath rituals are encoded into each weave.
+                    </p>
+                    <Link to="/story" className="btn-gold self-start inline-flex items-center gap-2">Learn More <ArrowUpRight size={14} /></Link>
+                </div>
+
+            </div>
+        </section>
+    );
+};
+
+export default IkatDeepDive;
+
+
+// --- FILE: InstagramSection.tsx ---
+
+import React, { useState } from 'react';
+import { Instagram, ArrowUpRight } from 'lucide-react';
+
+interface InstagramPost {
+    id: number;
+    image: string;
+    link: string;
+}
+
+interface InstagramSectionProps {
+    posts?: InstagramPost[];
+    handle?: string;
+    profileUrl?: string;
+}
+
+const InstagramSection: React.FC<InstagramSectionProps> = ({
+    posts,
+    handle = '#Tanvo',
+    profileUrl = 'https://instagram.com',
+}) => {
+    const [feed] = useState<InstagramPost[]>(
+        posts ||
+        [1, 2, 3, 4, 5, 6].map(i => ({
+            id: i,
+            image: `https://picsum.photos/seed/insta${i}x/600/600`,
+            link: profileUrl,
+        }))
+    );
+
+    return (
+        <section style={{ background: 'var(--ink)', padding: '100px max(48px, 6vw)' }}>
+            <div style={{ textAlign: 'center', marginBottom: 64 }}>
+                <p className="section-label" style={{ marginBottom: 16 }}>Community</p>
+                <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 300, color: '#F5F0E8', lineHeight: 1.1 }}>
+                    Wear it · Share it<br /><em style={{ color: 'var(--gold)' }}>{handle}</em>
+                </h2>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 2, marginBottom: 48 }}>
+                {feed.map(item => (
+                    <a
+                        key={item.id}
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group img-zoom"
+                        style={{ position: 'relative', aspectRatio: '1', display: 'block', overflow: 'hidden', background: '#111' }}
+                    >
+                        <img src={item.image} alt="Instagram" className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-400" />
+                        <div
+                            className="absolute inset-0 bg-[rgba(201,168,76,0.25)] opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-center justify-center pointer-events-none"
+                        >
+                            <Instagram size={20} style={{ color: '#F5F0E8' }} />
+                        </div>
+                    </a>
+                ))}
+            </div>
+
+            <div style={{ textAlign: 'center' }}>
+                <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="btn-outline-gold">
+                    Follow on Instagram <ArrowUpRight size={14} />
+                </a>
+            </div>
+        </section>
+    );
+};
+
+export default InstagramSection;
+
+
+// --- FILE: TrustBar.tsx ---
+
+import React from 'react';
+import { ShieldCheck, Globe, Gem, RotateCcw } from 'lucide-react';
+
+const trustItems = [
+    { icon: ShieldCheck, title: '100% Authentic', sub: 'Direct from Loom' },
+    { icon: Globe, title: 'Global Shipping', sub: 'Fast & Insured' },
+    { icon: Gem, title: 'Premium Fabrics', sub: 'Hand-picked' },
+    { icon: RotateCcw, title: '7-Day Returns', sub: 'Hassle Free' },
+];
+
+const TrustBar: React.FC = () => {
+    return (
+        <div style={{ background: 'var(--gold)', padding: '0 max(48px, 6vw)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', borderTop: '1px solid rgba(13,11,10,0.15)' }}>
+                {trustItems.map((item, i) => (
+                    <div key={i} style={{ padding: '32px 24px', textAlign: 'center', borderRight: i < trustItems.length - 1 ? '1px solid rgba(13,11,10,0.15)' : 'none' }}>
+                        <span style={{ color: 'var(--ink)', display: 'flex', justifyContent: 'center', marginBottom: 8 }}><item.icon size={20} strokeWidth={1.5} /></span>
+                        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 9, fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 4 }}>{item.title}</p>
+                        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 8, color: 'rgba(13,11,10,0.6)', letterSpacing: '0.1em' }}>{item.sub}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default TrustBar;
+
+
 // --- FILE: WhyChooseUs.tsx ---
 
 import React from 'react';
@@ -2083,7 +2223,7 @@ const WhyChooseUs: React.FC = () => {
                             }}
                         >
                             <div style={{
-                                width: 48, height: 48, borderRadius: '0px',
+                                width: 48, height: 48, borderRadius: '8px',
                                 background: `${item.color}10`, color: item.color,
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 margin: '0 auto 16px',
@@ -2103,197 +2243,6 @@ const WhyChooseUs: React.FC = () => {
 
 export default WhyChooseUs;
 
-
-// --- FILE: MensTraditionalAttireBanner.tsx ---
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-const NewArrivalsBanner: React.FC = () => {
-    return (
-        <section className="container mx-auto px-4 py-12 md:py-20">
-            <div className="bg-[#F9F5EE] w-full max-w-7xl mx-auto overflow-hidden relative min-h-[550px] shadow-sm">
-                
-                {/* Full background image */}
-                <div className="absolute inset-0 w-full h-full">
-                    <img
-                        src="/Mens Collection Banner.png"
-                        alt="New Arrivals Artisans"
-                        className="w-full h-full object-cover object-[80%_top]"
-                    />
-                    {/* Minimal dark gradient overlay for text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#1B2B3A]/80 via-[#1B2B3A]/50 to-transparent"></div>
-                </div>
-
-                {/* Content overlay - left aligned with light text */}
-                <div className="relative h-full min-h-[550px] flex items-center">
-                    <div className="w-full md:w-1/2 px-8 md:px-16 py-12">
-                        
-                        {/* Minimal badge */}
-                        <div className="inline-block mb-6">
-                            <span className="text-[11px] tracking-[4px] text-[#F9F5EE] font-light uppercase border border-[#F9F5EE]/30 px-4 py-2">
-                                Handloom Collection
-                            </span>
-                        </div>
-                        
-                        {/* Heading - big and bold with light color */}
-                        <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl text-[#F9F5EE] tracking-tighter leading-[1.05] mb-4">
-                            New
-                            <br />
-                            Arrivals
-                        </h2>
-                        
-                        {/* Minimal description with light color */}
-                        <p className="text-[#F9F5EE] text-sm md:text-base font-light max-w-sm mb-8 opacity-80 leading-relaxed">
-                            Discover the latest masterpieces from our looms.
-                        </p>
-
-                        {/* Clean CTA with light styling */}
-                        <Link
-                            to="/shop?sort=-createdAt"
-                            className="inline-block bg-[#F9F5EE] text-[#1B2B3A] px-10 py-4 text-sm font-medium tracking-wider transition-all duration-300 hover:bg-white hover:shadow-lg shadow-md uppercase"
-                        >
-                            Shop Now
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-};
-
-export default NewArrivalsBanner;
-
-// --- FILE: ModernMuse.tsx ---
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-
-const ModernMuse: React.FC = () => {
-    return (
-        <section className="w-full my-8 md:my-16">
-            <div className="relative w-full h-[600px] md:h-[85vh] min-h-[500px] max-h-[900px] bg-[#F9F5EE] overflow-hidden">
-                
-                {/* Full Width Hero Image Background */}
-                <div className="absolute inset-0 w-full h-full overflow-hidden">
-                    <motion.img 
-                        initial={{ scale: 1.15, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
-                        viewport={{ once: true }}
-                        alt="TANVO Modern Muse Editorial" 
-                        className="w-full h-full object-cover object-center" 
-                        src="/IMG202606240805.jpeg" 
-                    />
-                    
-                    {/* Sophisticated Gradient Overlay for Full Width Impact */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
-                </div>
-
-                {/* Content Overlay - Centered Bottom with Full Width */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-16 lg:p-20 text-white">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="flex flex-col space-y-4 md:space-y-6">
-                            
-                            {/* Brand Label - Centered */}
-                            <motion.div 
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                                viewport={{ once: true }}
-                                className="flex justify-center"
-                            >
-                                <span className="font-sans text-xs tracking-[0.3em] uppercase text-white/80">
-                                    TANVO PRESENTS
-                                </span>
-                            </motion.div>
-
-                            {/* Heading - Centered */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                                viewport={{ once: true }}
-                                className="text-center"
-                            >
-                                <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] mb-4 text-white drop-shadow-2xl">
-                                    THE MODERN MUSE
-                                </h2>
-                                <p className="font-sans text-sm md:text-base lg:text-lg text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
-                                    Where heritage weaving meets contemporary elegance. 
-                                    <br className="hidden sm:block" />
-                                    A curated dialogue between ancestral craft and modern silhouette.
-                                </p>
-                            </motion.div>
-
-                            {/* CTA Button - Centered */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.6, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                                viewport={{ once: true }}
-                                className="flex justify-center pt-2 md:pt-4"
-                            >
-                                <Link 
-                                    to="/shop?style=Modern,Designer"
-                                    className="group relative inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 bg-[#780000] text-white font-sans text-xs md:text-sm uppercase tracking-widest rounded-[4px] overflow-hidden transition-all duration-500 hover:bg-[#4f0000] hover:shadow-2xl active:scale-95"
-                                >
-                                    <span className="relative z-10">Explore Collection</span>
-                                    <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
-                                    <div className="absolute inset-0 w-0 bg-white/10 group-hover:w-full transition-all duration-500"></div>
-                                </Link>
-                            </motion.div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Floating Brand Aesthetic Details */}
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 0.3 }}
-                    transition={{ delay: 0.8, duration: 1 }}
-                    viewport={{ once: true }}
-                    className="absolute top-8 right-8 md:right-12 hidden lg:block"
-                >
-                    <p className="font-serif text-white text-[10px] tracking-[0.5em] uppercase [writing-mode:vertical-lr] opacity-60">
-                        HERITAGE · CRAFT · SOUL
-                    </p>
-                </motion.div>
-
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 0.2 }}
-                    transition={{ delay: 1, duration: 1 }}
-                    viewport={{ once: true }}
-                    className="absolute bottom-8 left-8 md:left-12 hidden lg:block"
-                >
-                    <div className="w-px h-12 bg-white/40 mx-auto"></div>
-                    <p className="font-serif text-white text-[10px] tracking-[0.3em] uppercase mt-2 opacity-60">
-                        EST. 2024
-                    </p>
-                </motion.div>
-
-                {/* Scroll Indicator */}
-                <motion.div 
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 0.4, y: 0 }}
-                    transition={{ delay: 1.5, duration: 1, repeat: Infinity, repeatType: "reverse" }}
-                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
-                >
-                    <div className="flex flex-col items-center gap-2">
-                        <span className="text-[8px] tracking-[0.3em] uppercase text-white/40">Scroll</span>
-                        <div className="w-px h-8 bg-white/20"></div>
-                    </div>
-                </motion.div>
-            </div>
-        </section>
-    );
-};
-
-export default ModernMuse;
 
 // --- FILE: TrustSignals.tsx ---
 
@@ -2801,7 +2750,7 @@ const TrustSignals: React.FC = () => {
                 }
                 
                 /* Card inner elements transition */
-                .trust-card * {
+                .trust-card .card-overlay, .trust-card img {
                     transition: all 0.3s ease;
                 }
             `}</style>
@@ -2811,1144 +2760,156 @@ const TrustSignals: React.FC = () => {
 
 export default TrustSignals;
 
-// --- FILE: JournalHint.tsx ---
-
-import React, { useRef, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
-
-const articles = [
-    {
-        issue: '01',
-        tag: 'Craft',
-        title: 'The mathematics of the loom',
-        excerpt: 'How Sambalpuri weavers calculate ikat resist patterns using a system that predates modern algebra by four centuries.',
-        readTime: '6 min read',
-    },
-    {
-        issue: '02',
-        tag: 'Heritage',
-        title: 'Seven hundred years of silk',
-        excerpt: 'Tracing the unbroken lineage of Odisha\'s weaving clusters from the Ganga dynasty courts to the present-day loom shed.',
-        readTime: '9 min read',
-    },
-    {
-        issue: '03',
-        tag: 'Process',
-        title: 'Why a single saree takes three weeks',
-        excerpt: 'A step-by-step look at resist-dyeing, warping, and hand-shuttle weaving — and the irreducible human time each stage demands.',
-        readTime: '7 min read',
-    },
-];
-
-const JournalHint: React.FC = () => {
-    const sectionRef = useRef<HTMLElement>(null);
-    const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-            { threshold: 0.15 }
-        );
-        if (sectionRef.current) observer.observe(sectionRef.current);
-        return () => observer.disconnect();
-    }, []);
-
-    return (
-        <section
-            ref={sectionRef}
-            className="relative overflow-hidden"
-            style={{ backgroundColor: '#0D0B0A' }}
-            data-purpose="journal-hint"
-        >
-            {/* Subtle textile grid overlay */}
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0"
-                style={{
-                    backgroundImage: `
-                        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px)
-                    `,
-                    backgroundSize: '48px 48px',
-                }}
-            />
-
-            <div className="relative max-w-[1280px] mx-auto px-8">
-                {/* Top rule */}
-                <div
-                    className="transition-all duration-700 ease-out origin-left"
-                    style={{
-                        height: '1px',
-                        backgroundColor: 'rgba(201,168,76,0.25)',
-                        transform: visible ? 'scaleX(1)' : 'scaleX(0)',
-                    }}
-                />
-
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-0">
-
-                    {/* ── Left column: editorial header ── */}
-                    <div
-                        className="py-16 lg:py-24 lg:pr-16 flex flex-col justify-between"
-                        style={{ borderRight: '1px solid rgba(201,168,76,0.15)' }}
-                    >
-                        <div>
-                            <span
-                                className="block mb-6"
-                                style={{
-                                    fontFamily: "'Inter', sans-serif",
-                                    fontSize: '10px',
-                                    fontWeight: 700,
-                                    letterSpacing: '0.2em',
-                                    textTransform: 'uppercase',
-                                    color: '#C9A84C',
-                                    opacity: visible ? 1 : 0,
-                                    transform: visible ? 'translateY(0)' : 'translateY(12px)',
-                                    transition: 'opacity 600ms ease 200ms, transform 600ms ease 200ms',
-                                }}
-                            >
-                                The TANVO Chronicles
-                            </span>
-
-                            <h2
-                                style={{
-                                    fontFamily: "'Playfair Display', serif",
-                                    fontSize: 'clamp(36px, 4vw, 56px)',
-                                    fontWeight: 700,
-                                    lineHeight: 1.1,
-                                    letterSpacing: '-0.02em',
-                                    color: '#F9F5EE',
-                                    opacity: visible ? 1 : 0,
-                                    transform: visible ? 'translateY(0)' : 'translateY(16px)',
-                                    transition: 'opacity 700ms ease 300ms, transform 700ms ease 300ms',
-                                }}
-                            >
-                                The real <br />
-                                <span style={{ color: '#C9A84C', fontStyle: 'italic' }}>
-                                    stories
-                                </span>
-                                <br /> behind <br /> our brand
-                            </h2>
-                        </div>
-
-                        <div
-                            style={{
-                                opacity: visible ? 1 : 0,
-                                transform: visible ? 'translateY(0)' : 'translateY(12px)',
-                                transition: 'opacity 700ms ease 500ms, transform 700ms ease 500ms',
-                            }}
-                        >
-                            <p
-                                className="mb-8"
-                                style={{
-                                    fontFamily: "'Raleway', sans-serif",
-                                    fontSize: '14px',
-                                    lineHeight: 1.75,
-                                    color: 'rgba(249,245,238,0.5)',
-                                    maxWidth: '320px',
-                                }}
-                            >
-                                Long-form writing on craft, heritage, and the quiet precision that goes into every saree we carry.
-                            </p>
-
-                            <Link
-                                to="/journal"
-                                className="inline-flex items-center gap-3 group"
-                                style={{
-                                    fontFamily: "'Inter', sans-serif",
-                                    fontSize: '11px',
-                                    fontWeight: 700,
-                                    letterSpacing: '0.2em',
-                                    textTransform: 'uppercase',
-                                    color: '#F9F5EE',
-                                    textDecoration: 'none',
-                                }}
-                            >
-                                <span
-                                    style={{
-                                        display: 'inline-flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        width: '40px',
-                                        height: '40px',
-                                        borderRadius: '8px',
-                                        border: '1px solid rgba(249,245,238,0.25)',
-                                        transition: 'background 500ms ease, border-color 500ms ease',
-                                    }}
-                                    className="group-hover:bg-[#780000] group-hover:border-[#780000]"
-                                >
-                                    <ArrowUpRight size={15} />
-                                </span>
-                                Explore the chronicles
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* ── Right column: article list ── */}
-                    <div className="py-16 lg:py-24 lg:pl-16 flex flex-col justify-center gap-0">
-                        {articles.map((article, i) => (
-                            <Link
-                                key={article.issue}
-                                to="/journal"
-                                className="group block"
-                                style={{
-                                    textDecoration: 'none',
-                                    borderBottom: i < articles.length - 1
-                                        ? '1px solid rgba(201,168,76,0.12)'
-                                        : 'none',
-                                    padding: '28px 0',
-                                    opacity: visible ? 1 : 0,
-                                    transform: visible ? 'translateX(0)' : 'translateX(24px)',
-                                    transition: `opacity 600ms ease ${400 + i * 120}ms, transform 600ms ease ${400 + i * 120}ms`,
-                                }}
-                            >
-                                <div className="flex items-start justify-between gap-6">
-                                    <div className="flex items-start gap-6 flex-1 min-w-0">
-                                        {/* Issue number */}
-                                        <span
-                                            aria-hidden="true"
-                                            style={{
-                                                fontFamily: "'Playfair Display', serif",
-                                                fontSize: '11px',
-                                                fontWeight: 700,
-                                                letterSpacing: '0.1em',
-                                                color: 'rgba(201,168,76,0.4)',
-                                                paddingTop: '3px',
-                                                flexShrink: 0,
-                                                transition: 'color 400ms ease',
-                                            }}
-                                            className="group-hover:text-[#C9A84C]"
-                                        >
-                                            {article.issue}
-                                        </span>
-
-                                        <div className="flex-1 min-w-0">
-                                            {/* Tag pill */}
-                                            <span
-                                                className="inline-block mb-2"
-                                                style={{
-                                                    fontFamily: "'Inter', sans-serif",
-                                                    fontSize: '9px',
-                                                    fontWeight: 700,
-                                                    letterSpacing: '0.18em',
-                                                    textTransform: 'uppercase',
-                                                    color: 'rgba(249,245,238,0.4)',
-                                                    border: '1px solid rgba(249,245,238,0.12)',
-                                                    borderRadius: '4px',
-                                                    padding: '3px 8px',
-                                                }}
-                                            >
-                                                {article.tag}
-                                            </span>
-
-                                            <h3
-                                                className="mb-2"
-                                                style={{
-                                                    fontFamily: "'Playfair Display', serif",
-                                                    fontSize: '19px',
-                                                    fontWeight: 700,
-                                                    letterSpacing: '-0.01em',
-                                                    lineHeight: 1.25,
-                                                    color: '#F9F5EE',
-                                                    transition: 'color 400ms ease',
-                                                }}
-                                            >
-                                                {article.title}
-                                            </h3>
-
-                                            <p
-                                                style={{
-                                                    fontFamily: "'Raleway', sans-serif",
-                                                    fontSize: '13px',
-                                                    lineHeight: 1.65,
-                                                    color: 'rgba(249,245,238,0.45)',
-                                                    maxWidth: '460px',
-                                                    margin: 0,
-                                                    transition: 'color 400ms ease',
-                                                }}
-                                                className="group-hover:text-[rgba(249,245,238,0.7)]"
-                                            >
-                                                {article.excerpt}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* Read time + arrow */}
-                                    <div
-                                        className="flex flex-col items-end gap-3 flex-shrink-0 pt-1"
-                                    >
-                                        <span
-                                            style={{
-                                                fontFamily: "'Inter', sans-serif",
-                                                fontSize: '10px',
-                                                fontWeight: 700,
-                                                letterSpacing: '0.1em',
-                                                textTransform: 'uppercase',
-                                                color: 'rgba(249,245,238,0.3)',
-                                                whiteSpace: 'nowrap',
-                                            }}
-                                        >
-                                            {article.readTime}
-                                        </span>
-                                        <span
-                                            style={{
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                width: '32px',
-                                                height: '32px',
-                                                borderRadius: '8px',
-                                                border: '1px solid rgba(249,245,238,0.1)',
-                                                color: 'rgba(249,245,238,0.3)',
-                                                opacity: 0,
-                                                transform: 'translateX(-6px)',
-                                                transition: 'opacity 400ms ease, transform 400ms ease, background 400ms ease',
-                                            }}
-                                            className="group-hover:!opacity-100 group-hover:!translate-x-0 group-hover:bg-[#780000] group-hover:border-[#780000] group-hover:text-white"
-                                        >
-                                            <ArrowUpRight size={14} />
-                                        </span>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Bottom rule */}
-                <div
-                    style={{
-                        height: '1px',
-                        backgroundColor: 'rgba(201,168,76,0.25)',
-                        transition: 'transform 700ms ease 800ms',
-                        transformOrigin: 'right',
-                        transform: visible ? 'scaleX(1)' : 'scaleX(0)',
-                    }}
-                />
-            </div>
-        </section>
-    );
-};
-
-export default JournalHint;
-
-// --- FILE: DrapedEveryMoment.tsx ---
-
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-const DrapedEveryMoment: React.FC = () => {
-    const navigate = useNavigate();
-
-    const occasions = [
-        {
-            image: '/The Art of Occasion Wedding .jpeg',
-            label: 'BRIDAL COLLECTION',
-            title: 'Wedding Elegance',
-            description: 'Timeless silks for your most cherished celebration.',
-            stagger: false,
-            query: 'wedding',
-        },
-        {
-            image: '/The Art of Occasion Ring Ceremony .jpeg',
-            label: 'CELEBRATION',
-            title: 'Golden Beginnings',
-            description: 'Graceful weaves for moments worth remembering.',
-            stagger: true,
-            query: 'celebration',
-        },
-        {
-            image: '/The Art of Occasion Efferlatly garce .jpeg',
-            label: 'DAILY HERITAGE',
-            title: 'Effortless Grace',
-            description: 'Comfort meets traditional craftsmanship.',
-            stagger: false,
-            query: 'daily',
-        },
-        {
-            image: '/The Art of Occasion Daily Use .jpeg',
-            label: 'THOUGHTFUL GIFTS',
-            title: 'A Gift Of Tradition',
-            description: "Share a piece of India's weaving legacy.",
-            stagger: true,
-            query: 'gifting',
-        }
-    ];
-
-    return (
-        <section className="py-24 bg-white" data-purpose="draped-moments">
-            <div className="max-w-7xl mx-auto px-6">
-                <p className="text-[#C9A84C] text-[10px] tracking-[0.3em] uppercase text-center font-bold mb-4">Draped For Every Moment</p>
-                <h2 className="font-serif text-3xl md:text-4xl mb-16 text-center uppercase tracking-widest text-[#1C1612]">
-                    The Art of Occasion
-                </h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    {occasions.map((item, idx) => (
-                        <div
-                            key={idx}
-                            onClick={() => navigate(`/shop?occasion=${item.query}`)}
-                            className={`aspect-[9/16] bg-gray-50 relative group overflow-hidden cursor-pointer ${
-                                item.stagger ? 'md:mt-8' : ''
-                            }`}
-                        >
-                            <img
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter contrast-[1.05]"
-                                src={item.image}
-                                alt={item.title}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 flex flex-col justify-end opacity-90 group-hover:opacity-100 transition-opacity">
-                                <span className="text-[#C9A84C] text-[9px] uppercase tracking-[0.2em] font-bold block mb-2">
-                                    {item.label}
-                                </span>
-                                <h3 className="text-white font-serif text-xl mb-2">
-                                    {item.title}
-                                </h3>
-                                <p className="text-gray-300 text-xs font-sans leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 max-h-0 group-hover:max-h-20 overflow-hidden">
-                                    {item.description}
-                                </p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
-};
-
-export default DrapedEveryMoment;
-
-
-// --- FILE: InstagramSection.tsx ---
-
-import React, { useState } from 'react';
-import { Instagram, ArrowUpRight } from 'lucide-react';
-
-interface InstagramPost {
-    id: number;
-    image: string;
-    link: string;
-}
-
-interface InstagramSectionProps {
-    posts?: InstagramPost[];
-    handle?: string;
-    profileUrl?: string;
-}
-
-const InstagramSection: React.FC<InstagramSectionProps> = ({
-    posts,
-    handle = '#Tanvo',
-    profileUrl = 'https://instagram.com',
-}) => {
-    const [feed] = useState<InstagramPost[]>(
-        posts ||
-        [1, 2, 3, 4, 5, 6].map(i => ({
-            id: i,
-            image: `https://picsum.photos/seed/insta${i}x/600/600`,
-            link: profileUrl,
-        }))
-    );
-
-    return (
-        <section style={{ background: 'var(--ink)', padding: '100px max(48px, 6vw)' }}>
-            <div style={{ textAlign: 'center', marginBottom: 64 }}>
-                <p className="section-label" style={{ marginBottom: 16 }}>Community</p>
-                <h2 className="font-display" style={{ fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 300, color: '#F5F0E8', lineHeight: 1.1 }}>
-                    Wear it · Share it<br /><em style={{ color: 'var(--gold)' }}>{handle}</em>
-                </h2>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 2, marginBottom: 48 }}>
-                {feed.map(item => (
-                    <a
-                        key={item.id}
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="img-zoom"
-                        style={{ position: 'relative', aspectRatio: '1', display: 'block', overflow: 'hidden', background: '#111' }}
-                    >
-                        <img src={item.image} alt="Instagram" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.75, transition: 'opacity 0.4s' }} />
-                        <div
-                            style={{ position: 'absolute', inset: 0, background: 'rgba(201,168,76,0.25)', opacity: 0, transition: 'opacity 0.4s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                            onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.opacity = '1')}
-                            onMouseLeave={e => ((e.currentTarget as HTMLDivElement).style.opacity = '0')}
-                        >
-                            <Instagram size={20} style={{ color: '#F5F0E8' }} />
-                        </div>
-                    </a>
-                ))}
-            </div>
-
-            <div style={{ textAlign: 'center' }}>
-                <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="btn-outline-gold">
-                    Follow on Instagram <ArrowUpRight size={14} />
-                </a>
-            </div>
-        </section>
-    );
-};
-
-export default InstagramSection;
-
-
 // --- FILE: WhatsAppOrder.tsx ---
 
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, Send, CheckCircle, Clock, Heart, ShoppingBag, Tag, Sparkles, Phone, Users } from 'lucide-react';
+import WhatsAppConcierge from './WhatsAppConcierge';
 
-const WhatsAppOrder = () => {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [message, setMessage] = useState('');
-  const [showForm, setShowForm] = useState(false);
+const WHATSAPP_NUMBER = "919876543210";
 
-  const handleWhatsAppClick = () => {
-    // Pre-filled message
-    const defaultMessage = "Namaste! 🙏 I'm interested in your handwoven collection. Can you please help me with:";
-    const encodedMessage = encodeURIComponent(defaultMessage);
-
-    // Your WhatsApp number (replace with your actual number)
-    const yourNumber = "919876543210"; // Format: country code + number, no + or spaces
-
-    window.open(`https://wa.me/${yourNumber}?text=${encodedMessage}`, '_blank');
-  };
-
-  const handleQuickOrder = (productType, weaveType) => {
-    const quickMessage = `Namaste! 🙏 I'm interested in ${productType} with ${weaveType} weave. Can you please share the available options and prices?`;
-    const encodedMessage = encodeURIComponent(quickMessage);
-    const yourNumber = "919876543210";
-
-    window.open(`https://wa.me/${yourNumber}?text=${encodedMessage}`, '_blank');
-  };
-
-  const handleWeaveInquiry = (weaveName) => {
-    const quickMessage = `Namaste! 🙏 I'd like to know more about your ${weaveName} collection. Can you share available sarees in this weave?`;
-    const encodedMessage = encodeURIComponent(quickMessage);
-    const yourNumber = "919876543210";
-
-    window.open(`https://wa.me/${yourNumber}?text=${encodedMessage}`, '_blank');
+const WhatsAppOrder: React.FC = () => {
+  const handleOccasionClick = (occasion: string) => {
+    const messages: Record<string, string> = {
+      wedding: `Hi TANVO,\n\nI am looking for a *Wedding Saree*.\n\nPlease share your best collections for wedding ceremonies. I'd like to see options, prices, and delivery details.\n\nThank you.`,
+      engagement: `Hi TANVO,\n\nI am looking for an *Engagement / Ring Ceremony Saree*.\n\nPlease share suitable options. I'd like to know price, fabric, and delivery time.\n\nThank you.`,
+      festivals: `Hi TANVO,\n\nI am looking for a *Festive Saree* for an upcoming celebration.\n\nPlease suggest some handloom options. I'd love to see photos and prices.\n\nThank you.`,
+      gifting: `Hi TANVO,\n\nI am looking for a *Handloom Saree for Gifting*.\n\nCould you please suggest beautiful options with gift packaging? I'd like to know price, delivery, and customization options.\n\nThank you.`
+    };
+    const encoded = encodeURIComponent(messages[occasion]);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`, '_blank');
   };
 
   return (
-    <StyledSection>
-      <div className="container">
-        {/* Decorative textile elements */}
-        <div className="textile-overlay"></div>
-        <div className="thread-lines">
-          <div className="thread thread-1"></div>
-          <div className="thread thread-2"></div>
-          <div className="thread thread-3"></div>
-        </div>
-        <div className="pattern-weave"></div>
+    <section
+      className="relative overflow-hidden py-20 lg:py-28"
+      style={{ background: '#F9F5EE' }}
+    >
+      <div className="container mx-auto px-6 lg:px-16 max-w-[1400px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[580px]">
 
-        <div className="content-wrapper">
-          {/* Left side - Main CTA */}
+          {/* Left - Image Panel */}
           <motion.div
-            className="left-content"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="relative order-2 lg:order-1"
           >
-            <div className="badge">
-              <MessageCircle className="badge-icon" size={16} />
-              <span>Artisan Stylist</span>
+            <div className="relative overflow-hidden bg-[#F9F5EE] aspect-[3/4] max-h-[680px] group">
+              <img
+                src="/Indian bride wearing silk saree.jpeg"
+                alt="TANVO WhatsApp Order"
+                className="w-full h-full object-cover object-[center_25%] transition-transform duration-700 ease-out group-hover:scale-105"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/Sambalpuri saree.png';
+                }}
+              />
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A6634]/30 via-transparent to-transparent pointer-events-none" />
+
+              {/* Badge */}
+              <div className="absolute bottom-6 left-6 bg-[#1A6634] text-white px-4 py-2 flex items-center gap-2">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 flex-shrink-0">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.558 4.115 1.532 5.842L0 24l6.334-1.51A11.938 11.938 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.369l-.36-.214-3.732.979.999-3.641-.235-.374A9.818 9.818 0 1112 21.818z" />
+                </svg>
+                <span className="text-xs font-medium tracking-wider">Personal Assistance</span>
+              </div>
+
+              {/* Corner accent */}
+              <div className="absolute bottom-5 right-5 w-14 h-14 border-r border-b border-[#C9A84C]/50 pointer-events-none" />
             </div>
 
-            <h2 className="title">
-              Connect with Our
-              <span className="highlight">
-                <span className="whatsapp-text"> Master Weavers</span>
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-                  alt="WhatsApp"
-                  className="whatsapp-icon"
-                />
+            <div className="flex items-center gap-4 mt-5">
+              <span className="w-8 h-[1px] bg-[#0D0B0A]/30" />
+              <span className="font-sans text-[10px] tracking-[0.3em] text-[#0D0B0A]/40 uppercase">
+                Handloom Heritage · Est. 2020
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Right - Content Panel */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-start gap-7 order-1 lg:order-2"
+          >
+            {/* Eyebrow */}
+            <div className="flex items-center gap-4">
+              <span className="w-8 h-[1px] bg-[#1A6634]" />
+              <span className="font-sans text-[11px] tracking-[0.3em] font-medium text-[#1A6634] uppercase">
+                TANVO CONCIERGE
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h2 className="font-display text-4xl md:text-5xl lg:text-[52px] text-[#0D0B0A] leading-tight font-light tracking-tight">
+              Order Directly<br />
+              <span className="relative inline-block mt-1">
+                <span className="font-normal italic text-[#1A6634]">via WhatsApp</span>
+                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#1A6634]/30" />
               </span>
             </h2>
 
-            <p className="description">
-              Speak directly with the artisans who create our masterpieces. Personal styling advice from the hands that weave tradition.
+            {/* Description */}
+            <p className="font-sans text-base text-[#0D0B0A]/65 font-light leading-relaxed max-w-md">
+              For traditional buyers and high-value purchases — simply message us. Share a screenshot, your address, and ask any questions. We'll handle the rest personally, over chat or a call.
             </p>
 
-            <div className="features">
-              <div className="feature">
-                <div className="feature-icon primary-bg">
-                  <MessageCircle size={18} />
+            {/* 3-Step Flow */}
+            <div className="flex flex-col gap-3 w-full max-w-sm">
+              {[
+                { step: '01', text: 'Send a screenshot or product name' },
+                { step: '02', text: 'Share your delivery address' },
+                { step: '03', text: 'Confirm via chat or call · Pay COD or online' }
+              ].map(({ step, text }) => (
+                <div key={step} className="flex items-start gap-4 group">
+                  <span className="font-sans text-[10px] font-medium tracking-[0.2em] text-[#1A6634]/60 pt-0.5 w-6 flex-shrink-0">
+                    {step}
+                  </span>
+                  <span className="font-sans text-sm text-[#0D0B0A]/60 font-light leading-snug">
+                    {text}
+                  </span>
                 </div>
-                <span>Direct chat with master weavers</span>
-              </div>
-              <div className="feature">
-                <div className="feature-icon primary-bg">
-                  <Send size={18} />
-                </div>
-                <span>Share your vision, get custom recommendations</span>
-              </div>
-              <div className="feature">
-                <div className="feature-icon primary-bg">
-                  <Users size={18} />
-                </div>
-                <span>Bridal trousseau & family orders</span>
-              </div>
+              ))}
             </div>
 
-            <motion.button
-              className="whatsapp-button"
-              onClick={handleWhatsAppClick}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <MessageCircle size={24} />
-              <span>Chat with Artisan</span>
-              <Send size={18} className="send-icon" />
-            </motion.button>
+            {/* Occasion chips */}
+            <div className="flex flex-wrap items-center gap-2.5">
+              {['wedding', 'engagement', 'festivals', 'gifting'].map((type, index, arr) => (
+                <React.Fragment key={type}>
+                  <button
+                    onClick={() => handleOccasionClick(type)}
+                    className="font-sans text-xs text-[#0D0B0A]/55 hover:text-[#1A6634] transition-colors capitalize relative group pb-0.5"
+                  >
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                    <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#1A6634] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                  </button>
+                  {index < arr.length - 1 && <span className="text-[#0D0B0A]/20 text-[10px]">·</span>}
+                </React.Fragment>
+              ))}
+            </div>
 
-            <p className="small-note">
-              👋 No bots or automated replies. Every message is answered by our weaving community.
-            </p>
+            {/* CTA */}
+            <WhatsAppConcierge size="lg" label="Order via WhatsApp" className="w-full sm:w-auto" />
+
+            {/* Trust line */}
+            <div className="flex items-center gap-3 pt-3 border-t border-[#0D0B0A]/8 w-full max-w-sm">
+              <span className="text-[#C9A84C] text-sm">✦</span>
+              <span className="font-sans text-xs italic text-[#0D0B0A]/45 tracking-wide">
+                Trusted by families choosing heritage handloom for special occasions
+              </span>
+            </div>
           </motion.div>
 
         </div>
-
-        {/* Stats banner */}
-        <motion.div
-          className="stats-banner"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <div className="stat-item">
-            <span className="stat-number">20 min</span>
-            <span className="stat-label">Avg. response time</span>
-          </div>
-          <div className="divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">1000+</span>
-            <span className="stat-label">Weddings styled</span>
-          </div>
-          <div className="divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">7th Gen</span>
-            <span className="stat-label">Weaver families</span>
-          </div>
-        </motion.div>
-
-        {/* Business hours note */}
-        <div className="business-hours">
-          <Clock size={14} />
-          <span>Artisans available 9 AM - 8 PM (IST). Weekend inquiries celebrated on Monday.</span>
-        </div>
       </div>
-    </StyledSection>
+    </section>
   );
 };
-
-const StyledSection = styled.section`
-  padding: 100px 0;
-  background: #F8EDED; // --brand-bg
-  position: relative;
-  overflow: hidden;
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Textile overlay */
-  .textile-overlay {
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Animated thread lines */
-  .thread-lines {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .thread {
-    position: absolute;
-    height: 1px;
-    width: 100%;
-    background: linear-gradient(90deg, 
-      transparent 0%, 
-      rgba(180, 63, 63, 0.1) 20%, 
-      rgba(255, 130, 37, 0.2) 50%,
-      rgba(180, 63, 63, 0.1) 80%, 
-      transparent 100%
-    );
-  }
-
-  .thread-1 {
-    top: 15%;
-    animation: slideThread 20s linear infinite;
-  }
-
-  .thread-2 {
-    top: 45%;
-    animation: slideThread 25s linear infinite reverse;
-  }
-
-  .thread-3 {
-    top: 75%;
-    animation: slideThread 22s linear infinite;
-  }
-
-  @keyframes slideThread {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-
-  /* Weave pattern */
-  .pattern-weave {
-    position: absolute;
-    inset: 0;
-    background-image: 
-      linear-gradient(45deg, rgba(180, 63, 63, 0.02) 25%, transparent 25%),
-      linear-gradient(-45deg, rgba(255, 130, 37, 0.02) 25%, transparent 25%);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .content-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 40px auto;
-    position: relative;
-    z-index: 3;
-  }
-
-  .left-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 130, 37, 0.1);
-    color: #FF8225;
-    padding: 8px 16px;
-    border-radius: 40px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-bottom: 24px;
-    border: 1px solid rgba(255, 130, 37, 0.2);
-    letter-spacing: 0.05em;
-  }
-
-  .badge-icon {
-    color: #FF8225;
-  }
-
-  .title {
-    font-size: 3rem;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    color: #173B45;
-    font-family: 'Playfair Display', serif;
-  }
-
-  .highlight {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #1C1612, #333333);
-    padding: 4px 16px 4px 20px;
-    border-radius: 50px;
-    margin-left: 8px;
-  }
-
-  .whatsapp-text {
-    color: #F8EDED;
-    font-family: 'Inter', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 500;
-  }
-
-  .whatsapp-icon {
-    width: 28px;
-    height: 28px;
-    filter: brightness(0) invert(1);
-  }
-
-  .description {
-    font-size: 1.1rem;
-    color: rgba(23, 59, 69, 0.7);
-    line-height: 1.6;
-    margin-bottom: 30px;
-    max-width: 600px;
-    font-family: 'Inter', sans-serif;
-  }
-
-  .features {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 30px;
-  }
-
-  .feature {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #173B45;
-  }
-
-  .feature-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #F8EDED;
-  }
-
-  .primary-bg {
-    background: #B43F3F;
-  }
-
-  .whatsapp-button {
-    background: #B43F3F;
-    color: #F8EDED;
-    border: none;
-    padding: 18px 32px;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    box-shadow: 0 20px 30px -10px rgba(180, 63, 63, 0.3);
-    margin-bottom: 16px;
-    transition: all 0.3s ease;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.05em;
-
-    &:hover {
-      background: #FF8225;
-      transform: translateY(-2px);
-      box-shadow: 0 25px 35px -10px rgba(255, 130, 37, 0.4);
-    }
-  }
-
-  .send-icon {
-    margin-left: 4px;
-    transition: transform 0.3s ease;
-  }
-
-  .whatsapp-button:hover .send-icon {
-    transform: translateX(4px);
-  }
-
-  .small-note {
-    font-size: 0.9rem;
-    color: rgba(23, 59, 69, 0.5);
-    font-style: italic;
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* Right content styles */
-  .right-content {
-    background: rgba(248, 237, 237, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
-    padding: 35px;
-    box-shadow: 0 20px 40px rgba(23, 59, 69, 0.08);
-    border: 1px solid rgba(180, 63, 63, 0.15);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .quick-order-header {
-    margin-bottom: 24px;
-
-    h3 {
-      font-size: 1.6rem;
-      font-weight: 500;
-      color: #173B45;
-      margin-bottom: 4px;
-      font-family: 'Playfair Display', serif;
-    }
-
-    p {
-      color: rgba(23, 59, 69, 0.6);
-      font-size: 0.95rem;
-      font-family: 'Inter', sans-serif;
-    }
-  }
-
-  .quick-order-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .quick-order-card {
-    background: #F8EDED;
-    border-radius: 20px;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(180, 63, 63, 0.1);
-    position: relative;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #B43F3F, #FF8225);
-      transform: translateX(-100%);
-      transition: transform 0.4s ease;
-    }
-
-    &:hover {
-      border-color: #FF8225;
-      background: white;
-      transform: translateY(-4px);
-      box-shadow: 0 15px 30px rgba(180, 63, 63, 0.1);
-
-      &::before {
-        transform: translateX(0);
-      }
-    }
-
-    .card-badge {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: linear-gradient(135deg, #B43F3F, #FF8225);
-      color: #F8EDED;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 0.6rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-    }
-
-    .item-emoji {
-      font-size: 1.8rem;
-    }
-
-    .item-details {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .item-name {
-      font-weight: 600;
-      color: #173B45;
-      font-size: 0.9rem;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .item-weave {
-      font-size: 0.7rem;
-      color: #B43F3F;
-      font-weight: 500;
-      margin-top: 2px;
-    }
-
-    .item-price {
-      font-size: 0.75rem;
-      color: #FF8225;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    .item-whatsapp {
-      color: #B43F3F;
-      opacity: 0.3;
-      transition: opacity 0.3s ease;
-    }
-
-    &:hover .item-whatsapp {
-      opacity: 1;
-    }
-  }
-
-  .weave-quick-row {
-    margin-bottom: 20px;
-    
-    .weave-label {
-      font-size: 0.85rem;
-      color: rgba(23, 59, 69, 0.6);
-      margin-bottom: 8px;
-      font-family: 'Inter', sans-serif;
-    }
-    
-    .weave-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    
-    .weave-tag {
-      padding: 6px 14px;
-      background: #F8EDED;
-      border: 1px solid rgba(180, 63, 63, 0.2);
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #B43F3F;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-      
-      &:hover {
-        background: #FF8225;
-        color: #F8EDED;
-        border-color: #FF8225;
-      }
-    }
-  }
-
-  .testimonial-note {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px;
-    background: rgba(180, 63, 63, 0.05);
-    border-radius: 30px;
-    color: #B43F3F;
-    font-size: 0.9rem;
-    font-family: 'Inter', sans-serif;
-
-    .heart-icon {
-      color: #B43F3F;
-      fill: #B43F3F;
-    }
-  }
-
-  /* Stats banner */
-  .stats-banner {
-    background: #173B45;
-    border-radius: 60px;
-    padding: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin: 40px 0 20px;
-    box-shadow: 0 15px 35px rgba(23, 59, 69, 0.2);
-    border: 1px solid rgba(255, 130, 37, 0.2);
-    position: relative;
-    z-index: 3;
-  }
-
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .stat-number {
-    font-size: 2rem;
-    font-weight: 500;
-    color: #FF8225;
-    font-family: 'Playfair Display', serif;
-  }
-
-  .stat-label {
-    font-size: 0.85rem;
-    color: rgba(248, 237, 237, 0.7);
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.05em;
-  }
-
-  .divider {
-    width: 1px;
-    height: 40px;
-    background: rgba(255, 130, 37, 0.2);
-  }
-
-  .business-hours {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: rgba(23, 59, 69, 0.6);
-    font-size: 0.9rem;
-    margin-top: 16px;
-    font-family: 'Inter', sans-serif;
-
-    svg {
-      color: #FF8225;
-    }
-  }
-
-  /* Responsive styles */
-  @media (max-width: 968px) {
-    .content-wrapper {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-
-    .title {
-      font-size: 2.5rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    padding: 60px 0;
-
-    .title {
-      font-size: 2rem;
-    }
-
-    .highlight .whatsapp-text {
-      font-size: 1.5rem;
-    }
-
-    .quick-order-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .stats-banner {
-      flex-direction: column;
-      gap: 20px;
-      border-radius: 30px;
-      padding: 20px;
-    }
-
-    .divider {
-      width: 80%;
-      height: 1px;
-    }
-  }
-`;
 
 export default WhatsAppOrder;
 
@@ -3963,12 +2924,45 @@ const RegisterModal: React.FC = () => {
     const [email, setEmail] = useState('');
 
     useEffect(() => {
-        // Show modal after 2 seconds only if not shown before
         const hasSeenModal = localStorage.getItem('hasSeenRegisterModal');
-        if (!hasSeenModal) {
-            const timer = setTimeout(() => setIsOpen(true), 2000);
-            return () => clearTimeout(timer);
-        }
+        if (hasSeenModal) return;
+
+        let triggered = false;
+
+        const triggerModal = () => {
+            if (triggered) return;
+            setIsOpen(true);
+            triggered = true;
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('mouseout', handleMouseOut);
+        };
+
+        const handleScroll = () => {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            if (scrollPercent > 60) {
+                triggerModal();
+            }
+        };
+
+        const handleMouseOut = (e: MouseEvent) => {
+            if (e.clientY <= 0) {
+                triggerModal();
+            }
+        };
+
+        // Automatically open the modal 4 seconds after landing on the site
+        const timer = setTimeout(() => {
+            triggerModal();
+        }, 4000);
+
+        window.addEventListener('scroll', handleScroll);
+        document.addEventListener('mouseout', handleMouseOut);
+
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('mouseout', handleMouseOut);
+        };
     }, []);
 
     const handleClose = () => {
@@ -4070,162 +3064,501 @@ const RegisterModal: React.FC = () => {
 export default RegisterModal;
 
 
-// --- FILE: TrustBar.tsx ---
+// --- FILE: HandwovenHeritage.tsx ---
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const trustItems = [
-    { icon: '✓', title: '100% Authentic', sub: 'Direct from Loom' },
-    { icon: '⟶', title: 'Global Shipping', sub: 'Fast & Insured' },
-    { icon: '◈', title: 'Premium Fabrics', sub: 'Hand-picked' },
-    { icon: '↺', title: '7-Day Returns', sub: 'Hassle Free' },
-];
-
-const TrustBar: React.FC = () => {
+const HandwovenHeritage: React.FC = () => {
     return (
-        <div style={{ background: 'var(--gold)', padding: '0 max(48px, 6vw)' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', borderTop: '1px solid rgba(13,11,10,0.15)' }}>
-                {trustItems.map((item, i) => (
-                    <div key={i} style={{ padding: '32px 24px', textAlign: 'center', borderRight: i < trustItems.length - 1 ? '1px solid rgba(13,11,10,0.15)' : 'none' }}>
-                        <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 18, color: 'var(--ink)', display: 'block', marginBottom: 8 }}>{item.icon}</span>
-                        <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 9, fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 4 }}>{item.title}</p>
-                        <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 8, color: 'rgba(13,11,10,0.6)', letterSpacing: '0.1em' }}>{item.sub}</p>
+        <section className="bg-white py-10 md:py-14 overflow-hidden selection:bg-[#780000] selection:text-white">
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col items-center text-center">
+                
+                {/* Title */}
+                <h2 className="font-headline font-normal text-4xl md:text-6xl lg:text-[5rem] tracking-tight text-[#0D0B0A] uppercase mb-6 md:mb-8 w-full" style={{ lineHeight: '0.95' }}>
+                    <span className="block">EVERY THREAD</span>
+                    <span className="block text-[#780000] italic font-serif">CARRIES A STORY</span>
+                </h2>
+
+                {/* Hero Image with Stats Overlay */}
+                <div className="w-full max-w-7xl relative group mb-8 md:mb-10">
+                    <div className="w-full h-[240px] md:h-[340px] lg:h-[420px] overflow-hidden bg-[#F9F5EE] relative">
+                        <img 
+                            src="/Master_weaver_creating_Sambalpur…_2K_202607021325.jpeg" 
+                            alt="Master Weaver"
+                            className="w-full h-full object-cover object-center transform transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                        />
+                        {/* Stats Strip Overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 bg-white/85 backdrop-blur-md border-t border-[#0D0B0A]/10 py-3 md:py-4">
+                            <div className="grid grid-cols-4 divide-x divide-[#0D0B0A]/10">
+                                <div className="flex flex-col items-center justify-center px-1">
+                                    <span className="font-label text-[9px] md:text-xs uppercase tracking-[0.2em] text-[#0D0B0A] font-bold text-center">15 Days</span>
+                                </div>
+                                <div className="flex flex-col items-center justify-center px-1">
+                                    <span className="font-label text-[9px] md:text-xs uppercase tracking-[0.2em] text-[#0D0B0A] font-bold text-center">7 Gen</span>
+                                </div>
+                                <div className="flex flex-col items-center justify-center px-1">
+                                    <span className="font-label text-[9px] md:text-xs uppercase tracking-[0.2em] text-[#0D0B0A] font-bold text-center">100% Hand</span>
+                                </div>
+                                <div className="flex flex-col items-center justify-center px-1">
+                                    <span className="font-label text-[9px] md:text-xs uppercase tracking-[0.2em] text-[#0D0B0A] font-bold text-center">GI Cert.</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                ))}
+                </div>
+
+                {/* Quote / Subtext */}
+                <div className="max-w-4xl mx-auto px-4 mb-6 md:mb-10">
+                    <p className="font-serif text-xl md:text-3xl lg:text-4xl text-[#0D0B0A] leading-[1.3]">
+                        "Handwoven over 15 days by artisans whose families have woven for seven generations."
+                    </p>
+                </div>
+
+                {/* CTA */}
+                <Link to="/about" className="group flex items-center justify-center gap-4 text-[#0D0B0A] hover:text-[#780000] transition-colors duration-300 mt-2">
+                    <span className="font-label text-xs md:text-sm uppercase tracking-[0.2em] font-bold">Discover the Craft</span>
+                    <span className="material-symbols-outlined transform transition-transform duration-300 group-hover:translate-x-2">arrow_right_alt</span>
+                </Link>
+
             </div>
-        </div>
+        </section>
     );
 };
 
-export default TrustBar;
+export default HandwovenHeritage;
 
 
-// --- FILE: Home.tsx ---
+// --- FILE: DrapedEveryMoment.tsx ---
 
-import React, { useEffect, useState } from 'react';
-import { useStore } from '../context/StoreContext';
-import { Product } from '../types';
-import { motion } from 'framer-motion';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-// ── Section Components ──
-import HeroSection from './sections/HeroSection';
-import MarqueeTicker from './sections/MarqueeTicker';
-import PillarsSection from './sections/PillarsSection';
-import EditorialBanner from './sections/EditorialBanner';
-import CategoryGrid from './sections/CategoryGrid';
-import ProductsGrid from './sections/ProductsGrid';
-import IkatDeepDive from './sections/IkatDeepDive';
-import InstagramSection from './sections/InstagramSection';
-import TrustBar from './sections/TrustBar';
-import WhyChooseUs from './sections/WhyChooseUs';
-import TrustSignals from './sections/TrustSignals';
-import WhatsAppOrder from '../components/WhatsAppOrder';
-import RegisterModal from '../components/RegisterModal';
+const DrapedEveryMoment: React.FC = () => {
+    const navigate = useNavigate();
 
-// ── New Components ──
-import HandwovenHeritage from './sections/HandwovenHeritage';
-import DrapedEveryMoment from './sections/DrapedEveryMoment';
-import JournalHint from './sections/JournalHint';
-import MensTraditionalAttireBanner from './sections/MensTraditionalAttireBanner';
-import ModernMuse from './sections/ModernMuse';
-import VideoBanner from './sections/VideoBanner';
+    const occasions = [
+        {
+            image: '/The Art of Occasion Wedding .jpeg',
+            label: 'BRIDAL COLLECTION',
+            title: 'Wedding Elegance',
+            description: 'Timeless silks for your most cherished celebration.',
+            stagger: false,
+            query: 'wedding',
+        },
+        {
+            image: '/The Art of Occasion Ring Ceremony .jpeg',
+            label: 'CELEBRATION',
+            title: 'Golden Beginnings',
+            description: 'Graceful weaves for moments worth remembering.',
+            stagger: true,
+            query: 'celebration',
+        },
+        {
+            image: '/The Art of Occasion Efferlatly garce .jpeg',
+            label: 'DAILY HERITAGE',
+            title: 'Effortless Grace',
+            description: 'Comfort meets traditional craftsmanship.',
+            stagger: false,
+            query: 'daily',
+        },
+        {
+            image: '/The Art of Occasion Daily Use .jpeg',
+            label: 'THOUGHTFUL GIFTS',
+            title: 'A Gift Of Tradition',
+            description: "Share a piece of India's weaving legacy.",
+            stagger: true,
+            query: 'gifting',
+        }
+    ];
 
-const Home: React.FC = () => {
-  const { products, fetchProducts, loading } = useStore();
-  const [newArrivals, setNewArrivals] = useState<any[]>([]);
-  const [bestsellers, setBestsellers] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetchProducts({ limit: 12, sort: '-createdAt' });
-  }, []);
-
-  useEffect(() => {
-    if (products.length > 0) {
-      setNewArrivals(products.slice(0, 4));
-      setBestsellers(products.filter((p: any) => p.isBestSeller).slice(0, 4));
-    }
-  }, [products]);
-
-  if (loading && products.length === 0) {
     return (
-      <div className="bg-tanvoBg min-h-screen flex items-center justify-center relative">
-        <div className="absolute inset-0 pointer-events-none opacity-50" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")` }} />
-        <div className="text-center relative z-10">
-          <div className="w-10 h-10 border-2 border-tanvoPrimary border-t-tanvoAccent rounded-full animate-spin mx-auto mb-6" />
-          <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-tanvoDark opacity-70">Weaving your experience</p>
-        </div>
-      </div>
+        <section className="py-24 bg-white" data-purpose="draped-moments">
+            <div className="max-w-7xl mx-auto px-6">
+                <p className="text-[#C9A84C] text-[10px] tracking-[0.3em] uppercase text-center font-bold mb-4">Draped For Every Moment</p>
+                <h2 className="font-serif text-3xl md:text-4xl mb-16 text-center uppercase tracking-widest text-[#1C1612]">
+                    The Art of Occasion
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {occasions.map((item, idx) => (
+                        <div
+                            key={idx}
+                            onClick={() => navigate(`/shop?occasion=${item.query}`)}
+                            className={`aspect-[9/16] bg-gray-50 relative group overflow-hidden cursor-pointer ${
+                                item.stagger ? 'md:mt-8' : ''
+                            }`}
+                        >
+                            <img
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter contrast-[1.05]"
+                                src={item.image}
+                                alt={item.title}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 flex flex-col justify-end opacity-90 group-hover:opacity-100 transition-opacity">
+                                <span className="text-[#C9A84C] text-[9px] uppercase tracking-[0.2em] font-bold block mb-2">
+                                    {item.label}
+                                </span>
+                                <h3 className="text-white font-serif text-xl mb-2">
+                                    {item.title}
+                                </h3>
+                                <p className="text-gray-300 text-xs font-sans leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 max-h-0 group-hover:max-h-20 overflow-hidden">
+                                    {item.description}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
     );
-  }
-
-  return (
-    <div className="bg-tanvoBg overflow-x-hidden relative font-sans">
-      {/* textile overlay */}
-      <div className="fixed inset-0 pointer-events-none opacity-50 z-1" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")` }} />
-
-      <div className="relative z-10">
-        <HeroSection />
-        <VideoBanner />
-
-        {bestsellers.length > 0 && (
-          <ProductsGrid
-            products={bestsellers}
-            label="Most Loved"
-            title="Bestsellers"
-            viewAllLink="/shop?isBestSeller=true"
-            viewAllText="All Bestsellers"
-            background="#F9F5EE"
-          />
-        )}
-
-        <HandwovenHeritage />
-
-        {/* Sarees directly after hero for buying */}
-        <ProductsGrid
-          products={products.slice(0, 4)}
-          label="Direct from the Loom"
-          title="Curated"
-          titleEm="Selection"
-          viewAllLink="/shop"
-          viewAllText="Explore All Sarees"
-          background="white"
-        />
-
-        <MarqueeTicker />
-        <PillarsSection />
-
-        {/* New Arrivals Section */}
-        <ProductsGrid
-          products={newArrivals}
-          label="Just Arrived"
-          title="New"
-          titleEm="Arrivals"
-          viewAllLink="/shop?sort=-createdAt"
-          viewAllText="View Newest Drops"
-          background="transparent"
-        />
-
-        <IkatDeepDive />
-
-        <EditorialBanner />
-        <CategoryGrid />
-        <WhyChooseUs />
-        <MensTraditionalAttireBanner />
-        <ModernMuse />
-
-        <TrustSignals />
-        <JournalHint />
-        <DrapedEveryMoment />
-
-        <InstagramSection
-          handle="@Tanvo"
-          profileUrl="https://instagram.com"
-        />
-        <WhatsAppOrder />
-        <TrustBar />
-      </div>
-    </div>
-  );
 };
 
-export default Home;
+export default DrapedEveryMoment;
+
+
+// --- FILE: BrandStorySection.tsx ---
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+
+const BrandStorySection: React.FC = () => {
+    return (
+        <section className="relative w-full h-[80vh] min-h-[600px] overflow-hidden bg-[#0D0B0A] flex items-center">
+            {/* Autoplay Background Video */}
+            <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover opacity-50"
+            >
+                <source src="/VID02606251815.mp4" type="video/mp4" />
+            </video>
+
+            {/* Subtle dark overlays for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0D0B0A]/95 via-[#0D0B0A]/70 to-transparent" />
+            <div className="absolute inset-0 bg-[#0D0B0A]/20" />
+
+            {/* Content Container */}
+            <div className="relative z-10 max-w-[1400px] w-full mx-auto px-8 md:px-16 flex flex-col justify-center h-full text-center md:text-left items-center md:items-start">
+                <motion.span 
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8 }}
+                    className="block mb-4 md:mb-6 tracking-[0.25em] uppercase text-[#C9A84C] text-[10px] md:text-xs font-semibold"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                    THE TANVO STORY
+                </motion.span>
+
+                <motion.h2 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ delay: 0.2, duration: 1 }}
+                    className="text-[#F9F5EE] text-4xl md:text-5xl lg:text-[64px] mb-6 font-light leading-[1.1]"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                    The Real Stories<br />
+                    Behind Our Brand
+                </motion.h2>
+
+                <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ delay: 0.4, duration: 1 }}
+                    className="text-[#F9F5EE]/80 text-sm md:text-base leading-relaxed mb-10 max-w-sm md:max-w-md"
+                    style={{ fontFamily: "'Raleway', sans-serif" }}
+                >
+                    Every saree carries the hands, heritage, and patience of the artisans who create it.
+                </motion.p>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ delay: 0.6, duration: 1 }}
+                >
+                    <Link 
+                        to="/story"
+                        className="inline-block border border-[#C9A84C] text-[#F9F5EE] px-8 py-4 text-[11px] md:text-xs tracking-[0.15em] uppercase transition-all duration-500 hover:bg-[#780000] hover:border-[#780000]"
+                        style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                        Discover Our Heritage
+                    </Link>
+                </motion.div>
+            </div>
+        </section>
+    );
+};
+
+export default BrandStorySection;
+
+// --- FILE: MensTraditionalAttireBanner.tsx ---
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const NewArrivalsBanner: React.FC = () => {
+    return (
+        <section className="container mx-auto px-4 py-12 md:py-20">
+            <div className="bg-[#F9F5EE] w-full max-w-7xl mx-auto overflow-hidden relative min-h-[550px] shadow-sm">
+                
+                {/* Full background image */}
+                <div className="absolute inset-0 w-full h-full">
+                    <img
+                        src="/Mens Collection Banner.png"
+                        alt="New Arrivals Artisans"
+                        className="w-full h-full object-cover object-[80%_top]"
+                    />
+                    {/* Minimal dark gradient overlay for text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#1B2B3A]/80 via-[#1B2B3A]/50 to-transparent"></div>
+                </div>
+
+                {/* Content overlay - left aligned with light text */}
+                <div className="relative h-full min-h-[550px] flex items-center">
+                    <div className="w-full md:w-1/2 px-8 md:px-16 py-12">
+                        
+                        {/* Minimal badge */}
+                        <div className="inline-block mb-6">
+                            <span className="text-[11px] tracking-[4px] text-[#F9F5EE] font-light uppercase border border-[#F9F5EE]/30 px-4 py-2">
+                                Handloom Collection
+                            </span>
+                        </div>
+                        
+                        {/* Heading - big and bold with light color */}
+                        <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl text-[#F9F5EE] tracking-tighter leading-[1.05] mb-4">
+                            Men's 
+                            <br />
+                            Traditional
+                        </h2>
+                        
+                        {/* Minimal description with light color */}
+                        <p className="text-[#F9F5EE] text-sm md:text-base font-light max-w-sm mb-8 opacity-80 leading-relaxed">
+                            Discover the latest masterpieces from our looms.
+                        </p>
+
+                        {/* Clean CTA with light styling */}
+                        <Link
+                            to="/shop?sort=-createdAt"
+                            className="inline-block bg-[#F9F5EE] text-[#1B2B3A] px-10 py-4 text-sm font-medium tracking-wider transition-all duration-300 hover:bg-white hover:shadow-lg shadow-md uppercase"
+                        >
+                            Shop Now
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default NewArrivalsBanner;
+
+// --- FILE: ModernMuse.tsx ---
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+
+const ModernMuse: React.FC = () => {
+    return (
+        <section className="w-full my-8 md:my-16">
+            <div className="relative w-full h-[600px] md:h-[85vh] min-h-[500px] max-h-[900px] bg-[#F9F5EE] overflow-hidden">
+                
+                {/* Full Width Hero Image Background */}
+                <div className="absolute inset-0 w-full h-full overflow-hidden">
+                    <motion.img 
+                        initial={{ scale: 1.15, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+                        viewport={{ once: true }}
+                        alt="TANVO Modern Muse Editorial" 
+                        className="w-full h-full object-cover object-center" 
+                        src="/IMG202606240805.jpeg" 
+                    />
+                    
+                    {/* Sophisticated Gradient Overlay for Full Width Impact */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
+                </div>
+
+                {/* Content Overlay - Centered Bottom with Full Width */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-16 lg:p-20 text-white">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="flex flex-col space-y-4 md:space-y-6">
+                            
+                            {/* Brand Label - Centered */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                viewport={{ once: true }}
+                                className="flex justify-center"
+                            >
+                                <span className="font-sans text-xs tracking-[0.3em] uppercase text-white/80">
+                                    TANVO PRESENTS
+                                </span>
+                            </motion.div>
+
+                            {/* Heading - Centered */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                viewport={{ once: true }}
+                                className="text-center"
+                            >
+                                <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] mb-4 text-white drop-shadow-2xl">
+                                    THE MODERN MUSE
+                                </h2>
+                                <p className="font-sans text-sm md:text-base lg:text-lg text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+                                    Where heritage weaving meets contemporary elegance. 
+                                    <br className="hidden sm:block" />
+                                    A curated dialogue between ancestral craft and modern silhouette.
+                                </p>
+                            </motion.div>
+
+                            {/* CTA Button - Centered */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.6, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                viewport={{ once: true }}
+                                className="flex justify-center pt-2 md:pt-4"
+                            >
+                                <Link 
+                                    to="/shop?style=Modern,Designer"
+                                    className="group relative inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 bg-[#780000] text-white font-sans text-xs md:text-sm uppercase tracking-widest rounded-[4px] overflow-hidden transition-all duration-500 hover:bg-[#4f0000] hover:shadow-2xl active:scale-95"
+                                >
+                                    <span className="relative z-10">Explore Collection</span>
+                                    <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
+                                    <div className="absolute inset-0 w-0 bg-white/10 group-hover:w-full transition-all duration-500"></div>
+                                </Link>
+                            </motion.div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Floating Brand Aesthetic Details */}
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0.3 }}
+                    transition={{ delay: 0.8, duration: 1 }}
+                    viewport={{ once: true }}
+                    className="absolute top-8 right-8 md:right-12 hidden lg:block"
+                >
+                    <p className="font-serif text-white text-[10px] tracking-[0.5em] uppercase [writing-mode:vertical-lr] opacity-60">
+                        HERITAGE · CRAFT · SOUL
+                    </p>
+                </motion.div>
+
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0.2 }}
+                    transition={{ delay: 1, duration: 1 }}
+                    viewport={{ once: true }}
+                    className="absolute bottom-8 left-8 md:left-12 hidden lg:block"
+                >
+                    <div className="w-px h-12 bg-white/40 mx-auto"></div>
+                    <p className="font-serif text-white text-[10px] tracking-[0.3em] uppercase mt-2 opacity-60">
+                        EST. 2024
+                    </p>
+                </motion.div>
+
+                {/* Scroll Indicator */}
+                <motion.div 
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 0.4, y: 0 }}
+                    transition={{ delay: 1.5, duration: 1, repeat: Infinity, repeatType: "reverse" }}
+                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
+                >
+                    <div className="flex flex-col items-center gap-2">
+                        <span className="text-[8px] tracking-[0.3em] uppercase text-white/40">Scroll</span>
+                        <div className="w-px h-8 bg-white/20"></div>
+                    </div>
+                </motion.div>
+            </div>
+        </section>
+    );
+};
+
+export default ModernMuse;
+
+// --- FILE: VideoBanner.tsx ---
+
+import React, { useRef, useState } from 'react';
+
+const VideoBanner: React.FC = () => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [isPlaying, setIsPlaying] = useState(true);
+
+    const togglePlay = () => {
+        if (videoRef.current) {
+            if (isPlaying) {
+                videoRef.current.pause();
+            } else {
+                videoRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
+
+    return (
+        <section 
+            className="relative w-full overflow-hidden"
+            style={{ 
+                height: '70vh', 
+                minHeight: '500px', 
+                maxHeight: '800px',
+            }}
+        >
+            {/* Video Background */}
+            <video
+                ref={videoRef}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover"
+                style={{
+                    objectPosition: 'center 25%',
+                    // Increased brightness from 0.45 to 0.85 for better clarity
+                    filter: 'brightness(0.85) saturate(1.1)', 
+                }}
+            >
+                <source src="/Woman_wearing_silk_saree_202606221155.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+
+            {/* 
+               Adjusted Gradient Overlay:
+               Reduced intensity from black/60 to black/30 to ensure the video 
+               pops while still providing enough contrast for the white text.
+            */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30"></div>
+
+            {/* Content Overlay */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-4 md:px-8">
+                <h1 className="text-base sm:text-xl md:text-3xl lg:text-4xl font-sans font-light tracking-[0.15em] text-white text-center uppercase whitespace-nowrap drop-shadow-lg">
+                    Timeless Heritage. <span className="text-[#C9A84C] font-normal">Modern Elegance.</span>
+                </h1>
+            </div>
+
+            {/* Play/Pause Button */}
+            <button 
+                className="absolute bottom-6 right-6 md:bottom-8 md:right-8 text-white/60 hover:text-white transition-colors duration-300 z-20"
+                aria-label="Toggle video playback"
+                onClick={togglePlay}
+            >
+                <span className="material-symbols-outlined text-xl">
+                    {isPlaying ? 'pause' : 'play_arrow'}
+                </span>
+            </button>
+        </section>
+    );
+};
+
+export default VideoBanner;
