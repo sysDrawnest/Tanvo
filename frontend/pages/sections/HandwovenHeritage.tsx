@@ -3,60 +3,59 @@ import { Link } from 'react-router-dom';
 
 const HandwovenHeritage: React.FC = () => {
     return (
-        <section className="relative overflow-hidden bg-[#F9F5EE]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(120, 0, 0, 0.02) 1px, transparent 0)', backgroundSize: '24px 24px' }}>
-            <div className="flex flex-col md:flex-row min-h-0 md:min-h-[580px] lg:min-h-[640px]">
-                {/* Left Content Side */}
-                <div className="w-full md:w-1/2 flex flex-col justify-center px-5 md:px-16 py-8 md:py-16 z-10">
-                    <div className="max-w-xl space-y-6">
-                        <h1 className="text-2xl md:text-5xl font-headline font-bold text-[#0D0B0A] leading-tight font-serif">
-                            Every Saree is Handwoven, Not Manufactured
-                        </h1>
-                        <p className="text-base md:text-xl font-body font-light text-[#59413d] leading-relaxed italic">
-                            Crafted by skilled artisans across Odisha, each Tanvo piece carries generations of tradition, patience, and human touch — no machines, no shortcuts.
-                        </p>
-                        <div className="h-px w-20 bg-[#780000]/20"></div>
-                        <p className="text-sm md:text-base text-[#59413d]/90 leading-relaxed font-body">
-                            Our sarees are woven thread by thread using traditional techniques like Sambalpuri Ikat, Bomkai, and Khandua. Each piece takes days — sometimes weeks — to complete, making every saree unique.
-                        </p>
-                        <div className="grid grid-cols-2 gap-3 py-2">
-                            <div className="flex items-center gap-2 p-3 bg-white/60 backdrop-blur-sm border border-[#E2D9C8]/40 rounded-[2px]">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                                <span className="text-[10px] sm:text-xs font-label uppercase tracking-wider text-[#0D0B0A] font-bold leading-tight">100% Handmade</span>
-                            </div>
-                            <div className="flex items-center gap-2 p-3 bg-white/60 backdrop-blur-sm border border-[#E2D9C8]/40 rounded-[2px]">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                                <span className="text-[10px] sm:text-xs font-label uppercase tracking-wider text-[#0D0B0A] font-bold leading-tight">GI Certified</span>
-                            </div>
-                            <div className="flex items-center gap-2 p-3 bg-white/60 backdrop-blur-sm border border-[#E2D9C8]/40 rounded-[2px]">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
-                                <span className="text-[10px] sm:text-xs font-label uppercase tracking-wider text-[#0D0B0A] font-bold leading-tight">7th Gen Weavers</span>
-                            </div>
-                            <div className="flex items-center gap-2 p-3 bg-white/60 backdrop-blur-sm border border-[#E2D9C8]/40 rounded-[2px]">
-                                <span className="material-symbols-outlined text-[#C9A84C] shrink-0 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
-                                <span className="text-[10px] sm:text-xs font-label uppercase tracking-wider text-[#0D0B0A] font-bold leading-tight">No Machines</span>
-                            </div>
-                        </div>
-                        <div className="pt-2">
-                            <Link to="/shop" className="group relative px-7 py-3.5 bg-gradient-to-r from-[#780000] to-[#C1121F] text-white font-label text-xs rounded-sm overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-[#780000]/10 inline-flex items-center justify-center uppercase tracking-[0.2em] font-bold h-[48px]">
-                                <span className="relative z-10 font-label uppercase tracking-[0.2em] text-[11px] font-bold">Explore Handwoven Collection</span>
-                                <div className="absolute inset-0 bg-[#780000] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                            </Link>
-                        </div>
+        <section className="bg-white py-24 md:py-32 overflow-hidden selection:bg-[#780000] selection:text-white">
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col items-center text-center">
+                
+                {/* Title */}
+                <h2 className="font-headline font-normal text-5xl md:text-7xl lg:text-[7rem] tracking-tight text-[#0D0B0A] uppercase mb-12 md:mb-20 w-full" style={{ lineHeight: '1.1' }}>
+                    <span className="block">EVERY THREAD</span>
+                    <span className="block text-[#780000] italic font-serif">CARRIES A STORY</span>
+                </h2>
+
+                {/* Hero Image */}
+                <div className="w-full max-w-7xl relative group mb-16 md:mb-24">
+                    <div className="aspect-[4/3] md:aspect-[2.35/1] overflow-hidden bg-[#F9F5EE]">
+                        <img 
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdg7Ev_2hzinZ3ELEiaInm85FF5cZlgC3vjDdz0dNR_5uT4IiQNlFThWx02_8d06i2loTg_isOhanjJ-XgBXwD-7k3DYSXsQ0sK299Dac6LbvjJmC1kxyaGNcHjfKqM2ha6jBHoYHFtoC01UMM9aZuUX9eFXnAZmP-cpSPrKM2hmNjOcawJFf_SRb7nmoR1VqIFZtR3wRMta_51owM7im8pFVUJIkDcyqlH5ayYK0PtWIo3z1HxUK-4v3km41dOKv787phEhTaww" 
+                            alt="Master Weaver"
+                            className="w-full h-full object-cover object-center transform transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                        />
                     </div>
                 </div>
-                {/* Right Image Side */}
-                <div className="w-full md:w-1/2 relative min-h-[320px] md:min-h-full">
-                    <img alt="Traditional Weaver" className="absolute inset-0 w-full h-full object-cover" data-alt="Close-up of an elderly Indian artisan weaving silk on a traditional wooden handloom, warm morning sunlight highlighting fine threads and complex textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdg7Ev_2hzinZ3ELEiaInm85FF5cZlgC3vjDdz0dNR_5uT4IiQNlFThWx02_8d06i2loTg_isOhanjJ-XgBXwD-7k3DYSXsQ0sK299Dac6LbvjJmC1kxyaGNcHjfKqM2ha6jBHoYHFtoC01UMM9aZuUX9eFXnAZmP-cpSPrKM2hmNjOcawJFf_SRb7nmoR1VqIFZtR3wRMta_51owM7im8pFVUJIkDcyqlH5ayYK0PtWIo3z1HxUK-4v3km41dOKv787phEhTaww" />
-                    {/* Decorative Element */}
-                    <div className="absolute bottom-12 left-12 p-6 bg-white rounded shadow-lg hidden lg:block max-w-xs border-l-4 border-[#780000]">
-                        <p className="font-headline italic text-[#0D0B0A] leading-relaxed text-sm font-serif">
-                            "The rhythm of the loom is the heartbeat of our village. Every thread we cross is a story we preserve."
-                        </p>
-                        <p className="mt-2 text-[10px] font-label uppercase tracking-[0.2em] text-[#C9A84C] font-bold">— S. Mahapatra, Master Weaver</p>
+
+                {/* Quote / Subtext */}
+                <div className="max-w-4xl mx-auto px-4">
+                    <p className="font-serif text-3xl md:text-5xl lg:text-6xl text-[#0D0B0A] leading-[1.3]">
+                        "Handwoven over 15 days by artisans whose families have woven for seven generations."
+                    </p>
+                </div>
+
+                {/* Divider */}
+                <div className="w-32 h-[1px] bg-[#0D0B0A] mx-auto my-16 md:my-24"></div>
+
+                {/* Stats */}
+                <div className="w-full max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-6 mb-20 md:mb-24">
+                    <div className="flex flex-col items-center justify-center">
+                        <span className="font-label text-sm md:text-base uppercase tracking-[0.25em] text-[#0D0B0A] font-bold">15 Days</span>
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                        <span className="font-label text-sm md:text-base uppercase tracking-[0.25em] text-[#0D0B0A] font-bold">7 Generations</span>
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                        <span className="font-label text-sm md:text-base uppercase tracking-[0.25em] text-[#0D0B0A] font-bold">100% Hand</span>
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                        <span className="font-label text-sm md:text-base uppercase tracking-[0.25em] text-[#0D0B0A] font-bold">GI Certified</span>
                     </div>
                 </div>
+
+                {/* CTA */}
+                <Link to="/about" className="group flex items-center justify-center gap-4 text-[#0D0B0A] hover:text-[#780000] transition-colors duration-300">
+                    <span className="font-label text-sm md:text-base uppercase tracking-[0.2em] font-bold">Discover the Craft</span>
+                    <span className="material-symbols-outlined transform transition-transform duration-300 group-hover:translate-x-2">arrow_right_alt</span>
+                </Link>
+
             </div>
-        
         </section>
     );
 };
