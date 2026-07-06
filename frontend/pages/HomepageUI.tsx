@@ -6,9 +6,8 @@
 // --- FILE: Home.tsx ---
 
 import React, { useEffect, useState } from 'react';
-import { useStore } from '../context/StoreContext';
+import API from '../services/api';
 import { Product } from '../types';
-import { motion } from 'framer-motion';
 
 // ── Section Components ──
 import HeroSection from './sections/HeroSection';
@@ -23,7 +22,6 @@ import TrustBar from './sections/TrustBar';
 import WhyChooseUs from './sections/WhyChooseUs';
 import TrustSignals from './sections/TrustSignals';
 import WhatsAppOrder from '../components/WhatsAppOrder';
-import RegisterModal from '../components/RegisterModal';
 
 // ── New Components ──
 import HandwovenHeritage from './sections/HandwovenHeritage';
@@ -34,21 +32,27 @@ import ModernMuse from './sections/ModernMuse';
 import VideoBanner from './sections/VideoBanner';
 
 const Home: React.FC = () => {
-  const { products, fetchProducts, loading } = useStore();
   const [newArrivals, setNewArrivals] = useState<any[]>([]);
   const [bestsellers, setBestsellers] = useState<any[]>([]);
+  const [curated, setCurated] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProducts({ limit: 12, sort: '-createdAt' });
+    // Two focused fetches instead of one big one
+    setLoading(true);
+    Promise.all([
+      API.get('/products?limit=4&sort=-createdAt'),
+      API.get('/products?limit=4&isBestSeller=true'),
+      API.get('/products?limit=4') // fallback for curated
+    ])
+    .then(([newRes, bestRes, curatedRes]) => {
+      setNewArrivals(newRes.data.products || []);
+      setBestsellers(bestRes.data.products || []);
+      setCurated(curatedRes.data.products || []);
+    })
+    .catch(console.error)
+    .finally(() => setLoading(false));
   }, []);
-
-  useEffect(() => {
-    if (products.length > 0) {
-      setNewArrivals(products.slice(0, 4));
-      setBestsellers(products.filter((p: any) => p.isBestSeller).slice(0, 4));
-    }
-  }, [products]);
-
 
   return (
     <div className="bg-tanvoBg overflow-x-hidden relative font-sans">
@@ -57,39 +61,23 @@ const Home: React.FC = () => {
 
       <div className="relative z-10">
         <HeroSection />
+        <VideoBanner />
 
-        {bestsellers.length > 0 && (
-          <ProductsGrid
-            products={bestsellers}
-            label="Most Loved"
-            title="Bestsellers"
-            viewAllLink="/shop?isBestSeller=true"
-            viewAllText="All Bestsellers"
-            background="#F9F5EE"
-          />
-        )}
-
-        <MarqueeTicker />
-        <PillarsSection />
-
-        {/* New Arrivals Section */}
         <ProductsGrid
-          products={newArrivals}
-          label="Just Arrived"
-          title="New"
-          titleEm="Arrivals"
-          viewAllLink="/shop?sort=-createdAt"
-          viewAllText="View Newest Drops"
-          background="transparent"
+          products={bestsellers}
+          loading={loading && bestsellers.length === 0}
+          label="Most Loved"
+          title="Bestsellers"
+          viewAllLink="/shop?isBestSeller=true"
+          viewAllText="All Bestsellers"
+          background="#F9F5EE"
         />
 
-        <VideoBanner />
-        <CategoryGrid />
         <HandwovenHeritage />
 
-        {/* Curated Selection */}
         <ProductsGrid
-          products={products.slice(0, 4)}
+          products={curated}
+          loading={loading && curated.length === 0}
           label="Direct from the Loom"
           title="Curated"
           titleEm="Selection"
@@ -99,14 +87,29 @@ const Home: React.FC = () => {
           inverse={true}
         />
 
-        <EditorialBanner />
+        <MarqueeTicker />
+        <PillarsSection />
 
+        <ProductsGrid
+          products={newArrivals}
+          loading={loading && newArrivals.length === 0}
+          label="Just Arrived"
+          title="New"
+          titleEm="Arrivals"
+          viewAllLink="/shop?sort=-createdAt"
+          viewAllText="View Newest Drops"
+          background="transparent"
+        />
+
+        <EditorialBanner />
+        <CategoryGrid />
+        <WhyChooseUs />
         <MensTraditionalAttireBanner />
         <ModernMuse />
         <DrapedEveryMoment />
-        <WhyChooseUs />
         <TrustSignals />
         <BrandStorySection />
+        <IkatDeepDive />
         <WhatsAppOrder />
         
         <InstagramSection
@@ -1929,6 +1932,7 @@ interface ProductsGridProps {
     background?: string;
     emptyMessage?: string;
     inverse?: boolean;
+    loading?: boolean;
 }
 
 const ProductsGrid: React.FC<ProductsGridProps> = ({
@@ -1941,6 +1945,7 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
     background = 'var(--cream)',
     emptyMessage = 'NEW PIECES ARRIVING SOON',
     inverse = false,
+    loading = false,
 }) => {
     const textColor = inverse ? 'var(--ivory)' : 'var(--ink)';
     
@@ -1962,14 +1967,18 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
-                {products.length > 0 ? (
-                    products.map(product => <ProductCard key={product._id} product={product} inverse={inverse} />)
-                ) : (
+                {loading ? (
                     <>
                         {[1, 2, 3, 4].map(i => (
                             <div key={i} className="w-full aspect-[3/4] max-[640px]:aspect-[2/3] animate-pulse" style={{ background: inverse ? 'rgba(255,255,255,0.05)' : 'rgba(13,11,10,0.05)' }} />
                         ))}
                     </>
+                ) : products.length > 0 ? (
+                    products.map(product => <ProductCard key={product._id} product={product} inverse={inverse} />)
+                ) : (
+                    <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '80px 0', color: 'rgba(13,11,10,0.35)', fontFamily: 'Montserrat, sans-serif', fontSize: 11, letterSpacing: '0.15em' }}>
+                        {emptyMessage}
+                    </div>
                 )}
             </div>
         </section>

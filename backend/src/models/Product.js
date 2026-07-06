@@ -136,9 +136,13 @@ productSchema.virtual('discountPercentage').get(function () {
   return 0;
 });
 
-// Set as JSON virtuals true
 productSchema.set('toJSON', { virtuals: true });
 productSchema.set('toObject', { virtuals: true });
+
+// Indexes for query performance optimization
+productSchema.index({ isBestSeller: 1 });
+productSchema.index({ createdAt: -1 });
+productSchema.index({ category: 1, weave: 1 });
 
 const Product = mongoose.model('Product', productSchema);
 export default Product;
