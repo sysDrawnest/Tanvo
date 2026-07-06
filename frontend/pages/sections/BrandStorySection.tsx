@@ -11,14 +11,14 @@ const BrandStorySection: React.FC = () => {
                 muted
                 loop
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover opacity-70"
+                className="absolute inset-0 w-full h-full object-cover opacity-50"
             >
                 <source src="/VID02606251815.mp4" type="video/mp4" />
             </video>
 
-            {/* Reduced dark overlays for better video visibility */}
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0D0B0A]/60 via-[#0D0B0A]/30 to-transparent" />
-            <div className="absolute inset-0 bg-[#0D0B0A]/10" />
+            {/* Subtle dark overlays for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0D0B0A]/95 via-[#0D0B0A]/70 to-transparent" />
+            <div className="absolute inset-0 bg-[#0D0B0A]/20" />
 
             {/* Content Container */}
             <div className="relative z-10 max-w-[1400px] w-full mx-auto px-8 md:px-16 flex flex-col justify-center h-full text-center md:text-left items-center md:items-start">
@@ -50,7 +50,7 @@ const BrandStorySection: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ delay: 0.4, duration: 1 }}
-                    className="text-[#F9F5EE]/90 text-sm md:text-base leading-relaxed mb-10 max-w-sm md:max-w-md"
+                    className="text-[#F9F5EE]/80 text-sm md:text-base leading-relaxed mb-10 max-w-sm md:max-w-md"
                     style={{ fontFamily: "'Raleway', sans-serif" }}
                 >
                     Every saree carries the hands, heritage, and patience of the artisans who create it.
