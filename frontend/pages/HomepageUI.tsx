@@ -16,7 +16,7 @@ import PillarsSection from './sections/PillarsSection';
 import EditorialBanner from './sections/EditorialBanner';
 import CategoryGrid from './sections/CategoryGrid';
 import ProductsGrid from './sections/ProductsGrid';
-import IkatDeepDive from './sections/IkatDeepDive';
+
 import InstagramSection from './sections/InstagramSection';
 import TrustBar from './sections/TrustBar';
 import WhyChooseUs from './sections/WhyChooseUs';
@@ -109,7 +109,7 @@ const Home: React.FC = () => {
         <DrapedEveryMoment />
         <TrustSignals />
         <BrandStorySection />
-        <IkatDeepDive />
+
         <WhatsAppOrder />
         
         <InstagramSection
@@ -1988,66 +1988,6 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
 export default ProductsGrid;
 
 
-// --- FILE: IkatDeepDive.tsx ---
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
-import img from '../../public/Ikat Detail.png';
-
-const IkatDeepDive: React.FC = () => {
-    return (
-        <section className="relative overflow-hidden" style={{ background: 'var(--ink)' }}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[85vh]">
-
-                {/* Image side */}
-                <div className="img-zoom relative overflow-hidden min-h-[400px] lg:min-h-[500px]">
-                    <img
-                        src={img}
-                        alt="Ikat Detail"
-                        className="absolute inset-0 w-full h-full object-cover opacity-70"
-                    />
-
-                    {/* Hotspot 1 */}
-                    <div className="absolute top-[32%] right-[28%] z-10">
-                        <div className="hotspot-pulse relative w-7 h-7 rounded-full flex items-center justify-center cursor-pointer group" style={{ background: 'var(--gold)' }}>
-                            <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 9, fontWeight: 700, color: 'var(--ink)' }}>1</span>
-                            <div className="absolute top-9 right-0 md:left-1/2 md:-translate-x-1/2 md:right-auto lg:right-0 lg:left-auto lg:translate-x-0 w-[180px] md:w-[220px] p-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" style={{ background: '#F5F0E8' }}>
-                                <p style={{ fontSize: 9, fontWeight: 700, color: 'var(--red)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 6 }}>Double Ikat</p>
-                                <p style={{ fontSize: 10, color: 'var(--ink)', lineHeight: 1.6 }}>Both warp and weft tied and dyed before weaving — the rarest technique.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Hotspot 2 */}
-                    <div className="absolute top-[58%] right-[18%] z-10">
-                        <div className="hotspot-pulse relative w-7 h-7 rounded-full flex items-center justify-center cursor-pointer" style={{ background: 'var(--gold)' }}>
-                            <span style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 9, fontWeight: 700, color: 'var(--ink)' }}>2</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Text side */}
-                <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-20 border-t lg:border-t-0 lg:border-l" style={{ borderColor: 'rgba(201,168,76,0.15)' }}>
-                    <p className="section-label mb-6 lg:mb-8 text-xs lg:text-sm">The Art of Ikat</p>
-                    <h2 className="font-display font-light text-[#F5F0E8] leading-[1.1] mb-6 lg:mb-8 text-4xl sm:text-5xl lg:text-[clamp(40px,4vw,64px)]">
-                        Every Thread<br />Tells a<br /><em className="not-italic" style={{ color: 'var(--gold)' }}>Sacred Story</em>
-                    </h2>
-                    <div className="w-12 h-px mb-6 lg:mb-8" style={{ background: 'var(--gold)' }} />
-                    <p className="text-[13px] leading-loose mb-10 lg:mb-12 max-w-[400px]" style={{ color: 'rgba(245,240,232,0.55)' }}>
-                        A 7th-generation craft where every thread is meticulously tied and dyed by hand before a single pass of the shuttle. Motifs inspired by the Konark Sun Temple and Lord Jagannath rituals are encoded into each weave.
-                    </p>
-                    <Link to="/story" className="btn-gold self-start inline-flex items-center gap-2">Learn More <ArrowUpRight size={14} /></Link>
-                </div>
-
-            </div>
-        </section>
-    );
-};
-
-export default IkatDeepDive;
-
-
 // --- FILE: InstagramSection.tsx ---
 
 import React, { useState } from 'react';
@@ -3082,7 +3022,7 @@ const HandwovenHeritage: React.FC = () => {
                 <div className="w-full max-w-7xl relative group mb-8 md:mb-10">
                     <div className="w-full h-[240px] md:h-[340px] lg:h-[420px] overflow-hidden bg-[#F9F5EE] relative">
                         <img 
-                            src="/Master_weaver_creating_Sambalpur…_2K_202607021325.jpeg" 
+                            src="/Saree Creator Man 202606280804.jpeg"  
                             alt="Master Weaver"
                             className="w-full h-full object-cover object-center transform transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                         />
@@ -3228,14 +3168,14 @@ const BrandStorySection: React.FC = () => {
                 muted
                 loop
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover opacity-50"
+                className="absolute inset-0 w-full h-full object-cover opacity-80"
             >
                 <source src="/VID02606251815.mp4" type="video/mp4" />
             </video>
 
-            {/* Subtle dark overlays for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0D0B0A]/95 via-[#0D0B0A]/70 to-transparent" />
-            <div className="absolute inset-0 bg-[#0D0B0A]/20" />
+            {/* Lighter dark overlays - just enough for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0D0B0A]/50 via-[#0D0B0A]/20 to-transparent" />
+            <div className="absolute inset-0 bg-[#0D0B0A]/5" />
 
             {/* Content Container */}
             <div className="relative z-10 max-w-[1400px] w-full mx-auto px-8 md:px-16 flex flex-col justify-center h-full text-center md:text-left items-center md:items-start">
@@ -3267,7 +3207,7 @@ const BrandStorySection: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ delay: 0.4, duration: 1 }}
-                    className="text-[#F9F5EE]/80 text-sm md:text-base leading-relaxed mb-10 max-w-sm md:max-w-md"
+                    className="text-[#F9F5EE] text-sm md:text-base leading-relaxed mb-10 max-w-sm md:max-w-md"
                     style={{ fontFamily: "'Raleway', sans-serif" }}
                 >
                     Every saree carries the hands, heritage, and patience of the artisans who create it.

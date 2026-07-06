@@ -9,7 +9,7 @@ import PillarsSection from './sections/PillarsSection';
 import EditorialBanner from './sections/EditorialBanner';
 import CategoryGrid from './sections/CategoryGrid';
 import ProductsGrid from './sections/ProductsGrid';
-import IkatDeepDive from './sections/IkatDeepDive';
+
 import InstagramSection from './sections/InstagramSection';
 import TrustBar from './sections/TrustBar';
 import WhyChooseUs from './sections/WhyChooseUs';
@@ -102,7 +102,7 @@ const Home: React.FC = () => {
         <DrapedEveryMoment />
         <TrustSignals />
         <BrandStorySection />
-        <IkatDeepDive />
+
         <WhatsAppOrder />
         
         <InstagramSection
