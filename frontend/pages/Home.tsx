@@ -42,17 +42,6 @@ const Home: React.FC = () => {
     }
   }, [products]);
 
-  if (loading && products.length === 0) {
-    return (
-      <div className="bg-tanvoBg min-h-screen flex items-center justify-center relative">
-        <div className="absolute inset-0 pointer-events-none opacity-50" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v2H0V0zm0 4h40v2H0V4zm0 4h40v2H0V8zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2zm0 4h40v2H0v-2z' fill='%23B43F3F' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")` }} />
-        <div className="text-center relative z-10">
-          <div className="w-10 h-10 border-2 border-tanvoPrimary border-t-tanvoAccent rounded-full animate-spin mx-auto mb-6" />
-          <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-tanvoDark opacity-70">Weaving your experience</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-tanvoBg overflow-x-hidden relative font-sans">
