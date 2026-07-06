@@ -16,7 +16,7 @@ const HandwovenHeritage: React.FC = () => {
                 <div className="w-full max-w-7xl relative group mb-8 md:mb-10">
                     <div className="w-full h-[240px] md:h-[340px] lg:h-[420px] overflow-hidden bg-[#F9F5EE] relative">
                         <img 
-                            src="/Master_weaver_creating_Sambalpur…_2K_202607021325.jpeg" 
+                            src="/Saree Creator Man 202606280804.jpeg"  
                             alt="Master Weaver"
                             className="w-full h-full object-cover object-center transform transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                         />
