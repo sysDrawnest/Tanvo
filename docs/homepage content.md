@@ -58,7 +58,19 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 3. Infinitely Moving Marquee Ticker
+### 3. Atmospheric Video Loop Banner
+*   **Filename**: `frontend/pages/sections/VideoBanner.tsx`
+*   **UI/Design Description**:
+    *   Full-width, immersive video section with a cinematic `16:9` aspect ratio.
+    *   Provides a visual breathing space/pacing break directly after the Bestsellers grid.
+    *   Features a slow-motion video close-up of a shuttle moving through a loom (`/Woman_wearing_silk_saree_202606221155.mp4`).
+*   **Content**: 
+    *   Headline: *"Timeless Heritage. Modern Elegance."* overlay in white and gold text.
+    *   Play/Pause control button.
+
+---
+
+### 4. Infinitely Moving Marquee Ticker
 *   **Filename**: `frontend/pages/sections/MarqueeTicker.tsx`
 *   **UI/Design Description**:
     *   Full-bleed horizontal bar in solid gold background (`#C9A84C`).
@@ -68,7 +80,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 4. Brand Metrics & Pillars
+### 5. Brand Metrics & Pillars
 *   **Filename**: `frontend/pages/sections/PillarsSection.tsx`
 *   **UI/Design Description**:
     *   Rich deep charcoal background (`#1C1612`).
@@ -82,7 +94,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ---
 
-### 5. New Arrivals Grid
+### 6. New Arrivals Grid
 *   **Filename**: `frontend/pages/sections/ProductsGrid.tsx`
 *   **UI/Design Description**:
     *   Transparent background.
@@ -91,16 +103,6 @@ This document serves as the absolute visual and code structure map for the **TAN
     *   Label: "Just Arrived"
     *   Title: "New Arrivals"
     *   CTA Link: "View Newest Drops" (redirects to `/shop?sort=-createdAt`)
-
----
-
-### 6. Atmospheric Video Loop Banner
-*   **Filename**: `frontend/pages/sections/VideoBanner.tsx`
-*   **UI/Design Description**:
-    *   Full-width, low-height video strip (`40vh` height, capped between `300px` and `450px`).
-    *   Designed as a visual breathing space/pacing break directly after the pillars.
-    *   Features a slow-motion video close-up of a shuttle moving through a loom (`/saree quality 2.mp4`).
-*   **Content**: No text or overlays; purely ambient motion loop.
 
 ---
 
@@ -281,7 +283,7 @@ This document serves as the absolute visual and code structure map for the **TAN
 
 ### A. Interactive Ikat Deep-Dive
 *   **Filename**: `frontend/pages/sections/IkatDeepDive.tsx`
-*   **Status**: Draft (Imported but not active in rendering tree)
+*   **Status**: Inactive (Completely un-imported and removed from `Home.tsx`)
 *   **UI/Design Description**:
     *   Dark, heritage-focused split panel (`#1C1612` background).
     *   *Left side*: Detail image of an Ikat weave with floating numerical hotspots.
