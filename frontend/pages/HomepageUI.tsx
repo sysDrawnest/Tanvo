@@ -61,7 +61,6 @@ const Home: React.FC = () => {
 
       <div className="relative z-10">
         <HeroSection />
-        <VideoBanner />
 
         <ProductsGrid
           products={bestsellers}
@@ -71,20 +70,6 @@ const Home: React.FC = () => {
           viewAllLink="/shop?isBestSeller=true"
           viewAllText="All Bestsellers"
           background="#F9F5EE"
-        />
-
-        <HandwovenHeritage />
-
-        <ProductsGrid
-          products={curated}
-          loading={loading && curated.length === 0}
-          label="Direct from the Loom"
-          title="Curated"
-          titleEm="Selection"
-          viewAllLink="/shop"
-          viewAllText="Explore All Sarees"
-          background="#0D0B0A"
-          inverse={true}
         />
 
         <MarqueeTicker />
@@ -101,12 +86,28 @@ const Home: React.FC = () => {
           background="transparent"
         />
 
-        <EditorialBanner />
+        <VideoBanner />
         <CategoryGrid />
-        <WhyChooseUs />
+        <HandwovenHeritage />
+
+        <ProductsGrid
+          products={curated}
+          loading={loading && curated.length === 0}
+          label="Direct from the Loom"
+          title="Curated"
+          titleEm="Selection"
+          viewAllLink="/shop"
+          viewAllText="Explore All Sarees"
+          background="#0D0B0A"
+          inverse={true}
+        />
+
+        <EditorialBanner />
+
         <MensTraditionalAttireBanner />
         <ModernMuse />
         <DrapedEveryMoment />
+        <WhyChooseUs />
         <TrustSignals />
         <BrandStorySection />
 
