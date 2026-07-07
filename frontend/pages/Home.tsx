@@ -65,6 +65,8 @@ const Home: React.FC = () => {
           background="#F9F5EE"
         />
 
+        <VideoBanner />
+
         <MarqueeTicker />
         <PillarsSection />
 
@@ -79,7 +81,7 @@ const Home: React.FC = () => {
           background="transparent"
         />
 
-        <VideoBanner />
+
         <CategoryGrid />
         <HandwovenHeritage />
 

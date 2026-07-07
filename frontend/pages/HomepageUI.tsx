@@ -72,6 +72,8 @@ const Home: React.FC = () => {
           background="#F9F5EE"
         />
 
+        <VideoBanner />
+
         <MarqueeTicker />
         <PillarsSection />
 
@@ -86,7 +88,7 @@ const Home: React.FC = () => {
           background="transparent"
         />
 
-        <VideoBanner />
+
         <CategoryGrid />
         <HandwovenHeritage />
 
@@ -3447,12 +3449,7 @@ const VideoBanner: React.FC = () => {
 
     return (
         <section 
-            className="relative w-full overflow-hidden"
-            style={{ 
-                height: '70vh', 
-                minHeight: '500px', 
-                maxHeight: '800px',
-            }}
+            className="relative w-full overflow-hidden aspect-[16/9]"
         >
             {/* Video Background */}
             <video
