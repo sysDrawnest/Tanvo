@@ -1,248 +1,227 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// ── Thumbnail detail shots (replace with final photography assets) ──
+// See image-prompts.md for generation instructions.
+const THUMBNAILS = [
+  { src: '/mens-thumbnails-grid.png', alt: 'Handloom weave close-up',    style: { objectPosition: '0% 0%',   objectFit: 'cover' as const } },
+  { src: '/mens-thumbnails-grid.png', alt: 'Silk thread roll',            style: { objectPosition: '100% 0%',  objectFit: 'cover' as const } },
+  { src: '/mens-thumbnails-grid.png', alt: 'Garment fabric detail',       style: { objectPosition: '0% 100%', objectFit: 'cover' as const } },
+  { src: '/mens-thumbnails-grid.png', alt: 'Draped silk fabric detail',   style: { objectPosition: '100% 100%', objectFit: 'cover' as const } },
+];
+
 const MensTraditionalAttireBanner: React.FC = () => {
-    return (
-        <section
-            style={{
-                position: 'relative',
-                width: '100%',
-                minHeight: '680px',
-                overflow: 'hidden',
-                backgroundColor: '#C4A882',
-            }}
+  return (
+    <section
+      className="relative overflow-hidden"
+      style={{
+        background: '#1a0e08',
+        minHeight: '580px',
+        height: 'clamp(520px, 60vw, 680px)',
+      }}
+    >
+      {/* ── Background: Man's portrait (right-anchored) ── */}
+      <div className="absolute inset-0">
+        <img
+          src="/Mens Collection Banner.png"
+          alt="Men's Traditional Collection"
+          className="absolute top-0 right-0 h-full"
+          style={{
+            width: '68%',
+            objectFit: 'cover',
+            objectPosition: 'center top',
+          }}
+        />
+        {/* Left fade so the glass card reads cleanly */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to right, rgba(18,10,5,1) 20%, rgba(18,10,5,0.72) 48%, rgba(18,10,5,0.1) 75%, transparent 100%)',
+          }}
+        />
+        {/* Subtle top/bottom vignette */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(18,10,5,0.5) 0%, transparent 25%, transparent 70%, rgba(18,10,5,0.6) 100%)',
+          }}
+        />
+      </div>
+
+      {/* ── Floating silk fabric (decorative placeholder) ── */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          bottom: '-8%',
+          left: '12%',
+          width: '72%',
+          zIndex: 3,
+          opacity: 0.78,
+          transform: 'rotate(-3deg)',
+          mixBlendMode: 'screen',
+        }}
+      >
+        <img
+          src="/flowing-silk-fabric.png"
+          alt=""
+          aria-hidden="true"
+          className="w-full"
+          style={{ filter: 'saturate(1.2) brightness(1.05)' }}
+        />
+      </div>
+
+      {/* ── Main content layer ── */}
+      <div
+        className="relative h-full flex items-center"
+        style={{ zIndex: 10, padding: '0 clamp(24px, 5vw, 80px)' }}
+      >
+        {/* ── LEFT: Glassmorphism editorial card ── */}
+        <div
+          className="flex-shrink-0"
+          style={{
+            background: 'rgba(14, 9, 5, 0.68)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '12px',
+            padding: 'clamp(28px, 3.5vw, 44px) clamp(24px, 3vw, 40px)',
+            maxWidth: '420px',
+            width: '100%',
+          }}
         >
-            {/* Full-bleed flowing silk background */}
-            <div style={{ position: 'absolute', inset: 0 }}>
-                <img
-                    src="/mens-silk-bg.jpeg"
-                    alt=""
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
-                />
-                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.08)' }} />
-            </div>
+          {/* Eyebrow label */}
+          <p
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '10px',
+              fontWeight: 600,
+              letterSpacing: '0.28em',
+              textTransform: 'uppercase',
+              color: 'rgba(245, 236, 220, 0.55)',
+              marginBottom: '18px',
+            }}
+          >
+            Handloom Collection
+          </p>
 
-            {/* Content Grid */}
-            <div
-                style={{
-                    position: 'relative',
-                    zIndex: 10,
-                    display: 'flex',
-                    alignItems: 'stretch',
-                    width: '100%',
-                    minHeight: '680px',
-                    padding: '48px 48px 48px 56px',
-                    boxSizing: 'border-box',
-                    gap: '32px',
-                }}
-                className="mens-banner-inner"
-            >
-                {/* LEFT: Glassmorphism Card */}
-                <div
-                    style={{
-                        flex: '0 0 42%',
-                        maxWidth: '460px',
-                        display: 'flex',
-                        alignItems: 'center',
-                    }}
-                >
-                    <div
-                        style={{
-                            width: '100%',
-                            padding: '44px 40px',
-                            borderRadius: '20px',
-                            background: 'rgba(255, 255, 255, 0.13)',
-                            backdropFilter: 'blur(28px)',
-                            WebkitBackdropFilter: 'blur(28px)',
-                            border: '1px solid rgba(255, 255, 255, 0.22)',
-                            boxShadow: '0 8px 40px rgba(0, 0, 0, 0.12)',
-                            boxSizing: 'border-box',
-                        }}
-                    >
-                        {/* Eyebrow */}
-                        <span
-                            style={{
-                                display: 'block',
-                                fontFamily: "'Raleway', sans-serif",
-                                fontSize: '10px',
-                                fontWeight: 600,
-                                letterSpacing: '0.3em',
-                                textTransform: 'uppercase',
-                                color: 'rgba(255,255,255,0.72)',
-                                marginBottom: '22px',
-                            }}
-                        >
-                            Handloom Collection
-                        </span>
+          {/* Main heading */}
+          <h2
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 'clamp(42px, 5.5vw, 74px)',
+              fontWeight: 400,
+              color: '#F5ECD8',
+              lineHeight: 1.0,
+              letterSpacing: '-0.025em',
+              marginBottom: '18px',
+            }}
+          >
+            Men's<br />Traditional
+          </h2>
 
-                        {/* Heading */}
-                        <h2
-                            style={{
-                                fontFamily: "'Playfair Display', serif",
-                                fontSize: 'clamp(42px, 5vw, 68px)',
-                                fontWeight: 400,
-                                color: '#FFFFFF',
-                                lineHeight: 1.08,
-                                letterSpacing: '-0.01em',
-                                margin: '0 0 20px 0',
-                            }}
-                        >
-                            Men's<br />Traditional
-                        </h2>
+          {/* Description */}
+          <p
+            style={{
+              fontFamily: "'Raleway', sans-serif",
+              fontSize: '13px',
+              fontWeight: 300,
+              color: 'rgba(240, 228, 210, 0.65)',
+              lineHeight: 1.65,
+              marginBottom: '32px',
+              maxWidth: '260px',
+            }}
+          >
+            Discover the latest masterpieces from our looms.
+          </p>
 
-                        {/* Description */}
-                        <p
-                            style={{
-                                fontFamily: "'Raleway', sans-serif",
-                                fontSize: '13px',
-                                fontWeight: 300,
-                                color: 'rgba(255,255,255,0.78)',
-                                lineHeight: 1.7,
-                                margin: '0 0 36px 0',
-                                maxWidth: '270px',
-                            }}
-                        >
-                            Discover the latest masterpieces from our looms.
-                        </p>
+          {/* CTA */}
+          <Link
+            to="/shop?sort=-createdAt"
+            className="group"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '10px',
+              border: '1px solid rgba(240, 228, 210, 0.5)',
+              color: '#F5ECD8',
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '10px',
+              fontWeight: 600,
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              padding: '12px 24px',
+              textDecoration: 'none',
+              borderRadius: '6px',
+              transition: 'all 0.35s ease',
+              background: 'transparent',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(240, 228, 210, 0.92)';
+              e.currentTarget.style.color = '#1a0e08';
+              e.currentTarget.style.borderColor = 'rgba(240, 228, 210, 0.92)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = '#F5ECD8';
+              e.currentTarget.style.borderColor = 'rgba(240, 228, 210, 0.5)';
+            }}
+          >
+            Shop Now
+          </Link>
+        </div>
+      </div>
 
-                        {/* CTA */}
-                        <Link
-                            to="/shop?sort=-createdAt"
-                            className="mens-shop-btn"
-                            style={{
-                                display: 'inline-block',
-                                fontFamily: "'Raleway', sans-serif",
-                                fontSize: '11px',
-                                fontWeight: 700,
-                                letterSpacing: '0.22em',
-                                textTransform: 'uppercase',
-                                color: '#FFFFFF',
-                                border: '1.5px solid rgba(255,255,255,0.75)',
-                                borderRadius: '100px',
-                                padding: '13px 34px',
-                                textDecoration: 'none',
-                                transition: 'all 0.3s ease',
-                            }}
-                            onMouseEnter={e => {
-                                const el = e.currentTarget as HTMLAnchorElement;
-                                el.style.background = '#FFFFFF';
-                                el.style.color = '#1B2B3A';
-                                el.style.borderColor = '#FFFFFF';
-                            }}
-                            onMouseLeave={e => {
-                                const el = e.currentTarget as HTMLAnchorElement;
-                                el.style.background = 'transparent';
-                                el.style.color = '#FFFFFF';
-                                el.style.borderColor = 'rgba(255,255,255,0.75)';
-                            }}
-                        >
-                            Shop Now
-                        </Link>
-                    </div>
-                </div>
+      {/* ── RIGHT: 2×2 thumbnail grid (bottom-right corner) ── */}
+      <div
+        className="absolute"
+        style={{
+          bottom: 'clamp(16px, 3vw, 28px)',
+          right: 'clamp(16px, 3vw, 28px)',
+          zIndex: 20,
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '6px',
+          width: 'clamp(180px, 20vw, 234px)',
+        }}
+      >
+        {THUMBNAILS.map((thumb, i) => (
+          <div
+            key={i}
+            style={{
+              width: '100%',
+              aspectRatio: '1 / 1',
+              overflow: 'hidden',
+              borderRadius: '5px',
+              background: '#2a1508',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+            }}
+          >
+            <img
+              src={thumb.src}
+              alt={thumb.alt}
+              style={{
+                width: '200%',       /* show only one quadrant of the grid image */
+                height: '200%',
+                ...thumb.style,
+              }}
+            />
+          </div>
+        ))}
+      </div>
 
-                {/* RIGHT: Portrait + 2×2 Grid */}
-                <div
-                    style={{
-                        flex: 1,
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '10px',
-                        minHeight: '580px',
-                    }}
-                >
-                    {/* Main Portrait */}
-                    <div
-                        style={{
-                            flex: '0 0 56%',
-                            height: '100%',
-                            minHeight: '560px',
-                            borderRadius: '18px',
-                            overflow: 'hidden',
-                        }}
-                    >
-                        <img
-                            src="/mens-hero-portrait.jpeg"
-                            alt="Men's Traditional Collection"
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                objectPosition: 'top center',
-                                display: 'block',
-                            }}
-                        />
-                    </div>
-
-                    {/* 2×2 Fabric Grid */}
-                    <div
-                        style={{
-                            flex: 1,
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gridTemplateRows: '1fr 1fr',
-                            gap: '10px',
-                            height: '100%',
-                            minHeight: '560px',
-                        }}
-                    >
-                        {[
-                            { src: '/mens-loom-craft.jpeg',  alt: 'Handloom weaving close-up' },
-                            { src: '/mens-fabric-roll.jpeg', alt: 'Rolled silk fabric' },
-                            { src: '/mens-fabric-blue.jpeg', alt: 'Blue ikat fabric' },
-                            { src: '/mens-fabric-pink.jpeg', alt: 'Draped pink silk' },
-                        ].map((img, idx) => (
-                            <div
-                                key={idx}
-                                style={{
-                                    borderRadius: '14px',
-                                    overflow: 'hidden',
-                                    background: '#b8a090',
-                                }}
-                            >
-                                <img
-                                    src={img.src}
-                                    alt={img.alt}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
-                                        display: 'block',
-                                        transition: 'transform 0.6s ease',
-                                    }}
-                                    onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.transform = 'scale(1.06)'; }}
-                                    onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.transform = 'scale(1)'; }}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Responsive overrides */}
-            <style>{`
-                @media (max-width: 900px) {
-                    .mens-banner-inner {
-                        flex-direction: column !important;
-                        padding: 32px 24px !important;
-                    }
-                    .mens-banner-inner > div:first-child {
-                        flex: unset !important;
-                        max-width: 100% !important;
-                    }
-                }
-                @media (max-width: 600px) {
-                    .mens-banner-inner > div:last-child {
-                        flex-direction: column !important;
-                        min-height: unset !important;
-                    }
-                    .mens-banner-inner > div:last-child > div:first-child {
-                        min-height: 320px !important;
-                    }
-                }
-            `}</style>
-        </section>
-    );
+      {/* ── Responsive styles ── */}
+      <style>{`
+        @media (max-width: 640px) {
+          .mens-banner-card {
+            max-width: 100% !important;
+            border-radius: 10px !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
 };
 
 export default MensTraditionalAttireBanner;
