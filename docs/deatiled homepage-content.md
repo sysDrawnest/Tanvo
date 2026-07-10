@@ -16,18 +16,17 @@ The following is the exact top-to-bottom rendering order of components on the ho
 6. **New Arrivals Product Grid** (`ProductsGrid` - New Arrivals)
 7. **Weave Traditions Category Grid** (`CategoryGrid`)
 8. **Handwoven Heritage Story** (`HandwovenHeritage`)
-9. **Heritage to Curated Transition** (`HeritageCuratedTransition`)
-10. **Curated Selection Product Grid** (`ProductsGrid` - Curated Selection)
-11. **Ambient Editorial Video Banner** (`EditorialBanner`)
-12. **Men's Traditional Attire Campaign Banner** (`MensTraditionalAttireBanner` / `NewArrivalsBanner`)
-13. **Modern Muse Campaign** (`ModernMuse`)
-14. **The Art of Occasion** (`DrapedEveryMoment`)
-15. **"Why Choose Us" Trust Grid** (`WhyChooseUs`)
-16. **Trust Signals Media Showcase** (`TrustSignals`)
-17. **Brand Story Video Banner** (`BrandStorySection`)
-18. **Premium WhatsApp Commerce Section** (`WhatsAppOrder`)
-19. **Instagram Social Grid** (`InstagramSection`)
-20. **Trust Bar** (`TrustBar`)
+9. **Curated Selection Product Grid** (`ProductsGrid` - Curated Selection)
+10. **Ambient Editorial Video Banner** (`EditorialBanner`)
+11. **Men's Traditional Attire Campaign Banner** (`MensTraditionalAttireBanner` / `NewArrivalsBanner`)
+12. **Modern Muse Campaign** (`ModernMuse`)
+13. **The Art of Occasion** (`DrapedEveryMoment`)
+14. **"Why Choose Us" Trust Grid** (`WhyChooseUs`)
+15. **Trust Signals Media Showcase** (`TrustSignals`)
+16. **Brand Story Video Banner** (`BrandStorySection`)
+17. **Premium WhatsApp Commerce Section** (`WhatsAppOrder`)
+18. **Instagram Social Grid** (`InstagramSection`)
+19. **Trust Bar** (`TrustBar`)
 
 ---
 
@@ -440,53 +439,7 @@ Reinforce authenticity by introducing the artisan aspect behind the weaving proc
 
 ---
 
-## 9. Heritage to Curated Transition
-
-### Component
-`HeritageCuratedTransition`
-
-### File
-`frontend/pages/sections/HeritageCuratedTransition.tsx`
-
-### Purpose
-Provide a visual bridge between the bright white storytelling section (`HandwovenHeritage`) and the dark Obsidian Black commerce grid (`ProductsGrid` - Curated Selection), establishing a premium, calm, and luxury editorial rhythm.
-
-### Content
-- **Label**: "FROM THE LOOM" (uppercase, tracked out).
-- **Divider**: Thin horizontal muted gold accent line.
-- **Editorial line**: "Crafted by Hands. Curated for You." (set in display italic serif font).
-
-### Layout
-- **Dimensions**: Small transition banner with height `140px` on desktop and `120px` on mobile/tablet.
-- **Alignment**: Centered flexbox column inside a full-width container.
-
-### Styling
-- **Background**: Vertical color gradient starting at solid white (`#FFFFFF`), shifting through Warm Ivory (`#F9F5EE`), and ending at Obsidian Black (`#0D0B0A`).
-- **Texture**: Weave SVG background overlay pattern set at 3% opacity (`opacity-[0.03]`).
-- **Typography**: Editorial line in Cormorant/Playfair Display serif (`font-display`). Muted gold divider `#C9A84C`. Label in small uppercase sans-serif with spacing (`tracking-[0.35em]`).
-
-### Animations
-- **Framer Motion scroll reveals**:
-  - Small label fades up first (`whileInView={{ opacity: 0.6 }}`).
-  - Gold line expands horizontally (`scaleX(0)` to `scaleX(1)`).
-  - Editorial text fades up third (`whileInView={{ opacity: 0.9 }}`) with a delay of `0.3s`.
-
-### User Interaction
-- None.
-
-### Backend Integration Readiness
-- **State**: Fully static.
-
-### Dependencies
-- React
-- Framer Motion
-
-### Performance Notes
-- Uses lightweight CSS gradients and inline vector SVGs for fast, performant asset rendering.
-
----
-
-## 10. Curated Selection Product Grid
+## 9. Curated Selection Product Grid
 
 ### Component
 `ProductsGrid` (re-used component)
@@ -533,7 +486,7 @@ Expose premium or exclusive hand-picked selections. The dark, high-contrast pale
 
 ---
 
-## 11. Ambient Editorial Video Banner
+## 10. Ambient Editorial Video Banner
 
 ### Component
 `EditorialBanner`
@@ -583,7 +536,7 @@ Create a high-end magazine feel on the homepage, blending clean typography with 
 
 ---
 
-## 12. Men's Traditional Attire Campaign Banner
+## 11. Men's Traditional Attire Campaign Banner
 
 ### Component
 `NewArrivalsBanner` (imported as `MensTraditionalAttireBanner`)
@@ -628,7 +581,7 @@ Promote the men's traditional handloom collections using a dedicated, high-impac
 
 ---
 
-## 13. Modern Muse Campaign
+## 12. Modern Muse Campaign
 
 ### Component
 `ModernMuse`
@@ -685,7 +638,7 @@ Position the brand at the intersection of ancestral handloom craft and contempor
 
 ---
 
-## 14. The Art of Occasion
+## 13. The Art of Occasion
 
 ### Component
 `DrapedEveryMoment`
@@ -736,7 +689,7 @@ Route traffic to occasion-specific shopping categories (e.g., weddings, gifting,
 
 ---
 
-## 15. "Why Choose Us" Trust Grid
+## 14. "Why Choose Us" Trust Grid
 
 ### Component
 `WhyChooseUs`
@@ -786,7 +739,7 @@ Build customer confidence by emphasizing verified trust metrics, fair price sour
 
 ---
 
-## 16. Trust Signals Media Showcase
+## 15. Trust Signals Media Showcase
 
 ### Component
 `TrustSignals`
@@ -846,7 +799,7 @@ Provide verifiable multimedia proof (video logs and certificate images) showcasi
 
 ---
 
-## 17. Brand Story Video Banner
+## 16. Brand Story Video Banner
 
 ### Component
 `BrandStorySection`
@@ -893,7 +846,7 @@ Reintroduce the human history behind the brand using a full-screen ambient video
 
 ---
 
-## 18. Premium WhatsApp Commerce Section
+## 17. Premium WhatsApp Commerce Section
 
 ### Component
 `WhatsAppOrder`
@@ -955,7 +908,7 @@ Offer a high-touch, direct-to-artisan ordering alternative (concierge service) v
 
 ---
 
-## 19. Instagram Social Grid
+## 18. Instagram Social Grid
 
 ### Component
 `InstagramSection`
@@ -1003,7 +956,7 @@ Expose social proof by showing real-world customers and influencers styling TANV
 
 ---
 
-## 20. Trust Bar
+## 19. Trust Bar
 
 ### Component
 `TrustBar`
@@ -1066,7 +1019,6 @@ Home
 │   └── ProductCard
 ├── CategoryGrid
 ├── HandwovenHeritage
-├── HeritageCuratedTransition
 ├── ProductsGrid (Curated Selection)
 │   └── ProductCard
 ├── EditorialBanner
@@ -1123,7 +1075,6 @@ The homepage sections are divided into three backend integration states:
 | **New Arrivals Grid** | **API-ready** | Dynamically queries `/products?sort=-createdAt` database records. |
 | **Category Grid** | Static Category Array | Can be linked to database category lists. |
 | **Handwoven Heritage** | Static Story | Can be migrated to an Artisan CMS schema. |
-| **Heritage to Curated Transition** | **Static** | Fully static editorial transition component. |
 | **Curated Grid** | **API-ready** | Dynamically queries general database product records. |
 | **Editorial Banner** | Static Video / Text | Left panel prose can be customized in a CMS. |
 | **Men's Attire Banner** | Static Campaign | Banner image and link can be managed in a CMS. |

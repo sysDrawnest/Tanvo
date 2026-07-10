@@ -23,7 +23,6 @@ import BrandStorySection from './sections/BrandStorySection';
 import MensTraditionalAttireBanner from './sections/MensTraditionalAttireBanner';
 import ModernMuse from './sections/ModernMuse';
 import VideoBanner from './sections/VideoBanner';
-import HeritageCuratedTransition from './sections/HeritageCuratedTransition';
 
 const Home: React.FC = () => {
   const [newArrivals, setNewArrivals] = useState<any[]>([]);
@@ -85,7 +84,6 @@ const Home: React.FC = () => {
 
         <CategoryGrid />
         <HandwovenHeritage />
-        <HeritageCuratedTransition />
 
         <ProductsGrid
           products={curated}
