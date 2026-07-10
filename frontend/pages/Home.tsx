@@ -85,8 +85,12 @@ const Home: React.FC = () => {
         <CategoryGrid />
         <HandwovenHeritage />
 
-        {/* Elegant Transition Spacer */}
-        <div className="h-24 bg-gradient-to-b from-white to-[#0D0B0A]" aria-hidden="true" />
+        {/* Soft Neutral Break Accent Strip */}
+        <div className="w-full h-16 bg-[#780000]/5 flex items-center justify-center border-t border-b border-black/5" aria-hidden="true">
+          <div className="w-1 h-1 rounded-full bg-[#780000] mx-1 opacity-40"></div>
+          <div className="w-1 h-1 rounded-full bg-[#780000] mx-1 opacity-40"></div>
+          <div className="w-1 h-1 rounded-full bg-[#780000] mx-1 opacity-40"></div>
+        </div>
 
         <ProductsGrid
           products={curated}
