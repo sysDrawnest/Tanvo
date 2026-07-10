@@ -16,7 +16,6 @@ The following is the exact top-to-bottom rendering order of components on the ho
 6. **New Arrivals Product Grid** (`ProductsGrid` - New Arrivals)
 7. **Weave Traditions Category Grid** (`CategoryGrid`)
 8. **Handwoven Heritage Story** (`HandwovenHeritage`)
-   * *Transition*: Soft Neutral Break accent strip (`div` with `w-full h-16 bg-[#780000]/5` and three floating terracotta dot indicators) that acts as an architectural buffer before the dark Curated Selection grid.
 9. **Curated Selection Product Grid** (`ProductsGrid` - Curated Selection)
 10. **Ambient Editorial Video Banner** (`EditorialBanner`)
 11. **Men's Traditional Attire Campaign Banner** (`MensTraditionalAttireBanner` / `NewArrivalsBanner`)
@@ -413,14 +412,12 @@ Reinforce authenticity by introducing the artisan aspect behind the weaving proc
 ### Layout
 - **Structure**: Center-aligned flexbox column with max-width `1440px`.
 - **Overlay**: Stats strip is absolutely positioned at the bottom of the image frame, split into 4 equal columns divided by thin lines (`divide-x`).
-- **Transition Spacer**: Features a Soft Neutral Break accent strip (`w-full h-16 bg-[#780000]/5` with a flex row centering three dot indicators) placed directly below the section to act as an architectural buffer before the Obsidian Black grid begins.
 
 ### Styling
 - **Background**: Solid white (`bg-white`).
 - **Colors**: Heading uses primary ink (`#0D0B0A`) and dark terracotta (`#780000`) for the italicized line.
 - **Stats strip**: Semitransparent white background `bg-white/85` with backdrop blur (`backdrop-blur-md`). Bold dark sans-serif text.
 - **Typography**: Quote styled in a large serif font (`text-xl md:text-3xl lg:text-4xl`).
-- **Transition Accent Strip**: Light terracotta tint background (`#780000/5`) styled with thin top and bottom border lines (`border-black/5`) and three floating terracotta red dots (`#780000`) at `40%` opacity.
 
 ### Animations
 - **Image Hover**: Hovering on the image container zooms the image (`scale-105` over a 1.5s transition).
