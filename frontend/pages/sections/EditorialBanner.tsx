@@ -37,7 +37,7 @@ const EditorialBanner: React.FC = () => {
             height: '85vh', 
             minHeight: '600px', 
             width: '100%', 
-            overflow: 'hidden',
+            position: 'relative',
             backgroundColor: '#F9F5EE' // Ivory base
         }}>
             
@@ -153,6 +153,18 @@ const EditorialBanner: React.FC = () => {
                     background: 'rgba(0, 0, 0, 0.04)',
                 }} />
             </div>
+
+            {/* Bottom Gradient Overlay */}
+            <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: 'clamp(120px, 15vw, 180px)',
+                background: 'linear-gradient(to top, #F8EDED 0%, rgba(248, 237, 237, 0) 100%)',
+                pointerEvents: 'none',
+                zIndex: 10
+            }} />
 
         </section>
     );
