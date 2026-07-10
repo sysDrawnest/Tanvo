@@ -16,6 +16,7 @@ The following is the exact top-to-bottom rendering order of components on the ho
 6. **New Arrivals Product Grid** (`ProductsGrid` - New Arrivals)
 7. **Weave Traditions Category Grid** (`CategoryGrid`)
 8. **Handwoven Heritage Story** (`HandwovenHeritage`)
+   * *Transition*: Elegant gradient transition spacer (`div` with `h-24 bg-gradient-to-b from-white to-[#0D0B0A]`) that smooths the background transition from solid white to obsidian black.
 9. **Curated Selection Product Grid** (`ProductsGrid` - Curated Selection)
 10. **Ambient Editorial Video Banner** (`EditorialBanner`)
 11. **Men's Traditional Attire Campaign Banner** (`MensTraditionalAttireBanner` / `NewArrivalsBanner`)
@@ -412,12 +413,14 @@ Reinforce authenticity by introducing the artisan aspect behind the weaving proc
 ### Layout
 - **Structure**: Center-aligned flexbox column with max-width `1440px`.
 - **Overlay**: Stats strip is absolutely positioned at the bottom of the image frame, split into 4 equal columns divided by thin lines (`divide-x`).
+- **Transition Spacer**: Features a bottom transition spacer (`h-24 bg-gradient-to-b from-white to-[#0D0B0A]`) placed directly after the section component to fade out the white background before the dark Obsidian Black theme grid begins.
 
 ### Styling
 - **Background**: Solid white (`bg-white`).
 - **Colors**: Heading uses primary ink (`#0D0B0A`) and dark terracotta (`#780000`) for the italicized line.
 - **Stats strip**: Semitransparent white background `bg-white/85` with backdrop blur (`backdrop-blur-md`). Bold dark sans-serif text.
 - **Typography**: Quote styled in a large serif font (`text-xl md:text-3xl lg:text-4xl`).
+- **Transition Gradient**: Linear transition gradient starting from pure white `#FFFFFF` fading directly into the obsidian black background `#0D0B0A`.
 
 ### Animations
 - **Image Hover**: Hovering on the image container zooms the image (`scale-105` over a 1.5s transition).
