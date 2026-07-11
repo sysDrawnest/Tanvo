@@ -19,16 +19,16 @@ const NewArrivalsBanner: React.FC = () => {
                 </div>
 
                 {/* Left Aligned Glassmorphic Panel */}
-                <div className="absolute top-4 bottom-4 left-4 w-[58%] sm:w-[50%] md:inset-auto md:top-8 md:bottom-8 md:left-8 lg:top-12 lg:bottom-12 lg:left-12 md:w-[48%] lg:w-[42%] bg-black/25 backdrop-blur-md border border-white/10 rounded-none p-4 sm:p-8 lg:p-12 flex flex-col justify-between z-10">
+                <div className="absolute inset-4 md:inset-auto md:top-8 md:bottom-8 md:left-8 lg:top-12 lg:bottom-12 lg:left-12 md:w-[48%] lg:w-[42%] bg-black/25 backdrop-blur-md border border-white/10 rounded-none p-6 sm:p-8 lg:p-12 flex flex-col justify-between z-10">
                     
                     {/* Header Label */}
                     <div>
-                        <span className="text-[9px] sm:text-[11px] tracking-[4px] text-white/70 font-light uppercase block">
+                        <span className="text-[10px] sm:text-[11px] tracking-[4px] text-white/70 font-light uppercase block">
                             Handloom Collection
                         </span>
                         
                         {/* Title - Large Elegant Serif */}
-                        <h2 className="font-serif text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl text-white tracking-tight leading-[1.05] mt-2 sm:mt-4 mb-2">
+                        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white tracking-tight leading-[1.05] mt-4 mb-2">
                             Men's
                             <br />
                             Traditional
@@ -37,13 +37,13 @@ const NewArrivalsBanner: React.FC = () => {
                     
                     {/* Bottom half text and CTA */}
                     <div>
-                        <p className="text-white/80 text-[10px] sm:text-sm font-light max-w-xs leading-relaxed mb-4 sm:mb-8">
+                        <p className="text-white/80 text-xs sm:text-sm font-light max-w-xs leading-relaxed mb-6 sm:mb-8">
                             Discover the latest masterpieces from our looms.
                         </p>
 
                         <Link
                             to="/shop?sort=-createdAt"
-                            className="inline-block border border-[#C9A84C]/60 text-[#C9A84C] px-6 py-2.5 sm:px-8 sm:py-3 text-[10px] sm:text-[11px] font-semibold tracking-widest rounded-none uppercase bg-transparent transition-all duration-300 hover:bg-[#C9A84C] hover:border-[#C9A84C] hover:text-[#0F0D0C] hover:scale-105"
+                            className="inline-block border border-[#C9A84C]/60 text-[#C9A84C] px-8 py-3 text-[11px] font-semibold tracking-widest rounded-none uppercase bg-transparent transition-all duration-300 hover:bg-[#C9A84C] hover:border-[#C9A84C] hover:text-[#0F0D0C] hover:scale-105"
                         >
                             Shop Now
                         </Link>
@@ -51,7 +51,7 @@ const NewArrivalsBanner: React.FC = () => {
                 </div>
 
                 {/* 2x2 Thumbnail Grid Overlay */}
-                <div className="absolute bottom-[-30px] sm:bottom-[-40px] md:bottom-[-50px] lg:bottom-[-60px] right-4 md:right-[8%] w-[120px] sm:w-[160px] md:w-[200px] lg:w-[260px] xl:w-[300px] z-30 transition-transform duration-500 hover:scale-[1.03]">
+                <div className="hidden md:block absolute md:bottom-[-50px] lg:bottom-[-60px] right-4 md:right-[8%] md:w-[200px] lg:w-[260px] xl:w-[300px] z-30 transition-transform duration-500 hover:scale-[1.03]">
                     <div className="grid grid-cols-2 gap-1 sm:gap-1.5 w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] rounded-none overflow-hidden bg-white/10 p-1.5 backdrop-blur-sm">
                         <img
                             src="/Handloom_shuttle_holding_silk_thread_202607111256.jpeg"
