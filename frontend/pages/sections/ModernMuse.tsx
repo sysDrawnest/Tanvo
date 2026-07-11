@@ -28,13 +28,13 @@ const ModernMuse: React.FC = () => {
                 </div>
 
                 {/* Left-Aligned Frosted Glass Panel Container */}
-                <div className="absolute top-1/2 left-[5%] md:left-[8%] lg:left-[12%] transform -translate-y-1/2 w-[90%] max-w-[540px] z-20">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:left-[8%] md:translate-x-0 lg:left-[12%] w-[90%] sm:w-[80%] md:w-full md:max-w-[460px] lg:max-w-[540px] z-20">
                     <motion.div 
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                         viewport={{ once: true }}
-                        className="relative w-full bg-black/20 backdrop-blur-md border border-white/10 rounded-[32px] p-8 sm:p-10 md:p-12 lg:p-14 text-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] flex flex-col items-center justify-center"
+                        className="relative w-full bg-black/20 backdrop-blur-md border border-white/10 rounded-none p-6 sm:p-10 md:p-12 lg:p-14 text-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] flex flex-col items-center justify-center"
                     >
                         {/* Brand Label */}
                         <span className="font-sans text-[10px] md:text-xs tracking-[0.4em] uppercase text-white/80 mb-4 md:mb-6 block font-light">
@@ -42,7 +42,7 @@ const ModernMuse: React.FC = () => {
                         </span>
 
                         {/* Heading - Elegant Serif Stacked Title */}
-                        <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.08] mb-6 text-white tracking-tight uppercase">
+                        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.08] mb-6 text-white tracking-tight uppercase">
                             THE MODERN
                             <br />
                             MUSE
@@ -59,7 +59,7 @@ const ModernMuse: React.FC = () => {
                         <div className="absolute bottom-[-24px] left-1/2 transform -translate-x-1/2 z-30">
                             <Link 
                                 to="/shop?style=Modern,Designer"
-                                className="group relative inline-flex items-center gap-2 px-8 py-3.5 bg-[#5A040B] border border-white/10 text-white font-sans text-xs uppercase tracking-[0.2em] font-semibold rounded-[4px] shadow-[0_12px_30px_rgba(90,4,11,0.4)] transition-all duration-300 hover:bg-[#72050E] hover:shadow-2xl active:scale-95 whitespace-nowrap"
+                                className="group relative inline-flex items-center gap-2 px-8 py-3.5 bg-[#5A040B] border border-white/10 text-white font-sans text-xs uppercase tracking-[0.2em] font-semibold rounded-none shadow-[0_12px_30px_rgba(90,4,11,0.4)] transition-all duration-300 hover:bg-[#72050E] hover:shadow-2xl active:scale-95 whitespace-nowrap"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
                                     Explore Collection 
