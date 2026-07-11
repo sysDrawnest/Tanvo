@@ -20,14 +20,12 @@ const ModernMuse: React.FC = () => {
                         src="/IMG202606240805.jpeg" 
                     />
                     
-                    {/* Dark gradient overlays to replicate cinematic style and protect typography contrast */}
-                    <div className="absolute inset-0 bg-black/25"></div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/25"></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-black/15"></div>
+                    {/* Bottom black gradient overlay */}
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent"></div>
                 </div>
 
-                {/* Centered Frosted Glass Panel Container */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[620px] z-20">
+                {/* Left-Aligned Frosted Glass Panel Container */}
+                <div className="absolute top-1/2 left-[5%] md:left-[8%] lg:left-[12%] transform -translate-y-1/2 w-[90%] max-w-[540px] z-20">
                     <motion.div 
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
