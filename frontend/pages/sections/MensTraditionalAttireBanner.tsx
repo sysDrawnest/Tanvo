@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 const NewArrivalsBanner: React.FC = () => {
     return (
-        <section className="relative w-full bg-[#F9F5EE] px-0 md:px-12 lg:px-16 py-12 md:py-20 lg:py-24 z-20">
+        <section className="relative w-full bg-[#F9F5EE] px-0 md:px-12 lg:px-16 pt-12 pb-0 md:py-20 lg:py-24 z-20">
             {/* Main Box Card */}
-            <div className="relative w-full max-w-7xl mx-auto rounded-none overflow-hidden md:overflow-visible min-h-0 md:min-h-[580px] lg:min-h-[640px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] bg-[#0F0D0C] flex flex-col md:block">
+            <div className="relative w-full max-w-7xl mx-auto rounded-none overflow-hidden md:overflow-visible min-h-0 md:min-h-[580px] lg:min-h-[640px] shadow-none md:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] bg-[#0F0D0C] flex flex-col md:block">
                 
                 {/* Background image of the groom */}
                 <div className="relative w-full h-[320px] sm:h-[400px] md:absolute md:inset-0 md:h-full rounded-none overflow-hidden">
@@ -19,7 +19,7 @@ const NewArrivalsBanner: React.FC = () => {
                 </div>
 
                 {/* Left Aligned Panel - Glassmorphic on Desktop, Light Cream on Mobile */}
-                <div className="relative md:absolute md:top-8 md:bottom-8 md:left-8 lg:top-12 lg:bottom-12 lg:left-12 md:w-[48%] lg:w-[42%] bg-[#F9F5EE] md:bg-black/25 md:backdrop-blur-md border border-stone-200/50 md:border-white/10 rounded-none p-6 sm:p-8 lg:p-12 flex flex-col justify-between z-10">
+                <div className="relative md:absolute md:top-8 md:bottom-8 md:left-8 lg:top-12 lg:bottom-12 lg:left-12 md:w-[48%] lg:w-[42%] bg-[#F9F5EE] md:bg-black/25 md:backdrop-blur-md border-0 md:border md:border-white/10 rounded-none p-6 sm:p-8 lg:p-12 flex flex-col justify-between z-10">
                     
                     {/* Header Label */}
                     <div>
