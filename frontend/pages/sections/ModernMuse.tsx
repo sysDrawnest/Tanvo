@@ -19,6 +19,8 @@ const ModernMuse: React.FC = () => {
                         className="w-full h-full object-cover object-center md:object-[center_35%]" 
                         src="/IMG202606240805.jpeg" 
                     />
+                    {/* Cream tint overlay */}
+                    <div className="absolute inset-0 bg-[#F9F5EE]/20"></div>
                     
                     {/* Bottom black gradient overlay */}
                     <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent"></div>
