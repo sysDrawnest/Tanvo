@@ -555,16 +555,21 @@ Promote the men's traditional handloom collections using a dedicated, high-impac
 - **CTA Button**: "Shop Now" (pointing to `/shop?sort=-createdAt`).
 
 ### Layout
-- **Dimensions**: Inner card is constrained to a max-width container (`max-w-7xl mx-auto`) with a minimum height of `550px`.
-- **Alignment**: Background image covers the absolute container (`object-[80%_top]`). Content overlay is left-aligned on a flexbox container, occupying 50% width on desktop.
+- **Dimensions & Responsive Stack**:
+  - **Mobile/Tablet**: Fully stacked layout (`flex flex-col`). The groom background image is set to a fixed height (`h-[320px] sm:h-[400px]`) and placed on top. The text panel sits directly underneath, and the bottom section padding is removed (`pb-0`) to eliminate blank gaps.
+  - **Desktop**: Returns to an absolute-positioned float layout. The groom image covers the entire background. The content panel floats on the left (`md:w-[48%] lg:w-[42%]`).
+- **Rounded Corners**: None. All components have sharp architectural edges (`rounded-none`).
+- **Shadows**: Mobile card shadow is removed (`shadow-none`) to blend flat with the background; desktop card has `md:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)]`.
 
 ### Styling
-- **Overlay**: Sleek dark slate gradient overlay (`bg-gradient-to-r from-[#1B2B3A]/80 via-[#1B2B3A]/50 to-transparent`) ensuring high text contrast.
-- **Colors**: White text `#F9F5EE`. CTA button styled with solid ivory background `#F9F5EE` and slate text `#1B2B3A`.
-- **Typography**: Title in a large serif font (`text-5xl md:text-7xl lg:text-8xl`).
+- **Overlays**: Top-to-bottom dark gradient on mobile (`bg-gradient-to-b from-black/20 via-black/10 to-black/60`) and right-aligned vignette on desktop (`md:bg-gradient-to-r md:from-black/45 md:via-black/10 md:to-transparent`).
+- **Theme & Colors**:
+  - **Mobile**: Light-themed panel (`bg-[#F9F5EE]`) with dark stone typography (`text-stone-500` for badges, `text-stone-950` for headings, `text-stone-700` for description). Button is styled with a dark stone outline (`border-stone-900 text-stone-900`) and dark hover fill. Panel border is hidden (`border-0`).
+  - **Desktop**: Dark glassmorphic panel (`md:bg-black/25 md:backdrop-blur-md md:border md:border-white/10`) with white text (`md:text-white/70`, `md:text-white`, `md:text-white/80`). Button is styled with gold outline (`md:border-[#C9A84C]/60 md:text-[#C9A84C]`) and gold hover fill.
+- **Typography**: Title in large display serif (`text-3xl md:text-5xl lg:text-7xl`).
 
 ### Animations
-- Hover transitions on the button.
+- Scale hover effect on CTA button.
 
 ### User Interaction
 - **Shop Now Button**: Navigates to `/shop?sort=-createdAt`.
@@ -577,7 +582,7 @@ Promote the men's traditional handloom collections using a dedicated, high-impac
 - React Router Link
 
 ### Performance Notes
-- Gradient overlay ensures legibility regardless of image content/brightness.
+- Mobile and desktop responsive layouts are purely CSS/Tailwind based for instant responsiveness.
 
 ---
 
@@ -596,30 +601,31 @@ Position the brand at the intersection of ancestral handloom craft and contempor
 - **Background Image**: `/IMG202606240805.jpeg`
 - **Branding labels**:
   - Center label: "TANVO PRESENTS"
-  - Right vertical label: "HERITAGE · CRAFT · SOUL"
-  - Left label: "EST. 2024"
+  - Right vertical label: "TRADITION | CRAFT | SOUL" (hidden on mobile/tablet)
 - **Main Heading**: "THE MODERN MUSE"
 - **Description**: "Where heritage weaving meets contemporary elegance. A curated dialogue between ancestral craft and modern silhouette."
 - **CTA Button**: "Explore Collection" with ArrowRight.
-- **Scroll indicator**: Bouncing vertical line with label "Scroll" at the bottom center.
 
 ### Layout
-- **Dimensions**: Full-bleed section with height `600px md:h-[85vh]`.
-- **Overlays**: Background image cover with absolute overlays. Content aligned center-bottom.
-- **Responsive details**: Vertical branding details hide on viewports `< 1024px` (hidden on mobile/tablet).
+- **Dimensions**: Full-bleed section with height `h-[600px] md:h-[80vh] lg:h-[90vh]`.
+- **Card Placement & Responsiveness**:
+  - **Mobile/Tablet**: Glassmorphic panel is anchored to the bottom (`absolute bottom-8 left-1/2 -translate-x-1/2 w-[90%]`) so that the model's face in the upper part of the image is completely visible.
+  - **Desktop**: Glassmorphic panel floats on the left (`md:top-1/2 md:left-[8%] lg:left-[12%] md:-translate-y-1/2 md:translate-x-0`).
+- **Rounded Corners**: None. Glass panel (`rounded-none`) and button (`rounded-none`) have sharp corners.
 
 ### Styling
-- **Overlays**: Combined dark bottom gradient (`to-black/80`) and side gradient (`from-black/20`) for text contrast.
-- **Colors**: White text `#FFFFFF`. CTA button styled with solid deep red background `#780000`.
-- **Typography**: Title in Playfair Display serif.
+- **Overlays**:
+  - **Top**: Seamless blend overlay gradient (`h-32 sm:h-40 md:h-24 lg:h-28 bg-gradient-to-b from-[#F9F5EE] via-[#F9F5EE]/70 to-transparent`) which matches the `#F9F5EE` background from the section above.
+  - **Bottom**: Black gradient overlay (`h-1/2 bg-gradient-to-t from-black/90 to-transparent`) for typography readability.
+- **Colors**: White text. CTA button uses deep red background (`#5A040B`).
+- **Typography**: Title in Playfair Display serif (`text-3xl sm:text-4xl md:text-5xl lg:text-7xl`).
 
 ### Animations
 - **Framer Motion Viewport Reveals**:
   - Image zooms out slowly from `1.15` to `1.0` on load.
-  - Text contents fade up with staggered delays (0.2s, 0.4s, 0.6s).
-  - Floating branding labels fade in (0.8s, 1.0s).
-  - Scroll indicator bounces infinitely using repeat reverse.
-- **Button Sweep**: Hovering on the CTA sweeps a light white overlay across the button, and shifts the arrow icon right.
+  - Text contents fade up with staggered delays (0.2s, 0.4s).
+  - Floating branding labels fade in (0.6s).
+- **Button Hover**: Shifts the arrow icon right.
 
 ### User Interaction
 - **Explore Collection Button**: Navigates to `/shop?style=Modern,Designer`.
@@ -631,10 +637,9 @@ Position the brand at the intersection of ancestral handloom craft and contempor
 - React
 - Framer Motion
 - React Router Link
-- Lucide React `ArrowRight`
 
 ### Performance Notes
-- Viewport-triggered scroll reveals run once (`once: true`) to prevent continuous DOM recalculations.
+- Viewport scroll reveals run once (`once: true`) to prevent continuous DOM recalculations.
 
 ---
 
