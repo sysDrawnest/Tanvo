@@ -1,5 +1,6 @@
 import React from 'react';
 import LegalLayout from './LegalLayout';
+import { CORPORATE_CONFIG } from '../../corporateConfig';
 
 const CookiePolicy: React.FC = () => {
   const sections = [
@@ -34,7 +35,7 @@ const CookiePolicy: React.FC = () => {
       }} className="text-[#c9a84c] underline cursor-pointer">Cookie Preferences</button> panel. Alternatively, you can set your browser to refuse all or some browser cookies, or to alert you when websites set or access cookies. If you disable or refuse cookies, please note that some parts of this website may become inaccessible or not function properly.</p>
 
       <h2 id="contact" className="mt-8 mb-4 text-2xl" style={{ color: 'var(--ink)' }}>5. Contact Us</h2>
-      <p>If you have any questions about our use of cookies or other technologies, please email us at support@tanvo.com.</p>
+      <p>If you have any questions about our use of cookies or other technologies, please email us at support@tanvo.com or write to {CORPORATE_CONFIG.parentCompany.name}, Address: {CORPORATE_CONFIG.parentCompany.hq}.</p>
     </LegalLayout>
   );
 };

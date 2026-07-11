@@ -9,6 +9,7 @@ import {
 // Import the SVG file
 import OdishaMap from '../src/assets/odisha-map.svg';
 import FounderSection from './sections/FounderSection';
+import { CORPORATE_CONFIG } from '../corporateConfig';
 
 const About: React.FC = () => {
   // Key weaving clusters data
@@ -362,6 +363,17 @@ const About: React.FC = () => {
       </section>
 
       <FounderSection />
+
+      {/* Corporate Family Section */}
+      <section className="py-16 bg-[#FDF4F0] border-t border-b border-[#B43F3F]/5">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <p className="text-[#FF8225] font-medium uppercase tracking-[0.25em] text-xs mb-3">Our Corporate Family</p>
+          <h3 className="text-2xl md:text-3xl font-display font-medium text-[#173B45] mb-4">Part of {CORPORATE_CONFIG.parentCompany.name}</h3>
+          <p className="text-sm md:text-base text-[#173B45]/70 max-w-2xl mx-auto leading-relaxed font-light font-sans">
+            TANVO is proud to be a consumer brand developed and operated under <span className="font-semibold text-[#173B45]">{CORPORATE_CONFIG.parentCompany.name}</span>. Alongside sister brands like {CORPORATE_CONFIG.brands.find(b => b.id === 'twothreads')?.name || 'TwoThreads Studio'} and {CORPORATE_CONFIG.brands.find(b => b.id === 'sable')?.name || 'SABLE'}, we share a corporate commitment to premium craftsmanship, ethical production, and technological empowerment for traditional artisans. Under the {CORPORATE_CONFIG.parentCompany.name.split(' ')[0]} umbrella, TANVO remains the primary customer-facing entity dedicated to preserving Odisha's rich handloom heritage.
+          </p>
+        </div>
+      </section>
 
       {/* New Call to Action for Journal */}
       <section className="container mx-auto px-4 mt-12 md:mt-24 mb-24 text-center">

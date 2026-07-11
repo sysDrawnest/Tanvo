@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Youtube, Mail, MapPin, Phone, ArrowUpRight, Heart, ChevronUp } from 'lucide-react';
+import { CORPORATE_CONFIG } from '../corporateConfig';
 
 const Footer: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -422,15 +423,29 @@ const Footer: React.FC = () => {
         gap: 20,
         borderTop: '1px solid rgba(249,245,238,0.06)'
       }}>
-        <p style={{
-          color: 'rgba(249,245,238,0.2)',
-          fontSize: 8,
-          letterSpacing: '0.28em',
-          textTransform: 'uppercase',
-          fontFamily: "'Cinzel', serif"
-        }}>
-          © {new Date().getFullYear()} TANVO · THE ART OF HANDWOVEN LUXURY
-        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <p style={{
+            color: 'rgba(249,245,238,0.2)',
+            fontSize: 8,
+            letterSpacing: '0.28em',
+            textTransform: 'uppercase',
+            fontFamily: "'Cinzel', serif",
+            margin: 0
+          }}>
+            © {new Date().getFullYear()} TANVO · THE ART OF HANDWOVEN LUXURY
+          </p>
+          <p style={{
+            color: 'rgba(249,245,238,0.12)',
+            fontSize: 7,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            fontFamily: "'Raleway', sans-serif",
+            margin: 0,
+            fontWeight: 400
+          }}>
+            A Brand by {CORPORATE_CONFIG.parentCompany.name}
+          </p>
+        </div>
         <button
           onClick={scrollToTop}
           className="back-to-top"

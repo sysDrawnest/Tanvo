@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import API from '../../services/api';
+import { CORPORATE_CONFIG } from '../../corporateConfig';
 
 const Invoice: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,6 +39,8 @@ const Invoice: React.FC = () => {
           <div>
             <h1 className="text-3xl font-display font-bold text-[#173B45]">TANVO</h1>
             <p className="text-sm text-gray-500 mt-1">Premium Heritage Fashion</p>
+            <p className="text-xs text-gray-400 mt-1 font-medium">A Brand by {CORPORATE_CONFIG.parentCompany.name}</p>
+            <p className="text-[10px] text-gray-400 font-medium">Legal Entity: {CORPORATE_CONFIG.parentCompany.name}</p>
             <p className="text-sm text-gray-500 mt-2">support@tanvo.com</p>
             <p className="text-sm text-gray-500">+91 9876543210</p>
           </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import LegalLayout from './LegalLayout';
+import { CORPORATE_CONFIG } from '../../corporateConfig';
 
 const PrivacyPolicy: React.FC = () => {
   const sections = [
@@ -14,7 +15,7 @@ const PrivacyPolicy: React.FC = () => {
   return (
     <LegalLayout title="Privacy Policy" lastUpdated="May 2026" sections={sections}>
       <p>
-        At TANVO, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.
+        At TANVO (a brand owned and operated by {CORPORATE_CONFIG.parentCompany.name}, hereinafter referred to as "the Company", "we", "us", or "our"), we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.
       </p>
 
       {/* TODO: Update with your company's specific legal text */}
@@ -41,9 +42,10 @@ const PrivacyPolicy: React.FC = () => {
 
       <h2 id="contact" className="mt-8 mb-4 text-2xl" style={{ color: 'var(--ink)' }}>6. Contact Us</h2>
       <p>If you have questions or comments about this Privacy Policy, please contact us at:</p>
-      <p className="font-bold">TANVO Heritage<br/>
+      <p className="font-bold">TANVO Customer Support<br/>
+      {CORPORATE_CONFIG.parentCompany.name}<br/>
       Email: support@tanvo.com<br/>
-      Odisha, India</p>
+      Address: {CORPORATE_CONFIG.parentCompany.hq}</p>
     </LegalLayout>
   );
 };

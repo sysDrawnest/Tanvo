@@ -1,5 +1,6 @@
 import React from 'react';
 import LegalLayout from './LegalLayout';
+import { CORPORATE_CONFIG } from '../../corporateConfig';
 
 const TermsOfService: React.FC = () => {
   const sections = [
@@ -15,7 +16,7 @@ const TermsOfService: React.FC = () => {
     <LegalLayout title="Terms of Service" lastUpdated="May 2026" sections={sections}>
       {/* TODO: Update with your company's specific legal text */}
       <h2 id="agreement" className="mt-8 mb-4 text-2xl" style={{ color: 'var(--ink)' }}>1. Agreement to Terms</h2>
-      <p>These Terms of Service constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("you") and TANVO Heritage ("we," "us" or "our"), concerning your access to and use of our website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto.</p>
+      <p>These Terms of Service constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("you") and {CORPORATE_CONFIG.parentCompany.name}, operating under the brand name TANVO ("we," "us" or "our"), concerning your access to and use of our website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto.</p>
 
       <h2 id="intellectual-property" className="mt-8 mb-4 text-2xl" style={{ color: 'var(--ink)' }}>2. Intellectual Property Rights</h2>
       <p>Unless otherwise indicated, the Site is our proprietary property and all source code, databases, functionality, software, website designs, audio, video, text, photographs, and graphics on the Site (collectively, the "Content") and the trademarks, service marks, and logos contained therein (the "Marks") are owned or controlled by us or licensed to us.</p>
@@ -31,9 +32,10 @@ const TermsOfService: React.FC = () => {
 
       <h2 id="contact" className="mt-8 mb-4 text-2xl" style={{ color: 'var(--ink)' }}>6. Contact Us</h2>
       <p>In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at:</p>
-      <p className="font-bold">TANVO Heritage<br/>
+      <p className="font-bold">TANVO Customer Support<br/>
+      {CORPORATE_CONFIG.parentCompany.name}<br/>
       Email: support@tanvo.com<br/>
-      Odisha, India</p>
+      Address: {CORPORATE_CONFIG.parentCompany.hq}</p>
     </LegalLayout>
   );
 };

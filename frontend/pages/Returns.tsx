@@ -1,5 +1,6 @@
 import React from 'react';
 import { RotateCcw, ShieldAlert, Truck, Mail } from 'lucide-react';
+import { CORPORATE_CONFIG } from '../corporateConfig';
 
 const Returns: React.FC = () => {
   return (
@@ -42,9 +43,12 @@ const Returns: React.FC = () => {
 
         <div className="mt-20 flex flex-col items-center gap-6">
           <h3 className="text-2xl font-display font-bold">Questions about a return?</h3>
-          <a href="mailto:support@meherweavers.in" className="btn-primary flex items-center gap-3">
+          <a href="mailto:support@tanvo.com" className="btn-primary flex items-center gap-3">
             <Mail size={18} /> Email support
           </a>
+          <p className="text-[10px] text-gray-400 mt-2 text-center max-w-md">
+            All return processing and transactions are governed by {CORPORATE_CONFIG.parentCompany.name}, the parent operating entity of the {CORPORATE_CONFIG.brands.find(b => b.id === 'tanvo')?.name || 'TANVO'} brand.
+          </p>
         </div>
       </div>
     </div>

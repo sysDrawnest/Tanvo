@@ -71,10 +71,10 @@ export const sendWelcomeEmail = async (user) => {
             <a href="${process.env.FRONTEND_URL || 'https://tanvo-kappa.vercel.app'}" class="button">Explore Collection</a>
           </div>
           <p style="margin-top: 30px; border-top: 1px solid #eee; pt: 20px;">Use code <span class="gold">HERITAGE10</span> for 10% off your first treasure.</p>
-          <p>With love,<br><strong>Satyasai Yangyadatta</strong><br>Founder, TANVO</p>
+          <p>Warmly,<br><strong>Team TANVO</strong><br>A Brand by SYS Pvt. Ltd.</p>
         </div>
         <div class="footer">
-          <p>© 2024 TANVO Heritage. All rights reserved.</p>
+          <p>© 2024 TANVO. A Brand by SYS Pvt. Ltd. All rights reserved.</p>
           <p>Artisan Direct | GI Certified | Heritage Wear</p>
         </div>
       </div>
@@ -158,10 +158,10 @@ export const sendOrderConfirmation = async (order, user) => {
           </div>
           
           <p>We'll notify you as soon as your treasure is shipped!</p>
-          <p>Warmly,<br>The TANVO Team</p>
+          <p>Warmly,<br><strong>Team TANVO</strong><br>A Brand by SYS Pvt. Ltd.</p>
         </div>
         <div class="footer">
-          <p>TANVO Heritage | Meher Weavers Cooperative, Odisha</p>
+          <p>TANVO Heritage | A Brand by SYS Pvt. Ltd.</p>
           <p>© 2024 All rights reserved.</p>
         </div>
       </div>
@@ -213,6 +213,9 @@ export const sendVerificationEmail = async (user, token) => {
       <p>Namaste ${user.name},</p>
       <p>Thank you for registering. Please verify your email address by clicking the link below:</p>
       <a href="${verifyUrl}" style="padding: 10px 20px; background-color: #1a362d; color: white; text-decoration: none; border-radius: 5px;">Verify Email</a>
+      <p style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px; font-size: 12px; color: #666;">
+        Warmly,<br><strong>Team TANVO</strong><br>A Brand by SYS Pvt. Ltd.
+      </p>
     </div>
   `;
   return sendEmail({ email: user.email, subject: 'Verify your email address', html });
@@ -229,6 +232,9 @@ export const sendPasswordResetEmail = async (user, token) => {
       <p>Namaste ${user.name},</p>
       <p>You are receiving this email because you (or someone else) have requested the reset of a password. Please make a put request to:</p>
       <a href="${resetUrl}" style="padding: 10px 20px; background-color: #1a362d; color: white; text-decoration: none; border-radius: 5px;">Reset Password</a>
+      <p style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px; font-size: 12px; color: #666;">
+        Warmly,<br><strong>Team TANVO</strong><br>A Brand by SYS Pvt. Ltd.
+      </p>
     </div>
   `;
   return sendEmail({ email: user.email, subject: 'Password Reset Request', html });
@@ -244,6 +250,9 @@ export const sendSupportTicketConfirmation = async (ticket) => {
       <p>Namaste ${ticket.name},</p>
       <p>We have received your support request regarding <strong>${ticket.category}</strong>.</p>
       <p>Our team will get back to you shortly.</p>
+      <p style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px; font-size: 12px; color: #666;">
+        Warmly,<br><strong>Team TANVO</strong><br>A Brand by SYS Pvt. Ltd.
+      </p>
     </div>
   `;
   return sendEmail({ email: ticket.email, subject: 'Support Ticket Received', html });

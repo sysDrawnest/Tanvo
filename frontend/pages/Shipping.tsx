@@ -1,6 +1,7 @@
 import React from 'react';
 import { Globe, Truck, Clock, ShieldCheck, Package, MapPin, Plane, Gift } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CORPORATE_CONFIG } from '../corporateConfig';
 
 const Shipping: React.FC = () => {
   return (
@@ -205,7 +206,7 @@ const Shipping: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="mt-16 text-center"
+          className="mt-16 text-center space-y-4"
         >
           <p className="text-sm text-[#173B45]/60">
             Have questions about shipping? Visit our{' '}
@@ -213,6 +214,9 @@ const Shipping: React.FC = () => {
               Contact Page
             </a>{' '}
             or chat with our artisan support team.
+          </p>
+          <p className="text-[10px] text-[#173B45]/40 max-w-md mx-auto">
+            All logistics, shipping operations, and transit insurance are legally managed and handled under {CORPORATE_CONFIG.parentCompany.name}, the parent operating entity of the {CORPORATE_CONFIG.brands.find(b => b.id === 'tanvo')?.name || 'TANVO'} brand.
           </p>
         </motion.div>
       </div>

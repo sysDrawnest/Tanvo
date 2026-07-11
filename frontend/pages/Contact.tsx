@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, MessageCircle, Clock, ShieldCheck, Send, User, Mes
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { api } from '../context/AuthContext';
+import { CORPORATE_CONFIG } from '../corporateConfig';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -144,6 +145,13 @@ const Contact: React.FC = () => {
                   <p className="text-xs text-[#173B45]/50 mt-1 font-mono">
                     20°16′N 85°50′E
                   </p>
+                  <div className="mt-4 pt-3 border-t border-[#B43F3F]/10 text-left">
+                    <p className="text-[9px] uppercase tracking-wider text-[#173B45]/40 font-medium">Corporate Information</p>
+                    <div className="flex flex-col gap-1 mt-1 text-[11px] text-[#173B45]/70">
+                      <div><span className="font-semibold text-[#173B45]/50">Brand:</span> {CORPORATE_CONFIG.brands.find(b => b.id === 'tanvo')?.name || 'TANVO'}</div>
+                      <div><span className="font-semibold text-[#173B45]/50">Legal Entity:</span> {CORPORATE_CONFIG.parentCompany.name}</div>
+                    </div>
+                  </div>
                   <a
                     href="https://www.google.com/maps?q=Patia+Bhubaneswar+Odisha+751024"
                     target="_blank"

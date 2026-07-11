@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import Barcode from 'react-barcode';
 import type { BillData } from './BillingForm';
+import { CORPORATE_CONFIG } from '../../../corporateConfig';
 
 interface InvoiceProps {
     data: BillData;
@@ -61,6 +62,7 @@ const InvoicePreview = forwardRef<HTMLDivElement, InvoiceProps>(
                         </h1>
                         <p className="text-[11px] text-[#173B45]/70 mt-0.5 leading-relaxed">
                             Handcrafted Indian Textiles &amp; Artware<br />
+                            <span className="font-semibold">Brand:</span> {CORPORATE_CONFIG.brands.find(b => b.id === 'tanvo')?.name || 'TANVO'} &nbsp;|&nbsp; <span className="font-semibold">Legal Entity:</span> {CORPORATE_CONFIG.parentCompany.name}<br />
                             Shop No. 12, Weavers' Market, Jaipur – 302001<br />
                             GSTIN: 08AABCU9603R1ZX &nbsp;|&nbsp; PAN: AABCU9603R<br />
                             Ph: +91 98765 43210 &nbsp;|&nbsp; tanvo.in
