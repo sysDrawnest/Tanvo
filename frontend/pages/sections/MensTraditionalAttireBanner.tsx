@@ -54,7 +54,7 @@ const NewArrivalsBanner: React.FC = () => {
             {/* Flowing Silk Fabric Ribbon Separator - sits absolute and overlaps the bottom boundary */}
             <div className="absolute bottom-[-80px] sm:bottom-[-120px] md:bottom-[-160px] lg:bottom-[-220px] left-0 w-full h-[160px] sm:h-[240px] md:h-[320px] lg:h-[440px] z-20 pointer-events-none">
                 <img
-                    src="/Silk_fabric_in_S-curve_2K_202607110852 (3).png"
+                    src="/Silk_fabric_in_S-curve_2K_202607110852_.png"
                     alt="Flowing Silk Separator"
                     className="w-full h-full object-cover"
                 />
