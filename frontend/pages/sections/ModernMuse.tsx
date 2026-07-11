@@ -28,7 +28,7 @@ const ModernMuse: React.FC = () => {
                 </div>
 
                 {/* Left-Aligned Frosted Glass Panel Container */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:left-[8%] md:translate-x-0 lg:left-[12%] w-[90%] sm:w-[80%] md:w-full md:max-w-[460px] lg:max-w-[540px] z-20">
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:left-[8%] md:translate-x-0 lg:left-[12%] w-[90%] sm:w-[80%] md:w-full md:max-w-[460px] lg:max-w-[540px] z-20">
                     <motion.div 
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -89,36 +89,6 @@ const ModernMuse: React.FC = () => {
                     <p className="font-sans text-white/50 text-[9px] md:text-[10px] tracking-[0.5em] uppercase [writing-mode:vertical-lr] font-light">
                         TRADITION | CRAFT | SOUL
                     </p>
-                </motion.div>
-
-                {/* Est. 2024 Cursive Signature (Bottom Right) */}
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 0.85 }}
-                    transition={{ delay: 0.8, duration: 1.2 }}
-                    viewport={{ once: true }}
-                    className="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-10"
-                >
-                    <p 
-                        className="text-[32px] md:text-[40px] lg:text-[48px] text-[#EDE3D0] font-light leading-none select-none"
-                        style={{ fontFamily: "'Pinyon Script', cursive" }}
-                    >
-                        Est. 2024
-                    </p>
-                </motion.div>
-
-                {/* Faint Branding Details (Bottom Left) */}
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 0.2 }}
-                    transition={{ delay: 1, duration: 1.2 }}
-                    viewport={{ once: true }}
-                    className="absolute bottom-6 md:bottom-12 left-6 md:left-12 z-10 flex flex-col items-center gap-3"
-                >
-                    <div className="w-px h-12 bg-white/15"></div>
-                    <p className="font-sans text-white/30 text-[8px] tracking-[0.3em] uppercase [writing-mode:vertical-lr] font-light">
-                        EST. 2024
-                </p>
                 </motion.div>
             </div>
         </section>
