@@ -64,7 +64,7 @@ const NewArrivalsBanner: React.FC = () => {
             <div className="absolute bottom-[-40px] sm:bottom-[-60px] md:bottom-[-80px] lg:bottom-[-100px] right-[6%] sm:right-[8%] md:right-[10%] w-[160px] sm:w-[220px] md:w-[280px] lg:w-[350px] xl:w-[380px] z-30 pointer-events-none transition-transform duration-500 hover:scale-[1.03]">
                 <div className="grid grid-cols-2 gap-1 sm:gap-2 w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] rounded-lg overflow-hidden bg-white/20 p-1 backdrop-blur-sm">
                     <img
-                        src="/Handloom_shuttle_holding_silk_th._202607111256.jpeg"
+                        src="/Handloom_shuttle_holding_silk_thread_202607111256.jpeg"
                         alt="The Loom Journey"
                         className="w-full aspect-square object-cover"
                     />
