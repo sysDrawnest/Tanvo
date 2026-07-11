@@ -19,11 +19,12 @@ const ModernMuse: React.FC = () => {
                         className="w-full h-full object-cover object-center md:object-[center_35%]" 
                         src="/IMG202606240805.jpeg" 
                     />
-                    {/* Cream tint overlay */}
-                    <div className="absolute inset-0 bg-[#F9F5EE]/20"></div>
+                    
+                    {/* Top seamless blend overlay matching the section above */}
+                    <div className="absolute inset-x-0 top-0 h-32 md:h-48 bg-gradient-to-b from-[#F9F5EE] via-[#F9F5EE]/60 to-transparent z-10"></div>
                     
                     {/* Bottom black gradient overlay */}
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent"></div>
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
                 </div>
 
                 {/* Left-Aligned Frosted Glass Panel Container */}
