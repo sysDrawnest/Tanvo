@@ -3,51 +3,86 @@ import { Link } from 'react-router-dom';
 
 const NewArrivalsBanner: React.FC = () => {
     return (
-        <section className="container mx-auto px-4 py-12 md:py-20">
-            <div className="bg-[#F9F5EE] w-full max-w-7xl mx-auto overflow-hidden relative min-h-[550px] shadow-sm">
+        <section className="relative w-full bg-[#F9F5EE] px-4 md:px-12 lg:px-16 py-12 md:py-20 lg:py-24 z-20">
+            {/* Main Rounded Box Card */}
+            <div className="relative w-full max-w-7xl mx-auto rounded-[32px] overflow-visible min-h-[480px] sm:min-h-[520px] md:min-h-[580px] lg:min-h-[640px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] bg-[#0F0D0C]">
                 
-                {/* Full background image */}
-                <div className="absolute inset-0 w-full h-full">
+                {/* Full background image of the groom */}
+                <div className="absolute inset-0 w-full h-full rounded-[32px] overflow-hidden">
                     <img
                         src="/Mens Collection Banner.png"
-                        alt="New Arrivals Artisans"
-                        className="w-full h-full object-cover object-[80%_top]"
+                        alt="Men's Traditional Handloom Collection"
+                        className="w-full h-full object-cover object-[80%_top] md:object-[68%_25%]"
                     />
-                    {/* Minimal dark gradient overlay for text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#1B2B3A]/80 via-[#1B2B3A]/50 to-transparent"></div>
+                    {/* Soft dark vignetting to enhance text readability and depth */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/10 to-transparent"></div>
                 </div>
 
-                {/* Content overlay - left aligned with light text */}
-                <div className="relative h-full min-h-[550px] flex items-center">
-                    <div className="w-full md:w-1/2 px-8 md:px-16 py-12">
+                {/* Left Aligned Glassmorphic Panel */}
+                <div className="absolute inset-4 sm:inset-6 md:inset-auto md:top-8 md:bottom-8 md:left-8 lg:top-12 lg:bottom-12 lg:left-12 md:w-[48%] lg:w-[42%] bg-black/25 backdrop-blur-md border border-white/10 rounded-[24px] p-6 sm:p-8 lg:p-12 flex flex-col justify-between z-10">
+                    
+                    {/* Header Label */}
+                    <div>
+                        <span className="text-[10px] sm:text-[11px] tracking-[4px] text-white/70 font-light uppercase block">
+                            Handloom Collection
+                        </span>
                         
-                        {/* Minimal badge */}
-                        <div className="inline-block mb-6">
-                            <span className="text-[11px] tracking-[4px] text-[#F9F5EE] font-light uppercase border border-[#F9F5EE]/30 px-4 py-2">
-                                Handloom Collection
-                            </span>
-                        </div>
-                        
-                        {/* Heading - big and bold with light color */}
-                        <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl text-[#F9F5EE] tracking-tighter leading-[1.05] mb-4">
-                            Men's 
+                        {/* Title - Large Elegant Serif */}
+                        <h2 className="font-serif text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl text-white tracking-tight leading-[1.05] mt-4 mb-2">
+                            Men's
                             <br />
                             Traditional
                         </h2>
-                        
-                        {/* Minimal description with light color */}
-                        <p className="text-[#F9F5EE] text-sm md:text-base font-light max-w-sm mb-8 opacity-80 leading-relaxed">
+                    </div>
+                    
+                    {/* Bottom half text and CTA */}
+                    <div>
+                        <p className="text-white/80 text-xs sm:text-sm font-light max-w-xs leading-relaxed mb-6 sm:mb-8">
                             Discover the latest masterpieces from our looms.
                         </p>
 
-                        {/* Clean CTA with light styling */}
                         <Link
                             to="/shop?sort=-createdAt"
-                            className="inline-block bg-[#F9F5EE] text-[#1B2B3A] px-10 py-4 text-sm font-medium tracking-wider transition-all duration-300 hover:bg-white hover:shadow-lg shadow-md uppercase"
+                            className="inline-block border border-[#C9A84C]/60 text-[#C9A84C] px-8 py-3 text-[11px] font-semibold tracking-widest rounded-full uppercase bg-transparent transition-all duration-300 hover:bg-[#C9A84C] hover:border-[#C9A84C] hover:text-[#0F0D0C] hover:scale-105"
                         >
                             Shop Now
                         </Link>
                     </div>
+                </div>
+            </div>
+
+            {/* Flowing Silk Fabric Ribbon Separator - sits absolute and overlaps the bottom boundary */}
+            <div className="absolute bottom-[-80px] sm:bottom-[-120px] md:bottom-[-160px] lg:bottom-[-220px] left-0 w-full h-[160px] sm:h-[240px] md:h-[320px] lg:h-[440px] z-20 pointer-events-none">
+                <img
+                    src="/Silk_fabric_in_S-curve_2K_202607110852 (1).png"
+                    alt="Flowing Silk Separator"
+                    className="w-full h-full object-cover"
+                />
+            </div>
+
+            {/* 2x2 Thumbnail Grid Overlay - overlaps the bottom right edge of the card and flowing ribbon */}
+            <div className="absolute bottom-[-40px] sm:bottom-[-60px] md:bottom-[-80px] lg:bottom-[-100px] right-[6%] sm:right-[8%] md:right-[10%] w-[160px] sm:w-[220px] md:w-[280px] lg:w-[350px] xl:w-[380px] z-30 pointer-events-none transition-transform duration-500 hover:scale-[1.03]">
+                <div className="grid grid-cols-2 gap-1 sm:gap-2 w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] rounded-lg overflow-hidden bg-white/20 p-1 backdrop-blur-sm">
+                    <img
+                        src="/Handloom_shuttle_holding_silk_th._202607111256.jpeg"
+                        alt="The Loom Journey"
+                        className="w-full aspect-square object-cover"
+                    />
+                    <img
+                        src="/Wooden_spool_copper_silk_thread_202607111256.jpeg"
+                        alt="Silk Thread Spool"
+                        className="w-full aspect-square object-cover"
+                    />
+                    <img
+                        src="/Men's_Nehru_vest_jacket_details_202607111256.jpeg"
+                        alt="Men's Indigo Vest Collar"
+                        className="w-full aspect-square object-cover"
+                    />
+                    <img
+                        src="/Woman_wearing_silk_saree_2K_202607111256.jpeg"
+                        alt="Peach Saree Drape"
+                        className="w-full aspect-square object-cover"
+                    />
                 </div>
             </div>
         </section>
