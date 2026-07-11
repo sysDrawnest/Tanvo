@@ -4,275 +4,125 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 const ModernMuse: React.FC = () => {
-  return (
-    <section
-      className="relative overflow-hidden"
-      style={{
-        minHeight: '520px',
-        height: 'clamp(480px, 55vw, 640px)',
-        background: '#1a0e08',
-      }}
-    >
-      {/* ── Background: woman's photo ── */}
-      <div className="absolute inset-0">
-        <motion.img
-          src="/IMG202606240805.jpeg"
-          alt="TANVO Modern Muse Editorial"
-          className="w-full h-full"
-          style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
-          initial={{ scale: 1.08, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        />
+    return (
+        <section className="w-full my-8 md:my-16">
+            <div className="relative w-full h-[600px] md:h-[85vh] min-h-[500px] max-h-[900px] bg-[#F9F5EE] overflow-hidden">
+                
+                {/* Full Width Hero Image Background */}
+                <div className="absolute inset-0 w-full h-full overflow-hidden">
+                    <motion.img 
+                        initial={{ scale: 1.15, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+                        viewport={{ once: true }}
+                        alt="TANVO Modern Muse Editorial" 
+                        className="w-full h-full object-cover object-center" 
+                        src="/IMG202606240805.jpeg" 
+                    />
+                    
+                    {/* Sophisticated Gradient Overlay for Full Width Impact */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
+                </div>
 
-        {/* Bottom-up dark vignette for card legibility */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(to top, rgba(10,6,3,0.82) 0%, rgba(10,6,3,0.45) 40%, rgba(10,6,3,0.1) 70%, transparent 100%)',
-          }}
-        />
-        {/* Left-side soft fade */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(to right, rgba(10,6,3,0.35) 0%, transparent 50%)',
-          }}
-        />
-      </div>
+                {/* Content Overlay - Centered Bottom with Full Width */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-16 lg:p-20 text-white">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="flex flex-col space-y-4 md:space-y-6">
+                            
+                            {/* Brand Label - Centered */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                viewport={{ once: true }}
+                                className="flex justify-center"
+                            >
+                                <span className="font-sans text-xs tracking-[0.3em] uppercase text-white/80">
+                                    TANVO PRESENTS
+                                </span>
+                            </motion.div>
 
-      {/* ── Floating silk fabric (top-left, decorative) ── */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          bottom: '-5%',
-          left: '-5%',
-          width: '55%',
-          zIndex: 3,
-          opacity: 0.65,
-          transform: 'rotate(8deg) scaleX(-1)',
-          mixBlendMode: 'screen',
-        }}
-      >
-        <motion.img
-          src="/flowing-silk-fabric.png"
-          alt=""
-          aria-hidden="true"
-          className="w-full"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 0.65 }}
-          transition={{ delay: 0.4, duration: 1.2 }}
-          viewport={{ once: true }}
-          style={{ filter: 'saturate(1.15) brightness(1.05)' }}
-        />
-      </div>
+                            {/* Heading - Centered */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                viewport={{ once: true }}
+                                className="text-center"
+                            >
+                                <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] mb-4 text-white drop-shadow-2xl">
+                                    THE MODERN MUSE
+                                </h2>
+                                <p className="font-sans text-sm md:text-base lg:text-lg text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+                                    Where heritage weaving meets contemporary elegance. 
+                                    <br className="hidden sm:block" />
+                                    A curated dialogue between ancestral craft and modern silhouette.
+                                </p>
+                            </motion.div>
 
-      {/* ── Main content ── */}
-      <div className="absolute inset-0 flex items-end justify-center" style={{ zIndex: 10 }}>
-        <div
-          className="w-full"
-          style={{ padding: 'clamp(24px, 5vw, 60px) clamp(20px, 6vw, 80px) clamp(32px, 5vw, 64px)' }}
-        >
-          <div className="flex flex-col items-center">
+                            {/* CTA Button - Centered */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.6, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                viewport={{ once: true }}
+                                className="flex justify-center pt-2 md:pt-4"
+                            >
+                                <Link 
+                                    to="/shop?style=Modern,Designer"
+                                    className="group relative inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 bg-[#780000] text-white font-sans text-xs md:text-sm uppercase tracking-widest rounded-[4px] overflow-hidden transition-all duration-500 hover:bg-[#4f0000] hover:shadow-2xl active:scale-95"
+                                >
+                                    <span className="relative z-10">Explore Collection</span>
+                                    <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
+                                    <div className="absolute inset-0 w-0 bg-white/10 group-hover:w-full transition-all duration-500"></div>
+                                </Link>
+                            </motion.div>
+                        </div>
+                    </div>
+                </div>
 
-            {/* ── Glassmorphism editorial card ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
-              style={{
-                background: 'rgba(14, 8, 4, 0.52)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '12px',
-                padding: 'clamp(28px, 3.5vw, 48px) clamp(32px, 5vw, 72px)',
-                maxWidth: '560px',
-                width: '100%',
-                textAlign: 'center',
-                marginBottom: '24px',
-              }}
-            >
-              {/* Eyebrow */}
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                viewport={{ once: true }}
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '10px',
-                  fontWeight: 600,
-                  letterSpacing: '0.3em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(240, 224, 200, 0.65)',
-                  marginBottom: '16px',
-                }}
-              >
-                Tanvo Presents
-              </motion.p>
-
-              {/* Main heading */}
-              <motion.h2
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35, duration: 1.0 }}
-                viewport={{ once: true }}
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: 'clamp(38px, 6vw, 80px)',
-                  fontWeight: 500,
-                  color: '#FFFFFF',
-                  lineHeight: 1.0,
-                  letterSpacing: '0.01em',
-                  textTransform: 'uppercase',
-                  marginBottom: '18px',
-                  textShadow: '0 2px 24px rgba(0,0,0,0.45)',
-                }}
-              >
-                The Modern<br />Muse
-              </motion.h2>
-
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.9 }}
-                viewport={{ once: true }}
-                style={{
-                  fontFamily: "'Raleway', sans-serif",
-                  fontSize: 'clamp(12px, 1.5vw, 15px)',
-                  fontWeight: 300,
-                  color: 'rgba(240, 224, 200, 0.82)',
-                  lineHeight: 1.65,
-                  marginBottom: '28px',
-                  maxWidth: '420px',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                }}
-              >
-                Where heritage weaving meets contemporary elegance.
-                <br className="hidden sm:block" />
-                A curated dialogue between ancestral craft and modern silhouette.
-              </motion.p>
-
-              {/* CTA button */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.65, duration: 0.8 }}
-                viewport={{ once: true }}
-                className="flex justify-center"
-              >
-                <Link
-                  to="/shop?style=Modern,Designer"
-                  className="group relative inline-flex items-center gap-2 overflow-hidden"
-                  style={{
-                    background: '#780000',
-                    color: '#FFFFFF',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    padding: '14px 28px',
-                    borderRadius: '6px',
-                    textDecoration: 'none',
-                    transition: 'background 0.35s ease, box-shadow 0.35s ease',
-                    boxShadow: '0 4px 20px rgba(120, 0, 0, 0.4)',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#5a0000';
-                    e.currentTarget.style.boxShadow = '0 6px 28px rgba(120,0,0,0.55)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = '#780000';
-                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(120,0,0,0.4)';
-                  }}
+                {/* Floating Brand Aesthetic Details */}
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0.3 }}
+                    transition={{ delay: 0.8, duration: 1 }}
+                    viewport={{ once: true }}
+                    className="absolute top-8 right-8 md:right-12 hidden lg:block"
                 >
-                  {/* Shine sweep */}
-                  <span
-                    className="absolute inset-0 -translate-x-full group-hover:translate-x-full"
-                    style={{
-                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)',
-                      transform: 'skewX(-12deg)',
-                      transition: 'transform 0.6s ease',
-                    }}
-                  />
-                  <span className="relative z-10">Explore Collection</span>
-                  <ArrowRight
-                    size={14}
-                    className="relative z-10 group-hover:translate-x-1 transition-transform duration-300"
-                  />
-                </Link>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
+                    <p className="font-serif text-white text-[10px] tracking-[0.5em] uppercase [writing-mode:vertical-lr] opacity-60">
+                        HERITAGE · CRAFT · SOUL
+                    </p>
+                </motion.div>
 
-      {/* ── Right edge: vertical brand tagline ── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 1 }}
-        viewport={{ once: true }}
-        className="absolute hidden lg:flex items-center"
-        style={{
-          right: '20px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          zIndex: 20,
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "'Cinzel', serif",
-            fontSize: '9px',
-            fontWeight: 500,
-            letterSpacing: '0.35em',
-            textTransform: 'uppercase',
-            color: 'rgba(240, 224, 200, 0.45)',
-            writingMode: 'vertical-lr',
-            transform: 'rotate(180deg)',
-          }}
-        >
-          Tradition · Craft · Soul
-        </p>
-      </motion.div>
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0.2 }}
+                    transition={{ delay: 1, duration: 1 }}
+                    viewport={{ once: true }}
+                    className="absolute bottom-8 left-8 md:left-12 hidden lg:block"
+                >
+                    <div className="w-px h-12 bg-white/40 mx-auto"></div>
+                    <p className="font-serif text-white text-[10px] tracking-[0.3em] uppercase mt-2 opacity-60">
+                        EST. 2024
+                    </p>
+                </motion.div>
 
-      {/* ── Bottom-right: "Est. 2024" script ── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: 1.0, duration: 1 }}
-        viewport={{ once: true }}
-        className="absolute hidden sm:block"
-        style={{
-          bottom: 'clamp(16px, 2.5vw, 28px)',
-          right: 'clamp(36px, 4vw, 56px)',
-          zIndex: 20,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontStyle: 'italic',
-            fontSize: 'clamp(18px, 2vw, 26px)',
-            fontWeight: 400,
-            color: 'rgba(240, 224, 200, 0.5)',
-            letterSpacing: '0.02em',
-          }}
-        >
-          Est. 2024
-        </span>
-      </motion.div>
-    </section>
-  );
+                {/* Scroll Indicator */}
+                <motion.div 
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 0.4, y: 0 }}
+                    transition={{ delay: 1.5, duration: 1, repeat: Infinity, repeatType: "reverse" }}
+                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
+                >
+                    <div className="flex flex-col items-center gap-2">
+                        <span className="text-[8px] tracking-[0.3em] uppercase text-white/40">Scroll</span>
+                        <div className="w-px h-8 bg-white/20"></div>
+                    </div>
+                </motion.div>
+            </div>
+        </section>
+    );
 };
 
 export default ModernMuse;
