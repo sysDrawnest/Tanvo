@@ -21,7 +21,7 @@ const ModernMuse: React.FC = () => {
                     />
                     
                     {/* Top seamless blend overlay matching the section above */}
-                    <div className="absolute inset-x-0 top-0 h-32 md:h-48 bg-gradient-to-b from-[#F9F5EE] via-[#F9F5EE]/60 to-transparent z-10"></div>
+                    <div className="absolute inset-x-0 top-0 h-40 sm:h-48 md:h-56 lg:h-64 bg-gradient-to-b from-[#F9F5EE] via-[#F9F5EE]/85 via-[#F9F5EE]/40 to-transparent z-10"></div>
                     
                     {/* Bottom black gradient overlay */}
                     <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
