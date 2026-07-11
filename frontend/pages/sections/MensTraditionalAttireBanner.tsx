@@ -55,34 +55,33 @@ const NewArrivalsBanner: React.FC = () => {
             <div className="absolute bottom-[-80px] sm:bottom-[-120px] md:bottom-[-160px] lg:bottom-[-220px] left-0 w-full h-[160px] sm:h-[240px] md:h-[320px] lg:h-[440px] z-20 pointer-events-none">
                 <img
                     src="/Silk_fabric_in_S-curve_2K_202607110852_.png"
-                    alt="Flowing Silk Separator Left"
+                    alt="Flowing Silk Separator"
                     className="w-full h-full object-cover"
-                    style={{ clipPath: 'polygon(0 0, 52% 0, 52% 100%, 0 100%)' }}
                 />
             </div>
 
             {/* 2x2 Thumbnail Grid Overlay - overlaps the bottom right edge of the card and flowing ribbon */}
             <div className="absolute bottom-[-40px] sm:bottom-[-60px] md:bottom-[-80px] lg:bottom-[-100px] right-[6%] sm:right-[8%] md:right-[10%] w-[160px] sm:w-[220px] md:w-[280px] lg:w-[350px] xl:w-[380px] z-30 pointer-events-none transition-transform duration-500 hover:scale-[1.03]">
-                <div className="grid grid-cols-2 gap-2 w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] rounded-[20px] overflow-hidden bg-white/20 p-2 backdrop-blur-sm">
+                <div className="grid grid-cols-2 gap-1 sm:gap-2 w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] rounded-lg overflow-hidden bg-white/20 p-1 backdrop-blur-sm">
                     <img
                         src="/Handloom_shuttle_holding_silk_thread_202607111256.jpeg"
                         alt="The Loom Journey"
-                        className="w-full aspect-square object-cover rounded-xl"
+                        className="w-full aspect-square object-cover"
                     />
                     <img
                         src="/Wooden_spool_copper_silk_thread_202607111256.jpeg"
                         alt="Silk Thread Spool"
-                        className="w-full aspect-square object-cover rounded-xl"
+                        className="w-full aspect-square object-cover"
                     />
                     <img
                         src="/Men's_Nehru_vest_jacket_details_202607111256.jpeg"
                         alt="Men's Indigo Vest Collar"
-                        className="w-full aspect-square object-cover rounded-xl"
+                        className="w-full aspect-square object-cover"
                     />
                     <img
                         src="/Woman_wearing_silk_saree_2K_202607111256.jpeg"
                         alt="Peach Saree Drape"
-                        className="w-full aspect-square object-cover rounded-xl"
+                        className="w-full aspect-square object-cover"
                     />
                 </div>
             </div>
