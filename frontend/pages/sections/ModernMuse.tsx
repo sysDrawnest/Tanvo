@@ -27,23 +27,14 @@ const ModernMuse: React.FC = () => {
                     <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
                 </div>
 
-                {/* Flowing Silk Fabric Ribbon Separator - Relocated to Modern Muse for proper z-index layering behind text but in front of background */}
-                <div className="absolute top-[-40px] sm:top-[-80px] md:top-[-120px] lg:top-[-160px] left-0 w-full h-[120px] sm:h-[180px] md:h-[260px] lg:h-[340px] z-10 pointer-events-none">
-                    <img
-                        src="/Silk_fabric_in_S-curve_2K_202607110852_.png"
-                        alt="Flowing Silk Separator"
-                        className="w-full h-full object-contain object-top drop-shadow-2xl opacity-95"
-                    />
-                </div>
-
-                {/* Centered Frosted Glass Panel Container */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[620px] z-20">
+                {/* Left-Aligned Frosted Glass Panel Container */}
+                <div className="absolute top-1/2 left-[5%] md:left-[8%] lg:left-[12%] transform -translate-y-1/2 w-[90%] max-w-[540px] z-20">
                     <motion.div 
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                         viewport={{ once: true }}
-                        className="relative w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-[32px] p-8 sm:p-10 md:p-12 lg:p-14 text-center shadow-[0_30px_60px_rgba(0,0,0,0.3)] flex flex-col items-center justify-center"
+                        className="relative w-full bg-black/20 backdrop-blur-md border border-white/10 rounded-[32px] p-8 sm:p-10 md:p-12 lg:p-14 text-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] flex flex-col items-center justify-center"
                     >
                         {/* Brand Label */}
                         <span className="font-sans text-[10px] md:text-xs tracking-[0.4em] uppercase text-white/80 mb-4 md:mb-6 block font-light">
