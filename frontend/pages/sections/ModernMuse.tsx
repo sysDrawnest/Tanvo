@@ -27,6 +27,16 @@ const ModernMuse: React.FC = () => {
                     <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
                 </div>
 
+                {/* Right Wave (Fabric Part 2) - sits absolute at the top, ducking behind glass card but on top of background */}
+                <div className="absolute top-[-80px] sm:top-[-120px] md:top-[-160px] lg:top-[-220px] left-0 w-full h-[160px] sm:h-[240px] md:h-[320px] lg:h-[440px] z-10 pointer-events-none">
+                    <img
+                        src="/Silk_fabric_in_S-curve_2K_202607110852 (1).png"
+                        alt="Flowing Silk Separator Right"
+                        className="w-full h-full object-cover"
+                        style={{ clipPath: 'polygon(48% 0, 100% 0, 100% 100%, 48% 100%)' }}
+                    />
+                </div>
+
                 {/* Left-Aligned Frosted Glass Panel Container */}
                 <div className="absolute top-1/2 left-[5%] md:left-[8%] lg:left-[12%] transform -translate-y-1/2 w-[90%] max-w-[540px] z-20">
                     <motion.div 
