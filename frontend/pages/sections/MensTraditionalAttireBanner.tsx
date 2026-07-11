@@ -49,32 +49,6 @@ const NewArrivalsBanner: React.FC = () => {
                         </Link>
                     </div>
                 </div>
-
-                {/* 2x2 Thumbnail Grid Overlay */}
-                <div className="relative md:absolute p-6 sm:p-8 md:p-0 bottom-0 md:bottom-[-80px] lg:bottom-[-100px] right-0 md:right-[8%] md:left-auto w-full md:w-[280px] lg:w-[350px] xl:w-[380px] z-30 transition-transform duration-500 hover:scale-[1.03]">
-                    <div className="grid grid-cols-2 gap-1.5 sm:gap-2 w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] rounded-none overflow-hidden bg-white/10 p-1.5 backdrop-blur-sm">
-                        <img
-                            src="/Handloom_shuttle_holding_silk_thread_202607111256.jpeg"
-                            alt="The Loom Journey"
-                            className="w-full aspect-square object-cover rounded-none"
-                        />
-                        <img
-                            src="/Wooden_spool_copper_silk_thread_202607111256.jpeg"
-                            alt="Silk Thread Spool"
-                            className="w-full aspect-square object-cover rounded-none"
-                        />
-                        <img
-                            src="/Men's_Nehru_vest_jacket_details_202607111256.jpeg"
-                            alt="Men's Indigo Vest Collar"
-                            className="w-full aspect-square object-cover rounded-none"
-                        />
-                        <img
-                            src="/Woman_wearing_silk_saree_2K_202607111256.jpeg"
-                            alt="Peach Saree Drape"
-                            className="w-full aspect-square object-cover rounded-none"
-                        />
-                    </div>
-                </div>
             </div>
         </section>
     );
