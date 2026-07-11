@@ -19,7 +19,7 @@ const NewArrivalsBanner: React.FC = () => {
                 </div>
 
                 {/* Left Aligned Glassmorphic Panel */}
-                <div className="absolute inset-4 sm:inset-6 md:inset-auto md:top-8 md:bottom-8 md:left-8 lg:top-12 lg:bottom-12 lg:left-12 md:w-[48%] lg:w-[42%] bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-[24px] p-6 sm:p-8 lg:p-12 flex flex-col justify-between z-10">
+                <div className="absolute inset-4 sm:inset-6 md:inset-auto md:top-8 md:bottom-8 md:left-8 lg:top-12 lg:bottom-12 lg:left-12 md:w-[48%] lg:w-[42%] bg-black/25 backdrop-blur-md border border-white/10 rounded-[24px] p-6 sm:p-8 lg:p-12 flex flex-col justify-between z-10">
                     
                     {/* Header Label */}
                     <div>
@@ -51,28 +51,37 @@ const NewArrivalsBanner: React.FC = () => {
                 </div>
             </div>
 
-            {/* 2x2 Thumbnail Grid Overlay - moved up slightly and given rounded inner images */}
-            <div className="absolute bottom-[20px] sm:bottom-[40px] md:bottom-[60px] right-[4%] sm:right-[6%] md:right-[8%] lg:right-[10%] w-[160px] sm:w-[220px] md:w-[280px] lg:w-[340px] xl:w-[360px] z-30 pointer-events-none transition-transform duration-500 hover:scale-[1.03]">
-                <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] rounded-2xl bg-white/10 p-2 backdrop-blur-md border border-white/20">
+            {/* Flowing Silk Fabric Ribbon Separator - sits absolute and overlaps the bottom boundary */}
+            <div className="absolute bottom-[-80px] sm:bottom-[-120px] md:bottom-[-160px] lg:bottom-[-220px] left-0 w-full h-[160px] sm:h-[240px] md:h-[320px] lg:h-[440px] z-20 pointer-events-none">
+                <img
+                    src="/Silk_fabric_in_S-curve_2K_202607110852_.png"
+                    alt="Flowing Silk Separator"
+                    className="w-full h-full object-cover"
+                />
+            </div>
+
+            {/* 2x2 Thumbnail Grid Overlay - overlaps the bottom right edge of the card and flowing ribbon */}
+            <div className="absolute bottom-[-40px] sm:bottom-[-60px] md:bottom-[-80px] lg:bottom-[-100px] right-[6%] sm:right-[8%] md:right-[10%] w-[160px] sm:w-[220px] md:w-[280px] lg:w-[350px] xl:w-[380px] z-30 pointer-events-none transition-transform duration-500 hover:scale-[1.03]">
+                <div className="grid grid-cols-2 gap-1 sm:gap-2 w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] rounded-lg overflow-hidden bg-white/20 p-1 backdrop-blur-sm">
                     <img
                         src="/Handloom_shuttle_holding_silk_thread_202607111256.jpeg"
                         alt="The Loom Journey"
-                        className="w-full aspect-square object-cover rounded-xl"
+                        className="w-full aspect-square object-cover"
                     />
                     <img
                         src="/Wooden_spool_copper_silk_thread_202607111256.jpeg"
                         alt="Silk Thread Spool"
-                        className="w-full aspect-square object-cover rounded-xl"
+                        className="w-full aspect-square object-cover"
                     />
                     <img
                         src="/Men's_Nehru_vest_jacket_details_202607111256.jpeg"
                         alt="Men's Indigo Vest Collar"
-                        className="w-full aspect-square object-cover rounded-xl"
+                        className="w-full aspect-square object-cover"
                     />
                     <img
                         src="/Woman_wearing_silk_saree_2K_202607111256.jpeg"
                         alt="Peach Saree Drape"
-                        className="w-full aspect-square object-cover rounded-xl"
+                        className="w-full aspect-square object-cover"
                     />
                 </div>
             </div>
