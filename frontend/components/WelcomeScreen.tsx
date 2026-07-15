@@ -4,6 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 const WelcomeScreen: React.FC = () => {
     const [isVisible, setIsVisible] = useState(true);
 
+    const handleDismiss = () => {
+        setIsVisible(false);
+        sessionStorage.setItem('tanvo_welcome_shown', 'true');
+    };
+
     useEffect(() => {
         const hasBeenShown = sessionStorage.getItem('tanvo_welcome_shown');
         if (hasBeenShown) {
@@ -12,9 +17,8 @@ const WelcomeScreen: React.FC = () => {
         }
 
         const timer = setTimeout(() => {
-            setIsVisible(false);
-            sessionStorage.setItem('tanvo_welcome_shown', 'true');
-        }, 3200);
+            handleDismiss();
+        }, 800);
 
         return () => clearTimeout(timer);
     }, []);
@@ -25,7 +29,7 @@ const WelcomeScreen: React.FC = () => {
                 <motion.div
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
                     style={{
                         position: 'fixed',
                         inset: 0,
@@ -36,10 +40,35 @@ const WelcomeScreen: React.FC = () => {
                         justifyContent: 'center',
                     }}
                 >
+                    <button
+                        onClick={handleDismiss}
+                        style={{
+                            position: 'absolute',
+                            top: '24px',
+                            right: '24px',
+                            background: 'none',
+                            border: 'none',
+                            color: '#173B45',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '11px',
+                            letterSpacing: '0.2em',
+                            textTransform: 'uppercase',
+                            opacity: 0.6,
+                            cursor: 'pointer',
+                            padding: '8px',
+                            transition: 'opacity 0.2s ease',
+                            outline: 'none',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+                        onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.6')}
+                    >
+                        Skip Intro
+                    </button>
+
                     <motion.div
-                        initial={{ scale: 0.95, opacity: 0 }}
+                        initial={{ scale: 0.98, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
                         style={{ textAlign: 'center' }}
                     >
                         <h1 style={{
@@ -57,7 +86,7 @@ const WelcomeScreen: React.FC = () => {
                         <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: '100%' }}
-                            transition={{ duration: 1, delay: 0.8 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
                             style={{
                                 height: '1px',
                                 background: 'linear-gradient(90deg, transparent, #FF8225, transparent)',
