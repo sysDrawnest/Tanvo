@@ -78,9 +78,6 @@ const EditProduct: React.FC = () => {
     weaverName: '',
     weaverGeneration: '',
     weaverLocation: '',
-    weaverName: '',
-    weaverGeneration: '',
-    weaverLocation: '',
     weaverStory: '',
     gender: 'Unisex',
     ageGroup: '0-2 Years'
