@@ -1,124 +1,195 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const LittleTraditions: React.FC = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // Monitor window resize to safely toggle parallax on desktop
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Parallax offsets for left and right columns
+  const yLeft = useTransform(scrollYProgress, [0, 1], [-40, 40]);
+  const yRight = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
+  // Container reveal variants
+  const sectionVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  };
+
+  const centerContentVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 1.2,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  };
+
+  const imageLeftVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 1.2,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  };
+
+  const imageRightVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 1.2,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  };
+
+  const gridBackgroundStyle = {
+    background: `
+      linear-gradient(90deg, rgba(201, 168, 76, 0.03) 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(rgba(201, 168, 76, 0.03) 1px, transparent 1px) 0 0 / 24px 24px,
+      #F9F5EE
+    `
+  };
+
   return (
-    <section className="py-20 lg:py-28 bg-[#F9F5EE]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-[10px] tracking-[0.3em] text-[#C9A84C] font-semibold uppercase block mb-3">
-            Introducing Kids Collection
-          </span>
-          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#0D0B0A] font-light leading-tight">
-            Little <em>Traditions</em>
-          </h2>
-          <div className="w-12 h-[1px] bg-[#C9A84C] mx-auto my-6" />
-          <p className="text-sm font-light text-[#595550] leading-relaxed">
-            Handcrafted luxury traditional wear for the next generation. Timeless weaves tailored for the joy of childhood celebrations.
-          </p>
-        </div>
+    <motion.section
+      ref={containerRef}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={sectionVariants}
+      style={gridBackgroundStyle}
+      className="relative overflow-hidden py-16 lg:py-0 w-full"
+    >
+      {/* Soft textile overlay grain */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.015] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]" />
 
-        {/* Campaign Grid - Two Columns (Girls vs Boys) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-stretch min-h-[600px] lg:min-h-[850px] relative">
           
-          {/* Girls Traditional Column */}
-          <div className="group relative overflow-hidden bg-white shadow-sm flex flex-col h-[520px] sm:h-[600px] lg:h-[680px]">
-            {/* Image Wrap */}
-            <div className="relative w-full flex-grow overflow-hidden">
-              <img
+          {/* LEFT COLUMN: Girl Portrait */}
+          <motion.div
+            variants={imageLeftVariants}
+            className="w-full lg:w-[35%] h-[500px] sm:h-[600px] lg:h-auto overflow-hidden relative group self-center lg:self-stretch my-6 lg:my-12 shadow-2xl lg:shadow-none"
+          >
+            <div className="w-full h-full overflow-hidden relative">
+              <motion.img
+                style={{ y: isDesktop ? yLeft : 0, scale: 1.12 }}
+                whileHover={{ scale: 1.16 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 src="/kids_campaign_girl.png"
-                alt="Girls Traditional Heritage Lehenga Collection"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                alt="Girls Heritage Collection Portrait"
+                className="w-full h-full object-cover object-center absolute inset-0"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0D0B0A]/80 via-transparent to-transparent opacity-90 transition-opacity duration-300" />
+              {/* Soft vignetting & edge blend to center */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b0a]/30 via-transparent to-transparent" />
+              <div className="absolute top-0 right-0 bottom-0 w-32 bg-gradient-to-l from-[#F9F5EE] to-transparent pointer-events-none hidden lg:block z-10" />
             </div>
+          </motion.div>
 
-            {/* Campaign Info */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-10 z-10 flex flex-col justify-end text-white">
-              <span className="text-[9px] tracking-[0.25em] text-[#E8C97A] font-light uppercase block mb-2">
-                Heritage Silks
+          {/* LEFT DIVIDER */}
+          <div className="hidden lg:block w-[1px] bg-gradient-to-b from-transparent via-[#C9A84C]/20 to-transparent self-stretch my-12" />
+
+          {/* CENTER COLUMN: Editorial Storytelling */}
+          <motion.div
+            variants={centerContentVariants}
+            className="w-full lg:w-[30%] flex flex-col justify-center items-center text-center py-16 px-6 sm:px-12 lg:px-8 z-20"
+          >
+            {/* Heritage graphic accent */}
+            <svg className="w-8 h-8 text-[#C9A84C] opacity-75 mb-6" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <circle cx="50" cy="50" r="10" />
+              <circle cx="50" cy="50" r="25" strokeDasharray="3 3" />
+              <path d="M50 5 L50 95 M5 50 L95 50 M18 18 L82 82 M18 82 L82 18" opacity="0.4" />
+              <polygon points="50,15 54,35 74,35 58,47 64,67 50,55 36,67 42,47 26,35 46,35" fill="none" />
+            </svg>
+
+            <span className="text-[10px] sm:text-[11px] tracking-[0.4em] text-[#C9A84C] font-medium uppercase block mb-4">
+              TANVO PRESENTS
+            </span>
+
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-[54px] text-[#0D0B0A] font-light leading-tight mb-6">
+              Little <em>Traditions</em>
+            </h2>
+
+            <div className="w-8 h-[1px] bg-[#C9A84C]/45 my-4" />
+
+            <p className="text-xs sm:text-sm text-[#595550] leading-relaxed font-light font-sans max-w-[320px] mb-8">
+              "Some traditions are too beautiful to wait for adulthood. Thoughtfully handcrafted for little boys and girls, every piece celebrates festivals, family, and the timeless elegance of Indian heritage."
+            </p>
+
+            {/* Primary CTA */}
+            <Link
+              to="/shop?category=Kids+Collection"
+              className="group inline-flex flex-col items-center mb-6"
+            >
+              <span className="text-xs font-semibold tracking-widest uppercase text-[#0D0B0A] hover:text-[#C9A84C] transition-colors duration-300 flex items-center gap-2">
+                Explore Collection 
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </span>
-              <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-white font-light mb-4">
-                The Girls' <em>Lehenga & Frocks</em>
-              </h3>
-              <p className="text-white/80 text-xs sm:text-sm font-light max-w-sm leading-relaxed mb-6">
-                Delicate floral motifs woven into handloom silks, bringing regal grace to young celebrations.
-              </p>
-              <div>
-                <Link
-                  to="/shop?category=Kids+Collection&gender=Girl"
-                  className="inline-block border border-white/40 hover:border-[#C9A84C] text-white hover:text-[#C9A84C] px-6 py-3 text-[10px] font-semibold tracking-widest uppercase transition-all duration-300 hover:bg-[#F9F5EE]/10"
-                >
-                  Explore Girls Collection
-                </Link>
-              </div>
-            </div>
-          </div>
+              <span className="h-[1px] bg-[#C9A84C]/50 w-full mt-2 transition-all duration-300 group-hover:bg-[#C9A84C] group-hover:w-[120%]" />
+            </Link>
 
-          {/* Boys Traditional Column */}
-          <div className="group relative overflow-hidden bg-white shadow-sm flex flex-col h-[520px] sm:h-[600px] lg:h-[680px]">
-            {/* Image Wrap */}
-            <div className="relative w-full flex-grow overflow-hidden">
-              <img
+            {/* Secondary CTA */}
+            <Link
+              to="/shop"
+              className="text-[10px] tracking-[0.2em] uppercase text-[#595550] hover:text-[#C9A84C] transition-colors duration-300 mt-2 border-b border-dashed border-[#595550]/30 hover:border-[#C9A84C] pb-0.5"
+            >
+              View Family Collection
+            </Link>
+          </motion.div>
+
+          {/* RIGHT DIVIDER */}
+          <div className="hidden lg:block w-[1px] bg-gradient-to-b from-transparent via-[#C9A84C]/20 to-transparent self-stretch my-12" />
+
+          {/* RIGHT COLUMN: Boy Portrait */}
+          <motion.div
+            variants={imageRightVariants}
+            className="w-full lg:w-[35%] h-[500px] sm:h-[600px] lg:h-auto overflow-hidden relative group self-center lg:self-stretch my-6 lg:my-12 shadow-2xl lg:shadow-none"
+          >
+            <div className="w-full h-full overflow-hidden relative">
+              <motion.img
+                style={{ y: isDesktop ? yRight : 0, scale: 1.12 }}
+                whileHover={{ scale: 1.16 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 src="/kids_campaign_boy.png"
-                alt="Boys Traditional Heritage Kurta Collection"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                alt="Boys Heritage Collection Portrait"
+                className="w-full h-full object-cover object-center absolute inset-0"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0D0B0A]/80 via-transparent to-transparent opacity-90 transition-opacity duration-300" />
+              {/* Soft vignetting & edge blend to center */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b0a]/30 via-transparent to-transparent" />
+              <div className="absolute top-0 left-0 bottom-0 w-32 bg-gradient-to-r from-[#F9F5EE] to-transparent pointer-events-none hidden lg:block z-10" />
             </div>
-
-            {/* Campaign Info */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-10 z-10 flex flex-col justify-end text-white">
-              <span className="text-[9px] tracking-[0.25em] text-[#E8C97A] font-light uppercase block mb-2">
-                Classic Weaves
-              </span>
-              <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-white font-light mb-4">
-                The Boys' <em>Kurta & Dhoti Sets</em>
-              </h3>
-              <p className="text-white/80 text-xs sm:text-sm font-light max-w-sm leading-relaxed mb-6">
-                Refined styles crafted from breathable cottons and silks. Made for comfort, dignity, and play.
-              </p>
-              <div>
-                <Link
-                  to="/shop?category=Kids+Collection&gender=Boy"
-                  className="inline-block border border-white/40 hover:border-[#C9A84C] text-white hover:text-[#C9A84C] px-6 py-3 text-[10px] font-semibold tracking-widest uppercase transition-all duration-300 hover:bg-[#F9F5EE]/10"
-                >
-                  Explore Boys Collection
-                </Link>
-              </div>
-            </div>
-          </div>
+          </motion.div>
 
         </div>
-
-        {/* Quick Age Filters */}
-        <div className="mt-16 pt-10 border-t border-[#0D0B0A]/10 text-center">
-          <span className="text-[10px] tracking-[0.2em] text-[#595550] uppercase font-light block mb-6">
-            Shop by Age Group
-          </span>
-          <div className="flex flex-wrap justify-center gap-4">
-            {[
-              { label: '0–2 Years', age: '0-2 Years' },
-              { label: '3–5 Years', age: '3-5 Years' },
-              { label: '6–8 Years', age: '6-8 Years' },
-              { label: '9–12 Years', age: '9-12 Years' },
-              { label: '13–15 Years', age: '13-15 Years' },
-            ].map(item => (
-              <Link
-                key={item.label}
-                to={`/shop?category=Kids+Collection&ageGroup=${encodeURIComponent(item.age)}`}
-                className="px-6 py-2 border border-[#0D0B0A]/10 hover:border-[#C9A84C] text-xs font-medium text-[#595550] hover:text-[#C9A84C] transition-colors bg-white hover:bg-[#F9F5EE]"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-
       </div>
-    </section>
+    </motion.section>
   );
 };
 
