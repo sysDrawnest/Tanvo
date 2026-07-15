@@ -30,6 +30,11 @@ interface StoreContextType {
   loading: boolean;
   error: string | null;
 
+  authLoading: boolean;
+  cartLoading: boolean;
+  wishlistLoading: boolean;
+  productLoading: boolean;
+
   // Guest State
   guestCart: GuestCartItem[];
   guestWishlist: string[];
@@ -82,8 +87,13 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [cart, setCart] = useState<Cart | null>(null);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(!!getValidToken());
+  const [authLoading, setAuthLoading] = useState(!!getValidToken());
+  const [cartLoading, setCartLoading] = useState(false);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
+  const [productLoading, setProductLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const loading = authLoading;
 
   // Guest state — persisted in localStorage
   const [guestCart, setGuestCart] = useState<GuestCartItem[]>(() => {
@@ -121,20 +131,20 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // ==================== AUTH ====================
   const fetchUserProfile = async () => {
     try {
-      setLoading(true);
+      setAuthLoading(true);
       const { data } = await API.get('/auth/profile');
       setUser(data);
     } catch (error) {
       console.error('Failed to fetch user profile:', error);
       localStorage.removeItem('token');
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
   const login = async (email: string, password: string) => {
     try {
-      setLoading(true);
+      setAuthLoading(true);
       setError(null);
       const { data } = await API.post('/auth/login', { email, password });
 
@@ -149,13 +159,13 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setError(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
   const register = async (userData: RegisterData) => {
     try {
-      setLoading(true);
+      setAuthLoading(true);
       setError(null);
       const { data } = await API.post('/auth/register', userData);
 
@@ -170,7 +180,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setError(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
@@ -280,13 +290,13 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     // LOGGED IN: Call API
     try {
-      setLoading(true);
+      setCartLoading(true);
       const { data } = await API.post('/cart/add', { productId, quantity, color, size });
       setCart(data.cart);
     } catch (error: any) {
       setError(error.response?.data?.message || 'Failed to add to cart');
     } finally {
-      setLoading(false);
+      setCartLoading(false);
     }
   };
 
@@ -303,37 +313,37 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const updateCartQuantity = async (itemId: string, quantity: number) => {
     try {
-      setLoading(true);
+      setCartLoading(true);
       const { data } = await API.put(`/cart/update/${itemId}`, { quantity });
       setCart(data.cart);
     } catch (error: any) {
       setError(error.response?.data?.message || 'Failed to update cart');
     } finally {
-      setLoading(false);
+      setCartLoading(false);
     }
   };
 
   const removeFromCart = async (itemId: string) => {
     try {
-      setLoading(true);
+      setCartLoading(true);
       const { data } = await API.delete(`/cart/remove/${itemId}`);
       setCart(data.cart);
     } catch (error: any) {
       setError(error.response?.data?.message || 'Failed to remove from cart');
     } finally {
-      setLoading(false);
+      setCartLoading(false);
     }
   };
 
   const clearCart = async () => {
     try {
-      setLoading(true);
+      setCartLoading(true);
       await API.delete('/cart/clear');
       setCart(null);
     } catch (error: any) {
       setError(error.response?.data?.message || 'Failed to clear cart');
     } finally {
-      setLoading(false);
+      setCartLoading(false);
     }
   };
 
@@ -375,7 +385,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     // LOGGED IN: Call API
     try {
-      setLoading(true);
+      setWishlistLoading(true);
       const { data } = await API.post('/users/wishlist/toggle', { productId });
 
       if (Array.isArray(data)) {
@@ -392,7 +402,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch (error: any) {
       setError(error.response?.data?.message || 'Failed to update wishlist');
     } finally {
-      setLoading(false);
+      setWishlistLoading(false);
     }
   };
 
@@ -408,7 +418,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // ==================== PRODUCTS ====================
   const fetchProducts = async (filters = {}) => {
     try {
-      setLoading(true);
+      setProductLoading(true);
       const params = new URLSearchParams(filters).toString();
       const { data } = await API.get(`/products?${params}`);
       setProducts(data.products || []);
@@ -416,20 +426,20 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setError(error.response?.data?.message || 'Failed to fetch products');
       setProducts([]);
     } finally {
-      setLoading(false);
+      setProductLoading(false);
     }
   };
 
   const fetchProductById = async (id: string): Promise<Product | null> => {
     try {
-      setLoading(true);
+      setProductLoading(true);
       const { data } = await API.get(`/products/${id}`);
       return data;
     } catch (error: any) {
       setError(error.response?.data?.message || 'Failed to fetch product');
       return null;
     } finally {
-      setLoading(false);
+      setProductLoading(false);
     }
   };
 
@@ -437,6 +447,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // State
     user, cart, wishlist, products, loading, error,
     guestCart, guestWishlist, isGuest,
+    authLoading, cartLoading, wishlistLoading, productLoading,
 
     // Auth
     login, register, logout, mergeGuestData, isAdmin, isAuthenticated,
