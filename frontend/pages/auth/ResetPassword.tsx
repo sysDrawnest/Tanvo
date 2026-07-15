@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { api } from '../../context/AuthContext';
+import { api } from '../../services/api';
 import { Lock, Loader2, CheckCircle, Eye, EyeOff } from 'lucide-react';
 
 const ResetPassword: React.FC = () => {

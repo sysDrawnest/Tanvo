@@ -1,6 +1,8 @@
 import express from 'express';
 import { protect, admin } from '../middleware/auth.js';
 import { uploadProductImages } from '../middleware/upload.js';
+import { validateRequest } from '../middleware/validate.js';
+import { createProductSchema, updateProductSchema, updateOrderStatusSchema } from '../validators/schemas.js';
 import {
   // Dashboard
   getDashboardStats,
@@ -54,10 +56,10 @@ router.get('/stats', getDashboardStats);
 // ===========================================
 router.route('/products')
   .get(getAdminProducts)
-  .post(uploadProductImages.array('images', 10), createProduct);
+  .post(uploadProductImages.array('images', 10), validateRequest({ body: createProductSchema }), createProduct);
 
 router.route('/products/:id')
-  .put(uploadProductImages.array('images', 10), updateProduct)
+  .put(uploadProductImages.array('images', 10), validateRequest({ body: updateProductSchema }), updateProduct)
   .delete(deleteProduct);
 
 // ===========================================
@@ -65,7 +67,7 @@ router.route('/products/:id')
 // ===========================================
 router.get('/orders', getAdminOrders);
 router.get('/orders/:id', getAdminOrderDetails);
-router.put('/orders/:id/status', updateOrderStatus);
+router.put('/orders/:id/status', validateRequest({ body: updateOrderStatusSchema }), updateOrderStatus);
 router.put('/orders/:id/payment', updateOrderPayment);
 router.put('/orders/:id/tracking', updateOrderTracking);
 router.put('/orders/:id/notes', updateOrderNotes);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Clock, ShieldCheck, Send, User, MessageSquare, Instagram, Facebook, Youtube, ChevronRight, Loader2, CheckCircle, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { api } from '../context/AuthContext';
+import { api } from '../services/api';
 import { CORPORATE_CONFIG } from '../corporateConfig';
 
 const Contact: React.FC = () => {

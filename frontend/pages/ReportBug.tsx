@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Bug, Camera, Upload, Send, Loader2, CheckCircle, AlertCircle, X } from 'lucide-react';
 import html2canvas from 'html2canvas';
-import { api } from '../context/AuthContext';
+import { api } from '../services/api';
 import { useLocation } from 'react-router-dom';
 
 const ReportBug: React.FC = () => {

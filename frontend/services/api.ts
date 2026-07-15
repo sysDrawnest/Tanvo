@@ -37,4 +37,5 @@ API.interceptors.response.use(
   }
 );
 
+export const api = API;
 export default API;

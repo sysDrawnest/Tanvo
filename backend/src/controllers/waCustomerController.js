@@ -120,26 +120,43 @@ export const findOrCreateCustomer = async (customerData, adminUserId) => {
   return customer;
 };
 
+import mongoose from 'mongoose';
+
 // ── Update customer stats after an order is linked ───────────────────────────
 export const syncCustomerStats = async (customerId) => {
   if (!customerId) return;
-  const orders = await WhatsAppOrder.find({
-    customerId,
-    status: { $nin: ['Cancelled'] }
-  }).select('totalAmount createdAt');
+  
+  const cId = typeof customerId === 'string' ? new mongoose.Types.ObjectId(customerId) : customerId;
 
-  const totalOrders = orders.length;
-  const totalSpent  = orders.reduce((s, o) => s + o.totalAmount, 0);
-  const lastPurchaseDate = orders.length > 0
-    ? orders.sort((a, b) => b.createdAt - a.createdAt)[0].createdAt
-    : null;
+  const statsResult = await WhatsAppOrder.aggregate([
+    {
+      $match: {
+        customerId: cId,
+        status: { $nin: ['Cancelled'] }
+      }
+    },
+    {
+      $group: {
+        _id: '$customerId',
+        totalOrders: { $sum: 1 },
+        totalSpent: { $sum: '$totalAmount' },
+        lastPurchaseDate: { $max: '$createdAt' }
+      }
+    }
+  ]);
+
+  const stats = statsResult[0] || {
+    totalOrders: 0,
+    totalSpent: 0,
+    lastPurchaseDate: null
+  };
 
   await WACustomer.findByIdAndUpdate(customerId, {
-    totalOrders,
-    totalSpent,
-    lastPurchaseDate,
+    totalOrders: stats.totalOrders,
+    totalSpent: stats.totalSpent,
+    lastPurchaseDate: stats.lastPurchaseDate,
     // Upgrade tag from 'New' to 'Regular' after 2+ orders
-    ...(totalOrders >= 2 ? { $addToSet: { tags: 'Regular' } } : {})
+    ...(stats.totalOrders >= 2 ? { $addToSet: { tags: 'Regular' } } : {})
   });
 };
 

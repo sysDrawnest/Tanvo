@@ -1,5 +1,7 @@
 import express from 'express';
 import { protect, admin } from '../middleware/auth.js';
+import { validateRequest } from '../middleware/validate.js';
+import { createOrderSchema } from '../validators/schemas.js';
 import Order from '../models/Order.js';
 import {
   createOrder,
@@ -23,7 +25,7 @@ router.use(protect);
 
 
 // Create new order
-router.post('/', createOrder);
+router.post('/', validateRequest({ body: createOrderSchema }), createOrder);
 
 // Get logged in user's orders
 router.get('/my-orders', getMyOrders);
@@ -107,7 +109,25 @@ router.get('/admin/range', admin, async (req, res) => {
       }
     }).populate('user', 'name email');
 
-    const totalRevenue = orders.reduce((acc, order) => acc + order.totalPrice, 0);
+    // Calculate total revenue via database aggregation
+    const revenueStats = await Order.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate)
+          }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: '$totalPrice' }
+        }
+      }
+    ]);
+
+    const totalRevenue = revenueStats[0]?.totalRevenue || 0;
 
     res.json({
       success: true,

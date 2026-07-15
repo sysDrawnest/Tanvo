@@ -1,6 +1,7 @@
 import express from 'express';
-import { body } from 'express-validator';
 import { protect } from '../middleware/auth.js';
+import { validateRequest } from '../middleware/validate.js';
+import { registerSchema, loginSchema } from '../validators/schemas.js';
 import {
   registerUser,
   loginUser,
@@ -20,20 +21,13 @@ const router = express.Router();
 // Public routes
 router.post(
   '/register',
-  [
-    body('name').notEmpty().withMessage('Name is required'),
-    body('email').isEmail().withMessage('Please provide a valid email'),
-    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
-  ],
+  validateRequest({ body: registerSchema }),
   registerUser
 );
 
 router.post(
   '/login',
-  [
-    body('email').isEmail().withMessage('Please provide a valid email'),
-    body('password').notEmpty().withMessage('Password is required')
-  ],
+  validateRequest({ body: loginSchema }),
   loginUser
 );
 

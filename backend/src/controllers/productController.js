@@ -129,7 +129,15 @@ export const getProducts = async (req, res) => {
       products: sanitizedProducts,
       page,
       pages: Math.ceil(count / pageSize),
-      total: count
+      total: count,
+      pagination: {
+        page,
+        limit: pageSize,
+        totalItems: count,
+        totalPages: Math.ceil(count / pageSize),
+        hasNextPage: page < Math.ceil(count / pageSize),
+        hasPreviousPage: page > 1
+      }
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

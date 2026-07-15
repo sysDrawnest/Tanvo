@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "r
 
 // Context
 import { StoreProvider } from './context/StoreContext';
-import { AuthProvider } from './context/AuthContext';
 
 // Styles
 import GlobalStyles from './components/GlobalStyles';
@@ -216,16 +215,14 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <StoreProvider>
-        <GlobalStyles />
-        <WelcomeScreen />
-        <Router>
-          <ScrollToTop />
-          <AppContent />
-        </Router>
-      </StoreProvider>
-    </AuthProvider>
+    <StoreProvider>
+      <GlobalStyles />
+      <WelcomeScreen />
+      <Router>
+        <ScrollToTop />
+        <AppContent />
+      </Router>
+    </StoreProvider>
   );
 };
 

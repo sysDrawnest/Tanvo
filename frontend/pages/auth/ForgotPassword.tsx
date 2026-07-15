@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { api } from '../../context/AuthContext';
+import { api } from '../../services/api';
 import { Mail, ArrowLeft, Loader2, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

@@ -120,12 +120,16 @@ export const handleWebhook = async (req, res) => {
     const signature = req.headers['x-razorpay-signature'];
     const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || 'dummy_webhook_secret';
 
+    if (!signature || !req.rawBody) {
+      return res.status(401).json({ success: false, message: 'Unauthorized: Missing signature or body' });
+    }
+
     const shasum = crypto.createHmac('sha256', webhookSecret);
-    shasum.update(JSON.stringify(req.body));
+    shasum.update(req.rawBody);
     const digest = shasum.digest('hex');
 
     if (digest !== signature) {
-      return res.status(400).json({ success: false, message: 'Invalid webhook signature' });
+      return res.status(401).json({ success: false, message: 'Unauthorized: Invalid webhook signature' });
     }
 
     // Parse pay load

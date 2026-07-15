@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { api } from '../../context/AuthContext';
+import { api } from '../../services/api';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 
 const VerifyEmail: React.FC = () => {

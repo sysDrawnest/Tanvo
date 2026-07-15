@@ -41,17 +41,42 @@ export const getUserById = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Get user's order statistics
-    const orders = await Order.find({ user: user._id });
-    const totalSpent = orders.reduce((acc, order) => acc + order.totalPrice, 0);
-    
+    // Get user's order statistics via database aggregation
+    const statsResult = await Order.aggregate([
+      { $match: { user: user._id } },
+      {
+        $group: {
+          _id: null,
+          totalOrders: { $sum: 1 },
+          totalSpent: { $sum: '$totalPrice' },
+          pendingOrders: {
+            $sum: { $cond: [{ $eq: ['$orderStatus', 'Pending'] }, 1, 0] }
+          },
+          completedOrders: {
+            $sum: { $cond: [{ $eq: ['$orderStatus', 'Delivered'] }, 1, 0] }
+          },
+          cancelledOrders: {
+            $sum: { $cond: [{ $eq: ['$orderStatus', 'Cancelled'] }, 1, 0] }
+          }
+        }
+      }
+    ]);
+
+    const statsData = statsResult[0] || {
+      totalOrders: 0,
+      totalSpent: 0,
+      pendingOrders: 0,
+      completedOrders: 0,
+      cancelledOrders: 0
+    };
+
     const stats = {
-      totalOrders: orders.length,
-      totalSpent,
-      averageOrderValue: orders.length > 0 ? totalSpent / orders.length : 0,
-      pendingOrders: orders.filter(o => o.orderStatus === 'Pending').length,
-      completedOrders: orders.filter(o => o.orderStatus === 'Delivered').length,
-      cancelledOrders: orders.filter(o => o.orderStatus === 'Cancelled').length
+      totalOrders: statsData.totalOrders,
+      totalSpent: statsData.totalSpent,
+      averageOrderValue: statsData.totalOrders > 0 ? statsData.totalSpent / statsData.totalOrders : 0,
+      pendingOrders: statsData.pendingOrders,
+      completedOrders: statsData.completedOrders,
+      cancelledOrders: statsData.cancelledOrders
     };
 
     res.json({ user, stats });
