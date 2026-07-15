@@ -29,7 +29,14 @@ API.interceptors.response.use(
       localStorage.removeItem('token');
       
       // Only redirect if they had a genuinely authenticated session that expired
-      if (hadToken && window.location.pathname !== '/auth' && window.location.pathname !== '/auth/') {
+      // AND they are trying to access a protected route (e.g. /profile, /checkout, /orders, /admin)
+      const protectedPaths = ['/profile', '/checkout', '/orders', '/admin'];
+      const isProtected = protectedPaths.some(path => 
+        window.location.pathname === path || 
+        window.location.pathname.startsWith(path + '/')
+      );
+
+      if (hadToken && isProtected && window.location.pathname !== '/auth' && window.location.pathname !== '/auth/') {
         window.location.href = '/auth';
       }
     }
