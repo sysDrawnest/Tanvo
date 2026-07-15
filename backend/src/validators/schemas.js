@@ -47,7 +47,9 @@ export const createProductSchema = z.object({
   }).optional(),
   featured: z.preprocess(val => val === 'true' || val === true, z.boolean()).optional(),
   discount: z.coerce.number().min(0).max(100).optional(),
-});
+  gender: z.string().optional(),
+  ageGroup: z.string().optional(),
+}).passthrough();
 
 export const updateProductSchema = createProductSchema.partial();
 

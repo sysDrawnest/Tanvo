@@ -23,6 +23,7 @@ import BrandStorySection from './sections/BrandStorySection';
 import MensTraditionalAttireBanner from './sections/MensTraditionalAttireBanner';
 import ModernMuse from './sections/ModernMuse';
 import VideoBanner from './sections/VideoBanner';
+import LittleTraditions from './sections/LittleTraditions';
 
 const Home: React.FC = () => {
   const [newArrivals, setNewArrivals] = useState<any[]>([]);
@@ -103,6 +104,7 @@ const Home: React.FC = () => {
         <ModernMuse />
         <DrapedEveryMoment />
         <WhyChooseUs />
+        <LittleTraditions />
         <TrustSignals />
         <BrandStorySection />
 

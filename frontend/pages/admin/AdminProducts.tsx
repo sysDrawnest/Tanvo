@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Plus, Edit, Trash2, Eye, Search, Filter, 
@@ -153,6 +153,7 @@ const AdminProducts: React.FC = () => {
               <option value="Women">Women</option>
               <option value="Men">Men</option>
               <option value="Accessories">Accessories</option>
+              <option value="Kids Collection">Kids Collection</option>
             </select>
             <select
               value={filterWeave}

@@ -35,15 +35,18 @@ const AddProduct: React.FC = () => {
     weaverName: '',
     weaverGeneration: '',
     weaverLocation: '',
-    weaverStory: ''
+    weaverStory: '',
+    gender: 'Unisex',
+    ageGroup: '0-2 Years'
   });
 
-  const categories = ['Women', 'Men', 'Accessories', 'Home Decor'];
+  const categories = ['Women', 'Men', 'Accessories', 'Home Decor', 'Kids Collection'];
   const subCategories = {
     Women: ['Sarees', 'Kurtis', 'Blouses', 'Lehengas'],
     Men: ['Kurta', 'Dhoti', 'Sherwani', 'Pajama'],
     Accessories: ['Jewelry', 'Bags', 'Footwear', 'Stoles'],
-    'Home Decor': ['Bedspreads', 'Cushions', 'Curtains', 'Table Linen']
+    'Home Decor': ['Bedspreads', 'Cushions', 'Curtains', 'Table Linen'],
+    'Kids Collection': ['Girls', 'Boys', 'Kids Saree', 'Lehenga', 'Frock', 'Dhoti Kurta', 'Ethnic Set', 'Festival Wear']
   };
   const weaves = ['Sambalpuri', 'Bomkai', 'Ikat', 'Khandua', 'Pasapali', 'Sonepuri'];
   const fabrics = ['Silk', 'Cotton', 'Tussar', 'Matka', 'Linen', 'Muslin'];
@@ -53,6 +56,9 @@ const AddProduct: React.FC = () => {
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
+    } else if (name === 'category') {
+      const firstSub = subCategories[value as keyof typeof subCategories]?.[0] || '';
+      setFormData(prev => ({ ...prev, category: value, subCategory: firstSub }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
@@ -203,6 +209,46 @@ const AddProduct: React.FC = () => {
                 ))}
               </select>
             </div>
+
+            {formData.category === 'Kids Collection' && (
+              <>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Gender <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
+                  >
+                    <option value="Boy">Boy</option>
+                    <option value="Girl">Girl</option>
+                    <option value="Unisex">Unisex</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Age Group <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="ageGroup"
+                    value={formData.ageGroup}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-[#C9A84C]"
+                  >
+                    <option value="0-2 Years">0-2 Years</option>
+                    <option value="3-5 Years">3-5 Years</option>
+                    <option value="6-8 Years">6-8 Years</option>
+                    <option value="9-12 Years">9-12 Years</option>
+                    <option value="13-15 Years">13-15 Years</option>
+                  </select>
+                </div>
+              </>
+            )}
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

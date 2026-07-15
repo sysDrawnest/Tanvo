@@ -65,3 +65,60 @@ test('Get Products with Pagination - Success', async () => {
   assert.strictEqual(res.jsonData.pagination.hasNextPage, true);
   assert.strictEqual(res.jsonData.pagination.hasPreviousPage, true);
 });
+
+test('Get Products with Kids Collection filters - Success', async () => {
+  let passedQuery = null;
+  
+  // Mock Product.countDocuments
+  Product.countDocuments = async (q) => {
+    passedQuery = q;
+    return 1;
+  };
+
+  // Mock Product.find
+  Product.find = (q) => {
+    passedQuery = q;
+    const queryChain = {
+      sort() { return this; },
+      limit() { return this; },
+      skip() {
+        return Promise.resolve([
+          {
+            toJSON() {
+              return {
+                _id: 'prod_kids_1',
+                name: 'Kids Saree',
+                price: 1500,
+                category: 'Kids Collection',
+                gender: 'Girl',
+                ageGroup: '6-8 Years'
+              };
+            }
+          }
+        ]);
+      }
+    };
+    return queryChain;
+  };
+
+  const req = {
+    query: {
+      category: 'Kids Collection',
+      gender: 'Girl',
+      ageGroup: '6-8 Years'
+    },
+    headers: {}
+  };
+
+  const res = makeMockRes();
+
+  await getProducts(req, res);
+
+  assert.strictEqual(res.statusCode, 200);
+  assert.deepStrictEqual(passedQuery, {
+    category: 'Kids Collection',
+    gender: 'Girl',
+    ageGroup: '6-8 Years'
+  });
+  assert.strictEqual(res.jsonData.products[0].name, 'Kids Saree');
+});

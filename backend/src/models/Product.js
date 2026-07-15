@@ -39,11 +39,20 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     required: [true, 'Please select a category'],
-    enum: ['Women', 'Men', 'Accessories', 'Home Decor']
+    enum: ['Women', 'Men', 'Accessories', 'Home Decor', 'Kids Collection']
   },
   subCategory: {
     type: String,
-    enum: ['Sarees', 'Kurtis', 'Dhoti', 'Kurta', 'Kurta Set', 'Salwar Kameez', "Men's Shirts", 'Dupatta', 'Stole', 'Silk', 'Cotton', 'Jewelry', 'Bags']
+    enum: ['Sarees', 'Kurtis', 'Dhoti', 'Kurta', 'Kurta Set', 'Salwar Kameez', "Men's Shirts", 'Dupatta', 'Stole', 'Silk', 'Cotton', 'Jewelry', 'Bags', 'Girls', 'Boys', 'Kids Saree', 'Lehenga', 'Frock', 'Dhoti Kurta', 'Ethnic Set', 'Festival Wear']
+  },
+  gender: {
+    type: String,
+    enum: ['Boy', 'Girl', 'Unisex'],
+    default: 'Unisex'
+  },
+  ageGroup: {
+    type: String,
+    enum: ['0-2 Years', '3-5 Years', '6-8 Years', '9-12 Years', '13-15 Years']
   },
   weave: {
     type: String,

@@ -352,6 +352,7 @@ const Navbar: React.FC = () => {
     { to: '/shop', label: 'Collections' },
     { to: '/shop?sort=newest', label: 'New Arrivals' },
     { to: '/shop?sort=popular', label: 'Best Sellers' },
+    { to: '/shop?category=Kids+Collection', label: 'Kids Collection' },
     { to: '/about', label: 'About' },
     { to: '/contact', label: 'Support' },
     { to: '/journal', label: 'Craft Chronicles' },

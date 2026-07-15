@@ -26,8 +26,10 @@ const Shop: React.FC = () => {
   const maxPriceParam = searchParams.get('maxPrice');
   const isPremiumParam = searchParams.get('isPremium');
   const searchQuery = searchParams.get('q');
+  const activeGender = searchParams.get('gender');
+  const activeAgeGroup = searchParams.get('ageGroup');
 
-  const categories = Object.values(Category);
+  const categories = ['Women', 'Men', 'Accessories', 'Home Decor', 'Kids Collection'];
   const weaves = ['Sambalpuri', 'Bomkai', 'Ikat', 'Khandua', 'Pasapali', 'Sonepuri'];
   const fabrics = ['Silk', 'Cotton', 'Tussar', 'Matka', 'Linen', 'Muslin'];
   const priceRanges = [
@@ -79,6 +81,9 @@ const Shop: React.FC = () => {
           params.maxPrice = range.max;
         }
       }
+      if (activeGender) params.gender = activeGender;
+      if (activeAgeGroup) params.ageGroup = activeAgeGroup;
+
       const { data } = await API.get('/products', { params });
       setProducts(data.products || []);
       setTotalCount(data.total || 0);
@@ -105,7 +110,11 @@ const Shop: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const activeFilterCount = [activeCategory, activeWeave, activeFabric, activeOccasion, activePriceRange, searchQuery, maxPriceParam, isPremiumParam].filter(Boolean).length;
+  const activeFilterCount = [
+    activeCategory, activeWeave, activeFabric, activeOccasion, 
+    activePriceRange, searchQuery, maxPriceParam, isPremiumParam,
+    activeGender, activeAgeGroup
+  ].filter(Boolean).length;
 
   // ─── Filter Dropdown ───────────────────────────────────────────────────────
   const FilterDropdown = ({
@@ -671,6 +680,12 @@ const Shop: React.FC = () => {
             <div className="shop-filter-inner">
               <div className="shop-filter-group">
                 <FilterDropdown label="Category" options={categories} activeValue={activeCategory} paramKey="category" />
+                {activeCategory === 'Kids Collection' && (
+                  <>
+                    <FilterDropdown label="Gender" options={['Boy', 'Girl', 'Unisex']} activeValue={activeGender} paramKey="gender" />
+                    <FilterDropdown label="Age Group" options={['0-2 Years', '3-5 Years', '6-8 Years', '9-12 Years', '13-15 Years']} activeValue={activeAgeGroup} paramKey="ageGroup" />
+                  </>
+                )}
                 <FilterDropdown label="Weave" options={weaves} activeValue={activeWeave} paramKey="weave" />
                 <FilterDropdown label="Fabric" options={fabrics} activeValue={activeFabric} paramKey="fabric" />
                 <FilterDropdown label="Price" options={priceRanges.map(r => r.label)} activeValue={activePriceRange} paramKey="price" />
@@ -705,6 +720,18 @@ const Shop: React.FC = () => {
                   <span className="shop-tag">
                     {activeCategory}
                     <button className="shop-tag-x" onClick={() => updateFilter('category', null)}><X size={9} /></button>
+                  </span>
+                )}
+                {activeGender && (
+                  <span className="shop-tag">
+                    {activeGender}
+                    <button className="shop-tag-x" onClick={() => updateFilter('gender', null)}><X size={9} /></button>
+                  </span>
+                )}
+                {activeAgeGroup && (
+                  <span className="shop-tag">
+                    {activeAgeGroup}
+                    <button className="shop-tag-x" onClick={() => updateFilter('ageGroup', null)}><X size={9} /></button>
                   </span>
                 )}
                 {activeWeave && (

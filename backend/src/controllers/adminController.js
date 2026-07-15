@@ -183,7 +183,9 @@ export const createProduct = async (req, res) => {
       weaverName,
       weaverGeneration,
       weaverLocation,
-      weaverStory
+      weaverStory,
+      gender,
+      ageGroup
     } = req.body;
 
     // Handle image uploads to Cloudinary
@@ -260,6 +262,8 @@ export const createProduct = async (req, res) => {
         location: weaverLocation,
         story: weaverStory
       },
+      gender,
+      ageGroup,
       createdBy: req.user._id
     });
 

@@ -50,6 +50,8 @@ export interface Product {
     location: string;
     story: string;
   };
+  gender?: string;
+  ageGroup?: string;
   createdAt?: string;
   updatedAt?: string;
 }

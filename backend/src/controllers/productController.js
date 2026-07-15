@@ -39,6 +39,16 @@ export const getProducts = async (req, res) => {
       query.subCategory = req.query.subCategory;
     }
 
+    // Filter by gender
+    if (req.query.gender) {
+      query.gender = req.query.gender;
+    }
+
+    // Filter by ageGroup
+    if (req.query.ageGroup) {
+      query.ageGroup = req.query.ageGroup;
+    }
+
     // Filter by weave
     if (req.query.weave) {
       query.weave = req.query.weave;
