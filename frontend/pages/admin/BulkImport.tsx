@@ -351,8 +351,6 @@ export default function BulkImport() {
               className="w-full p-2 border border-gray-300 rounded-md focus:ring-[#B43F3F] focus:border-[#B43F3F]"
             >
               <option value="TANVO">TANVO</option>
-              <option value="Two Threads Studio">Two Threads Studio</option>
-              <option value="SABEL">SABEL</option>
             </select>
           </div>
           
