@@ -287,7 +287,7 @@ export default function ImportHistory() {
             onChange={(e) => setBrandFilter(e.target.value)}
             className="border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#173B45]"
           >
-            {['All', 'TANVO', 'Two Threads Studio', 'SABEL'].map(b => (
+            {['All', 'TANVO'].map(b => (
               <option key={b} value={b}>{b}</option>
             ))}
           </select>
