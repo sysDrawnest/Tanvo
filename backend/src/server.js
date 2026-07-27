@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import connectDB from './config/database.js';
+import { startImportWorker } from './services/bulkImport/importWorker.js';
 
 // Import routes
 import authRoutes from './routes/authRoutes.js';
@@ -31,6 +32,9 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 
 // Connect to database
 connectDB();
+
+// Start background import worker (polls for queued import jobs)
+startImportWorker();
 
 const app = express();
 

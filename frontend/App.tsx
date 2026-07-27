@@ -49,6 +49,8 @@ import Billing from './pages/admin/Billing';
 import AdminWhatsAppOrders from './pages/admin/AdminWhatsAppOrders';
 import AdminWACustomers from './pages/admin/AdminWACustomers';
 import Invoice from './pages/admin/Invoice';
+import BulkImport from './pages/admin/BulkImport';
+import ImportHistory from './pages/admin/ImportHistory';
 
 // Auth & Security Pages
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -167,6 +169,9 @@ const AppContent: React.FC = () => {
             <Route path="wa-customers" element={<AdminWACustomers />} />
             <Route path="invoice/:id" element={<Invoice />} />
             <Route path="settings" element={<AdminSettings />} />
+            <Route path="bulk-import" element={<BulkImport />} />
+            <Route path="import-history" element={<ImportHistory />} />
+            <Route path="export" element={<AdminProducts />} />
           </Route>
 
           {/* 404 Route */}

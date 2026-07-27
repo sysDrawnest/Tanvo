@@ -1,4 +1,5 @@
 import express from 'express';
+import bulkImportRoutes from './bulkImportRoutes.js';
 import { protect, admin } from '../middleware/auth.js';
 import { uploadProductImages } from '../middleware/upload.js';
 import { validateRequest } from '../middleware/validate.js';
@@ -98,5 +99,10 @@ router.post('/coupons', createCoupon);
 router.get('/inventory/history', getInventoryHistory);
 router.post('/inventory/pos-sale', logPOSSale);
 router.post('/inventory/restock', restockProduct);
+
+// ===========================================
+// Bulk Import
+// ===========================================
+router.use('/bulk-import', bulkImportRoutes);
 
 export default router;
