@@ -1,5 +1,5 @@
 import cloudinary from '../../config/cloudinary.js';
-import streamifier from 'streamifier';
+import { Readable } from 'stream';
 
 export async function uploadImageBatch(imageIndex, brand, isDryRun) {
   const maxConcurrency = parseInt(process.env.IMPORT_CLOUDINARY_CONCURRENCY) || 5;
@@ -24,7 +24,10 @@ export async function uploadImageBatch(imageIndex, brand, isDryRun) {
           else resolve(result);
         }
       );
-      streamifier.createReadStream(buffer).pipe(uploadStream);
+      const rs = new Readable();
+      rs.push(buffer);
+      rs.push(null);
+      rs.pipe(uploadStream);
     });
   };
 
