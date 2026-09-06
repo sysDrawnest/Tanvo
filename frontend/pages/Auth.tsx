@@ -308,7 +308,10 @@ const Auth: React.FC = () => {
               </p>
             </div>
 
-
+            {/* Admin preset credential notes */}
+            <div className="mt-5 p-3.5 bg-amber-50/70 border border-amber-200/50 rounded-sm text-[10px] text-amber-800 leading-relaxed font-medium">
+              <span className="font-bold">ADMIN PRESET:</span> Use <strong>admin@tanvo.com</strong> / <strong>Admin@123</strong> to explore the fulfillment dashboard.
+            </div>
           </div>
         </div>
 
